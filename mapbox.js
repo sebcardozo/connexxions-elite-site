@@ -17,7 +17,7 @@
   var EMPTY = { type: 'FeatureCollection', features: [] };
 
   var comp = null, map = null, loaded = false, accent = '#D42A27';
-  var markers = {}, shownKey = '', carRaf = 0, flowTimer = 0, scWant = '', scTimer = 0, lastSug = [];
+  var lastOpen = null, markers = {}, shownKey = '', carRaf = 0, flowTimer = 0, scWant = '', scTimer = 0, lastSug = [];
   var rc = {}, rcBusy = {}, sc = {}, scBusy = {};
 
   // same projection the built-in map uses, so itinerary/pricing code keeps working
@@ -245,6 +245,11 @@
     if (c) comp = c;
     if (!loaded || !comp) return;
     var s = comp.state, A = s.A, B = s.B;
+    // the phone layout hides the map until a route is chosen: size it again when it appears
+    if (s.mOpen !== lastOpen) {
+      lastOpen = s.mOpen;
+      if (s.mOpen) setTimeout(function () { map.resize(); shownKey = ''; sync(comp); }, 80);
+    }
     placeMarker('A', A);
     placeMarker('B', B);
     var k = A && B && A.lat != null && B.lat != null ? rkey(A, B) : '';

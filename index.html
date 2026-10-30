@@ -826,6 +826,42 @@ body{background:#FFFFFF}
   .hx-sc + div{padding-top:48px !important}
 }
 
+/* ================= phone planner: route first, then the map ================= */
+.m-go{display:none}
+@media (max-width: 980px){
+  .m-closed .mapwrap{display:none}
+  .m-closed .qpanel>.qpin,.m-closed .qpanel>.qline,.m-closed .qpanel>.qgrid,.m-closed .qpanel>.qtogs,.m-closed .qpanel>.btn:not(.m-go),.m-closed .qpanel>p[role="status"]{display:none}
+  .m-closed .qres{display:none}
+  .m-closed .m-go{display:inline-flex;width:100%;min-height:54px;border-radius:10px;justify-content:center}
+  .m-closed .qpanel{border-bottom:0}
+  .m-open .mapwrap{animation:mapin .8s cubic-bezier(.16,1,.3,1) both}
+  .m-open .qpanel>.qgrid,.m-open .qpanel>.qline,.m-open .qpanel>.qtogs{animation:fadeup .7s cubic-bezier(.16,1,.3,1) both}
+  @keyframes mapin{from{clip-path:inset(0 0 100% 0 round 14px);opacity:.3;transform:translateY(-12px)}to{clip-path:inset(0 0 0 0 round 0);opacity:1;transform:none}}
+}
+
+/* phone planner, step 2: route on top, then the map, then date/time and extras */
+@media (max-width: 980px){
+  .m-open .mapcard{gap:0;padding-bottom:18px}
+  .m-open .qpanel{display:contents}
+  .m-open .qpanel>*{margin-left:18px;margin-right:18px}
+  .m-open .qpanel>.qseg{order:1;margin-top:18px}
+  .m-open .qpanel>.rbox{order:2;margin-top:14px}
+  .m-open .qpanel>.qhint{order:3;margin-top:10px}
+  .m-open .qpanel>.qchips{order:4;margin-top:12px}
+  .m-open .qpanel>.m-go{order:5}
+  .m-open .mapwrap{order:6;margin:16px 0 4px}
+  .m-open .qpanel>.qpin{order:7;margin-top:12px}
+  .m-open .qpanel>.qline{order:8;margin-top:14px}
+  .m-open .qpanel>.qgrid{order:8;margin-top:14px}
+  .m-open .qpanel>.qtogs{order:9;margin-top:14px}
+  .m-open .qpanel>.btn:not(.m-go){order:10;margin-top:16px;width:auto !important}
+  .m-open .qpanel>p[role="status"]{order:11;margin-top:10px}
+}
+@media (max-width: 760px){
+  .msum{position:relative;left:auto;bottom:auto;right:auto;max-width:none;margin:10px 12px 0;border-radius:12px;box-shadow:none;border:1px solid #E6E1D7}
+  .mscale{display:none}
+}
+
 </style>
 </helmet>
 
@@ -1018,7 +1054,7 @@ body{background:#FFFFFF}
 
   <!-- INSTANT QUOTE PLANNER -->
   <section id="planner" aria-labelledby="planner-h" class="dark grain">
-    <div style="position: relative; z-index: 1; max-width: 1360px; margin: 0 auto; padding: 144px 40px">
+    <div class="{{ mstep }}" style="position: relative; z-index: 1; max-width: 1360px; margin: 0 auto; padding: 144px 40px">
       <div class="sec-top rv" style="--rule: rgba(255,255,255,.14); color: #BDBAB3"><p class="eyebrow">Instant quote · step 1 of 2</p><span class="idx">(02)</span></div>
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px; margin-top: 56px">
         <h2 id="planner-h" class="disp h2 rv" style="--d: 90ms; max-width: 15ch">Plan the ride. <span class="it" style="color: #BDBAB3">See the price.</span></h2>
@@ -1156,6 +1192,7 @@ body{background:#FFFFFF}
             <sc-for list="{{ qFrom }}" as="qf" hint-placeholder-count="4"><button type="button" class="qchip" onClick="{{ qf.pick }}">A · {{ qf.label }}</button></sc-for>
             <sc-for list="{{ qTo }}" as="qt" hint-placeholder-count="4"><button type="button" class="qchip" onClick="{{ qt.pick }}">B · {{ qt.label }}</button></sc-for>
           </div>
+          <button type="button" class="btn btn-p m-go" onClick="{{ pl.go }}"><span class="swap"><span>See my route</span><span aria-hidden="true">See my route</span></span></button>
 
           <sc-if value="{{ pl.isHourly }}" hint-placeholder-val="{{ false }}">
             <div class="qline">
@@ -1809,7 +1846,7 @@ class Component extends DCLogic {
     this.cities.push({ key: this.norm('St Petersburg'), city: 'Saint Petersburg', lat: 27.7676, lon: -82.6403 });
     const A0 = Object.assign({ typed: '' }, this.byShort['MCO']);
     const B0 = Object.assign({ typed: '' }, this.byShort['Magic Kingdom']);
-    this.state = { trip: 'oneway', A: A0, B: B0, aMiss: false, bMiss: false, hours: 3, pax: 2, child: false, stop: false, calc: true, zoomed: true, flip: 0, err: '', clock: '', tm: '', pinTo: 'B', zk: 1, wide: true, sgOpen: null, sgText: '', aPend: '', bPend: '', dt: '', tm: '', rdt: '', rtm: '', issued: false, contact: null, qerr: '' };
+    this.state = { mOpen: false, trip: 'oneway', A: A0, B: B0, aMiss: false, bMiss: false, hours: 3, pax: 2, child: false, stop: false, calc: true, zoomed: true, flip: 0, err: '', clock: '', tm: '', pinTo: 'B', zk: 1, wide: true, sgOpen: null, sgText: '', aPend: '', bPend: '', dt: '', tm: '', rdt: '', rtm: '', issued: false, contact: null, qerr: '' };
     this.onDragMove = (ev) => {
       const d = this.drag; if (!d) return;
       const r = d.cam.getBoundingClientRect(); if (!r.width) return;
@@ -1998,6 +2035,7 @@ class Component extends DCLogic {
     const a2 = which === 'A' ? p : st.A, b2 = which === 'B' ? p : st.B;
     next.calc = !!(a2 && (b2 || st.trip === 'hourly'));
     next.zoomed = true; next.zk = 1;
+    if (!st.wide && which === 'B' && a2 && b2) next.mOpen = true;
     this.setState(next);
   }
   suggest(which, text) {
@@ -2279,6 +2317,16 @@ class Component extends DCLogic {
         this.setState({ A: a2, B: b2, aMiss: false, bMiss: false, dt: dt, tm: tm, rdt: rdt, rtm: rtm, calc: true, zoomed: true, zk: 1, err: '', flip: st.flip + 1, issued: false });
       }
     };
+    pl.go = () => {
+      pl.calc();
+      setTimeout(() => {
+        const st = this.state;
+        if (st.calc && st.A && (st.B || st.trip === 'hourly')) {
+          this.setState({ mOpen: true });
+          setTimeout(() => { const m = document.querySelector('.mapwrap'); if (m && m.scrollIntoView) m.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120);
+        }
+      }, 0);
+    };
     const tripDefs = [{ id: 'oneway', label: 'One way' }, { id: 'round', label: 'Round trip' }, { id: 'hourly', label: 'Hourly' }];
     const trips = tripDefs.map((t) => ({
       label: t.label, pressed: s.trip === t.id ? 'true' : 'false',
@@ -2506,6 +2554,7 @@ class Component extends DCLogic {
 
     const mailtoGeneral = 'mailto:' + email + '?subject=' + encodeURIComponent('Question for Connexxions Elite');
     return {
+      mstep: s.mOpen ? 'm-open' : 'm-closed',
       accent: accent, email: email, clock: s.clock || 'Live',
       price: { hourMin: P.hourMin, childSeat: P.childSeat, extraStop: P.extraStop },
       places: this.places.map((p) => ({ name: p.name })),
