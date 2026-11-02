@@ -173,6 +173,15 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 .qroute .pin{width:22px;height:22px;font-size:10px}
 .qroute .pin.a{background:var(--ink);color:#fff}
 .qacts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.qstat{display:none;margin:12px 0 0;padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.5}
+.qstat.on{display:block}
+.qstat.ok{background:rgba(63,179,127,.12);border:1px solid rgba(63,179,127,.45);color:#CFEFDF}
+.qstat.bad{background:rgba(226,121,79,.10);border:1px solid rgba(226,121,79,.45);color:#F1C6B3}
+.qstat a{color:inherit}
+.qalt{display:block;margin-top:12px;text-align:center;font-size:12.5px;color:var(--mute2)}
+.qalt a{color:var(--mute)}
+.btn[disabled]{opacity:.6;cursor:progress}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
 /* footer bar */
 .bar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 36px calc(16px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--panel)}
@@ -257,7 +266,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 /* print: the quote only */
 @media print{
   body{overflow:visible;background:#fff}
-  .hdr,.mapcol,.bar,.steps,.step:not([data-step="4"]),.step[data-step="4"]>*:not(.qwrap),.qacts,.toast{display:none!important}
+  .hdr,.mapcol,.bar,.steps,.step:not([data-step="4"]),.step[data-step="4"]>*:not(.qwrap),.qacts,.qstat,.qalt,.toast{display:none!important}
   .app,.pane,.scroll{position:static;display:block;overflow:visible;padding:0;background:#fff;border:0}
   .step[data-step="4"]{display:block!important}
   .qdoc{margin:0;border:1px solid #ddd}
@@ -365,9 +374,12 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
             </div>
           </article>
           <div class="qacts">
-            <a class="btn btn-p" id="q-mail" href="#">Send to confirm</a>
+            <button type="button" class="btn btn-p" id="q-send">Send to Marco</button>
             <button type="button" class="btn btn-g" id="q-pdf">Download PDF</button>
           </div>
+          <p class="qstat" id="q-stat" role="status" aria-live="polite"></p>
+          <span class="qalt">Prefer your own email app? <a id="q-mail" href="#">Send it from there</a></span>
+          <input class="hp" id="q-hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
       </div>
     </div>
@@ -778,10 +790,40 @@ function issue() {
   if (val('in-phone')) body.push('Mobile: ' + val('in-phone'));
   if (val('in-notes')) body.push('Notes: ' + val('in-notes'));
   $('#q-mail').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Confirm quote ' + no) + '&cc=' + encodeURIComponent(val('in-email')) + '&body=' + encodeURIComponent(body.join('\n'));
+  S.payload = { no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
+  S.sent = false; $('#q-stat').className = 'qstat'; $('#q-send').disabled = false; $('#q-send').textContent = 'Send to Marco';
   S.issued = true; render();
   setTimeout(function () { var q = $('#qwrap'); if (q.scrollIntoView) q.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
 }
 $('#q-pdf').addEventListener('click', function () { window.print(); });
+/* quote requests go straight to Marco's inbox through FormSubmit (no app or login needed on the client side) */
+var FORM = String(window.CE_FORM_ENDPOINT || ('https://formsubmit.co/ajax/' + EMAIL));
+$('#q-send').addEventListener('click', function () {
+  var btn = this, st = $('#q-stat'), P2 = S.payload;
+  if (!P2 || S.sent) return;
+  if ($('#q-hp').value) return;
+  btn.disabled = true; btn.textContent = 'Sending…';
+  var data = {
+    _subject: 'Quote request ' + P2.no + ' · ' + val('in-name') + ' · ' + P2.total,
+    _template: 'box', _captcha: 'false', _replyto: val('in-email'),
+    Quote: P2.no, Name: val('in-name'), Email: val('in-email'), Mobile: val('in-phone') || '—',
+    Service: svcLabel(), Pickup: S.A.name + ' · ' + fmtDate(val('in-date')) + ' · ' + fmtT(val('in-time')),
+    Stop: S.stopOn && S.S ? S.S.name : '—', Dropoff: S.B ? S.B.name : 'As directed',
+    Return: S.mode === 'round' ? fmtDate(val('in-rdate')) + ' · ' + fmtT(val('in-rtime')) : '—',
+    Passengers: String(S.pax), Bags: String(S.bags), Flight: val('in-flight') || '—', 'Child seat': S.child ? 'Yes' : 'No',
+    'Estimated total': P2.total, Breakdown: P2.lines, Notes: val('in-notes') || '—', Page: location.href.split('#')[0]
+  };
+  fetch(FORM, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+    .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || String(j.success) === 'false') throw new Error(j.message || r.status); return j; }); })
+    .then(function () {
+      S.sent = true; btn.textContent = 'Sent ✓';
+      st.className = 'qstat on ok'; st.textContent = 'Sent. Marco has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
+    })
+    .catch(function () {
+      btn.disabled = false; btn.textContent = 'Try again';
+      st.className = 'qstat on bad'; st.innerHTML = 'We could not send it from here. <a href="' + $('#q-mail').getAttribute('href').replace(/"/g, '&quot;') + '">Send it from your email app</a> or write to ' + EMAIL + '.';
+    });
+});
 
 /* ---------- render ---------- */
 function render() {
