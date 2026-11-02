@@ -925,6 +925,35 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
 .hx-ticket{will-change:transform}
 .hx.off i::after,.hx.off .hx-badge>svg{animation-play-state:paused!important}
 @media (prefers-reduced-motion: reduce){.hx-badge>svg,.hx-dot::after,.hx-live i::after{animation:none}}
+
+/* ================= smooth pass 2 ================= */
+/* logo colour wave: a gradient strip slides under the logo mask, on the GPU, no repaint */
+.lgm{position:relative;display:block;width:100%;aspect-ratio:1354.5/289.9}
+.lgm>span{position:absolute;inset:0;overflow:hidden;-webkit-mask:url(img/logo-mask-w.svg) center/100% 100% no-repeat;mask:url(img/logo-mask-w.svg) center/100% 100% no-repeat}
+.lgm>.lgm-r{-webkit-mask-image:url(img/logo-mask-r.svg);mask-image:url(img/logo-mask-r.svg)}
+.lgm i{position:absolute;top:0;bottom:0;left:0;width:200%;background-size:50% 100%;background-repeat:repeat-x;animation:lgflow 6s linear infinite;will-change:transform}
+.lgm-w i{background-image:linear-gradient(90deg,#FFFFFF 0%,#FFFFFF 36%,#F7C9C5 46%,#E2312D 50%,#F7C9C5 54%,#FFFFFF 64%,#FFFFFF 100%)}
+.lgm-r i{background-image:linear-gradient(90deg,#E2312D 0%,#E2312D 40%,#FF6F66 47%,#FFFFFF 50%,#FF6F66 53%,#E2312D 60%,#E2312D 100%);animation-delay:-3s}
+.ft-logo .lgm i{animation-duration:7s}
+.ft-logo .lgm-r i{animation-delay:-3.5s}
+@keyframes lgflow{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+.hx.off .lgm i{animation-play-state:paused}
+@media (prefers-reduced-motion: reduce){.lgm i{animation:none}}
+.hx-logo.lgm{height:auto;filter:none}
+/* grain without blend modes (blend modes repaint the whole section on scroll) */
+.grain::after{mix-blend-mode:normal;opacity:.035}
+/* reveals: transform + opacity only, quicker */
+.rv-on .rv{transform:translate3d(0,24px,0);transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
+.rv-on .img-rv{clip-path:none;opacity:0;transform:translate3d(0,28px,0);transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .85s cubic-bezier(.2,.7,.2,1) var(--d,0ms),rotate .55s cubic-bezier(.16,1,.3,1),translate .55s cubic-bezier(.16,1,.3,1),box-shadow .55s ease}
+.rv-on .img-rv.is-in{clip-path:none;opacity:1;transform:none}
+.rv-on .img-rv .zoom{scale:1.08}
+.zoom{will-change:auto;transition:transform .8s cubic-bezier(.16,1,.3,1),scale 1s cubic-bezier(.16,1,.3,1)}
+/* fewer endless loops: keep the streaks, drop the ones nobody notices */
+.bg-drift,.bob,.bin{animation:none!important}
+.bg-drift,.bob,.bin,.mq,.vtrack{will-change:auto}
+.mq,.vtrack{will-change:transform}
+.hx-word::before{content:"";position:absolute;inset:-28% -8%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(6,20,42,.26),rgba(6,20,42,0))}
+.ft-mail span{overflow-wrap:normal;word-break:keep-all;white-space:nowrap;font-size:clamp(13px,1.15vw,16px)}
 </style>
 </helmet>
 
@@ -1019,12 +1048,7 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
       </div>
       <div class="hx-word">
         <div class="hx-wi">
-          <svg class="hx-logo" viewBox="93.1 139.9 1354.5 289.9" role="img" aria-label="Connexxions Elite"><defs><linearGradient id="hxgw" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0" spreadMethod="repeat">
-            <stop offset="0" stop-color="#FFFFFF"></stop><stop offset="0.36" stop-color="#FFFFFF"></stop><stop offset="0.46" stop-color="#F7C9C5"></stop><stop offset="0.5" stop-color="#E2312D"></stop><stop offset="0.54" stop-color="#F7C9C5"></stop><stop offset="0.64" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#FFFFFF"></stop>
-          </linearGradient>
-          <linearGradient id="hxgr" gradientTransform="translate(-600 0)" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0" spreadMethod="repeat">
-            <stop offset="0" stop-color="#E2312D"></stop><stop offset="0.4" stop-color="#E2312D"></stop><stop offset="0.47" stop-color="#FF6F66"></stop><stop offset="0.5" stop-color="#FFFFFF"></stop><stop offset="0.53" stop-color="#FF6F66"></stop><stop offset="0.6" stop-color="#E2312D"></stop><stop offset="1" stop-color="#E2312D"></stop>
-          </linearGradient></defs><g class="ft-glow" filter="url(#ftglow)"><use href="#ftw" fill="url(#hxgw)"></use><use href="#ftx" fill="url(#hxgr)"></use><use href="#fte" fill="url(#hxgr)"></use></g><use href="#ftw" fill="url(#hxgw)"></use><use href="#ftx" fill="url(#hxgr)" stroke="url(#hxgr)" stroke-width="0.8" stroke-linejoin="round"></use><use href="#fte" fill="url(#hxgr)"></use></svg>
+          <div class="lgm hx-logo" role="img" aria-label="Connexxions Elite"><span class="lgm-w"><i></i></span><span class="lgm-r"><i></i></span></div>
         </div>
       </div>
       <a class="hx-badge" href="#about" aria-label="Scroll to learn more">
@@ -1128,7 +1152,7 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
           <li><a href="https://connexxionselite.com/quote/?type=airport&amp;from=MCO&amp;to=Magic%20Kingdom"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Magic Kingdom</span><span class="qc-go lab">Price it</span></a></li>
           <li><a href="https://connexxionselite.com/quote/?type=airport&amp;from=MCO&amp;to=Universal"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Universal Orlando</span><span class="qc-go lab">Price it</span></a></li>
           <li><a href="https://connexxionselite.com/quote/?type=corp&amp;from=MCO&amp;to=Convention%20Center"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Convention Center</span><span class="qc-go lab">Price it</span></a></li>
-          <li><a href="https://connexxionselite.com/quote/?type=hourly"><span class="qc-k">Hourly</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">As directed</span><span class="qc-go lab">Price it</span></a></li>
+          <li><a href="https://connexxionselite.com/quote/?type=hourly"><span class="qc-k">Charter</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">As directed</span><span class="qc-go lab">Price it</span></a></li>
         </ol>
       </div>
     </div>
@@ -1514,7 +1538,7 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
       <div class="ft-col">
         <span class="ft-k"><b>02</b>Contact</span>
         <a class="ftl ft-mail" href="{{ mailtoGeneral }}"><span>{{ email }}</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
-        <a class="ftl" href="https://connexxionselite.com/quote/"><span>Official quote</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
+        <a class="ftl" href="https://connexxionselite.com/quote/?type=hourly"><span>Charter, as directed</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
       </div>
       <div class="ft-col">
         <span class="ft-k"><b>03</b>Company</span>
@@ -1524,15 +1548,7 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
       </div>
     </div>
     <div class="ft-logo">
-      <svg viewBox="93.1 139.9 1354.5 289.9" role="img" aria-label="Connexxions Elite">
-        <defs><linearGradient id="ftgw" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0" spreadMethod="repeat">
-            <stop offset="0" stop-color="#FFFFFF"></stop><stop offset="0.36" stop-color="#FFFFFF"></stop><stop offset="0.46" stop-color="#F7C9C5"></stop><stop offset="0.5" stop-color="#E2312D"></stop><stop offset="0.54" stop-color="#F7C9C5"></stop><stop offset="0.64" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#FFFFFF"></stop>
-          </linearGradient>
-          <linearGradient id="ftgr" gradientTransform="translate(-600 0)" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1200" y2="0" spreadMethod="repeat">
-            <stop offset="0" stop-color="#E2312D"></stop><stop offset="0.4" stop-color="#E2312D"></stop><stop offset="0.47" stop-color="#FF6F66"></stop><stop offset="0.5" stop-color="#FFFFFF"></stop><stop offset="0.53" stop-color="#FF6F66"></stop><stop offset="0.6" stop-color="#E2312D"></stop><stop offset="1" stop-color="#E2312D"></stop>
-          </linearGradient></defs>
-        <g class="ft-glow" filter="url(#ftglow)"><use href="#ftw" fill="url(#ftgw)"></use><use href="#ftx" fill="url(#ftgr)"></use><use href="#fte" fill="url(#ftgr)"></use></g><use href="#ftw" fill="url(#ftgw)"></use><use href="#ftx" fill="url(#ftgr)" stroke="url(#ftgr)" stroke-width="0.8" stroke-linejoin="round"></use><use href="#fte" fill="url(#ftgr)"></use>
-      </svg>
+      <div class="lgm" role="img" aria-label="Connexxions Elite"><span class="lgm-w"><i></i></span><span class="lgm-r"><i></i></span></div>
     </div>
     <div class="ft-bar">
       <span>© 2026 MTC Cargo Corp. All rights reserved.</span>
@@ -1909,7 +1925,7 @@ class Component extends DCLogic {
   }
   startFlow() {
     // logo colour wave, driven here so it runs the same in every browser (Safari included)
-    const specs = [['plgw', 0, 3200, '.pl-fill'], ['plgr', -600, 3200, '.pl-fill'], ['hxgw', 0, 6000, '.hx-logo'], ['hxgr', -600, 6000, '.hx-logo'], ['ftgw', 0, 7000, '.ft-logo svg'], ['ftgr', -600, 7000, '.ft-logo svg']];
+    const specs = [['plgw', 0, 3200, '.pl-fill'], ['plgr', -600, 3200, '.pl-fill']];
     let reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     const t0 = performance.now();
@@ -2307,7 +2323,7 @@ class Component extends DCLogic {
     ];
     const burst = BD.map((d, i) => {
       const e2 = fromMco(d.b);
-      const meta = d.meta ? d.meta : d.hourly ? 'Hourly from ' + money(P.hourly) + '/hr · or ~' + fmtTime(e2.t) + ' from MCO' : '~' + fmtTime(e2.t) + ' from MCO';
+      const meta = d.meta ? d.meta : d.hourly ? 'Charter from ' + money(P.hourly) + '/hr · or ~' + fmtTime(e2.t) + ' from MCO' : '~' + fmtTime(e2.t) + ' from MCO';
       const href = 'https://connexxionselite.com/quote/?type=' + ({ air: 'airport', park: 'parks', biz: d.hourly ? 'corp' : 'events', trip: 'trip' }[d.kind]) + '&from=' + encodeURIComponent(d.a) + '&to=' + encodeURIComponent(d.b);
       return {
         title: d.title, tag: d.tag, src: d.src, alt: d.alt, pos: d.pos, meta: meta, href: href,

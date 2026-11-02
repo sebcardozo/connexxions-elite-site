@@ -155,6 +155,12 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 .opt[aria-pressed="true"] .sw{background:var(--red)}
 .opt[aria-pressed="true"] .sw::after{transform:translateX(16px)}
 .sect{margin:24px 0 10px}
+.when{margin-top:8px;padding-top:6px;border-top:1px solid var(--line)}
+.wleg{margin-bottom:12px}
+.wl-h{display:flex;align-items:center;gap:10px;margin:0 2px 8px;font-size:14px}
+.wl-h b{font-weight:450}
+.wl-h .pin{width:22px;height:22px;font-size:10px}
+.seg button{padding:9px 16px}
 .note{font-size:12.5px;color:var(--mute2);line-height:1.5;margin:12px 2px 0}
 
 /* quote doc */
@@ -315,6 +321,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
         <div class="seg" id="modeSeg" role="group" aria-label="Trip">
           <button type="button" data-mode="oneway">One way</button>
           <button type="button" data-mode="round">Round trip</button>
+          <button type="button" data-mode="hourly">Charter</button>
         </div>
         <div class="itin">
           <div class="itin-h">
@@ -332,31 +339,47 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
         <p class="err" id="err2"></p>
         <div class="rsum" id="rsum" aria-live="polite">
           <div><span class="lab">Distance</span><strong id="rs-mi">—</strong></div>
-          <div><span class="lab">Drive time</span><strong id="rs-min">—</strong></div>
+          <div><span class="lab" id="rs-minl">Drive time</span><strong id="rs-min">—</strong></div>
           <div><span class="lab">Estimate</span><strong id="rs-tot">—</strong></div>
         </div>
         <p class="lab chips-l">Popular</p>
         <div class="chips" id="chips"></div>
+
+        <div class="when" id="when">
+          <p class="lab sect">When</p>
+          <div class="wleg">
+            <div class="wl-h"><span class="pin a">A</span><b id="wl-out">Pickup</b></div>
+            <div class="grid2">
+              <div class="box" id="b-date"><label class="lab" for="in-date">Date</label><input id="in-date" type="date"></div>
+              <div class="box" id="b-time"><label class="lab" for="in-time">Pickup time</label><input id="in-time" type="time" step="300"></div>
+            </div>
+          </div>
+          <div class="wleg rt">
+            <div class="wl-h"><span class="pin b">B</span><b id="wl-ret">Return pickup</b></div>
+            <div class="grid2">
+              <div class="box" id="b-rdate"><label class="lab" for="in-rdate">Return date</label><input id="in-rdate" type="date"></div>
+              <div class="box" id="b-rtime"><label class="lab" for="in-rtime">Return pickup time</label><input id="in-rtime" type="time" step="300"></div>
+            </div>
+          </div>
+          <div class="wleg hr">
+            <div class="box full"><span class="lab">Charter hours · minimum <span class="hmin">3</span></span><div class="cnt"><button type="button" data-cnt="hours" data-d="-1" aria-label="Fewer hours">−</button><output id="o-hours">3</output><button type="button" data-cnt="hours" data-d="1" aria-label="More hours">+</button></div></div>
+          </div>
+          <p class="err" id="err2b"></p>
+        </div>
       </div>
 
       <!-- 3 · details -->
       <div class="step" data-step="3">
-        <h1>When and who? <em>Almost there.</em></h1>
-        <p class="sub">We confirm availability for your date and time by email.</p>
+        <h1>Who's riding? <em>Almost there.</em></h1>
+        <p class="sub">One Suburban Premier, up to 6 passengers with luggage. We confirm availability by email.</p>
         <div class="grid2">
-          <div class="box" id="b-date"><label class="lab" for="in-date">Pickup date</label><input id="in-date" type="date"></div>
-          <div class="box" id="b-time"><label class="lab" for="in-time">Pickup time</label><input id="in-time" type="time" step="300"></div>
-          <div class="box rt" id="b-rdate"><label class="lab" for="in-rdate">Return date</label><input id="in-rdate" type="date"></div>
-          <div class="box rt" id="b-rtime"><label class="lab" for="in-rtime">Return pickup time</label><input id="in-rtime" type="time" step="300"></div>
-          <div class="box hr full"><span class="lab">Hours</span><div class="cnt"><button type="button" data-cnt="hours" data-d="-1" aria-label="Fewer hours">−</button><output id="o-hours">3</output><button type="button" data-cnt="hours" data-d="1" aria-label="More hours">+</button></div></div>
-          <div class="box"><span class="lab">Passengers</span><div class="cnt"><button type="button" data-cnt="pax" data-d="-1" aria-label="Fewer passengers">−</button><output id="o-pax">2</output><button type="button" data-cnt="pax" data-d="1" aria-label="More passengers">+</button></div></div>
+          <div class="box"><span class="lab">Passengers · max 6</span><div class="cnt"><button type="button" data-cnt="pax" data-d="-1" aria-label="Fewer passengers">−</button><output id="o-pax">2</output><button type="button" data-cnt="pax" data-d="1" aria-label="More passengers">+</button></div></div>
           <div class="box"><span class="lab">Bags</span><div class="cnt"><button type="button" data-cnt="bags" data-d="-1" aria-label="Fewer bags">−</button><output id="o-bags">2</output><button type="button" data-cnt="bags" data-d="1" aria-label="More bags">+</button></div></div>
           <div class="box full fl"><label class="lab" for="in-flight">Flight number</label><input id="in-flight" type="text" placeholder="e.g. AA 1234 · we track it and wait inside" autocomplete="off"></div>
         </div>
+        <p class="note" id="paxNote" hidden>The Suburban seats up to 6 passengers. For 7 or more, write it in the notes and we will arrange a second vehicle.</p>
         <p class="err" id="err3"></p>
-        <p class="lab sect">Extras</p>
-        <button type="button" class="opt" id="optChild" aria-pressed="false"><span><b>Child seat</b><small id="childPrice">Installed before pickup</small></span><span class="sw"></span></button>
-        <p class="note">Hourly service starts at <span id="hmin">3</span> hours. A pickup between 10 pm and 5 am adds a late-night fee.</p>
+        <p class="note">Charter service has a <span class="hmin">3</span>-hour minimum. A pickup between 10 pm and 5 am adds a late-night fee.</p>
       </div>
 
       <!-- 4 · contact + quote -->
@@ -425,6 +448,10 @@ var TOKEN = String(window.CE_MAPBOX_TOKEN || '').trim();
 var HAS_MB = /^pk\./.test(TOKEN) && !!window.mapboxgl;
 var API = 'https://api.mapbox.com';
 var CENTER = [-81.40, 28.47], BBOX = '-82.9,27.3,-80.3,29.6';
+/* service base for dead-mile pricing (a public area, not an address) */
+var BASE = { lat: 28.4434, lon: -81.4682 };
+var DEAD = { free: 12, rate: 0.5 };   // first 12 road miles to/from the base are free, then 50% of the per-mile rate
+var TOLL = { perMile: 0.20, minLeg: 1.5 }; // Central Florida toll roads, SunPass-style estimate
 var P = { base: 45, perMile: 3, longAfter: 30, perMileLong: 2.5, minFare: 95, airportPickup: 35, airportDropoff: 15, tollPerMile: 0.1, gratuity: 20, lateNight: 20, hourly: 95, hourMin: 3, childSeat: 15, extraStop: 25 };
 
 /* places: [name, short, lat, lon, aliases, air, popular] */
@@ -437,7 +464,7 @@ function find(q) { if (!q) return null; var k = String(q).toLowerCase(); if (BY[
 var TYPES = [
   { id: 'airport', t: 'Airport transfer', d: 'From MCO · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>', pre: { A: 'MCO' } },
   { id: 'parks', t: 'Parks & resorts', d: 'Disney · Universal · SeaWorld', ic: '<path d="M4 21V11l2-1.5L8 11V7l4-3 4 3v4l2-1.5 2 1.5v10z"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/>' },
-  { id: 'hourly', t: 'Hourly, as directed', d: 'From ' + P.hourMin + ' hours · stops as you like', ic: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', mode: 'hourly' },
+  { id: 'hourly', t: 'Charter, as directed', d: 'Minimum ' + P.hourMin + ' hours · stops as you like', ic: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', mode: 'hourly' },
   { id: 'events', t: 'Events & nights out', d: 'Dinners, concerts, games, weddings', ic: '<path d="M7 3h10l-1.2 7a3.8 3.8 0 0 1-7.6 0z"/><path d="M12 14v6M8 21h8"/>' },
   { id: 'corp', t: 'Corporate & conventions', d: 'OCCC, meetings, roadshows', ic: '<rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M9 7.5V5h6v2.5M3 12.5h18"/>' },
   { id: 'trip', t: 'Day trips', d: 'Cocoa Beach, Kennedy, Tampa', ic: '<circle cx="12" cy="12" r="3.6"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>' },
@@ -446,7 +473,7 @@ var TYPES = [
 var CHIPS = { airport: ['MCO', 'Magic Kingdom', 'Universal', 'Convention Center', 'Disney Springs', 'I-Drive'], parks: ['Magic Kingdom', 'EPCOT area', 'Universal', 'SeaWorld', 'Disney Springs', 'MCO'], events: ['Downtown', 'Kia Center', 'Dr. Phillips Center', 'Camping World', 'Winter Park', 'Dr. Phillips'], corp: ['Convention Center', 'MCO', 'I-Drive', 'Downtown', 'Lake Nona', 'Grande Lakes'], trip: ['Cocoa Beach', 'Kennedy Space Center', 'Tampa', 'Clearwater Beach', 'LEGOLAND', 'MCO'] };
 CHIPS.hourly = CHIPS.events; CHIPS.other = CHIPS.airport;
 
-var S = { step: 1, type: null, mode: 'oneway', A: null, S: null, B: null, stopOn: false, hours: P.hourMin, pax: 2, bags: 2, child: false, route: null, routeKey: '', routing: false, issued: false };
+var S = { step: 1, type: null, mode: 'oneway', A: null, S: null, B: null, stopOn: false, hours: P.hourMin, pax: 2, bags: 2, route: null, routeKey: '', ret: null, retKey: '', routing: false, issued: false };
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 var money = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
@@ -462,29 +489,41 @@ function pts() { var a = [S.A]; if (S.stopOn && S.S) a.push(S.S); if (S.B) a.pus
 function approx() { var p = pts(); if (p.length < 2) return null; var mi = 0; for (var i = 1; i < p.length; i++) mi += hav(p[i - 1], p[i]) * 1.28; return { mi: Math.max(1, mi), min: mi / 36 * 60 + 6, est: true }; }
 function info() { return S.route || approx(); }
 function ready() { return !!(S.A && (S.B || S.mode === 'hourly')); }
+function roadMi(p, q) { return p && q ? hav(p, q) * 1.3 : 0; }
+function deadMiles() {
+  if (!S.A) return 0;
+  var end = S.mode === 'round' ? S.A : (S.B || S.A);
+  return Math.max(0, roadMi(BASE, S.A) - DEAD.free) + Math.max(0, roadMi(end, BASE) - DEAD.free);
+}
+function tollFor(r, m) {
+  if (!r) return m > 6 ? m * P.tollPerMile : 0;
+  if (r.tollMi == null) return m > 6 ? m * P.tollPerMile : 0;
+  return r.tollMi > 0.2 ? Math.max(TOLL.minLeg, r.tollMi * TOLL.perMile) : 0;
+}
 function fare() {
   if (!ready()) return null;
   var r = S.B ? info() : null, m = r ? r.mi : 0, t = r ? r.min : 0;
   var dt = val('in-date'), tm = val('in-time'), rtm = val('in-rtime');
   if (r && isRush(dt, tm)) t *= 1.25;
   var lines = [], add = function (l, v) { v = Math.round(v); if (v > 0) lines.push({ l: l, v: v }); };
-  var svc = 0;
+  var svc = 0, dead = deadMiles() * P.perMile * DEAD.rate;
   if (S.mode === 'hourly') {
-    var h = Math.max(S.hours, P.hourMin); svc = h * P.hourly;
-    add('Hourly service · ' + h + ' h × ' + money(P.hourly), svc);
+    var h = Math.max(S.hours, P.hourMin); svc = h * P.hourly + dead;
+    add('Charter, as directed · ' + h + ' h × ' + money(P.hourly), svc);
     if (S.A.air) add('Airport pickup · meet & greet, parking', P.airportPickup);
   } else {
     var legs = S.mode === 'round' ? 2 : 1;
-    svc = Math.round(legFare(m)) * legs;
-    add('Distance fare · ' + (legs === 2 ? '2 × ' : '') + m.toFixed(1) + ' mi', svc);
+    var ret = S.mode === 'round' ? (S.ret || r) : null, mRet = ret ? ret.mi : 0;
+    svc = Math.round(legFare(m)) + (legs === 2 ? Math.round(legFare(mRet)) : 0) + dead;
+    add('Distance fare · ' + (legs === 2 ? m.toFixed(1) + ' + ' + mRet.toFixed(1) : m.toFixed(1)) + ' mi', svc);
     var up = S.A.air ? 1 : 0, dn = S.B.air ? 1 : 0;
     if (legs === 2) { up += S.B.air ? 1 : 0; dn += S.A.air ? 1 : 0; }
     if (up) add('Airport pickup' + (up > 1 ? ' × 2' : '') + ' · meet & greet, parking', P.airportPickup * up);
     if (dn) add('Airport drop-off fee' + (dn > 1 ? ' × 2' : ''), P.airportDropoff * dn);
-    if (m > 6) add('Tolls (est.)', m * P.tollPerMile * legs);
+    var tOut = tollFor(r, m), tRet = legs === 2 ? tollFor(ret, mRet) : 0;
+    if (tOut + tRet > 0) add('Tolls (est.)' + (legs === 2 ? ' · going ' + money(tOut) + ' + return ' + money(tRet) : ''), tOut + tRet);
     if (S.stopOn && S.S) add('Extra stop', P.extraStop);
   }
-  if (S.child) add('Child seat', P.childSeat);
   var late = (lateNight(tm) ? 1 : 0) + (S.mode === 'round' && lateNight(rtm) ? 1 : 0);
   if (late) add('Late-night pickup' + (late > 1 ? ' × 2' : '') + ' · 10 pm to 5 am', P.lateNight * late);
   add('Gratuity · ' + P.gratuity + '%', svc * P.gratuity / 100);
@@ -601,7 +640,7 @@ document.addEventListener('mousedown', function (e) { if (!e.target.closest('.fl
 $('#addStop').addEventListener('click', function () { S.stopOn = true; render(); inputs.S.focus(); });
 $('#swapBtn').addEventListener('click', function () { var a = S.A, b = S.B, ta = inputs.A.value, tb = inputs.B.value; S.A = b; S.B = a; inputs.A.value = tb; inputs.B.value = ta; S.route = null; routeNow(); render(); drawMap(true); });
 $('#clearBtn').addEventListener('click', function () { S.A = S.B = S.S = null; S.stopOn = false; ['A', 'S', 'B'].forEach(function (k) { inputs[k].value = ''; inputs[k].closest('.fld').classList.remove('has'); }); S.route = null; S.routeKey = ''; render(); drawMap(true); });
-$$('#modeSeg button').forEach(function (b) { b.addEventListener('click', function () { S.mode = b.dataset.mode; S.issued = false; render(); }); });
+$$('#modeSeg button').forEach(function (b) { b.addEventListener('click', function () { S.mode = b.dataset.mode; if (S.mode === 'hourly') S.type = 'hourly'; else if (S.type === 'hourly') S.type = 'other'; S.issued = false; routeNow(); render(); }); });
 function renderChips() {
   var list = (CHIPS[S.type] || CHIPS.airport).map(find).filter(Boolean);
   $('#chips').innerHTML = list.map(function (p) { return '<button type="button" class="chip" data-s="' + esc(p.short) + '">' + esc(p.short) + '</button>'; }).join('');
@@ -609,22 +648,39 @@ function renderChips() {
 }
 
 /* ---------- routing ---------- */
+function tollMiles(route) {
+  var mi = 0;
+  (route.legs || []).forEach(function (lg) { (lg.steps || []).forEach(function (st) {
+    var toll = (st.intersections || []).some(function (x) { return (x.classes || []).indexOf('toll') >= 0; });
+    if (toll) mi += st.distance / 1609.344;
+  }); });
+  return mi;
+}
+function fetchRoute(pp) {
+  var key = pp.map(function (x) { return x.lon.toFixed(5) + ',' + x.lat.toFixed(5); }).join(';');
+  return getJSON(API + '/directions/v5/mapbox/driving/' + key + '?alternatives=false&geometries=geojson&overview=full&steps=true&access_token=' + TOKEN)
+    .then(function (j) { var r = j.routes && j.routes[0]; if (!r) throw 0; return { mi: Math.max(1, r.distance / 1609.344), min: r.duration / 60 + 3, coords: r.geometry.coordinates, tollMi: tollMiles(r) }; });
+}
 function routeNow() {
   var p = pts();
-  if (p.length < 2 || !S.B && S.mode !== 'hourly') { S.route = null; S.routeKey = ''; return; }
-  if (p.length < 2) { S.route = null; S.routeKey = ''; return; }
+  if (p.length < 2 || (!S.B && S.mode !== 'hourly')) { S.route = null; S.routeKey = ''; S.ret = null; S.retKey = ''; return; }
   var key = p.map(function (x) { return x.lon.toFixed(5) + ',' + x.lat.toFixed(5); }).join(';');
-  if (key === S.routeKey) return;
-  S.routeKey = key; S.route = null;
-  if (!HAS_MB) return;
-  S.routing = true;
-  getJSON(API + '/directions/v5/mapbox/driving/' + key + '?alternatives=false&geometries=geojson&overview=full&access_token=' + TOKEN)
-    .then(function (j) {
-      if (S.routeKey !== key) return;
-      var r = j.routes && j.routes[0]; if (!r) throw 0;
-      S.route = { mi: Math.max(1, r.distance / 1609.344), min: r.duration / 60 + 3, coords: r.geometry.coordinates };
-      S.routing = false; render(); drawMap(true);
-    }).catch(function () { S.routing = false; render(); });
+  if (key !== S.routeKey) {
+    S.routeKey = key; S.route = null;
+    if (HAS_MB) {
+      S.routing = true;
+      fetchRoute(p).then(function (res) { if (S.routeKey !== key) return; S.route = res; S.routing = false; render(); drawMap(true); })
+        .catch(function () { S.routing = false; render(); });
+    }
+  }
+  // the return leg is its own route (B back to A), so its tolls and miles are counted on their own
+  if (S.mode === 'round' && S.A && S.B) {
+    var rk = S.B.lon.toFixed(5) + ',' + S.B.lat.toFixed(5) + ';' + S.A.lon.toFixed(5) + ',' + S.A.lat.toFixed(5);
+    if (rk !== S.retKey) {
+      S.retKey = rk; S.ret = null;
+      if (HAS_MB) fetchRoute([S.B, S.A]).then(function (res) { if (S.retKey !== rk) return; S.ret = res; render(); }).catch(function () {});
+    }
+  }
 }
 
 /* ---------- map ---------- */
@@ -729,13 +785,11 @@ function runCar(coords) {
 
 /* ---------- details ---------- */
 var LIM = { hours: [P.hourMin, 12], pax: [1, 6], bags: [0, 8] };
-$$('[data-cnt]').forEach(function (b) { b.addEventListener('click', function () { var k = b.dataset.cnt, l = LIM[k]; S[k] = Math.min(l[1], Math.max(l[0], S[k] + (+b.dataset.d))); S.issued = false; render(); }); });
-$('#optChild').addEventListener('click', function () { S.child = !S.child; S.issued = false; render(); });
-['in-date', 'in-time', 'in-rdate', 'in-rtime', 'in-flight'].forEach(function (id) { $('#' + id).addEventListener('input', function () { this.closest('.box').classList.remove('bad'); S.issued = false; render(); }); });
+$$('[data-cnt]').forEach(function (b) { b.addEventListener('click', function () { var k = b.dataset.cnt, l = LIM[k]; var nv = S[k] + (+b.dataset.d); if (k === 'pax') $('#paxNote').hidden = nv <= l[1]; S[k] = Math.min(l[1], Math.max(l[0], nv)); S.issued = false; render(); }); });
+['in-date', 'in-time', 'in-rdate', 'in-rtime', 'in-flight'].forEach(function (id) { $('#' + id).addEventListener('input', function () { this.closest('.box').classList.remove('bad'); if (id === 'in-date') { $('#in-rdate').min = this.value; if (!val('in-rdate') || val('in-rdate') < this.value) $('#in-rdate').value = this.value; } $('#err2b').classList.remove('on'); S.issued = false; render(); }); });
 ['in-name', 'in-email', 'in-phone', 'in-notes'].forEach(function (id) { $('#' + id).addEventListener('input', function () { this.closest('.box').classList.remove('bad'); if (S.issued) { S.issued = false; render(); } }); });
 (function () { var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); }; var t = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); $('#in-date').min = t; $('#in-rdate').min = t; })();
-$('#childPrice').textContent = 'Installed before pickup · +' + money(P.childSeat);
-$('#hmin').textContent = P.hourMin;
+$$('.hmin').forEach(function (e) { e.textContent = P.hourMin; });
 
 /* ---------- validation + navigation ---------- */
 function bad(id, on) { var e = document.getElementById(id); if (e) e.classList.toggle('bad', !!on); return !!on; }
@@ -748,15 +802,21 @@ function check(step) {
     inputs.B.closest('.fld').classList.toggle('bad', nB);
     if (nA || nB) msg = (nA ? 'Choose a pickup from the list or tap the map.' : 'Choose a drop-off from the list or tap the map.');
     $('#err2').textContent = msg; $('#err2').classList.toggle('on', !!msg);
+    if (!msg) {
+      var miss = [];
+      if (bad('b-date', !val('in-date'))) miss.push('date');
+      if (bad('b-time', !val('in-time'))) miss.push('pickup time');
+      if (S.mode === 'round') {
+        if (bad('b-rdate', !val('in-rdate'))) miss.push('return date');
+        if (bad('b-rtime', !val('in-rtime'))) miss.push('return pickup time');
+        if (!miss.length && (val('in-rdate') + 'T' + val('in-rtime')) <= (val('in-date') + 'T' + val('in-time'))) { bad('b-rtime', 1); msg = 'The return pickup has to be after the first pickup.'; }
+      }
+      if (miss.length) msg = 'Add the ' + miss.join(', ') + '.';
+      $('#err2b').textContent = msg; $('#err2b').classList.toggle('on', !!msg);
+      if (msg && S.step === 2) { var w = $('#when'); if (w.scrollIntoView) w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    }
   }
-  if (step === 3) {
-    var miss = [];
-    if (bad('b-date', !val('in-date'))) miss.push('date');
-    if (bad('b-time', !val('in-time'))) miss.push('time');
-    if (S.mode === 'round') { if (bad('b-rdate', !val('in-rdate'))) miss.push('return date'); if (bad('b-rtime', !val('in-rtime'))) miss.push('return time'); }
-    if (miss.length) msg = 'Add the pickup ' + miss.join(', ') + '.';
-    $('#err3').textContent = msg; $('#err3').classList.toggle('on', !!msg);
-  }
+  if (step === 3) { $('#err3').classList.remove('on'); }
   if (step === 4) {
     var mm = [];
     if (bad('b-name', !val('in-name'))) mm.push('your name');
@@ -783,7 +843,7 @@ $$('#steps li').forEach(function (li) { li.querySelector('button').addEventListe
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36).toUpperCase().slice(-4).padStart(4, '0'); }
 function fmtDate(d) { if (!d) return '—'; return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); }
 function fmtT(t) { if (!t) return '—'; var f = t.split(':'), h = +f[0]; return ((h % 12) || 12) + ':' + f[1] + (h < 12 ? ' am' : ' pm'); }
-function svcLabel() { var t = TYPES.filter(function (x) { return x.id === S.type; })[0]; return (t ? t.t : 'Private ride') + ' · ' + (S.mode === 'round' ? 'Round trip' : S.mode === 'hourly' ? S.hours + ' h, as directed' : 'One way'); }
+function svcLabel() { var t = TYPES.filter(function (x) { return x.id === S.type; })[0]; return (S.mode === 'hourly' ? 'Charter' : (t ? t.t : 'Private ride')) + ' · ' + (S.mode === 'round' ? 'Round trip' : S.mode === 'hourly' ? S.hours + ' h, as directed' : 'One way'); }
 function issue() {
   if (!check(1) || !check(2) || !check(3)) { go(S.step); return; }
   if (!check(4)) return;
@@ -815,7 +875,7 @@ function issue() {
   if (S.mode === 'round') body.push('Return pickup: ' + fmtDate(val('in-rdate')) + ', ' + fmtT(val('in-rtime')));
   body.push('Passengers: ' + S.pax + ' · Bags: ' + S.bags);
   if (val('in-flight')) body.push('Flight: ' + val('in-flight'));
-  body.push('Extras: ' + ([S.child ? 'child seat' : '', S.stopOn && S.S ? 'extra stop' : ''].filter(Boolean).join(', ') || 'none'));
+  if (S.stopOn && S.S) body.push('Extras: extra stop');
   body.push('', 'Estimated total: ' + money(f.total), '');
   f.lines.forEach(function (l) { body.push('  ' + l.l + ': ' + money(l.v)); });
   body.push('', 'Name: ' + val('in-name'), 'Email: ' + val('in-email'));
@@ -843,7 +903,7 @@ $('#q-send').addEventListener('click', function () {
     Service: svcLabel(), Pickup: S.A.name + ' · ' + fmtDate(val('in-date')) + ' · ' + fmtT(val('in-time')),
     Stop: S.stopOn && S.S ? S.S.name : '—', Dropoff: S.B ? S.B.name : 'As directed',
     Return: S.mode === 'round' ? fmtDate(val('in-rdate')) + ' · ' + fmtT(val('in-rtime')) : '—',
-    Passengers: String(S.pax), Bags: String(S.bags), Flight: val('in-flight') || '—', 'Child seat': S.child ? 'Yes' : 'No',
+    Passengers: String(S.pax), Bags: String(S.bags), Flight: val('in-flight') || '—',
     'Estimated total': P2.total, Breakdown: P2.lines, Notes: val('in-notes') || '—', Page: location.href.split('#')[0]
   };
   fetch(FORM, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
@@ -865,22 +925,23 @@ function render() {
   [1, 2, 3, 4].forEach(function (n) { document.body.classList.toggle('st-' + n, n === S.step); });
   $$('#steps li').forEach(function (li) { var n = +li.dataset.go; li.classList.toggle('on', n === S.step); li.classList.toggle('done', n < S.step); });
   $$('.tc').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.type === S.type)); });
-  $('#modeSeg').hidden = hourly;
   $$('#modeSeg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.mode === S.mode)); });
   $('#lab-B').textContent = hourly ? 'Drop-off (optional)' : 'Drop-off';
+  $('#wl-out').textContent = 'Pickup' + (S.A ? ' · ' + shortOf(S.A) : '');
+  $('#wl-ret').textContent = 'Return pickup' + (S.B ? ' · ' + shortOf(S.B) + ' back to ' + shortOf(S.A) : '');
   $('#routeSub').textContent = hourly ? 'Start with the pickup. Add a drop-off if you know it; stops along the way are included in your hours.' : 'Type a hotel, a home, a venue or an airport, or tap the map.';
   var sf = inputs.S.closest('.fld'); sf.hidden = !S.stopOn; $('#addStop').hidden = S.stopOn || hourly;
   $$('.rt').forEach(function (e) { e.hidden = S.mode !== 'round'; });
   $$('.hr').forEach(function (e) { e.hidden = !hourly; });
   $$('.fl').forEach(function (e) { e.hidden = !((S.A && S.A.air) || (S.B && S.B.air)); });
   $('#o-hours').textContent = S.hours; $('#o-pax').textContent = S.pax; $('#o-bags').textContent = S.bags;
-  $('#optChild').setAttribute('aria-pressed', String(S.child));
   var hasRoute = !!(S.A && S.B) || (hourly && !!S.A);
   var was = document.body.classList.contains('has-route');
   document.body.classList.toggle('has-route', hasRoute);
   if (hasRoute && !was && map) setTimeout(function () { map.resize(); drawMap(true); }, 30);
-  var mi = r && S.B ? r.mi.toFixed(1) + ' mi' : '—', tm = r && S.B ? '~' + fmtMin(f ? f.min : r.min) : (hourly ? S.hours + ' h' : '—');
+  var mi = r && S.B ? (S.mode === 'round' && S.ret ? (r.mi + S.ret.mi).toFixed(1) : (S.mode === 'round' ? (r.mi * 2).toFixed(1) : r.mi.toFixed(1))) + ' mi' : '—', tm = r && S.B ? '~' + fmtMin(f ? f.min : r.min) : (hourly ? S.hours + ' h' : '—');
   $('#rsum').classList.toggle('on', ready());
+  $('#rs-minl').textContent = hourly ? 'Hours' : 'Drive time';
   $('#rs-mi').textContent = mi; $('#rs-min').textContent = tm; $('#rs-tot').textContent = f ? money(f.total) : '—';
   $('#mc-a').textContent = shortOf(S.A); $('#mc-b').textContent = S.B ? shortOf(S.B) : (hourly ? 'As directed' : '—');
   $('#mc-mi').textContent = mi; $('#mc-min').textContent = tm; $('#mc-tot').textContent = f ? money(f.total) : '—';
