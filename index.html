@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Connexxions Elite — Luxury SUV Chauffeur, Orlando</title>
+<script>try{if(sessionStorage.getItem('ce-seen'))document.documentElement.classList.add('pl-skip');sessionStorage.setItem('ce-seen','1')}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Private chauffeured transfers in a 2026 Chevrolet Suburban Premier across Orlando: airports, Walt Disney World, Universal, the Convention Center and evenings out. Instant price, same chauffeur every time.">
 <link rel="canonical" href="https://connexxionselite.com/">
@@ -875,6 +876,55 @@ body{background:#FFFFFF}
 .qcta-r a:hover .qc-go::after{transform:translateX(4px)}
 @media (max-width:980px){.qcta{grid-template-columns:1fr;gap:48px}}
 @media (max-width:560px){.qcta-r a{grid-template-columns:auto 28px minmax(0,1fr) 28px;gap:12px;padding:20px 2px}.qc-go{font-size:0;gap:0}}
+
+/* ================= performance pass: smooth on phones and laptops ================= */
+.hx-logo{filter:none}
+.ft-glow{display:none}
+.hx-badge{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(14,14,14,.72)}
+.hx-card,.hx-ticket{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.hx-ticket{background:linear-gradient(180deg,#151517,#0E0E10)}
+.cab-cap{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(10,10,10,.8)}
+.hx.off i,.hx.off .bg-drift,.hx.off .bob,.hx.off .hx-spin,.hx.off .hx-trail,.burst-outer.off .bin,.mq-wrap.off .mq,.vtrack.off{animation-play-state:paused!important}
+.bg-drift,.bob,.mq,.vtrack,.bin{will-change:transform}
+/* returning visitors (same session) skip the intro loader */
+html.pl-skip .pl{display:none}
+html.pl-skip .hx-frame,html.pl-skip .hx-in{animation-delay:.05s}
+html.pl-skip .hx-drive{animation-delay:.15s}
+html.pl-skip .hx-logo{animation-delay:.35s}
+html.pl-skip .hx-meta{animation-delay:.8s}
+html.pl-skip .hx-card{animation-delay:1s}
+html.pl-skip .hx-badge{animation-delay:1.1s}
+
+/* ================= photo band ================= */
+.band{position:relative;height:clamp(440px,84vh,880px);overflow:hidden;background:#0A0A0A;color:#F2F0EB}
+.band-img{position:absolute;inset:0}
+.band-img img{position:absolute;left:0;top:-6%;width:100%;height:112%;object-fit:cover;object-position:55% 55%;display:block}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,10,10,.72) 0%,rgba(10,10,10,.25) 46%,rgba(10,10,10,0) 70%),linear-gradient(0deg,rgba(10,10,10,.55),rgba(10,10,10,0) 40%)}
+.band-cap{position:absolute;z-index:1;left:max(40px,calc((100vw - 1360px)/2 + 40px));bottom:clamp(40px,9vh,96px);display:flex;flex-direction:column;align-items:flex-start;gap:22px;max-width:min(560px,calc(100% - 80px))}
+.band-cap .h2{margin:0}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .band-img img{animation:bandpx linear both;animation-timeline:view();will-change:transform}
+    @keyframes bandpx{from{transform:translate3d(0,-5%,0)}to{transform:translate3d(0,5%,0)}}
+  }
+}
+@media (max-width:760px){
+  .band{height:min(78vh,620px)}
+  .band-img img{object-position:62% 55%}
+  .band::after{background:linear-gradient(0deg,rgba(10,10,10,.8),rgba(10,10,10,.1) 60%)}
+  .band-cap{left:20px;right:20px;max-width:none;bottom:32px;gap:18px}
+}
+
+/* hero micro-animations moved to the compositor (transform/opacity only) */
+.hx-spin{animation:none!important}
+.hx-badge>svg{animation:hxspin 22s linear infinite;will-change:transform}
+.hx-badge:hover>svg{animation-duration:8s}
+.hx-dot,.hx-live i{position:relative;animation:none!important;box-shadow:none!important}
+.hx-dot::after,.hx-live i::after{content:"";position:absolute;inset:0;border-radius:inherit;background:inherit;animation:hxpulse 2.2s ease-out infinite;will-change:transform,opacity}
+@keyframes hxpulse{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(3.2);opacity:0}}
+.hx-ticket{will-change:transform}
+.hx.off i::after,.hx.off .hx-badge>svg{animation-play-state:paused!important}
+@media (prefers-reduced-motion: reduce){.hx-badge>svg,.hx-dot::after,.hx-live i::after{animation:none}}
 </style>
 </helmet>
 
@@ -937,10 +987,10 @@ body{background:#FFFFFF}
   <section aria-labelledby="hero-h" class="dark hx">
     <div class="hx-sc">
     <div class="hx-frame">
-      <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute"><defs><filter id="mblur" x="-5%" y="0" width="110%" height="100%"><feGaussianBlur stdDeviation="6 0"></feGaussianBlur></filter></defs></svg>
+      
       <div class="hx-bg" aria-hidden="true">
         <div class="bg-drift" style="position: absolute; inset: 0">
-          <img class="scene hx-in" src="img/hero-plate.webp" alt="" style="filter: url(#mblur)">
+          <img class="scene hx-in" src="img/hero-plate-blur.webp" alt="" fetchpriority="high" decoding="async">
         </div>
       </div>
       <div class="hx-shade" aria-hidden="true"></div>
@@ -1044,20 +1094,20 @@ body{background:#FFFFFF}
   <!-- GALLERY STRIP -->
   <div class="mq-wrap rv" role="region" aria-label="Vehicle photo gallery" style="padding-bottom: 144px">
     <div class="mq" style="gap: 16px; align-items: center">
-      <img src="img/p-mco.webp" alt="Suburban Premier curbside at MCO Terminal C" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/d-grille.webp" alt="Chrome grille and LED headlight detail" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-gf.webp" alt="Suburban Premier at a Disney resort entrance" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/d-wheel.webp" alt="Premier wheel detail" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-road.webp" alt="Suburban Premier on a palm-lined highway" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/i-rear-cabin.webp" alt="Second-row leather captain's chairs and third row of the Suburban Premier" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-cabana-front.webp" alt="Suburban Premier at a Universal resort hotel" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-mco.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/d-grille.webp" alt="" aria-hidden="true" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-gf.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/d-wheel.webp" alt="" aria-hidden="true" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-road.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/i-rear-cabin.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img src="img/p-cabana-front.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-mco.webp" alt="Suburban Premier curbside at MCO Terminal C" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/d-grille.webp" alt="Chrome grille and LED headlight detail" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-gf.webp" alt="Suburban Premier at a Disney resort entrance" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/d-wheel.webp" alt="Premier wheel detail" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-road.webp" alt="Suburban Premier on a palm-lined highway" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/i-rear-cabin.webp" alt="Second-row leather captain's chairs and third row of the Suburban Premier" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-cabana-front.webp" alt="Suburban Premier at a Universal resort hotel" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-mco.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/d-grille.webp" alt="" aria-hidden="true" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-gf.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/d-wheel.webp" alt="" aria-hidden="true" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-road.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/i-rear-cabin.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
+      <img loading="lazy" decoding="async" src="img/p-cabana-front.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
     </div>
   </div>
 
@@ -1098,7 +1148,7 @@ body{background:#FFFFFF}
         <sc-for list="{{ burst }}" as="bc" hint-placeholder-count="8">
           <a class="bcard" href="{{ bc.href }}" style="{{ bc.style }}" aria-label="{{ bc.aria }}">
             <span class="bin">
-              <img src="{{ bc.src }}" alt="" style="object-position: {{ bc.pos }}">
+              <img loading="lazy" decoding="async" src="{{ bc.src }}" alt="" style="object-position: {{ bc.pos }}">
               <span class="bshade" aria-hidden="true"></span>
               <span class="btag lab" aria-hidden="true">
                 <sc-if value="{{ bc.isAir }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg></sc-if>
@@ -1126,7 +1176,7 @@ body{background:#FFFFFF}
       </div>
       <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); gap: 16px; margin-top: 64px; align-items: stretch">
         <div class="tile img-rv tilt" style="border-radius: 3px; min-height: 420px; background: #141416">
-          <img class="zoom" src="img/p-uni-front.webp" alt="Black 2026 Suburban Premier, front view, chauffeur at the wheel" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/v-hotel.webp" alt="Black 2026 Suburban Premier at a resort hotel entrance at dusk" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 60%">
           <span class="lab" style="position: absolute; left: 24px; top: 24px; padding: 8px 12px; background: rgba(10,10,10,0.6); color: #FFFFFF">N° 01 · The only one we run</span>
           <span class="glare" aria-hidden="true"></span>
         </div>
@@ -1156,27 +1206,37 @@ body{background:#FFFFFF}
         </div>
         <div class="cab-grid">
         <figure class="cab-i cab-a tile img-rv" style="--d: 0ms">
-          <img class="zoom" src="img/i-rear-cabin.webp" alt="Second-row leather captain's chairs with contrast piping, third row behind" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/i-rear-cabin.webp" alt="Second-row leather captain's chairs with contrast piping, third row behind" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%">
           <figcaption class="cab-cap"><b>01</b>Second row · captain's chairs</figcaption>
         </figure>
         <figure class="cab-i cab-b tile img-rv" style="--d: 80ms">
-          <img class="zoom" src="img/i-captain-night.webp" alt="Passenger seated in a second-row captain's chair at night" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% 50%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/i-captain-night.webp" alt="Passenger seated in a second-row captain's chair at night" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% 50%">
           <figcaption class="cab-cap"><b>02</b>Evening pickups</figcaption>
         </figure>
         <figure class="cab-i cab-c tile img-rv" style="--d: 0ms">
-          <img class="zoom" src="img/i-cockpit-day.webp" alt="Front cabin with digital dashboard and center screen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/i-cockpit-day.webp" alt="Front cabin with digital dashboard and center screen" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%">
           <figcaption class="cab-cap"><b>03</b>Front cabin</figcaption>
         </figure>
         <figure class="cab-i cab-d tile img-rv" style="--d: 80ms">
-          <img class="zoom" src="img/i-rear-climate.webp" alt="Rear climate controls with USB-C ports behind the center console" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/i-rear-climate.webp" alt="Rear climate controls with USB-C ports behind the center console" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%">
           <figcaption class="cab-cap"><b>04</b>Rear climate · USB‑C</figcaption>
         </figure>
         <figure class="cab-i cab-e tile img-rv" style="--d: 160ms">
-          <img class="zoom" src="img/i-cockpit-night.webp" alt="Cabin at night seen from the second row" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
+          <img loading="lazy" decoding="async" class="zoom" src="img/i-cockpit-night.webp" alt="Cabin at night seen from the second row" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
           <figcaption class="cab-cap"><b>05</b>After dark</figcaption>
         </figure>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- PHOTO BAND -->
+  <section class="band" aria-labelledby="band-h">
+    <div class="band-img"><img src="img/v-road.webp" alt="Black 2026 Suburban Premier driving past palm trees at sunset" loading="lazy" decoding="async"></div>
+    <div class="band-cap">
+      <p class="eyebrow" style="color: #F2F0EB">On the road</p>
+      <h2 id="band-h" class="disp h2">Smooth on <span class="it">every mile.</span></h2>
+      <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start my quote</span><span aria-hidden="true">Start my quote</span></span></a>
     </div>
   </section>
 
@@ -1185,7 +1245,7 @@ body{background:#FFFFFF}
     <div class="sec-top rv"><p class="eyebrow">Your chauffeur</p><span class="idx">(05)</span></div>
     <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 64px 80px; align-items: center; margin-top: 64px">
       <figure class="tile img-rv tilt" style="margin: 0; border-radius: 3px; aspect-ratio: 4 / 5; background: #FFFFFF; max-width: 540px; width: 100%; justify-self: center">
-        <img class="zoom" src="img/marco.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%">
+        <img loading="lazy" decoding="async" class="zoom" src="img/marco.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%">
         <figcaption class="lab" style="position: absolute; left: 20px; bottom: 20px; padding: 9px 13px; background: #0A0A0A; color: #FFFFFF">Founder · CEO · Chauffeur</figcaption>
         <span class="glare" aria-hidden="true"></span>
       </figure>
@@ -1247,7 +1307,7 @@ body{background:#FFFFFF}
     <div class="sec-top rv"><p class="eyebrow">Why Connexxions Elite</p><span class="idx">(07)</span></div>
     <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr)); gap: 72px; align-items: center; margin-top: 64px">
       <div class="tile img-rv tilt" style="border-radius: 3px; aspect-ratio: 4 / 3; background: #141416">
-        <img class="zoom" src="img/p-mco.webp" alt="Suburban Premier waiting curbside at MCO Terminal C" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%">
+        <img loading="lazy" decoding="async" class="zoom" src="img/p-mco.webp" alt="Suburban Premier waiting curbside at MCO Terminal C" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%">
         <span class="lab" style="position: absolute; left: 24px; bottom: 24px; padding: 8px 12px; background: rgba(10,10,10,0.6); color: #FFFFFF">MCO · Terminal C</span>
         <span class="glare" aria-hidden="true"></span>
       </div>
@@ -1319,9 +1379,9 @@ body{background:#FFFFFF}
         </div>
         <div class="vcol rv" role="region" aria-label="Client reviews, column 3" style="--d: 240ms">
           <div class="vtrack">
-            <figure style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" aria-hidden="true" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[SFB → Lake Mary]</span></figcaption></figure>
+            <figure style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" aria-hidden="true" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[MCO → Lake Nona]</span></figcaption></figure>
             <figure style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" aria-hidden="true" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[Disney resorts → MCO]</span></figcaption></figure>
-            <figure aria-hidden="true" style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[SFB → Lake Mary]</span></figcaption></figure>
+            <figure aria-hidden="true" style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[MCO → Lake Nona]</span></figcaption></figure>
             <figure aria-hidden="true" style="margin: 0; background: #F7F5F0; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 28px"><span class="serif" style="font-size: 84px; line-height: .5; color: var(--accent)">“</span><blockquote class="it" style="margin: 0; font-size: 26px; line-height: 1.2">[Real client review goes here.]</blockquote><figcaption style="display: flex; flex-direction: column; gap: 6px; padding-top: 18px; border-top: 1px solid rgba(10,10,10,.12)"><span class="h3" style="font-size: 12px">[Client name]</span><span class="lab" style="color: #6E6A63">[Disney resorts → MCO]</span></figcaption></figure>
           </div>
         </div>
@@ -1387,35 +1447,35 @@ body{background:#FFFFFF}
           </span>
         </div>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-mco.webp" alt="Connexxions Elite Suburban curbside at MCO Terminal C" style="object-position: 60% 50%"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-mco.webp" alt="Connexxions Elite Suburban curbside at MCO Terminal C" style="object-position: 60% 50%"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Curbside at Terminal C.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">01 · MCO</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-road.webp" alt="Connexxions Elite Suburban on a palm-lined highway"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-road.webp" alt="Connexxions Elite Suburban on a palm-lined highway"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">On the move, on time.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">02 · En route</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-occc.webp" alt="Connexxions Elite Suburban at the Orange County Convention Center" style="object-position: 55% 50%"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-occc.webp" alt="Connexxions Elite Suburban at the Orange County Convention Center" style="object-position: 55% 50%"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Front door, Convention Center.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">03 · OCCC</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-gf.webp" alt="Connexxions Elite Suburban at a Disney resort entrance" style="object-position: 55% 50%"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-gf.webp" alt="Connexxions Elite Suburban at a Disney resort entrance" style="object-position: 55% 50%"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Under the porte-cochère.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">04 · Disney resorts</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-uni-side.webp" alt="Connexxions Elite Suburban at the Universal Orlando guest drop-off"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-uni-side.webp" alt="Connexxions Elite Suburban at the Universal Orlando guest drop-off"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Guest drop-off, no lines.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">05 · Universal</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/hero-bg.webp" alt="Connexxions Elite Suburban parked by the water" style="object-position: 45% 60%"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/hero-bg.webp" alt="Connexxions Elite Suburban parked by the water" style="object-position: 45% 60%"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Day trips, done right.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">06 · Beyond Orlando</span></figcaption>
         </figure>
         <figure class="hs-card hs-sm">
-          <div class="hs-img"><img src="img/d-grille.webp" alt="Chrome grille and LED headlight detail"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/d-grille.webp" alt="Chrome grille and LED headlight detail"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Top trim, up close.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">07 · Premier</span></figcaption>
         </figure>
         <figure class="hs-card">
-          <div class="hs-img"><img src="img/p-cabana-rear.webp" alt="Connexxions Elite Suburban at a Universal resort hotel entrance" style="object-position: 45% 55%"></div>
+          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-cabana-rear.webp" alt="Connexxions Elite Suburban at a Universal resort hotel entrance" style="object-position: 45% 55%"></div>
           <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Checked in, bags handled.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">08 · Resort hotels</span></figcaption>
         </figure>
         <div class="dark grain" style="flex: none; width: min(440px, 80vw); border-radius: 3px; padding: 44px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px">
@@ -1483,7 +1543,7 @@ body{background:#FFFFFF}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":18000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":18800}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -1854,16 +1914,20 @@ class Component extends DCLogic {
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     const t0 = performance.now();
     let last = 0;
+    // visibility comes from an observer, so the loop never forces a layout while you scroll
+    const vis = {};
+    try {
+      this.flowIo = new IntersectionObserver((es) => { es.forEach((e) => { vis[e.target.dataset.flowk] = e.isIntersecting; }); }, { rootMargin: '40px 0px' });
+      specs.forEach((s) => { const h = document.querySelector(s[3]); if (h && !h.dataset.flowk) { h.dataset.flowk = s[3]; this.flowIo.observe(h); } });
+    } catch (e) { this.flowIo = null; }
     const tick = (now) => {
       this.flowRaf = requestAnimationFrame(tick);
-      if (now - last < 33) return;
+      if (now - last < 40 || document.hidden) return;
       last = now;
-      const vh = window.innerHeight;
       specs.forEach((s) => {
         const g = document.getElementById(s[0]);
         if (!g || (s[3] === '.pl-fill' && now - t0 > 3600)) return;
-        const host = document.querySelector(s[3]);
-        if (host) { const r = host.getBoundingClientRect(); if (r.bottom < -40 || r.top > vh + 40 || r.width === 0) return; }
+        if (this.flowIo && !vis[s[3]]) return;
         const x = s[1] - (((now - t0) % s[2]) / s[2]) * 1200;
         g.setAttribute('gradientTransform', 'translate(' + x.toFixed(1) + ' 0)');
       });
@@ -1897,6 +1961,9 @@ class Component extends DCLogic {
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
       this.ioSeen = new WeakSet();
+      // pause endless loops (marquees, floating cards, hero streaks) while they are off screen
+      this.ioOff = new IntersectionObserver((es) => { es.forEach((e) => e.target.classList.toggle('off', !e.isIntersecting)); }, { rootMargin: '120px 0px' });
+      document.querySelectorAll('.hx, .burst-outer, .mq-wrap, .vtrack, .hs-outer').forEach((el) => this.ioOff.observe(el));
       document.querySelectorAll('.rv, .img-rv').forEach((el) => { this.ioSeen.add(el); this.io.observe(el); });
     } catch (err) {
       document.documentElement.classList.remove('rv-on');
@@ -1909,12 +1976,14 @@ class Component extends DCLogic {
   }
   componentWillUnmount() {
     if (this.io) this.io.disconnect();
+    if (this.ioOff) this.ioOff.disconnect();
     if (this.clockTimer) clearInterval(this.clockTimer);
     document.removeEventListener('pointermove', this.onMove);
     if (this.onResize) window.removeEventListener('resize', this.onResize);
     if (this.raf) cancelAnimationFrame(this.raf);
     if (this.plRaf) cancelAnimationFrame(this.plRaf);
     if (this.flowRaf) cancelAnimationFrame(this.flowRaf);
+    if (this.flowIo) this.flowIo.disconnect();
     document.removeEventListener('pointermove', this.onDragMove);
     document.removeEventListener('pointerup', this.onDragEnd);
   }
@@ -2227,7 +2296,7 @@ class Component extends DCLogic {
     const mco = this.byShort['MCO'];
     const fromMco = (sh) => { const f = fare(mco, this.byShort[sh], { trip: 'oneway', hours: 0 }); return { t: f.t, total: f.total }; };
     const BD = [
-      { title: 'Airport transfers', tag: 'Airport', kind: 'air', src: 'img/p-mco.webp', alt: 'Suburban Premier curbside at MCO Terminal C', pos: '60% 50%', a: 'MCO', b: 'Magic Kingdom', meta: 'MCO · SFB · met inside baggage claim', ax: -0.95, ay: -0.62, r0: -7, r1: -2.5 },
+      { title: 'Airport transfers', tag: 'Airport', kind: 'air', src: 'img/p-mco.webp', alt: 'Suburban Premier curbside at MCO Terminal C', pos: '60% 50%', a: 'MCO', b: 'Magic Kingdom', meta: 'From MCO · met inside baggage claim', ax: -0.95, ay: -0.62, r0: -7, r1: -2.5 },
       { title: 'Disney resorts', tag: 'Parks & resorts', kind: 'park', src: 'img/p-gf.webp', alt: 'Suburban Premier at a Disney resort entrance', pos: '55% 50%', a: 'MCO', b: 'Magic Kingdom', ax: -0.31, ay: -0.98, r0: 5, r1: 1.5 },
       { title: 'Universal Orlando', tag: 'Parks & resorts', kind: 'park', src: 'img/p-uni-side.webp', alt: 'Suburban Premier at the Universal Orlando guest drop-off', pos: '50% 50%', a: 'MCO', b: 'Universal', ax: 0.34, ay: -0.98, r0: -3, r1: -1 },
       { title: 'Resort hotels', tag: 'Parks & resorts', kind: 'park', src: 'img/p-cabana-front.webp', alt: 'Suburban Premier at a Universal resort hotel entrance', pos: '45% 50%', a: 'MCO', b: 'Universal hotels', ax: 0.95, ay: -0.62, r0: 8, r1: 2 },

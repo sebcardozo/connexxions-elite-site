@@ -224,6 +224,15 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 .mapboxgl-ctrl-group button .mapboxgl-ctrl-icon{filter:invert(1)}
 .mapboxgl-ctrl-attrib{background:rgba(10,10,10,.6)!important}
 .mapboxgl-ctrl-attrib a{color:#aaa!important}
+.heat-key{position:absolute;z-index:3;top:16px;left:16px;display:flex;align-items:center;gap:10px;padding:10px 14px 10px 12px;border-radius:14px;border:1px solid var(--line2);background:rgba(14,14,15,.88);color:var(--cream);text-align:left}
+.heat-key b{display:block;font-weight:500;font-size:13px}
+.heat-key small{display:flex;align-items:center;gap:6px;margin-top:4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.heat-key small span{margin-left:auto;padding-left:6px}
+.hk-bar{order:1;display:block;width:64px;height:5px;border-radius:9px;background:linear-gradient(90deg,rgba(130,20,20,.6),#D42A27,#FF5C34,#FF8A4A)}
+.hk-dot{width:12px;height:12px;border-radius:99px;background:radial-gradient(circle,#FF8A4A 0,#FF5C34 35%,#D42A27 70%);box-shadow:0 0 0 4px rgba(212,42,39,.25)}
+.heat-key[aria-pressed="false"]{opacity:.6}
+.heat-key[aria-pressed="false"] .hk-dot{background:#555;box-shadow:none}
+@media (max-width:900px){.heat-key{top:10px;left:10px;padding:8px 10px}.heat-key small{display:none}}
 .nomap{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:40px;text-align:center;color:var(--mute);background:radial-gradient(circle at 50% 40%,#1b1b1d,#0d0d0e)}
 .no-mb .nomap{display:flex}
 .no-mb .mempty{display:none}
@@ -396,6 +405,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
   <section class="mapcol" aria-label="Route map">
     <div id="map"></div>
     <div class="nomap">The map could not load. Your quote still works.</div>
+    <button type="button" class="heat-key" id="heatKey" aria-pressed="true" hidden><span class="hk-dot"></span><span><b>Hot pickup zones</b><small><i class="hk-bar"></i>Busy<span>Hottest</span></small></span></button>
     <div class="mempty"><span class="ring"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><b>Your route appears here</b><span>Add a pickup and a drop-off</span></div>
     <div class="mcard" id="mcard">
       <div class="od"><b id="mc-a">—</b><span class="ln"></span><b id="mc-b">—</b></div>
@@ -425,7 +435,7 @@ var BY = {}; PLACES.forEach(function (p) { BY[p.short.toLowerCase()] = p; });
 function find(q) { if (!q) return null; var k = String(q).toLowerCase(); if (BY[k]) return BY[k]; var n = norm(q); for (var i = 0; i < PLACES.length; i++) if (PLACES[i].keys.indexOf(n) >= 0) return PLACES[i]; return null; }
 
 var TYPES = [
-  { id: 'airport', t: 'Airport transfer', d: 'MCO · SFB · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>', pre: { A: 'MCO' } },
+  { id: 'airport', t: 'Airport transfer', d: 'From MCO · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>', pre: { A: 'MCO' } },
   { id: 'parks', t: 'Parks & resorts', d: 'Disney · Universal · SeaWorld', ic: '<path d="M4 21V11l2-1.5L8 11V7l4-3 4 3v4l2-1.5 2 1.5v10z"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/>' },
   { id: 'hourly', t: 'Hourly, as directed', d: 'From ' + P.hourMin + ' hours · stops as you like', ic: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', mode: 'hourly' },
   { id: 'events', t: 'Events & nights out', d: 'Dinners, concerts, games, weddings', ic: '<path d="M7 3h10l-1.2 7a3.8 3.8 0 0 1-7.6 0z"/><path d="M12 14v6M8 21h8"/>' },
@@ -433,7 +443,7 @@ var TYPES = [
   { id: 'trip', t: 'Day trips', d: 'Cocoa Beach, Kennedy, Tampa', ic: '<circle cx="12" cy="12" r="3.6"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/>' },
   { id: 'other', t: 'Something else', d: 'Tell us about it in the notes', ic: '<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>' }
 ];
-var CHIPS = { airport: ['MCO', 'SFB', 'Magic Kingdom', 'Universal', 'Convention Center', 'Disney Springs'], parks: ['Magic Kingdom', 'EPCOT area', 'Universal', 'SeaWorld', 'Disney Springs', 'MCO'], events: ['Downtown', 'Kia Center', 'Dr. Phillips Center', 'Camping World', 'Winter Park', 'Dr. Phillips'], corp: ['Convention Center', 'MCO', 'I-Drive', 'Downtown', 'Lake Nona', 'Grande Lakes'], trip: ['Cocoa Beach', 'Kennedy Space Center', 'Tampa', 'Clearwater Beach', 'LEGOLAND', 'MCO'] };
+var CHIPS = { airport: ['MCO', 'Magic Kingdom', 'Universal', 'Convention Center', 'Disney Springs', 'I-Drive'], parks: ['Magic Kingdom', 'EPCOT area', 'Universal', 'SeaWorld', 'Disney Springs', 'MCO'], events: ['Downtown', 'Kia Center', 'Dr. Phillips Center', 'Camping World', 'Winter Park', 'Dr. Phillips'], corp: ['Convention Center', 'MCO', 'I-Drive', 'Downtown', 'Lake Nona', 'Grande Lakes'], trip: ['Cocoa Beach', 'Kennedy Space Center', 'Tampa', 'Clearwater Beach', 'LEGOLAND', 'MCO'] };
 CHIPS.hourly = CHIPS.events; CHIPS.other = CHIPS.airport;
 
 var S = { step: 1, type: null, mode: 'oneway', A: null, S: null, B: null, stopOn: false, hours: P.hourMin, pax: 2, bags: 2, child: false, route: null, routeKey: '', routing: false, issued: false };
@@ -619,6 +629,19 @@ function routeNow() {
 
 /* ---------- map ---------- */
 var map = null, mapReady = false, markers = {}, carRaf = 0;
+/* where pickups happen most often: hottest at MCO, then the parks, I-Drive and the Convention Center */
+var HOT = [[28.4312,-81.3081,1,.016,26],[28.4246,-81.4695,.5,.008,10],[28.4434,-81.4682,.48,.010,10],[28.4743,-81.4678,.55,.008,10],[28.4657,-81.4720,.32,.006,6],
+  [28.4113,-81.5878,.5,.010,10],[28.3700,-81.5190,.5,.008,10],[28.3676,-81.5560,.4,.009,8],[28.3575,-81.5583,.25,.006,6],[28.3537,-81.6026,.25,.008,6],
+  [28.4114,-81.4612,.3,.007,6],[28.4040,-81.4226,.3,.006,6],[28.3829,-81.5398,.3,.007,6],[28.4045,-81.5357,.25,.005,5],[28.4490,-81.4880,.3,.008,6],
+  [28.5384,-81.3789,.4,.009,8],[28.5392,-81.3839,.2,.004,4],[28.5980,-81.3510,.2,.007,5],[28.3772,-81.2714,.3,.010,6],[28.3189,-81.5410,.2,.007,4],[28.3887,-81.4908,.2,.006,4]];
+function heatData() {
+  var f = [], seed = 7, rnd = function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  HOT.forEach(function (h) {
+    f.push({ type: 'Feature', properties: { w: h[2] }, geometry: { type: 'Point', coordinates: [h[1], h[0]] } });
+    for (var i = 0; i < h[4]; i++) { var a = rnd() * 6.283, r = Math.sqrt(rnd()) * h[3]; f.push({ type: 'Feature', properties: { w: h[2] * (0.35 + rnd() * 0.4) }, geometry: { type: 'Point', coordinates: [h[1] + Math.cos(a) * r * 1.14, h[0] + Math.sin(a) * r] } }); }
+  });
+  return { type: 'FeatureCollection', features: f };
+}
 function initMap() {
   if (!HAS_MB) { document.body.classList.add('no-mb'); return; }
   mapboxgl.accessToken = TOKEN;
@@ -632,6 +655,15 @@ function initMap() {
   map.on('load', function () {
     var EMPTY = { type: 'FeatureCollection', features: [] };
     ['rt', 'draft', 'car'].forEach(function (id) { map.addSource(id, { type: 'geojson', data: EMPTY }); });
+    map.addSource('hot', { type: 'geojson', data: heatData() });
+    map.addLayer({ id: 'hot', type: 'heatmap', source: 'hot', maxzoom: 16, paint: {
+      'heatmap-weight': ['get', 'w'],
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 8, 0.5, 11, 0.85, 14, 1.15],
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 7, 14, 9, 26, 11, 44, 13, 72, 15, 110],
+      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 8, 0.85, 12, 0.72, 14, 0.42, 16, 0],
+      'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'], 0, 'rgba(0,0,0,0)', 0.14, 'rgba(110,15,15,0.26)', 0.34, 'rgba(165,24,22,0.46)', 0.55, 'rgba(212,42,39,0.62)', 0.75, 'rgba(236,58,40,0.74)', 0.9, 'rgba(255,92,52,0.82)', 1, 'rgba(255,138,74,0.88)']
+    } });
+    $('#heatKey').hidden = false;
     var round = { 'line-cap': 'round', 'line-join': 'round' }, w = function (a, b) { return ['interpolate', ['linear'], ['zoom'], 8, a, 15, b]; };
     map.addLayer({ id: 'draft', type: 'line', source: 'draft', layout: round, paint: { 'line-color': '#F2F0EB', 'line-opacity': 0.5, 'line-width': 2, 'line-dasharray': [1.5, 2] } });
     map.addLayer({ id: 'rt-glow', type: 'line', source: 'rt', layout: round, paint: { 'line-color': '#D42A27', 'line-opacity': 0.28, 'line-width': w(10, 18), 'line-blur': 6 } });
@@ -796,6 +828,7 @@ function issue() {
   setTimeout(function () { var q = $('#qwrap'); if (q.scrollIntoView) q.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
 }
 $('#q-pdf').addEventListener('click', function () { window.print(); });
+$('#heatKey').addEventListener('click', function () { var on = this.getAttribute('aria-pressed') !== 'true'; this.setAttribute('aria-pressed', String(on)); if (map && map.getLayer('hot')) map.setLayoutProperty('hot', 'visibility', on ? 'visible' : 'none'); });
 /* quote requests go straight to Marco's inbox through FormSubmit (no app or login needed on the client side) */
 var FORM = String(window.CE_FORM_ENDPOINT || ('https://formsubmit.co/ajax/' + EMAIL));
 $('#q-send').addEventListener('click', function () {
