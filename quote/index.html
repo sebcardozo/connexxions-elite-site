@@ -36,7 +36,8 @@ button{cursor:pointer}
 
 /* header */
 .hdr{position:fixed;inset:0 0 auto 0;height:var(--hdr);z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px;background:rgba(10,10,10,.92);border-bottom:1px solid var(--line);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.hdr .logo img{height:30px;width:auto;display:block}
+.hdr .logo img{height:30px;width:auto;display:block;mix-blend-mode:lighten}
+.hdr{isolation:isolate}
 .hdr nav{display:flex;align-items:center;gap:22px}
 .hl{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:13px;color:var(--mute);transition:color .2s}
 .hl:hover{color:var(--cream)}
@@ -166,7 +167,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 /* quote doc */
 .qdoc{margin-top:22px;border-radius:16px;overflow:hidden;background:#FFFFFF;color:var(--ink)}
 .qdoc .qh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;background:var(--ink);color:var(--cream)}
-.qdoc .qh img{height:30px;width:auto}
+.qdoc .qh img{height:30px;width:auto;mix-blend-mode:lighten}
 .qdoc .qh .no{font-family:var(--mono);font-size:13px;letter-spacing:.06em}
 .qdoc .qb{padding:20px 22px 22px}
 .qrow{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid rgba(10,10,10,.08);font-size:14px}

@@ -22,7 +22,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;family=Instrument+Serif:ital@0;1&amp;family=Mrs+Saint+Delafield&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;family=Instrument+Serif:ital@0;1&amp;family=Michroma&amp;family=Mrs+Saint+Delafield&amp;display=swap" rel="stylesheet">
 <style>
 html{scroll-behavior:smooth}
 body{margin:0;background:#F2F0EB;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
@@ -952,8 +952,19 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
 .bg-drift,.bob,.bin{animation:none!important}
 .bg-drift,.bob,.bin,.mq,.vtrack{will-change:auto}
 .mq,.vtrack{will-change:transform}
-.hx-word::before{content:"";position:absolute;inset:-28% -8%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(6,20,42,.26),rgba(6,20,42,0))}
+.hx-word::before{content:"";position:absolute;inset:-28% -8%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(6,20,42,.13),rgba(6,20,42,0))}
 .ft-mail span{overflow-wrap:normal;word-break:keep-all;white-space:nowrap;font-size:clamp(13px,1.15vw,16px)}
+
+/* ================= hero meta row: Michroma labels + Instrument Serif values ================= */
+.hx-badge{display:none!important}
+.hx-meta{font-family:'Michroma','Geist',sans-serif;font-size:9.5px;font-weight:400;letter-spacing:.16em;align-items:baseline}
+.hx-meta .hm{gap:10px;align-items:baseline}
+.hx-meta .hm b{font-weight:400}
+.hx-meta .hm em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:18px;letter-spacing:0;text-transform:none;line-height:1}
+.hx-meta .hx-dot{align-self:center}
+@media (max-width:760px){.hx-meta{font-size:8.5px;letter-spacing:.13em}.hx-meta .hm em{font-size:16px}}
+/* the logo's black blends into the nav bar (no visible box) */
+.nav-logo{mix-blend-mode:lighten}
 </style>
 </helmet>
 
@@ -993,7 +1004,7 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
   <header style="position: sticky; top: 0; z-index: 20; background: #0A0A0A; border-bottom: 1px solid rgba(255,255,255,0.08)">
     <nav aria-label="Main" style="max-width: 1360px; margin: 0 auto; padding: 10px 40px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 28px">
       <a href="#top" aria-label="Connexxions Elite, home" style="display: flex; align-items: center; min-height: 44px">
-        <img src="img/connexxions-logo.png" alt="Connexxions Elite" style="height: 46px; width: auto; display: block">
+        <img class="nav-logo" src="img/connexxions-logo.png" alt="Connexxions Elite" style="height: 46px; width: auto; display: block">
       </a>
       <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 34px">
         <a class="nl" href="https://connexxionselite.com/quote/"><span class="nl-t"><span>Instant quote</span></span></a>
@@ -1030,9 +1041,9 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
         <i style="--y: 74%; --w: 38%; --d: 0.95s; --dl: -0.35s; --o: .55; --h: 2px"></i>
       </div>
       <div class="hx-meta">
-        <span><i class="hx-dot" aria-hidden="true"></i>Now booking</span>
-        <span class="hx-geo">Orlando, FL · 28.54° N  81.38° W</span>
-        <span>Local time {{ clock }}</span>
+        <span class="hm"><i class="hx-dot" aria-hidden="true"></i><b>Now booking</b></span>
+        <span class="hm hx-geo"><em>Orlando, Florida</em><b>28.54° N · 81.38° W</b></span>
+        <span class="hm"><b>Local time</b><em>{{ clock }}</em></span>
       </div>
       <div class="hx-carw">
         <div class="hx-drive">
@@ -1051,13 +1062,6 @@ html.pl-skip .hx-badge{animation-delay:1.1s}
           <div class="lgm hx-logo" role="img" aria-label="Connexxions Elite"><span class="lgm-w"><i></i></span><span class="lgm-r"><i></i></span></div>
         </div>
       </div>
-      <a class="hx-badge" href="#about" aria-label="Scroll to learn more">
-        <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
-          <defs><path id="hxcirc" d="M60 60m-47 0a47 47 0 1 1 94 0a47 47 0 1 1-94 0"></path></defs>
-          <g class="hx-spin"><text><textPath href="#hxcirc" textLength="291" lengthAdjust="spacing">Private chauffeur • Orlando • Florida • </textPath></text></g>
-        </svg>
-        <span class="hx-bc"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M12 5v14"></path><path d="m6 13 6 6 6-6"></path></svg></span>
-      </a>
     </div>
       <a class="hx-card hx-ticket" href="https://connexxionselite.com/quote/?type=airport&amp;from=MCO&amp;to=Magic%20Kingdom" aria-label="Popular route: Orlando International Airport to Magic Kingdom, 24.9 miles, about 40 minutes. Price this ride.">
       <span class="hx-k"><span class="hx-live"><i aria-hidden="true"></i>Popular route</span><span>No. 01 · Airport</span></span>
