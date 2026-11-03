@@ -463,7 +463,7 @@ var BY = {}; PLACES.forEach(function (p) { BY[p.short.toLowerCase()] = p; });
 function find(q) { if (!q) return null; var k = String(q).toLowerCase(); if (BY[k]) return BY[k]; var n = norm(q); for (var i = 0; i < PLACES.length; i++) if (PLACES[i].keys.indexOf(n) >= 0) return PLACES[i]; return null; }
 
 var TYPES = [
-  { id: 'airport', t: 'Airport transfer', d: 'From MCO · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>', pre: { A: 'MCO' } },
+  { id: 'airport', t: 'Airport transfer', d: 'From MCO · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>' },
   { id: 'parks', t: 'Parks & resorts', d: 'Disney · Universal · SeaWorld', ic: '<path d="M4 21V11l2-1.5L8 11V7l4-3 4 3v4l2-1.5 2 1.5v10z"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/>' },
   { id: 'hourly', t: 'Charter, as directed', d: 'Minimum ' + P.hourMin + ' hours · stops as you like', ic: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', mode: 'hourly' },
   { id: 'events', t: 'Events & nights out', d: 'Dinners, concerts, games, weddings', ic: '<path d="M7 3h10l-1.2 7a3.8 3.8 0 0 1-7.6 0z"/><path d="M12 14v6M8 21h8"/>' },
@@ -956,9 +956,9 @@ function render() {
 /* ---------- start ---------- */
 (function boot() {
   var q = new URLSearchParams(location.search);
-  var ty = q.get('type'), fr = find(q.get('from')), to = find(q.get('to'));
+  var ty = q.get('type'), fr = null, to = find(q.get('to'));
   if (ty) setType(ty);
-  if (fr) setPlace('A', fr);
+  // the pickup always starts empty: where the ride begins is the client's call
   if (to) setPlace('B', to);
   if (!S.type && (fr || to)) setType(fr && fr.air || to && to.air ? 'airport' : 'parks');
   renderChips();
