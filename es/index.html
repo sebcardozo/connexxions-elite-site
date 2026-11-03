@@ -1374,6 +1374,87 @@ body{overflow-x:clip}
 .cm tbody th{padding:14px 14px 2px}
 .cm td.cm-us{margin:0 0 8px 8px}
 }
+
+/* ================= level up v34 ================= */
+/* route map */
+.qcta{align-items:center}
+.qcta-rw{display:flex;flex-direction:column;gap:22px;min-width:0}
+.rmap{position:relative;margin:0;height:300px;border-radius:18px;overflow:hidden;background:radial-gradient(110% 90% at 68% 62%,#19191C 0%,#0D0D0F 70%);border:1px solid rgba(255,255,255,.09);isolation:isolate}
+.rmap::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 26%,rgba(10,10,10,0) 78%,rgba(10,10,10,.5) 100%)}
+.rm-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rm-lo path{fill:none;stroke:rgba(242,240,235,.075);stroke-width:.55;stroke-linecap:round}
+.rm-hi path{fill:none;stroke:rgba(242,240,235,.2);stroke-width:.95;stroke-linecap:round}
+.rm-r{fill:none;stroke:var(--accent,#D42A27);stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset .35s ease,opacity .3s ease}
+.rm-p circle{fill:#F2F0EB;opacity:.35;transition:opacity .3s,fill .3s}
+.rm-p text{font-family:'Michroma','Geist',sans-serif;font-size:5.4px;letter-spacing:.14em;text-transform:uppercase;fill:#A8A49C;opacity:0;transition:opacity .3s}
+.rm-s{fill:#F2F0EB;opacity:0;transition:opacity .3s}
+.rm-car{opacity:0}
+.rm-cap b span{display:none}
+html[data-rm="r1"] .rm-r1{opacity:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.2s cubic-bezier(.45,0,.25,1),opacity .2s ease}
+html[data-rm="r1"] .rm-pr1 circle{opacity:1;fill:var(--accent,#D42A27)}
+html[data-rm="r1"] .rm-pr1 text{opacity:1;fill:#F2F0EB}
+html[data-rm="r1"] .rm-c1{opacity:1}
+html[data-rm="r1"] .rm-c1t{display:inline}
+html[data-rm="r1"] .qcta-r li:nth-child(1) a{padding-left:16px;background:rgba(255,255,255,.035)}
+html[data-rm="r1"] .qcta-r li:nth-child(1) a .qc-go{color:#F2F0EB}
+html[data-rm="r2"] .rm-r2{opacity:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.2s cubic-bezier(.45,0,.25,1),opacity .2s ease}
+html[data-rm="r2"] .rm-pr2 circle{opacity:1;fill:var(--accent,#D42A27)}
+html[data-rm="r2"] .rm-pr2 text{opacity:1;fill:#F2F0EB}
+html[data-rm="r2"] .rm-c2{opacity:1}
+html[data-rm="r2"] .rm-c2t{display:inline}
+html[data-rm="r2"] .qcta-r li:nth-child(2) a{padding-left:16px;background:rgba(255,255,255,.035)}
+html[data-rm="r2"] .qcta-r li:nth-child(2) a .qc-go{color:#F2F0EB}
+html[data-rm="r3"] .rm-r3{opacity:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.2s cubic-bezier(.45,0,.25,1),opacity .2s ease}
+html[data-rm="r3"] .rm-pr3 circle{opacity:1;fill:var(--accent,#D42A27)}
+html[data-rm="r3"] .rm-pr3 text{opacity:1;fill:#F2F0EB}
+html[data-rm="r3"] .rm-c3{opacity:1}
+html[data-rm="r3"] .rm-c3t{display:inline}
+html[data-rm="r3"] .qcta-r li:nth-child(3) a{padding-left:16px;background:rgba(255,255,255,.035)}
+html[data-rm="r3"] .qcta-r li:nth-child(3) a .qc-go{color:#F2F0EB}
+html[data-rm="r4"] .rm-r4{opacity:1;stroke-dashoffset:0;transition:stroke-dashoffset 2.2s cubic-bezier(.45,0,.25,1),opacity .2s ease}
+html[data-rm="r4"] .rm-pr4 circle{opacity:1;fill:var(--accent,#D42A27)}
+html[data-rm="r4"] .rm-pr4 text{opacity:1;fill:#F2F0EB}
+html[data-rm="r4"] .rm-c4{opacity:1}
+html[data-rm="r4"] .rm-c4t{display:inline}
+html[data-rm="r4"] .qcta-r li:nth-child(4) a{padding-left:16px;background:rgba(255,255,255,.035)}
+html[data-rm="r4"] .qcta-r li:nth-child(4) a .qc-go{color:#F2F0EB}
+html:not([data-rm]) .rm-r1{opacity:1;stroke-dashoffset:0}
+html:not([data-rm]) .rm-pr1 circle{opacity:1;fill:var(--accent,#D42A27)}
+html:not([data-rm]) .rm-pr1 text{opacity:1;fill:#F2F0EB}
+html:not([data-rm]) .rm-c1t{display:inline}
+html[data-rm="r4"] .rm-s4{opacity:.85}
+.rm-mco circle{fill:#F2F0EB}
+.rm-mco .rm-halo{fill:rgba(242,240,235,.16);transform-box:fill-box;transform-origin:center;animation:rmhalo 2.4s ease-out infinite}
+.rm-mco text{font-family:'Michroma','Geist',sans-serif;font-size:6px;letter-spacing:.14em;fill:#F2F0EB}
+@keyframes rmhalo{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.rm-car{fill:#FFFFFF;filter:drop-shadow(0 0 3px rgba(255,255,255,.9)) drop-shadow(0 0 7px rgba(226,49,45,.9))}
+.rm-cap{position:absolute;z-index:2;left:18px;top:16px;display:flex;align-items:center;gap:10px;margin:0;font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#8C887F}
+.rm-cap i{width:7px;height:7px;border-radius:99px;background:var(--accent,#D42A27);box-shadow:0 0 0 3px rgba(212,42,39,.22)}
+.rm-cap b{font-weight:400;color:#F2F0EB}
+.rm-geo{position:absolute;z-index:2;right:18px;bottom:14px;color:#77736C}
+.rmap.off .rm-halo{animation-play-state:paused}
+@media (max-width:760px){.rmap{height:230px;border-radius:14px}.rm-cap{left:14px;top:13px;font-size:7.5px}.rm-cap span{display:none}}
+@media (prefers-reduced-motion:reduce){.rm-r{transition:none!important}.rm-car{display:none}.rm-mco .rm-halo{animation:none}}
+/* vehicle hotspots */
+.vhs-set{position:absolute;inset:0;z-index:3;pointer-events:none}
+.vhs{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;border-radius:99px}
+.vhs i{position:absolute;inset:9px;border-radius:99px;background:#FFFFFF;box-shadow:0 0 0 4px rgba(255,255,255,.22),0 4px 14px rgba(0,0,0,.5)}
+.vhs i::after{content:"";position:absolute;inset:4px;border-radius:99px;background:var(--accent,#D42A27)}
+.vhs::before{content:"";position:absolute;inset:6px;border-radius:99px;border:1.5px solid rgba(255,255,255,.7);animation:vhsp 2.6s ease-out infinite}
+.vhs:nth-child(2)::before{animation-delay:.6s}.vhs:nth-child(3)::before{animation-delay:1.2s}.vhs:nth-child(4)::before{animation-delay:1.8s}
+@keyframes vhsp{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.vtile.off .vhs::before{animation-play-state:paused}
+.vhs-tip{position:absolute;left:50%;bottom:calc(100% + 10px);width:max-content;max-width:230px;display:flex;flex-direction:column;gap:5px;padding:12px 14px;border-radius:12px;background:rgba(12,12,14,.86);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#D9D6CF;font-family:'Geist',system-ui,sans-serif;font-size:13px;line-height:1.4;text-align:left;opacity:0;transform:translate(-50%,6px);transition:opacity .25s ease,transform .25s ease;pointer-events:none}
+.vhs-tip b{font-family:'Michroma','Geist',sans-serif;font-size:8.5px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:#F2F0EB}
+.vhs:hover .vhs-tip,.vhs:focus-visible .vhs-tip,.vhs.is-open .vhs-tip{opacity:1;transform:translate(-50%,0)}
+.vhs:hover,.vhs:focus-visible,.vhs.is-open{z-index:2}
+.vhs:focus-visible{outline:2px solid #FFFFFF;outline-offset:2px}
+@media (max-width:980px){.vhs-set{display:none}}
+@media (prefers-reduced-motion:reduce){.vhs::before{animation:none;opacity:.6}}
+/* smooth move between the page and the quote */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.38s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+.nav-logo{view-transition-name:ce-logo}
 </style>
 </helmet>
 
@@ -1549,12 +1630,19 @@ body{overflow-x:clip}
             <span class="lab" style="color: #77736C">No payment until we confirm</span>
           </div>
         </div>
-        <ol class="qcta-r rv" style="--d: 220ms">
+        <div class="qcta-rw rv" style="--d: 220ms">
+        <figure class="rmap">
+          <svg class="rm-svg" viewBox="300 210 340 175" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><g class="rm-lo"><path d="M640.2 253.3 L645.5 236.9 L645.5 234.4 L640.4 219.5 L640.0 200.8 L639.4 199.0 L636.8 197.6 L615.8 191.3 L613.6 190.2 L610.8 187.3 L609.6 185.2 L606.9 182.8 L603.1 182.0 L595.1 182.2"/><path d="M538.8 229.4 L554.6 229.3 L557.5 227.7 L559.2 227.4 L561.4 228.3"/><path d="M561.4 228.3 L564.2 229.3 L572.1 229.3"/><path d="M572.1 229.3 L595.5 229.0"/><path d="M595.9 260.6 L595.6 249.1"/><path d="M574.9 457.7 L575.0 454.7 L576.1 452.7 L576.2 444.1 L574.9 436.7 L574.9 429.2 L577.5 424.5 L577.7 414.1 L578.3 410.8 L583.9 401.5 L584.0 395.6 L583.6 393.4 L575.7 384.5 L574.8 382.1 L574.9 356.1"/><path d="M574.9 356.1 L575.4 351.0 L574.8 345.7 L567.9 339.2 L566.9 332.8 L563.2 326.0"/><path d="M563.2 326.0 L556.2 314.1 L567.6 314.6 L578.6 311.8"/><path d="M555.1 220.1 L555.1 221.7 L556.0 223.2 L561.4 228.3"/><path d="M552.6 220.5 L544.8 223.2 L538.6 224.6"/><path d="M477.7 258.3 L477.7 255.6 L476.8 252.4 L477.2 249.0 L476.4 245.8 L476.4 235.2 L474.7 230.8 L476.1 228.9"/><path d="M476.1 228.9 L481.9 225.4"/><path d="M481.9 225.4 L483.1 224.2 L488.4 223.7 L490.7 222.2 L492.0 222.5 L493.4 223.8"/><path d="M493.4 223.8 L505.6 223.8"/><path d="M423.1 180.1 L423.4 143.9 L422.8 125.4"/><path d="M494.3 269.7 L494.3 267.6"/><path d="M494.3 267.6 L494.3 264.1 L495.9 264.1"/><path d="M495.9 264.1 L496.1 262.9 L505.9 262.8 L506.0 258.0"/><path d="M487.3 267.6 L494.3 267.6"/><path d="M494.3 267.6 L495.9 267.7"/><path d="M496.5 275.5 L496.4 274.2"/><path d="M487.3 272.4 L493.7 272.3"/><path d="M493.7 272.3 L494.5 272.3"/><path d="M496.4 274.2 L494.7 274.3"/><path d="M487.4 279.6 L493.6 279.5"/><path d="M493.6 279.5 L494.6 279.5 L494.7 274.3"/><path d="M494.7 274.3 L494.5 272.3"/><path d="M504.3 333.9 L505.9 327.7"/><path d="M505.9 327.7 L506.4 324.5"/><path d="M507.5 420.0 L513.3 419.8 L525.2 401.7 L525.5 398.3 L528.0 395.2"/><path d="M528.0 395.2 L530.5 391.8 L537.2 391.7 L537.3 377.5"/><path d="M537.3 377.5 L537.6 368.2"/><path d="M507.8 331.2 L508.8 331.5"/><path d="M508.8 331.5 L508.8 333.9"/><path d="M508.8 333.9 L514.5 333.9"/><path d="M471.8 394.4 L477.6 395.2 L483.5 394.8"/><path d="M483.5 394.8 L496.6 394.9"/><path d="M496.6 394.9 L518.2 393.6 L528.0 395.2"/><path d="M471.8 391.5 L471.5 371.2"/><path d="M471.5 371.2 L471.5 352.3 L473.7 348.8 L473.5 342.9"/><path d="M473.5 342.9 L473.5 335.9 L471.1 331.0 L470.9 325.1"/><path d="M476.5 410.7 L483.6 410.7"/><path d="M426.0 372.2 L425.0 367.0"/><path d="M425.0 367.0 L419.0 366.6 L416.9 362.9 L416.4 358.7 L410.4 358.8 L409.7 336.0 L408.6 333.7 L402.9 330.0 L395.5 327.5"/><path d="M395.5 327.5 L394.5 327.1 L392.5 321.8 L393.3 318.6 L393.3 312.9 L385.6 306.4 L381.3 306.6 L381.2 297.2 L379.4 297.0 L378.7 296.3 L378.9 288.0 L380.2 285.9 L379.3 281.4"/><path d="M379.3 281.4 L379.1 280.6 L376.3 278.0 L376.3 274.9 L378.1 271.7 L378.4 263.4"/><path d="M378.4 263.4 L378.8 259.4"/><path d="M390.4 395.2 L407.2 396.0"/><path d="M407.2 396.0 L419.3 395.8"/><path d="M419.3 395.8 L421.7 396.9 L438.3 395.6"/><path d="M428.2 381.9 L443.8 383.6"/><path d="M514.5 333.9 L516.3 330.0 L516.2 329.2 L514.3 327.0 L514.6 325.0 L515.3 324.4"/><path d="M279.8 214.5 L283.3 212.3"/><path d="M283.3 212.3 L286.6 208.7 L287.9 205.2 L288.2 203.4 L286.4 203.0 L286.4 201.8 L287.0 198.4 L288.7 194.9 L288.5 192.3"/><path d="M391.9 387.8 L390.4 395.2"/><path d="M390.4 395.2 L389.4 399.1 L389.4 401.4"/><path d="M395.5 327.5 L395.4 334.7 L393.0 335.2 L392.8 336.3 L389.0 338.2 L385.6 338.4 L381.5 334.3 L374.0 329.3 L374.3 326.2 L373.5 325.3"/><path d="M436.4 451.5 L436.9 443.7 L442.2 439.9 L443.8 436.6 L445.0 432.3 L440.6 417.3 L434.6 410.7 L434.2 406.5 L434.6 401.2"/><path d="M552.6 220.5 L555.1 220.1"/><path d="M555.1 220.1 L558.1 218.7 L561.5 215.5 L567.0 215.4"/><path d="M567.0 215.4 L571.9 215.1 L574.6 210.1 L579.8 203.9 L582.9 196.0 L585.7 190.7 L586.4 182.9 L587.1 182.3 L589.6 181.9 L595.1 182.2"/><path d="M477.0 201.3 L477.2 193.8 L476.2 193.4 L474.9 191.7 L474.8 185.0"/><path d="M474.8 185.0 L474.9 173.4 L475.7 171.9 L480.8 170.2 L488.2 171.1 L492.3 168.6"/><path d="M585.4 169.0 L594.8 169.2 L595.1 182.2"/><path d="M595.1 182.2 L595.8 205.5 L595.5 229.0"/><path d="M595.5 229.0 L595.1 233.7 L595.6 249.1"/><path d="M481.9 225.4 L477.2 220.7 L477.0 201.3"/><path d="M452.2 325.1 L452.1 311.7"/><path d="M452.1 311.7 L452.0 299.3"/><path d="M452.0 299.3 L451.8 272.4 L452.4 269.3 L452.4 263.0 L453.1 260.7"/><path d="M453.1 260.7 L453.4 258.6"/><path d="M476.5 419.7 L476.5 410.7"/><path d="M476.5 410.7 L476.5 403.0 L476.0 401.0 L472.6 396.7 L471.8 394.4"/><path d="M471.8 394.4 L471.8 391.5"/><path d="M669.4 270.2 L678.0 282.5 L691.1 299.1 L701.0 307.3 L715.7 314.9 L725.0 321.9 L726.2 323.6"/><path d="M483.6 419.8 L483.6 410.7"/><path d="M483.6 410.7 L483.5 394.8"/><path d="M483.5 394.8 L483.2 372.5"/><path d="M483.2 372.5 L482.9 338.0"/><path d="M482.9 338.0 L483.0 335.3"/><path d="M483.0 335.3 L485.3 325.0"/><path d="M485.3 325.0 L487.3 316.7 L487.7 312.8 L487.4 285.7"/><path d="M487.4 285.7 L487.4 279.6"/><path d="M487.4 279.6 L487.3 272.4"/><path d="M487.3 272.4 L487.3 269.7"/><path d="M487.3 269.7 L487.3 267.6"/><path d="M487.3 267.6 L487.2 260.2 L488.2 258.2"/><path d="M488.2 258.2 L495.9 258.1"/><path d="M495.9 258.1 L506.0 258.0"/><path d="M506.0 258.0 L505.6 223.8"/><path d="M505.6 223.8 L505.4 214.8 L506.5 212.0 L506.6 207.3 L511.6 199.9 L513.7 195.4 L519.0 188.1"/><path d="M519.0 188.1 L522.8 174.1 L526.8 168.4 L527.3 163.9"/><path d="M342.8 466.6 L338.7 457.6 L329.3 392.2"/><path d="M329.3 392.2 L314.5 352.2 L306.6 337.3 L303.9 329.5 L302.6 324.6 L302.6 316.9 L303.6 313.3 L305.5 309.0 L305.4 298.6 L301.4 287.0 L290.3 264.6 L290.1 262.2"/><path d="M290.1 262.2 L288.7 248.2 L284.6 238.5 L284.2 232.7 L280.8 220.7 L279.8 214.5"/><path d="M279.8 214.5 L279.3 212.4 L277.9 210.3 L270.5 206.3 L265.9 203.2 L253.3 200.1"/><path d="M496.5 275.5 L496.4 274.2"/><path d="M507.8 331.2 L508.8 331.5"/><path d="M442.2 325.1 L443.2 325.0"/></g><g class="rm-hi"><path d="M466.6 201.4 L477.0 201.3"/><path d="M477.0 201.3 L481.7 201.4 L482.3 201.9"/><path d="M442.2 325.1 L443.2 325.0"/><path d="M443.2 325.0 L452.2 325.1"/><path d="M452.2 325.1 L470.9 325.1"/><path d="M470.9 325.1 L473.9 325.1"/><path d="M473.9 325.1 L485.3 325.0"/><path d="M485.3 325.0 L506.4 324.5"/><path d="M506.4 324.5 L515.3 324.4"/><path d="M537.1 324.1 L536.7 267.2"/><path d="M536.7 267.2 L536.7 255.5"/><path d="M536.7 255.5 L536.6 244.6 L538.9 238.4 L538.8 229.4"/><path d="M538.8 229.4 L538.6 224.6"/><path d="M538.6 224.6 L538.5 222.5 L530.1 202.0 L529.7 197.0 L522.0 190.0 L519.0 188.1"/><path d="M519.0 188.1 L516.4 186.3 L498.2 186.1 L495.8 187.4 L492.4 187.3"/><path d="M492.4 187.3 L481.0 187.2 L477.6 185.2 L474.8 185.0"/><path d="M474.8 185.0 L471.4 185.0 L467.8 184.1 L464.2 182.4 L456.3 182.3 L452.5 179.8 L450.3 180.2 L429.7 180.1"/><path d="M349.6 260.7 L352.1 259.5 L378.8 259.4"/><path d="M378.8 259.4 L395.7 259.1"/><path d="M395.7 259.1 L416.6 259.0"/><path d="M416.6 259.0 L453.4 258.6"/><path d="M453.4 258.6 L477.7 258.3"/><path d="M477.7 258.3 L488.2 258.2"/><path d="M443.2 402.2 L438.3 395.6"/><path d="M438.3 395.6 L433.0 389.3"/><path d="M433.0 389.3 L428.2 381.9"/><path d="M428.2 381.9 L426.0 372.2"/><path d="M506.0 258.0 L530.5 257.7 L534.0 256.8 L536.7 255.5"/><path d="M536.7 255.5 L541.4 251.5 L546.6 248.9 L550.8 248.3 L562.3 248.2"/><path d="M562.3 248.2 L570.2 248.1 L580.4 247.1 L595.6 249.1"/><path d="M595.6 249.1 L603.8 250.1"/><path d="M603.8 250.1 L630.3 250.3 L640.2 253.3"/><path d="M640.2 253.3 L653.9 258.0 L660.0 260.9 L667.2 267.4 L669.4 270.2"/><path d="M669.4 270.2 L670.3 269.1 L694.1 269.8 L706.1 268.8 L724.8 268.7 L734.9 266.3 L743.6 265.5 L749.0 264.2 L771.0 264.3 L772.8 263.4 L775.4 260.7 L778.1 259.6 L797.4 259.7 L799.1 259.1"/><path d="M227.7 254.9 L262.8 255.2 L272.4 259.1 L283.2 259.7 L290.1 262.2"/><path d="M290.1 262.2 L341.7 262.9 L347.6 261.7 L349.6 260.7"/><path d="M329.3 392.2 L362.3 392.1"/><path d="M362.3 392.1 L367.0 392.0 L369.1 392.7 L378.8 401.2 L389.4 401.4"/><path d="M402.9 401.3 L415.8 401.2"/><path d="M415.8 401.2 L434.6 401.2"/><path d="M434.6 401.2 L441.4 401.3 L443.2 402.2"/><path d="M443.2 402.2 L445.3 405.2 L445.6 410.4 L450.2 419.4 L452.1 420.1 L471.6 419.7"/><path d="M413.5 173.9 L421.3 179.8 L423.1 180.1"/><path d="M423.1 180.1 L429.7 180.1"/><path d="M429.7 180.1 L435.5 183.6 L445.2 191.6 L452.2 199.2 L455.8 205.3"/><path d="M455.8 205.3 L460.7 214.2 L472.7 223.3 L474.5 225.5 L476.1 228.9"/><path d="M476.1 228.9 L481.6 240.8 L482.2 244.9 L488.1 255.4 L488.2 258.2"/><path d="M438.3 395.6 L444.5 394.9 L457.6 394.9 L461.4 395.5 L465.4 394.4 L471.8 394.4"/><path d="M455.8 205.3 L433.9 205.2 L432.7 204.6 L428.3 200.4 L423.8 199.1 L420.1 196.4 L416.1 194.3 L411.5 193.1"/><path d="M375.6 433.6 L367.5 421.8 L366.9 411.8 L366.2 410.1 L363.7 407.3 L362.9 405.3 L362.3 392.1"/><path d="M362.3 392.1 L365.6 382.4 L366.2 376.7 L365.8 373.5 L351.9 341.9 L350.4 334.5 L347.7 328.9 L346.9 326.1 L347.5 323.1 L352.7 316.6 L353.6 313.8 L353.6 306.2 L354.2 303.6 L367.5 285.4 L369.0 284.1 L379.3 281.4"/><path d="M379.3 281.4 L385.9 275.7 L393.5 272.6 L395.6 270.7 L396.2 268.3 L396.2 262.3"/><path d="M396.2 262.3 L395.7 259.1"/><path d="M395.7 259.1 L395.1 255.2 L396.9 248.4 L396.6 233.0 L397.4 230.6 L398.7 229.6 L406.4 225.9 L408.2 223.1 L408.6 212.7 L408.2 210.5 L404.5 203.9 L404.1 201.9 L406.2 198.0 L410.7 194.0 L412.5 191.6 L413.8 188.7 L414.4 180.6 L414.3 178.8 L413.2 176.2 L413.5 173.9"/><path d="M413.3 271.0 L418.0 264.8 L419.3 264.0"/><path d="M419.3 264.0 L437.2 260.7 L444.3 261.0 L450.4 259.8 L453.1 260.7"/><path d="M453.1 260.7 L455.2 261.2 L465.2 261.2 L469.0 262.8 L475.2 263.0 L482.8 269.1 L484.6 269.7 L487.3 269.7"/><path d="M487.3 269.7 L494.3 269.7"/><path d="M494.3 269.7 L495.4 269.7"/><path d="M495.4 269.7 L500.5 268.4 L505.8 268.4 L508.8 267.7 L536.7 267.2"/><path d="M536.7 267.2 L549.2 267.2 L553.8 265.3 L556.8 263.1"/><path d="M556.8 263.1 L558.8 262.1 L566.5 261.9"/><path d="M566.5 261.9 L585.7 262.0 L595.9 260.6"/><path d="M595.9 260.6 L601.7 259.2 L603.5 257.8 L603.8 250.1"/><path d="M416.6 259.0 L417.0 260.7 L419.3 264.0"/><path d="M398.9 406.0 L406.8 406.2 L415.8 401.2"/><path d="M415.8 401.2 L419.3 395.8"/><path d="M419.3 395.8 L420.4 393.7 L424.1 390.7 L430.9 390.5 L433.0 389.3"/><path d="M433.0 389.3 L440.6 384.4 L443.8 383.6"/><path d="M443.8 383.6 L452.2 384.9 L456.1 384.0 L462.8 379.8 L470.0 372.2 L471.5 371.2"/><path d="M471.5 371.2 L473.0 370.3 L475.6 369.6 L479.0 370.2 L483.2 372.5"/><path d="M483.2 372.5 L489.6 376.1 L491.6 376.5"/><path d="M491.6 376.5 L496.4 376.9 L528.4 375.9 L537.3 377.5"/><path d="M537.3 377.5 L551.6 375.1 L559.7 372.0 L564.7 367.1 L567.1 363.5 L571.5 358.5 L573.7 356.5 L574.9 356.1"/><path d="M574.9 356.1 L575.7 355.8 L578.6 351.4 L582.0 348.0 L583.7 344.0 L584.0 339.8 L583.1 324.0"/><path d="M583.1 324.0 L582.0 319.9 L578.6 311.8"/><path d="M578.6 311.8 L575.2 298.1 L574.9 292.5 L570.5 281.0 L570.0 266.7 L569.1 264.7 L566.5 261.9"/><path d="M566.5 261.9 L561.5 256.6 L560.6 254.8"/><path d="M560.6 254.8 L562.3 248.2"/><path d="M562.3 248.2 L563.5 243.1 L571.4 231.9 L572.1 229.3"/><path d="M572.1 229.3 L571.1 226.7 L567.5 222.1 L567.0 215.4"/><path d="M567.0 215.4 L567.2 211.9 L578.3 193.7 L583.1 183.3 L585.1 176.9 L585.4 169.0"/><path d="M556.8 263.1 L558.9 260.3 L560.6 254.8"/><path d="M443.3 344.0 L470.9 343.8 L473.5 342.9"/><path d="M473.5 342.9 L477.2 338.2 L480.7 336.1"/><path d="M480.7 336.1 L483.0 335.3"/><path d="M483.0 335.3 L489.4 330.4 L499.2 327.7 L505.9 327.7"/><path d="M505.9 327.7 L508.8 327.5 L515.3 324.4"/><path d="M515.3 324.4 L537.1 324.1"/><path d="M537.1 324.1 L542.5 324.2 L553.7 326.0 L563.2 326.0"/><path d="M563.2 326.0 L567.9 325.9 L572.8 324.5 L583.1 324.0"/><path d="M583.1 324.0 L643.0 324.4 L726.2 323.6"/><path d="M507.5 420.0 L503.4 414.3 L496.6 394.9"/><path d="M496.6 394.9 L492.6 383.6 L491.6 376.5"/><path d="M491.6 376.5 L490.9 368.9 L490.3 346.2 L487.8 341.7 L482.9 338.0"/><path d="M482.9 338.0 L480.7 336.1"/><path d="M480.7 336.1 L473.9 325.1"/><path d="M473.9 325.1 L472.3 322.8 L461.8 312.5 L457.7 306.3"/><path d="M457.7 306.3 L454.9 301.9 L452.0 299.3"/><path d="M452.0 299.3 L447.4 295.9 L439.2 292.0 L432.6 286.3 L429.3 284.5 L425.1 279.9 L419.1 274.7 L413.3 271.0"/><path d="M413.3 271.0 L411.3 269.7 L407.8 265.1 L405.7 263.4 L403.1 262.4 L396.2 262.3"/><path d="M396.2 262.3 L388.7 263.2 L378.4 263.4"/><path d="M378.4 263.4 L364.7 263.3 L356.2 261.2 L349.6 260.7"/><path d="M349.6 260.7 L341.7 258.2 L336.2 258.0 L334.2 257.4 L324.0 252.9 L314.1 243.4 L298.2 221.4 L283.3 212.3"/><path d="M283.3 212.3 L270.8 205.5 L257.1 196.5"/><path d="M389.4 401.4 L402.9 401.3"/><path d="M375.6 433.6 L398.9 406.0"/><path d="M398.9 406.0 L402.9 401.3"/><path d="M402.9 401.3 L407.2 396.0"/><path d="M407.2 396.0 L426.0 372.2"/><path d="M426.0 372.2 L442.8 350.5 L443.3 344.0"/><path d="M443.3 344.0 L443.2 325.0"/><path d="M443.2 325.0 L443.3 321.3 L444.3 319.2 L452.1 311.7"/><path d="M452.1 311.7 L457.7 306.3"/><path d="M457.7 306.3 L464.7 299.5 L474.3 287.5 L476.9 286.5 L484.3 286.5 L487.4 285.7"/><path d="M487.4 285.7 L492.4 282.3 L493.6 279.5"/><path d="M493.6 279.5 L493.7 272.3"/><path d="M493.7 272.3 L495.4 269.7"/><path d="M495.4 269.7 L495.9 267.7"/><path d="M495.9 267.7 L495.9 264.1"/><path d="M495.9 264.1 L495.9 258.1"/><path d="M495.9 258.1 L496.9 254.1 L499.5 249.1 L499.9 237.4 L499.0 235.0 L494.0 230.0 L493.5 228.6 L493.4 223.8"/><path d="M493.4 223.8 L493.4 210.1 L492.7 206.9 L492.4 187.3"/><path d="M492.4 187.3 L492.3 168.6"/></g><path id="rm-p1" class="rm-r rm-r1" d="M538.2 337.3 L537.1 324.1 L515.3 324.4 L508.8 327.5 L505.9 327.7 L499.2 327.7 L489.4 330.4 L483.0 335.3 L480.7 336.1 L477.2 338.2 L473.5 342.9 L470.9 343.8 L443.3 344.0 L442.8 350.5 L426.0 372.2 L425.0 367.0 L419.0 366.6 L416.9 362.9 L416.4 358.7 L410.4 358.8 L409.7 336.0 L408.6 333.7 L402.9 330.0 L395.5 327.5 L395.4 334.7 L393.0 335.2 L392.8 336.3 L389.0 338.2 L385.6 338.4 L381.5 334.3 L374.0 329.3 L374.3 326.2 L373.5 325.3 L378.4 350.3" pathLength="1"/><path id="rm-p2" class="rm-r rm-r2" d="M538.2 337.3 L537.1 324.1 L515.3 324.4 L506.4 324.5 L485.3 325.0 L473.9 325.1 L472.3 322.8 L461.8 312.5 L457.7 306.3 L452.1 311.7 L447.0 309.3" pathLength="1"/><path id="rm-p3" class="rm-r rm-r3" d="M538.2 337.3 L537.1 324.1 L515.3 324.4 L508.8 327.5 L505.9 327.7 L499.2 327.7 L489.4 330.4 L483.0 335.3 L480.7 336.1 L477.2 338.2 L473.5 342.9 L470.9 343.8 L443.3 344.0 L446.0 341.6" pathLength="1"/><path id="rm-p4" class="rm-r rm-r4" d="M538.2 337.3 L537.1 324.1 L536.7 267.2 L508.8 267.7 L505.8 268.4 L500.5 268.4 L495.4 269.7 L495.9 267.7 L497.8 267.6 L495.9 267.7 L495.9 264.1 L496.1 262.9 L505.9 262.8 L506.0 258.0 L505.6 223.8 L513.7 228.9 L505.6 223.8 L506.0 258.0 L505.9 262.8 L496.1 262.9 L495.9 264.1 L495.9 267.7 L495.4 269.7 L493.7 272.3 L493.6 279.5 L492.4 282.3 L487.4 285.7 L484.3 286.5 L476.9 286.5 L474.3 287.5 L464.7 299.5 L457.7 306.3 L452.1 311.7 L444.3 319.2 L443.3 321.3 L443.2 325.0 L443.3 344.0 L442.8 350.5 L426.0 372.2 L417.7 377.1" pathLength="1"/><circle class="rm-s rm-s4" cx="497.8" cy="267.6" r="2.2"/><circle class="rm-s rm-s4" cx="513.7" cy="228.9" r="2.2"/><g class="rm-p rm-pr1" transform="translate(378.4 350.3)"><circle r="3.2"/><text x="0" y="-8" text-anchor="middle">Magic Kingdom</text></g><g class="rm-p rm-pr2" transform="translate(447.0 309.3)"><circle r="3.2"/><text x="0" y="-8" text-anchor="middle">Universal</text></g><g class="rm-p rm-pr3" transform="translate(446.0 341.6)"><circle r="3.2"/><text x="0" y="-8" text-anchor="middle">Convention Ctr</text></g><g class="rm-p rm-pr4" transform="translate(417.7 377.1)"><circle r="3.2"/><text x="0" y="-8" text-anchor="middle">As directed</text></g><g class="rm-mco" transform="translate(538.2 337.3)"><circle class="rm-halo" r="9"/><circle r="4.2"/><text x="10" y="4">MCO</text></g><circle class="rm-car rm-c1" r="3.4"><animateMotion dur="2.2s" fill="freeze" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .25 1"><mpath href="#rm-p1"/></animateMotion></circle><circle class="rm-car rm-c2" r="3.4"><animateMotion dur="2.2s" fill="freeze" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .25 1"><mpath href="#rm-p2"/></animateMotion></circle><circle class="rm-car rm-c3" r="3.4"><animateMotion dur="2.2s" fill="freeze" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .25 1"><mpath href="#rm-p3"/></animateMotion></circle><circle class="rm-car rm-c4" r="3.4"><animateMotion dur="2.2s" fill="freeze" begin="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .25 1"><mpath href="#rm-p4"/></animateMotion></circle></svg>
+          <figcaption class="rm-cap"><i aria-hidden="true"></i><span>Route preview</span><b><span class="rm-c1t">MCO → Magic Kingdom</span><span class="rm-c2t">MCO → Universal Orlando</span><span class="rm-c3t">MCO → Convention Center</span><span class="rm-c4t">Charter → As directed</span></b></figcaption>
+          <span class="rm-geo lab" aria-hidden="true">Orlando · FL</span>
+        </figure>
+        <ol class="qcta-r">
           <li><a href="https://connexxionselite.com/quote/?type=airport&amp;from=MCO&amp;to=Magic%20Kingdom"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Magic Kingdom</span><span class="qc-go lab">Price it</span></a></li>
           <li><a href="https://connexxionselite.com/quote/?type=airport&amp;from=MCO&amp;to=Universal"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Universal Orlando</span><span class="qc-go lab">Price it</span></a></li>
           <li><a href="https://connexxionselite.com/quote/?type=corp&amp;from=MCO&amp;to=Convention%20Center"><span class="qc-k">MCO</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">Convention Center</span><span class="qc-go lab">Price it</span></a></li>
           <li><a href="https://connexxionselite.com/quote/?type=hourly"><span class="qc-k">Charter</span><span class="qc-ln" aria-hidden="true"></span><span class="qc-d">As directed</span><span class="qc-go lab">Price it</span></a></li>
         </ol>
+        </div>
       </div>
     </div>
   </section>
@@ -1608,6 +1696,7 @@ body{overflow-x:clip}
           <h3 class="vx-h">Top trim. <em>Third row, always usable.</em></h3>
           <p class="vx-p">No fleet swaps and no subcontracting: the vehicle in these photos is the one at your curb.</p>
         </figcaption>
+        <div class="vhs-set"><button type="button" class="vhs" style="left: 62.5%; top: 30.5%" aria-label="Second row: Captain's chairs, room to work or rest."><i aria-hidden="true"></i><span class="vhs-tip" aria-hidden="true"><b>Second row</b>Captain's chairs, room to work or rest.</span></button><button type="button" class="vhs" style="left: 71.5%; top: 31%" aria-label="Third row: Always up and ready for passengers."><i aria-hidden="true"></i><span class="vhs-tip" aria-hidden="true"><b>Third row</b>Always up and ready for passengers.</span></button><button type="button" class="vhs" style="left: 40.6%; top: 27.5%" aria-label="Connected: Wi‑Fi onboard, USB‑C at your seat."><i aria-hidden="true"></i><span class="vhs-tip" aria-hidden="true"><b>Connected</b>Wi‑Fi onboard, USB‑C at your seat.</span></button><button type="button" class="vhs" style="left: 34.4%; top: 55%" aria-label="2026 Premier: Top trim, delivered new in August 2026."><i aria-hidden="true"></i><span class="vhs-tip" aria-hidden="true"><b>2026 Premier</b>Top trim, delivered new in August 2026.</span></button></div>
         <div class="vplate">
           <span class="sp-k">The cabin<i aria-hidden="true"></i>Second row</span>
           <span class="sp-v">Captain's <em>chairs.</em></span>
@@ -1969,7 +2058,7 @@ body{overflow-x:clip}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15260}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15570}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -2363,6 +2452,8 @@ class Component extends DCLogic {
   componentDidMount() {
     try { this.plCount(); } catch (e) {}
     try { this.startFlow(); } catch (e) {}
+    try { this.routeMap(); } catch (e) {}
+    try { this.hotspots(); } catch (e) {}
     if (window.CE_MAPBOX) { try { window.CE_MAPBOX.attach(this); } catch (e) {} }
     this.setInput('pl-from', this.state.A ? this.state.A.name : '');
     this.setInput('pl-to', this.state.B ? this.state.B.name : '');
@@ -2389,11 +2480,44 @@ class Component extends DCLogic {
       this.ioSeen = new WeakSet();
       // pause endless loops (marquees, floating cards, hero streaks) while they are off screen
       this.ioOff = new IntersectionObserver((es) => { es.forEach((e) => { e.target.classList.toggle('off', !e.isIntersecting); if (e.isIntersecting && e.intersectionRatio > 0.25) e.target.classList.add('is-lit'); }); }, { rootMargin: '120px 0px', threshold: [0, 0.3] });
-      document.querySelectorAll('.hx, .burst-outer, .mq-wrap, .vtrack, .hs-outer, .band, .vtile, .pass, .hw').forEach((el) => this.ioOff.observe(el));
+      document.querySelectorAll('.hx, .burst-outer, .mq-wrap, .vtrack, .hs-outer, .band, .vtile, .pass, .hw, .rmap').forEach((el) => this.ioOff.observe(el));
       document.querySelectorAll('.rv, .img-rv').forEach((el) => { this.ioSeen.add(el); this.io.observe(el); });
     } catch (err) {
       document.documentElement.classList.remove('rv-on');
     }
+  }
+  routeMap() {
+    // "Plan the ride": each route row draws its drive from MCO on the map; it cycles on its own until someone points at a row.
+    // The state lives on <html data-rm> so a re-render of the page never wipes it.
+    if (this.rmOn) return; this.rmOn = 1;
+    const H = document.documentElement, ids = ['r1', 'r2', 'r3', 'r4'];
+    let at = -1, hold = false;
+    const show = (i) => {
+      if (i === at) return; at = i;
+      H.setAttribute('data-rm', ids[i]);
+      const am = document.querySelector('.rm-c' + (i + 1) + ' animateMotion');
+      try { if (am && am.beginElement) am.beginElement(); } catch (e) {}
+    };
+    const idx = (e) => { const a = e.target.closest ? e.target.closest('.qcta-r li') : null; return a ? Array.prototype.indexOf.call(a.parentNode.children, a) : -1; };
+    this.onRmIn = (e) => { const i = idx(e); if (i >= 0) { hold = true; show(i); } };
+    this.onRmOut = (e) => { if (idx(e) >= 0) hold = false; };
+    document.addEventListener('mouseover', this.onRmIn); document.addEventListener('focusin', this.onRmIn);
+    document.addEventListener('mouseout', this.onRmOut); document.addEventListener('focusout', this.onRmOut);
+    show(0);
+    this.rmTimer = setInterval(() => {
+      const rm = document.querySelector('.rmap');
+      if (!hold && rm && !rm.classList.contains('off') && !document.hidden) show((at + 1) % ids.length);
+    }, 4400);
+  }
+  hotspots() {
+    // touch screens: a tap opens a hotspot, a tap elsewhere closes it
+    if (this.hsOn) return; this.hsOn = 1;
+    this.onHs = (e) => {
+      const b = e.target.closest ? e.target.closest('.vhs') : null;
+      document.querySelectorAll('.vhs.is-open').forEach((x) => { if (x !== b) x.classList.remove('is-open'); });
+      if (b) b.classList.toggle('is-open');
+    };
+    document.addEventListener('click', this.onHs);
   }
   componentDidUpdate() {
     // sections added or replaced after the first render still get their reveal
@@ -2404,6 +2528,9 @@ class Component extends DCLogic {
     if (this.io) this.io.disconnect();
     if (this.ioOff) this.ioOff.disconnect();
     if (this.clockTimer) clearInterval(this.clockTimer);
+    if (this.rmTimer) clearInterval(this.rmTimer);
+    if (this.onRmIn) { document.removeEventListener('mouseover', this.onRmIn); document.removeEventListener('focusin', this.onRmIn); document.removeEventListener('mouseout', this.onRmOut); document.removeEventListener('focusout', this.onRmOut); }
+    if (this.onHs) document.removeEventListener('click', this.onHs);
     document.removeEventListener('pointermove', this.onMove);
     if (this.onResize) window.removeEventListener('resize', this.onResize);
     if (this.raf) cancelAnimationFrame(this.raf);

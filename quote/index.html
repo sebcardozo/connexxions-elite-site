@@ -294,6 +294,11 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
   .step[data-step="4"]{display:block!important}
   .qdoc{margin:0;border:1px solid #ddd}
 }
+
+/* smooth move between the page and the quote */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.38s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+.hdr a:first-child img{view-transition-name:ce-logo}
 </style>
 </head>
 <body>
@@ -543,6 +548,18 @@ function fare() {
 }
 
 /* ---------- helpers ---------- */
+/* prices roll to their new value instead of jumping */
+var REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tweenMoney(el, v) {
+  if (!el) return;
+  if (v == null) { cancelAnimationFrame(el._raf); el._v = null; el.textContent = '—'; return; }
+  var from = el._v; el._v = v;
+  if (from == null || from === v || REDUCE) { cancelAnimationFrame(el._raf); el.textContent = money(v); return; }
+  cancelAnimationFrame(el._raf);
+  var t0 = performance.now(), dur = 520;
+  var step = function (t) { var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = money(Math.round(from + (v - from) * e)); if (k < 1) el._raf = requestAnimationFrame(step); };
+  el._raf = requestAnimationFrame(step);
+}
 function val(id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; }
 function toast(msg) { var t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove('on'); }, 2600); }
 function uuid() { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); }); }
@@ -888,7 +905,7 @@ function issue() {
   if (val('in-flight')) rows.push(['Flight', val('in-flight')]);
   $('#q-rows').innerHTML = rows.map(function (r, i) { return '<div class="qrow"><span>' + esc(r[0]) + '</span><span' + (i === 0 ? ' translate="no"' : '') + '>' + esc(r[1]) + '</span></div>'; }).join('');
   $('#q-lines').innerHTML = f.lines.map(function (l) { return '<div class="qrow"><span>' + esc(l.l) + '</span><span>' + money(l.v) + '</span></div>'; }).join('');
-  $('#q-total').textContent = money(f.total);
+  tweenMoney($('#q-total'), f.total);
   $('#q-tip').innerHTML = '<b>Gratuity is optional</b> <span>and not included. Clients usually leave 15–20% of the service total, about</span> <span translate="no">' + money(f.tip[0]) + '–' + money(f.tip[1]) + '</span> <span>for this ride.</span>';
   var body = [
     'Hi Connexxions Elite team,', '', 'I would like to confirm this quote.', '',
@@ -989,10 +1006,10 @@ function render() {
   var mi = r && S.B ? (S.mode === 'round' && S.ret ? (r.mi + S.ret.mi).toFixed(1) : (S.mode === 'round' ? (r.mi * 2).toFixed(1) : r.mi.toFixed(1))) + ' mi' : '—', tm = r && S.B ? '~' + fmtMin(f ? f.min : r.min) : (hourly ? S.hours + ' h' : '—');
   $('#rsum').classList.toggle('on', ready());
   $('#rs-minl').textContent = hourly ? 'Hours' : 'Drive time';
-  $('#rs-mi').textContent = mi; $('#rs-min').textContent = tm; $('#rs-tot').textContent = f ? money(f.total) : '—';
+  $('#rs-mi').textContent = mi; $('#rs-min').textContent = tm; tweenMoney($('#rs-tot'), f ? f.total : null);
   $('#mc-a').textContent = shortOf(S.A); $('#mc-b').textContent = S.B ? shortOf(S.B) : (hourly ? 'As directed' : '—');
-  $('#mc-mi').textContent = mi; $('#mc-min').textContent = tm; $('#mc-tot').textContent = f ? money(f.total) : '—';
-  $('#estTot').textContent = f ? money(f.total) : '—';
+  $('#mc-mi').textContent = mi; $('#mc-min').textContent = tm; tweenMoney($('#mc-tot'), f ? f.total : null);
+  tweenMoney($('#estTot'), f ? f.total : null);
   $('#estSub').textContent = !S.type ? 'Choose a ride to start' : !ready() ? (hourly ? 'Add a pickup' : 'Add a pickup and a drop-off') : (S.routing && !S.route ? 'Getting the best route…' : (S.B ? mi + ' · ' + tm + (f && f.est ? ' · approx.' : '') : S.hours + ' h · as directed'));
   $('#backBtn').hidden = S.step === 1;
   $('#nextBtn').textContent = S.step < 4 ? (S.step === 3 ? 'Review' : 'Next') : (S.issued ? 'Update quote' : 'Get my quote');

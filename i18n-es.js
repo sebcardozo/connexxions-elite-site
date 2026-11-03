@@ -1,6 +1,21 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'MCO → Convention Center': 'MCO → Centro de Convenciones', 'Charter → As directed': 'Charter → A disposición',
+    'Route preview': 'Vista de la ruta',
+    "Second row": "Segunda fila",
+    "Captain's chairs, room to work or rest.": "Sillas capitán, espacio para trabajar o descansar.",
+    "Second row: Captain's chairs, room to work or rest.": "Segunda fila: Sillas capitán, espacio para trabajar o descansar.",
+    "Third row": "Tercera fila",
+    "Always up and ready for passengers.": "Siempre lista para pasajeros.",
+    "Third row: Always up and ready for passengers.": "Tercera fila: Siempre lista para pasajeros.",
+    "Connected": "Conectada",
+    "Wi‑Fi onboard, USB‑C at your seat.": "Wi‑Fi a bordo, USB‑C en tu asiento.",
+    "Connected: Wi‑Fi onboard, USB‑C at your seat.": "Conectada: Wi‑Fi a bordo, USB‑C en tu asiento.",
+    "2026 Premier": "2026 Premier",
+    "Top trim, delivered new in August 2026.": "Versión tope, entregada nueva en agosto de 2026.",
+    "2026 Premier: Top trim, delivered new in August 2026.": "2026 Premier: Versión tope, entregada nueva en agosto de 2026.",
+
     'and not included. Clients usually leave 15–20% of the service total, about': 'y no está incluida. Los clientes suelen dejar entre 15 y 20 % del total del servicio, unos',
     'for this ride.': 'en este viaje.',
 
