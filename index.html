@@ -1221,6 +1221,56 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
 .hw-car img{width:100%;height:100%;display:block;object-fit:contain}
 .hw-car::after{right:-20px;top:13px;width:34px;height:9px}
 @media (max-width:860px){.hw-car{width:98px;height:34px;margin-left:-49px;top:25px}.hw-car::after{right:-18px;top:10px;width:28px;height:7px}}
+
+/* ================= team voice ================= */
+.team-steps{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.team-steps span{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:99px;background:#0A0A0A;color:#F2F0EB;font-family:'Michroma','Geist',sans-serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
+.team-steps span::before{content:"";width:6px;height:6px;border-radius:99px;background:var(--accent,#D42A27)}
+
+/* ================= FAQ v2 ================= */
+.faq-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 40px;margin-top:56px}
+.faq-head p{margin:0;max-width:34ch;color:#5E5A53;font-weight:300;font-size:17px}
+.faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:48px;align-items:start}
+.faq{border-radius:18px;background:#F7F5F0;box-shadow:0 1px 0 rgba(10,10,10,.05);transition:background .3s,box-shadow .3s}
+.faq:hover{box-shadow:0 1px 0 rgba(10,10,10,.05),0 24px 40px -34px rgba(10,10,10,.5)}
+.faq[open]{background:#FFFFFF;box-shadow:0 1px 0 rgba(10,10,10,.05),0 30px 50px -36px rgba(10,10,10,.5)}
+.faq summary{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:8px 18px;align-items:center;padding:22px 22px 22px 24px;min-height:44px}
+.faq-k{grid-column:1;display:flex;align-items:center;gap:10px;font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A63}
+.faq-k b{font-weight:400;color:var(--accent,#D42A27)}
+.faq-q{grid-column:1;font-family:'Bricolage Grotesque','Geist',sans-serif;font-weight:500;font-size:19px;letter-spacing:-.015em;line-height:1.25;color:#0A0A0A}
+.faq-x{grid-column:2;grid-row:1/3;width:36px;height:36px;border-radius:99px;display:flex;align-items:center;justify-content:center;background:#0A0A0A;color:#F2F0EB;transition:transform .35s cubic-bezier(.2,.7,.2,1),background .3s}
+.faq[open] .faq-x{transform:rotate(45deg);background:var(--accent,#D42A27)}
+.faq .ans{margin:0;padding:0 70px 24px 24px;color:#5E5A53;font-weight:300;line-height:1.6}
+.faq-ask{position:relative;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px 32px;margin-top:16px;padding:30px 32px;border-radius:20px;overflow:hidden}
+.faq-ask>*{position:relative;z-index:1}
+.faq-ask h3{margin:0;font-size:32px;line-height:1.05}
+.faq-ask p{margin:6px 0 0;color:#BDBAB3;font-weight:300}
+@media (max-width:860px){.faq-grid{grid-template-columns:1fr;gap:10px;margin-top:36px}.faq .ans{padding:0 24px 22px}.faq-q{font-size:17.5px}.faq-ask{padding:26px 22px}.faq-ask .btn{width:100%}}
+
+/* ================= phone pass: calmer, grid-based, smaller images ================= */
+@media (max-width:760px){
+  /* destinations: a clean 2-column photo grid */
+  .burst-stage{padding:88px 0 72px}
+  .burst-field{gap:10px;padding:0 20px}
+  .burst-core{margin-bottom:28px;align-items:flex-start;text-align:left}
+  .bcard{padding:0;background:transparent;box-shadow:none;aspect-ratio:auto;border-radius:16px}
+  .bcard:hover,.bcard:focus-visible{transform:none}
+  .bin{aspect-ratio:4/5;height:auto;border-radius:16px}
+  .bcard:first-of-type{grid-column:1/-1}
+  .bcard:first-of-type .bin{aspect-ratio:16/10}
+  .bshade{background:linear-gradient(180deg,rgba(10,10,10,.25) 0%,rgba(10,10,10,0) 30%,rgba(10,10,10,0) 45%,rgba(10,10,10,.85) 100%)}
+  .btag{top:10px;left:10px;padding:5px 9px 5px 7px;border-radius:99px;font-size:9.5px}
+  .bbody{left:12px;right:12px;bottom:12px;gap:4px}
+  .btitle{font-size:15px;line-height:1.15}
+  .bmeta{font-size:11.5px;line-height:1.3}
+  /* cabin: compact grid instead of five full-width photos */
+  .cab-grid{gap:8px}
+  .cab-a{grid-column:span 12;height:auto;aspect-ratio:16/10}
+  .cab-b,.cab-c,.cab-d,.cab-e{grid-column:span 6;height:auto;aspect-ratio:1/1}
+  .cab-cap{left:8px;bottom:8px;padding:6px 9px;font-size:9.5px;gap:6px}
+  /* tighter sections */
+  #about,#chauffeur,#how>div,#faq>div{padding-top:96px!important;padding-bottom:88px!important}
+}
 </style>
 </helmet>
 
@@ -1384,26 +1434,6 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   </section>
 
   <!-- GALLERY STRIP -->
-  <div class="mq-wrap rv" role="region" aria-label="Vehicle photo gallery" style="padding-bottom: 144px">
-    <div class="mq" style="gap: 16px; align-items: center">
-      <img loading="lazy" decoding="async" src="img/p-mco.webp" alt="Suburban Premier curbside at MCO Terminal C" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/d-grille.webp" alt="Chrome grille and LED headlight detail" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-gf.webp" alt="Suburban Premier at a Disney resort entrance" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/d-wheel.webp" alt="Premier wheel detail" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-road.webp" alt="Suburban Premier on a palm-lined highway" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/i-rear-cabin.webp" alt="Second-row leather captain's chairs and third row of the Suburban Premier" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-cabana-front.webp" alt="Suburban Premier at a Universal resort hotel" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-mco.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/d-grille.webp" alt="" aria-hidden="true" style="width: 440px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-gf.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/d-wheel.webp" alt="" aria-hidden="true" style="width: 300px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-road.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/i-rear-cabin.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-      <img loading="lazy" decoding="async" src="img/p-cabana-front.webp" alt="" aria-hidden="true" style="width: 560px; height: 315px; border-radius: 3px; flex: none; object-fit: cover">
-    </div>
-  </div>
-
-  <!-- INSTANT QUOTE PLANNER -->
   <section id="planner" aria-labelledby="planner-h" class="dark grain">
     <div style="position: relative; z-index: 1; max-width: 1360px; margin: 0 auto; padding: 144px 40px 136px">
       <div class="sec-top rv" style="--rule: rgba(255,255,255,.14); color: #BDBAB3"><p class="eyebrow">Instant quote</p><span class="idx">(02)</span></div>
@@ -1437,7 +1467,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           <h2 id="services-h" class="disp" style="margin: 0; font-size: clamp(22px, 3.1cqw, 46px); text-wrap: balance">Wherever Orlando <span class="it">takes you.</span></h2>
           <p style="margin: 0; max-width: 40ch; color: #5E5A53; font-weight: 300; font-size: 16px; line-height: 1.55">Airports, parks, resorts, the Convention Center and day trips to the coast. Tap a photo to price that ride.</p>
         </div>
-        <sc-for list="{{ burst }}" as="bc" hint-placeholder-count="8">
+        <sc-for list="{{ burst }}" as="bc" hint-placeholder-count="7">
           <a class="bcard" href="{{ bc.href }}" style="{{ bc.style }}" aria-label="{{ bc.aria }}">
             <span class="bin">
               <img loading="lazy" decoding="async" src="{{ bc.src }}" alt="" style="object-position: {{ bc.pos }}">
@@ -1532,7 +1562,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
     <div class="sec-top rv"><p class="eyebrow">Your chauffeur</p><span class="idx">(05)</span></div>
     <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 64px 80px; align-items: center; margin-top: 64px">
       <div class="pass-wrap">
-        <figure class="pass tile img-rv tilt" aria-label="Chauffeur pass: Marco Cardozo, founder, CEO and sole chauffeur, Florida commercial license, five years of passenger transport">
+        <figure class="pass tile img-rv tilt" aria-label="Chauffeur pass: Marco Cardozo, founder, CEO and chauffeur, Florida commercial license, five years of passenger transport">
           <span class="pass-slot" aria-hidden="true"></span>
           <div class="pass-top"><span>Connexxions <em>Elite</em></span><span>Chauffeur pass</span></div>
           <div class="pass-body">
@@ -1544,7 +1574,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
               <div><dt>Experience</dt><dd>5 years · passenger transport</dd></div>
               <div><dt>Vehicle</dt><dd>N° 01 · Suburban Premier</dd></div>
             </dl>
-            <span class="pass-stamp" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="stc" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"></path></defs><circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2.4"></circle><circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.2"></circle><text><textPath href="#stc" textLength="276" lengthAdjust="spacing">FOUNDER · SOLE CHAUFFEUR · ORLANDO · </textPath></text><text class="st-n" x="60" y="58" text-anchor="middle">N°1</text><text class="st-s" x="60" y="74" text-anchor="middle">SINCE DAY ONE</text></svg></span>
+            <span class="pass-stamp" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="stc" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"></path></defs><circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2.4"></circle><circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.2"></circle><text><textPath href="#stc" textLength="276" lengthAdjust="spacing">CONNEXXIONS ELITE · ORLANDO · </textPath></text><text class="st-n" x="60" y="58" text-anchor="middle">N°1</text><text class="st-s" x="60" y="74" text-anchor="middle">SINCE DAY ONE</text></svg></span>
           </div>
           <div class="pass-foot"><i class="pass-bars" aria-hidden="true"></i><span>Orlando, FL</span><span>Valid on every ride</span></div>
           <span class="pass-holo" aria-hidden="true"><i></i></span>
@@ -1553,14 +1583,15 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
         </figure>
       </div>
       <div style="display: flex; flex-direction: column; gap: 30px">
-        <h2 id="ceo-h" class="disp h2 rv" style="--d: 90ms">The owner <span class="it">drives every ride.</span></h2>
-        <p class="lede rv" style="--d: 160ms; margin: 0; color: #5E5A53; max-width: 46ch">Marco Cardozo founded Connexxions Elite and is the chauffeur behind the wheel of every booking. You deal with the person who runs the company, from the first quote to the moment you step out at your door.</p>
+        <h2 id="ceo-h" class="disp h2 rv" style="--d: 90ms">A whole team <span class="it">behind every ride.</span></h2>
+        <p class="team-steps rv" style="--d: 130ms"><span>Get your price</span><span>We confirm</span><span>Your ride arrives</span></p>
+        <p class="lede rv" style="--d: 160ms; margin: 0; color: #5E5A53; max-width: 46ch">You plan and price the ride online, the Connexxions Elite team confirms every detail in writing, and your chauffeur is waiting on the day. Behind the wheel is Marco Cardozo, our founder, with a Florida commercial license and five years of passenger transport.</p>
         <div class="rv" style="--d: 400ms; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px">
           <span style="display: flex; flex-direction: column">
             <span style="font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive; font-size: 64px; line-height: 1.1; color: var(--accent); padding-right: .2em">Marco Cardozo</span>
             <span class="lab" style="color: #6E6A63">Founder &amp; CEO, Connexxions Elite</span>
           </span>
-          <a class="btn btn-ink" href="https://connexxionselite.com/quote/"><span class="swap"><span>Book with Marco</span><span aria-hidden="true">Book with Marco</span></span></a>
+          <a class="btn btn-ink" href="https://connexxionselite.com/quote/"><span class="swap"><span>Book with us</span><span aria-hidden="true">Book with us</span></span></a>
         </div>
       </div>
     </div>
@@ -1594,8 +1625,8 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
             <span class="glare" aria-hidden="true"></span>
             <div class="hw-top"><span class="hw-n">2</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span></div>
             <span class="hw-k">Step 02 · Confirm</span>
-            <h3 class="h3">Marco confirms</h3>
-            <p>Send it from the quote page. Marco confirms availability in writing. No payment until then.</p>
+            <h3 class="h3">We confirm</h3>
+            <p>Send it from the quote page. Our team confirms availability in writing. No payment until then.</p>
           </div>
         </li>
         <li class="hw-step rv" style="--d: 240ms">
@@ -1604,7 +1635,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
             <div class="hw-top"><span class="hw-n">3</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15.5V12l2.2-4.4A2 2 0 0 1 8 6.5h8a2 2 0 0 1 1.8 1.1L20 12v3.5"/><path d="M3 15.5h18v2H3z"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg></span></div>
             <span class="hw-k">Step 03 · Pickup</span>
             <h3 class="h3">Your ride arrives</h3>
-            <p>Pay by card or Zelle on confirmation. On the day, Marco is at the curb, or inside baggage claim at MCO.</p>
+            <p>Pay by card or Zelle on confirmation. On the day, your chauffeur is at the curb, or inside baggage claim at MCO.</p>
           </div>
         </li>
         </ol>
@@ -1618,8 +1649,8 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
     <div class="sec-top rv"><p class="eyebrow">Why Connexxions Elite</p><span class="idx">(07)</span></div>
     <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr)); gap: 72px; align-items: center; margin-top: 64px">
       <div class="tile img-rv tilt" style="border-radius: 3px; aspect-ratio: 4 / 3; background: #141416">
-        <img loading="lazy" decoding="async" class="zoom" src="img/p-mco.webp" alt="Suburban Premier waiting curbside at MCO Terminal C" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%">
-        <span class="lab" style="position: absolute; left: 24px; bottom: 24px; padding: 8px 12px; background: rgba(10,10,10,0.6); color: #FFFFFF">MCO · Terminal C</span>
+        <img loading="lazy" decoding="async" class="zoom" src="img/p-cabana-rear.webp" alt="Suburban Premier waiting at a resort entrance in Orlando" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%">
+        <span class="lab" style="position: absolute; left: 24px; bottom: 24px; padding: 8px 12px; background: rgba(10,10,10,0.6); color: #FFFFFF">Ready before you are</span>
         <span class="glare" aria-hidden="true"></span>
       </div>
       <div style="display: flex; flex-direction: column; gap: 32px">
@@ -1703,7 +1734,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           </figcaption>
         </figure>
       </div>
-      <p class="rv-note rv">Every review here comes from a confirmed ride with Marco.</p>
+      <p class="rv-note rv">Every review here comes from a confirmed Connexxions Elite ride.</p>
     </div>
   </section>
 
@@ -1711,102 +1742,59 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   <section id="faq" aria-labelledby="faq-h" style="background: #E8E5DE">
     <div style="max-width: 1360px; margin: 0 auto; padding: 144px 40px">
       <div class="sec-top rv"><p class="eyebrow">FAQ</p><span class="idx">(10)</span></div>
-      <div style="display: flex; flex-wrap: wrap; gap: 56px; margin-top: 56px">
-        <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 36px">
-          <h2 id="faq-h" class="disp h2 rv" style="--d: 90ms">Good <span class="it">questions.</span></h2>
-          <div class="rv dark grain" style="--d: 180ms; border-radius: 3px; padding: 36px; display: flex; flex-direction: column; gap: 16px">
-            <h3 class="it" style="position: relative; z-index: 1; margin: 0; font-size: 34px; line-height: 1.05">Still have a question?</h3>
-            <p style="position: relative; z-index: 1; margin: 0; color: #BDBAB3; font-weight: 300">Write to us and we will answer by email.</p>
-            <a class="btn btn-p" href="{{ mailtoGeneral }}" style="position: relative; z-index: 1; align-self: flex-start"><span class="swap"><span>Email us</span><span aria-hidden="true">Email us</span></span></a>
-          </div>
-        </div>
-        <div class="rv" style="--d: 120ms; flex: 999 1 600px; min-width: 0; border-top: 1px solid rgba(10,10,10,.16)">
-          <details open="" style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">01</span><span style="flex: 1">How accurate is the instant estimate?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">It is calculated from typical road distance between your two points. Your official quote locks a flat rate in writing, with tolls and parking included.</p>
+      <div class="faq-head">
+        <h2 id="faq-h" class="disp h2 rv" style="--d: 90ms">Questions, <span class="it">answered.</span></h2>
+        <p class="rv" style="--d: 150ms">Short answers to what clients ask before they book.</p>
+      </div>
+      <div class="faq-grid rv" style="--d: 120ms">
+          <details class="faq" open="">
+            <summary><span class="faq-k"><b>01</b>Booking</span><span class="faq-q">How do I get a price?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Open the quote page, pick the ride and add your addresses. The live map shows your price with tolls included. Send it to us and we confirm by email.</p>
           </details>
-          <details style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">02</span><span style="flex: 1">What if my flight is delayed?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">We track the flight number you give us and adjust pickup to your real arrival. Free waiting is 60 minutes for international arrivals and 45 for domestic.</p>
+          <details class="faq">
+            <summary><span class="faq-k"><b>02</b>Booking</span><span class="faq-q">Is the price final?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">It comes from the real driving route, with tolls counted each way. Once we confirm it in writing, that is the price you pay.</p>
           </details>
-          <details style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">03</span><span style="flex: 1">How many people and bags fit?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">Six people with reasonable luggage. For seven or more, we arrange a second vehicle with a trusted operator.</p>
+          <details class="faq">
+            <summary><span class="faq-k"><b>03</b>Airport</span><span class="faq-q">Where do we meet at MCO?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Inside baggage claim, with your name on a sign. Add your flight number and we follow your arrival.</p>
           </details>
-          <details style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">04</span><span style="flex: 1">How do I pay?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">Credit card or Zelle, charged on confirmation. You receive an invoice from MTC Cargo Corp d/b/a Connexxions Elite.</p>
+          <details class="faq">
+            <summary><span class="faq-k"><b>04</b>Airport</span><span class="faq-q">What if my flight is delayed?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">We track the flight number you give us and adjust pickup to your real arrival. Free waiting is 60 minutes for international arrivals and 45 for domestic.</p>
           </details>
-          <details style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">05</span><span style="flex: 1">What is the cancellation policy?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">Free cancellation up to 48 hours before pickup. Later cancellations are charged 50% of the rate.</p>
+          <details class="faq">
+            <summary><span class="faq-k"><b>05</b>The ride</span><span class="faq-q">How many people and bags fit?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Up to six passengers with luggage. For seven or more, we arrange a second vehicle with a trusted operator.</p>
           </details>
-          <details style="border-bottom: 1px solid rgba(10,10,10,.16)">
-            <summary style="display: flex; align-items: center; gap: 24px; padding: 28px 0; min-height: 44px; font-size: 20px; letter-spacing: -0.015em"><span class="idx" style="color: var(--accent); min-width: 28px">06</span><span style="flex: 1">Do you go beyond Orlando?</span><svg class="chev" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></summary>
-            <p class="ans" style="margin: 0 0 28px 52px; color: #5E5A53; font-weight: 300; max-width: 60ch">Yes. Tampa, Miami, Fort Lauderdale and Palm Beach are quoted per trip. Type the address in the planner and request an official quote.</p>
+          <details class="faq">
+            <summary><span class="faq-k"><b>06</b>The ride</span><span class="faq-q">Can I book by the hour?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Yes. Charter, as directed, starts at three hours, with as many stops as you like inside that time.</p>
           </details>
-        </div>
+          <details class="faq">
+            <summary><span class="faq-k"><b>07</b>Payment</span><span class="faq-q">How do I pay?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Credit card or Zelle, on confirmation. You receive an invoice from MTC Cargo Corp d/b/a Connexxions Elite.</p>
+          </details>
+          <details class="faq">
+            <summary><span class="faq-k"><b>08</b>Payment</span><span class="faq-q">What is the cancellation policy?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Free cancellation up to 48 hours before pickup. Later cancellations are charged 50% of the rate.</p>
+          </details>
+          <details class="faq">
+            <summary><span class="faq-k"><b>09</b>Trips</span><span class="faq-q">Do you go beyond Orlando?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Yes. Tampa, the Space Coast, Daytona and other Florida trips are quoted per ride. For longer trips, write to us and we quote it.</p>
+          </details>
+          <details class="faq">
+            <summary><span class="faq-k"><b>10</b>Trips</span><span class="faq-q">Is there a late-night fee?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
+            <p class="ans">Pickups between 10 pm and 5 am add a small late-night fee, shown in your quote before you book.</p>
+          </details>
+      </div>
+      <div class="faq-ask rv dark grain">
+        <div><h3 class="it">Still have a question?</h3><p>Write to the Connexxions Elite team and we answer by email.</p></div>
+        <a class="btn btn-p" href="{{ mailtoGeneral }}"><span class="swap"><span>Email us</span><span aria-hidden="true">Email us</span></span></a>
       </div>
     </div>
   </section>
 
-  <!-- LOOKBOOK: pinned horizontal scroll -->
-  <section aria-labelledby="look-h" class="hs-outer" style="position: relative; background: #F2F0EB">
-    <div class="hs-stage">
-      <div style="width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 40px">
-        <div class="sec-top"><p class="eyebrow">On the road</p><span class="idx">(11)</span></div>
-      </div>
-      <div class="hs-track">
-        <div style="flex: none; width: min(440px, 80vw); display: flex; flex-direction: column; justify-content: flex-end; gap: 26px; padding-right: 24px">
-          <h2 id="look-h" class="disp h2" style="font-size: clamp(26px, 3.2vw, 46px)">One car, <span class="it">every occasion.</span></h2>
-          <p class="lede" style="margin: 0; color: #5E5A53; font-size: 17px">Airport curbs, resort entrances, convention doors and the open road. Keep scrolling to ride along.</p>
-          <span class="lab" style="color: #6E6A63; display: flex; align-items: center; gap: 12px">Scroll
-            <svg aria-hidden="true" width="28" height="10" viewBox="0 0 28 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 5h26"></path><path d="m22 1 4 4-4 4"></path></svg>
-          </span>
-        </div>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-mco.webp" alt="Connexxions Elite Suburban curbside at MCO Terminal C" style="object-position: 60% 50%"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Curbside at Terminal C.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">01 · MCO</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-road.webp" alt="Connexxions Elite Suburban on a palm-lined highway"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">On the move, on time.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">02 · En route</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-occc.webp" alt="Connexxions Elite Suburban at the Orange County Convention Center" style="object-position: 55% 50%"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Front door, Convention Center.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">03 · OCCC</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-gf.webp" alt="Connexxions Elite Suburban at a Disney resort entrance" style="object-position: 55% 50%"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Under the porte-cochère.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">04 · Disney resorts</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-uni-side.webp" alt="Connexxions Elite Suburban at the Universal Orlando guest drop-off"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Guest drop-off, no lines.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">05 · Universal</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/hero-bg.webp" alt="Connexxions Elite Suburban parked by the water" style="object-position: 45% 60%"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Day trips, done right.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">06 · Beyond Orlando</span></figcaption>
-        </figure>
-        <figure class="hs-card hs-sm">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/d-grille.webp" alt="Chrome grille and LED headlight detail"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Top trim, up close.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">07 · Premier</span></figcaption>
-        </figure>
-        <figure class="hs-card">
-          <div class="hs-img"><img loading="lazy" decoding="async" src="img/p-cabana-rear.webp" alt="Connexxions Elite Suburban at a Universal resort hotel entrance" style="object-position: 45% 55%"></div>
-          <figcaption style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 18px; margin-top: 18px; border-top: 1px solid rgba(10,10,10,.14)"><span class="it" style="font-size: 32px; line-height: 1.05">Checked in, bags handled.</span><span class="lab" style="color: #6E6A63; white-space: nowrap">08 · Resort hotels</span></figcaption>
-        </figure>
-        <div class="dark grain" style="flex: none; width: min(440px, 80vw); border-radius: 3px; padding: 44px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px">
-          <span class="lab" style="position: relative; z-index: 1; color: #A8A49C">09 · Next stop</span>
-          <h3 class="it" style="position: relative; z-index: 1; margin: 0; font-size: 64px; line-height: .95">Your trip.</h3>
-          <a class="btn btn-p" href="https://connexxionselite.com/quote/" style="position: relative; z-index: 1; align-self: flex-start"><span class="swap"><span>Get a price</span><span aria-hidden="true">Get a price</span></span></a>
-        </div>
-      </div>
-      <div style="width: 100%; max-width: 1360px; margin: 0 auto; padding: 0 40px">
-        <div aria-hidden="true" style="height: 1px; background: rgba(10,10,10,.14); position: relative; overflow: hidden"><div class="hs-prog" style="position: absolute; inset: 0; background: var(--accent)"></div></div>
-      </div>
-    </div>
-  </section>
 
   <!-- FINAL CTA + FOOTER -->
   <footer class="dark grain" style="overflow: hidden">
@@ -1853,7 +1841,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":18800}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15700}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -2611,8 +2599,7 @@ class Component extends DCLogic {
       { title: 'Universal Orlando', tag: 'Parks & resorts', kind: 'park', src: 'img/p-uni-side.webp', alt: 'Suburban Premier at the Universal Orlando guest drop-off', pos: '50% 50%', a: 'MCO', b: 'Universal', ax: 0.34, ay: -0.98, r0: -3, r1: -1 },
       { title: 'Resort hotels', tag: 'Parks & resorts', kind: 'park', src: 'img/p-cabana-front.webp', alt: 'Suburban Premier at a Universal resort hotel entrance', pos: '45% 50%', a: 'MCO', b: 'Universal hotels', ax: 0.95, ay: -0.62, r0: 8, r1: 2 },
       { title: 'Convention Center', tag: 'Business', kind: 'biz', src: 'img/p-occc.webp', alt: 'Suburban Premier at the Orange County Convention Center', pos: '55% 50%', a: 'MCO', b: 'Convention Center', hourly: true, ax: 0.95, ay: 0.62, r0: -5, r1: -1.5 },
-      { title: 'Cocoa Beach', tag: 'Day trip', kind: 'trip', src: 'img/hero-bg.webp', alt: 'Suburban Premier parked by the water', pos: '42% 60%', a: 'MCO', b: 'Cocoa Beach', ax: 0.33, ay: 0.98, r0: 4, r1: 2.5 },
-      { title: 'Kissimmee & Celebration', tag: 'Day trip', kind: 'trip', src: 'img/p-road.webp', alt: 'Suburban Premier on a palm-lined highway', pos: '50% 50%', a: 'MCO', b: 'Celebration', ax: -0.32, ay: 0.98, r0: -9, r1: -2 },
+      { title: 'Kissimmee & Celebration', tag: 'Day trip', kind: 'trip', src: 'img/p-road.webp', alt: 'Suburban Premier on a palm-lined highway', pos: '50% 50%', a: 'MCO', b: 'Celebration', ax: 0, ay: 1.02, r0: -9, r1: -2 },
       { title: 'Downtown & Winter Park', tag: 'Nights out', kind: 'biz', src: 'img/p-uni-front.webp', alt: 'Suburban Premier front view with the chauffeur at the wheel', pos: '50% 45%', a: 'MCO', b: 'Winter Park', ax: -0.95, ay: 0.62, r0: 6, r1: 1 }
     ];
     const burst = BD.map((d, i) => {

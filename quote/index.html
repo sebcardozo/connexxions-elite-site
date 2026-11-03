@@ -311,7 +311,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
       <!-- 1 · ride type -->
       <div class="step" data-step="1">
         <h1>What's the ride? <em>Pick one.</em></h1>
-        <p class="sub">One 2026 Suburban Premier, up to 6 passengers, with Marco at the wheel.</p>
+        <p class="sub">One 2026 Suburban Premier, up to 6 passengers, with a professional chauffeur at the wheel.</p>
         <div class="types" id="types"></div>
       </div>
 
@@ -407,7 +407,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
             </div>
           </article>
           <div class="qacts">
-            <button type="button" class="btn btn-p" id="q-send">Send to Marco</button>
+            <button type="button" class="btn btn-p" id="q-send">Send to confirm</button>
             <button type="button" class="btn btn-g" id="q-pdf">Download PDF</button>
           </div>
           <p class="qstat" id="q-stat" role="status" aria-live="polite"></p>
@@ -867,7 +867,7 @@ function issue() {
   $('#q-lines').innerHTML = f.lines.map(function (l) { return '<div class="qrow"><span>' + esc(l.l) + '</span><span>' + money(l.v) + '</span></div>'; }).join('');
   $('#q-total').textContent = money(f.total);
   var body = [
-    'Hi Marco,', '', 'I would like to confirm this quote.', '',
+    'Hi Connexxions Elite team,', '', 'I would like to confirm this quote.', '',
     'Quote: ' + no, 'Service: ' + svcLabel(),
     'Pickup: ' + S.A.name, 'Date and time: ' + fmtDate(val('in-date')) + ', ' + fmtT(val('in-time'))
   ];
@@ -884,7 +884,7 @@ function issue() {
   if (val('in-notes')) body.push('Notes: ' + val('in-notes'));
   $('#q-mail').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Confirm quote ' + no) + '&cc=' + encodeURIComponent(val('in-email')) + '&body=' + encodeURIComponent(body.join('\n'));
   S.payload = { no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
-  S.sent = false; $('#q-stat').className = 'qstat'; $('#q-send').disabled = false; $('#q-send').textContent = 'Send to Marco';
+  S.sent = false; $('#q-stat').className = 'qstat'; $('#q-send').disabled = false; $('#q-send').textContent = 'Send to confirm';
   S.issued = true; render();
   setTimeout(function () { var q = $('#qwrap'); if (q.scrollIntoView) q.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
 }
@@ -911,7 +911,7 @@ $('#q-send').addEventListener('click', function () {
     .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || String(j.success) === 'false') throw new Error(j.message || r.status); return j; }); })
     .then(function () {
       S.sent = true; btn.textContent = 'Sent ✓';
-      st.className = 'qstat on ok'; st.textContent = 'Sent. Marco has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
+      st.className = 'qstat on ok'; st.textContent = 'Sent. Our team has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
     })
     .catch(function () {
       btn.disabled = false; btn.textContent = 'Try again';
