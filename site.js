@@ -33,15 +33,17 @@
   }
   var ATTRS = ['aria-label', 'alt', 'placeholder', 'title', 'data-col'];
   function skip(el) { return !el || el.closest('script,style,[translate="no"],.ft-mail') ; }
+  // nav labels stay as they are: the page styles target nav[aria-label="Main"]
+  function attrs(el) { ATTRS.forEach(function (a) { if (a === 'aria-label' && el.tagName === 'NAV') return; var v = el.getAttribute(a); if (v) { var r = tr(v); if (r != null) el.setAttribute(a, r); } }); }
   function doNode(n) {
     if (n.nodeType === 3) { if (skip(n.parentElement)) return; var r = tr(n.nodeValue); if (r != null) n.nodeValue = r; return; }
     if (n.nodeType !== 1 || skip(n)) return;
-    ATTRS.forEach(function (a) { var v = n.getAttribute(a); if (v) { var r = tr(v); if (r != null) n.setAttribute(a, r); } });
+    attrs(n);
     if (n.tagName === 'A') fixLink(n);
     var w = document.createTreeWalker(n, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT), x;
     while ((x = w.nextNode())) {
       if (x.nodeType === 3) { if (!skip(x.parentElement)) { var rr = tr(x.nodeValue); if (rr != null) x.nodeValue = rr; } }
-      else if (!skip(x)) { ATTRS.forEach(function (a) { var v = x.getAttribute(a); if (v) { var r2 = tr(v); if (r2 != null) x.setAttribute(a, r2); } }); if (x.tagName === 'A') fixLink(x); }
+      else if (!skip(x)) { attrs(x); if (x.tagName === 'A') fixLink(x); }
     }
   }
   function fixLink(a) {
@@ -129,6 +131,11 @@
     paint();
     b.addEventListener('click', function () { soundOn = !soundOn; try { localStorage.setItem(SOUND_KEY, soundOn ? 'on' : 'off'); } catch (e) {} paint(); if (soundOn) engine(false); });
     document.body.appendChild(b);
+    // on phones it only shows at the top of the page, so it never sits on top of the text
+    var mq = window.matchMedia('(max-width: 760px)'), tick = false;
+    var place = function () { tick = false; b.classList.toggle('is-away', mq.matches && window.scrollY > window.innerHeight * 0.8); };
+    window.addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(place); } }, { passive: true });
+    place();
   }
   // with sound on, every "get a price" button revs the engine (browsers only allow sound after a tap)
   document.addEventListener('click', function (e) {

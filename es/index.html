@@ -1322,6 +1322,58 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   .ck{width:14px;height:14px;margin-right:6px}
   .cm-cta .btn{width:100%}
 }
+
+/* ================= audit fixes v33 ================= */
+.cm-cta .btn span{color:inherit;font-size:inherit}
+body{overflow-x:clip}
+.pl{overflow:hidden}
+/* faster intro: ~1.1 s instead of ~4 s */
+.pl{animation-delay:2s}
+.pl-fillw,.pl-edge,.pl-stage .pl-bar i{animation-duration:.7s;animation-delay:.05s}
+.pl-logo,.pl-flash{animation-delay:.72s}
+.pl-in{animation-delay:.92s}
+.pl-cols i{animation-duration:.7s;animation-delay:calc(1s + var(--k) * .05s)}
+.hx-frame,.hx-in{animation-delay:1.05s}
+.hx-drive{animation-delay:1.15s}
+.hx-logo{animation-delay:1.35s}
+.hx-meta{animation-delay:1.7s}
+.hx-card{animation-delay:1.9s}
+.hx-badge{animation-delay:2s}
+.hx-spec{animation-delay:2s}
+.hx-crop{animation-delay:1.55s}
+.hx-glint i,.hx-carw .hx-flare{animation-delay:2.6s}
+/* hero + route ticket fit the first screen on laptops */
+@media (min-width:1181px){.hx-frame{height:clamp(540px,min(56vw,calc(100svh - 165px)),860px)}}
+/* destinations: open sooner, less empty scrolling */
+@supports (view-timeline-name: --bt){@media (min-width:761px){
+.burst-outer{height:1650px}
+.bcard{animation-range:entry 55% contain var(--a1,56%)}
+.burst-core{animation-range:entry 70% contain 32%}
+.burst-hint{animation-range:entry 40% entry 90%}
+}}
+/* footer: email fits */
+.ft-grid{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:980px){.ft-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.ft-grid{grid-template-columns:1fr}}
+/* phone: numbers 2x2, compact comparison */
+@media (max-width:760px){
+.stats4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+.stats4>div{padding:28px 12px 4px 0 !important;gap:10px !important}
+.stats4 .serif{font-size:clamp(54px,15vw,76px) !important}
+}
+@media (max-width:860px){
+.cm thead{display:block}
+.cm thead tr{display:grid;grid-template-columns:1.25fr 1fr 1fr;border-top:0}
+.cm thead th:first-child{display:none}
+.cm thead th{padding:16px 12px 12px;vertical-align:bottom}
+.cm thead th b{font-size:13.5px}
+.cm thead th small{font-size:6.5px;letter-spacing:.12em}
+.cm thead .cm-us{margin-left:8px;border-radius:10px 10px 0 0}
+.cm thead .cm-us img{width:76px;margin:0 0 6px}
+.cm td::before{content:none}
+.cm tbody th{padding:14px 14px 2px}
+.cm td.cm-us{margin:0 0 8px 8px}
+}
 </style>
 </helmet>
 
@@ -1562,9 +1614,9 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           <span class="sp-r"><b>Rear climate</b><b>Wi‑Fi</b><b>USB‑C</b></span>
         </div>
       </figure>
-      <ul class="vspecs"><li class="rv" style="--d: 0ms"><span class="vs-n">01</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h7a2 2 0 0 1 2 2v7H7z"/><path d="M5 13h13l1 5H6z"/><path d="M7 18v2M18 18v2"/></svg></span><span class="vs-k">Seats</span><span class="vs-v">Up to 6 passengers</span></li><li class="rv" style="--d: 60ms"><span class="vs-n">02</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7c4-3 12-3 16 0v10c-4 3-12 3-16 0z"/><path d="M8 7v10M16 7v10" stroke-dasharray="1.5 2"/></svg></span><span class="vs-k">Interior</span><span class="vs-v">Black leather · contrast piping</span></li><li class="rv" style="--d: 120ms"><span class="vs-n">03</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg></span><span class="vs-k">Climate</span><span class="vs-v">Rear controls</span></li><li class="rv" style="--d: 180ms"><span class="vs-n">04</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0"/><path d="M6.5 12.5a8 8 0 0 1 11 0"/><path d="M10 16a3 3 0 0 1 4 0"/><circle cx="12" cy="19" r=".8" fill="currentColor"/></svg></span><span class="vs-k">Connectivity</span><span class="vs-v">Wi‑Fi · USB‑C</span></li><li class="rv" style="--d: 240ms"><span class="vs-n">05</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z"/><path d="M8 13h8"/></svg></span><span class="vs-k">Onboard</span><span class="vs-v">Bottled water</span></li><li class="rv" style="--d: 300ms"><span class="vs-n">06</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3 20a6 6 0 0 1 12 0"/><path d="M18 8v6M15 11h6"/></svg></span><span class="vs-k">7+ guests</span><span class="vs-v">Second vehicle arranged</span></li></ul>
+      <ul class="vspecs"><li class="rv" style="--d: 0ms"><span class="vs-n">01</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h7a2 2 0 0 1 2 2v7H7z"/><path d="M5 13h13l1 5H6z"/><path d="M7 18v2M18 18v2"/></svg></span><span class="vs-k">Seats</span><span class="vs-v">Up to 6 passengers</span></li><li class="rv" style="--d: 60ms"><span class="vs-n">02</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7c4-3 12-3 16 0v10c-4 3-12 3-16 0z"/><path d="M8 7v10M16 7v10" stroke-dasharray="1.5 2"/></svg></span><span class="vs-k">Interior</span><span class="vs-v">Black leather · contrast piping</span></li><li class="rv" style="--d: 120ms"><span class="vs-n">03</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg></span><span class="vs-k">Climate</span><span class="vs-v">Rear controls</span></li><li class="rv" style="--d: 180ms"><span class="vs-n">04</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0"/><path d="M6.5 12.5a8 8 0 0 1 11 0"/><path d="M10 16a3 3 0 0 1 4 0"/><circle cx="12" cy="19" r=".8" fill="currentColor"/></svg></span><span class="vs-k">Connectivity</span><span class="vs-v">Wi‑Fi · USB‑C</span></li><li class="rv" style="--d: 240ms"><span class="vs-n">05</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z"/><path d="M8 13h8"/></svg></span><span class="vs-k">Onboard</span><span class="vs-v">Bottled water</span></li><li class="rv" style="--d: 300ms"><span class="vs-n">06</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/></svg></span><span class="vs-k">Airport rides</span><span class="vs-v">Flight tracked</span></li></ul>
       <div class="vx-cta rv">
-        <p>Flat rate per vehicle. Tolls, parking and gratuity shown up front. <span>Free cancellation up to 48 hours before pickup.</span></p>
+        <p>Flat rate per vehicle. Tolls and parking included, gratuity optional. <span>Terms confirmed in writing before you pay.</span></p>
         <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get my price</span><span aria-hidden="true">Get my price</span></span></a>
       </div>
       <div class="cab">
@@ -1686,7 +1738,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
             <div class="hw-top"><span class="hw-n">3</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15.5V12l2.2-4.4A2 2 0 0 1 8 6.5h8a2 2 0 0 1 1.8 1.1L20 12v3.5"/><path d="M3 15.5h18v2H3z"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg></span></div>
             <span class="hw-k">Step 03 · Pickup</span>
             <h3 class="h3">Your ride arrives</h3>
-            <p>Pay by card or Zelle on confirmation. On the day, your chauffeur is at the curb, or inside baggage claim at MCO.</p>
+            <p>You pay only after we confirm. On the day, your chauffeur is waiting at your pickup, with your flight tracked on airport rides.</p>
           </div>
         </li>
         </ol>
@@ -1705,13 +1757,13 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
         <span class="glare" aria-hidden="true"></span>
       </div>
       <div style="display: flex; flex-direction: column; gap: 32px">
-        <h2 id="why-h" class="disp h2 rv" style="--d: 90ms">Met inside. <span class="it">Never left waiting.</span></h2>
-        <p class="lede rv" style="--d: 180ms; margin: 0; color: #5E5A53; max-width: 46ch">We track your flight from the moment it leaves. Early or delayed, your chauffeur is inside baggage claim when you land, with 60 minutes of free waiting for international arrivals and 45 for domestic.</p>
+        <h2 id="why-h" class="disp h2 rv" style="--d: 90ms">Met on arrival. <span class="it">Never left waiting.</span></h2>
+        <p class="lede rv" style="--d: 180ms; margin: 0; color: #5E5A53; max-width: 46ch">We track your flight from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.</p>
         <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
           <li class="rv" style="--d: 240ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">i.</span>The vehicle you see is the vehicle that arrives</li>
           <li class="rv" style="--d: 300ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">ii.</span>The same chauffeur on every ride</li>
           <li class="rv" style="--d: 360ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">iii.</span>Flat rate, tolls and parking included</li>
-          <li class="rv" style="--d: 420ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14); border-bottom: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">iv.</span>Free cancellation up to 48 hours before pickup</li>
+          <li class="rv" style="--d: 420ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14); border-bottom: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">iv.</span>Every detail confirmed in writing before you pay</li>
         </ul>
       </div>
     </div>
@@ -1733,8 +1785,8 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
             <tr class="rv" style="--d: 70ms"><th scope="row">Luggage</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>6 travelers with luggage</span></td><td data-col="Standard sedan">About 3 large bags</td><td data-col="Rideshare">Depends on the car</td></tr>
             <tr class="rv" style="--d: 140ms"><th scope="row">Price</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>Flat rate, set before you book</span></td><td data-col="Standard sedan">Flat or metered</td><td data-col="Rideshare">Can surge with demand</td></tr>
             <tr class="rv" style="--d: 210ms"><th scope="row">The vehicle</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>The one in these photos</span></td><td data-col="Standard sedan">Depends on the company</td><td data-col="Rideshare">Whoever accepts</td></tr>
-            <tr class="rv" style="--d: 280ms"><th scope="row">At MCO</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>Met inside baggage claim</span></td><td data-col="Standard sedan">Often curbside</td><td data-col="Rideshare">Rideshare pickup zone</td></tr>
-            <tr class="rv" style="--d: 350ms"><th scope="row">Your flight</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>Tracked, free waiting</span></td><td data-col="Standard sedan">Sometimes</td><td data-col="Rideshare">Not tracked</td></tr>
+            <tr class="rv" style="--d: 280ms"><th scope="row">At MCO</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>Met on arrival</span></td><td data-col="Standard sedan">Often curbside</td><td data-col="Rideshare">Rideshare pickup zone</td></tr>
+            <tr class="rv" style="--d: 350ms"><th scope="row">Your flight</th><td class="cm-us" data-col="Suburban Premier"><svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg><span>Tracked, pickup adjusted</span></td><td data-col="Standard sedan">Sometimes</td><td data-col="Rideshare">Not tracked</td></tr>
           </tbody>
         </table>
       </div>
@@ -1745,26 +1797,26 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   <!-- TICKER -->
   <div class="mq-wrap" role="region" aria-label="What every ride includes" style="background: var(--accent); color: #FFFFFF; padding: 24px 0">
     <div class="mq mq-fast" style="gap: 44px; white-space: nowrap; align-items: center">
-      <span class="lab" style="font-size: 12px">Flight tracking</span><span class="it" style="font-size: 30px">Meet &amp; greet inside baggage claim</span><span class="lab" style="font-size: 12px">Flat rates</span><span class="it" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" style="font-size: 12px">Wi-Fi onboard</span><span class="it" style="font-size: 30px">Bottled water</span>
-      <span class="lab" aria-hidden="true" style="font-size: 12px">Flight tracking</span><span class="it" aria-hidden="true" style="font-size: 30px">Meet &amp; greet inside baggage claim</span><span class="lab" aria-hidden="true" style="font-size: 12px">Flat rates</span><span class="it" aria-hidden="true" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" aria-hidden="true" style="font-size: 12px">Wi-Fi onboard</span><span class="it" aria-hidden="true" style="font-size: 30px">Bottled water</span>
+      <span class="lab" style="font-size: 12px">Flight tracking</span><span class="it" style="font-size: 30px">Meet &amp; greet on arrival</span><span class="lab" style="font-size: 12px">Flat rates</span><span class="it" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" style="font-size: 12px">Wi-Fi onboard</span><span class="it" style="font-size: 30px">Bottled water</span>
+      <span class="lab" aria-hidden="true" style="font-size: 12px">Flight tracking</span><span class="it" aria-hidden="true" style="font-size: 30px">Meet &amp; greet on arrival</span><span class="lab" aria-hidden="true" style="font-size: 12px">Flat rates</span><span class="it" aria-hidden="true" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" aria-hidden="true" style="font-size: 12px">Wi-Fi onboard</span><span class="it" aria-hidden="true" style="font-size: 30px">Bottled water</span>
     </div>
   </div>
 
   <!-- STATS -->
   <section aria-label="By the numbers" style="max-width: 1360px; margin: 0 auto; padding: 128px 40px">
     <div class="sec-top rv"><p class="eyebrow">By the numbers</p><span class="idx">(09)</span></div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 0; margin-top: 16px">
+    <div class="stats4" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 0; margin-top: 16px">
       <div class="rv" style="--d: 0ms; display: flex; flex-direction: column; gap: 14px; padding: 40px 32px 8px 0">
         <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">6</span><span class="count rv" aria-hidden="true" style="--to: 6"></span></span>
         <span class="lab" style="color: #5E5A53; line-height: 1.8">Passengers, plus luggage</span>
       </div>
       <div class="rv" style="--d: 100ms; display: flex; flex-direction: column; gap: 14px; padding: 40px 32px 8px 0">
-        <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">60 minutes</span><span class="count rv" aria-hidden="true" style="--to: 60"></span><span aria-hidden="true" class="it" style="font-size: 0.4em; letter-spacing: 0"> min</span></span>
-        <span class="lab" style="color: #5E5A53; line-height: 1.8">Free wait, international arrivals</span>
+        <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">2026</span><span class="count rv" aria-hidden="true" style="--to: 2026"></span></span>
+        <span class="lab" style="color: #5E5A53; line-height: 1.8">Model year, delivered new</span>
       </div>
       <div class="rv" style="--d: 200ms; display: flex; flex-direction: column; gap: 14px; padding: 40px 32px 8px 0">
-        <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">48 hours</span><span class="count rv" aria-hidden="true" style="--to: 48"></span><span aria-hidden="true" class="it" style="font-size: 0.4em; letter-spacing: 0"> hrs</span></span>
-        <span class="lab" style="color: #5E5A53; line-height: 1.8">Free cancellation window</span>
+        <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">3 hours</span><span class="count rv" aria-hidden="true" style="--to: 3"></span><span aria-hidden="true" class="it" style="font-size: 0.4em; letter-spacing: 0"> hrs</span></span>
+        <span class="lab" style="color: #5E5A53; line-height: 1.8">Charter minimum, as directed</span>
       </div>
       <div class="rv" style="--d: 300ms; display: flex; flex-direction: column; gap: 14px; padding: 40px 32px 8px 0">
         <span class="serif" style="font-size: clamp(88px, 9vw, 148px); line-height: .85; letter-spacing: -0.04em"><span class="sr">5 years</span><span class="count rv" aria-hidden="true" style="--to: 5"></span><span aria-hidden="true" class="it" style="font-size: 0.4em; letter-spacing: 0"> yrs</span></span>
@@ -1774,7 +1826,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   </section>
 
   <!-- REVIEWS -->
-  <section aria-labelledby="rev-h" style="background: #E8E5DE">
+  <section aria-labelledby="rev-h" hidden style="display: none; background: #E8E5DE">
     <div style="max-width: 1360px; margin: 0 auto; padding: 144px 40px">
       <div class="sec-top rv"><p class="eyebrow">Client words</p><span class="idx">(10)</span></div>
       <h2 id="rev-h" class="disp h2 rv" style="--d: 90ms; margin-top: 56px">From the <span class="it">back seat.</span></h2>
@@ -1817,7 +1869,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
   <!-- FAQ -->
   <section id="faq" aria-labelledby="faq-h" style="background: #E8E5DE">
     <div style="max-width: 1360px; margin: 0 auto; padding: 144px 40px">
-      <div class="sec-top rv"><p class="eyebrow">FAQ</p><span class="idx">(11)</span></div>
+      <div class="sec-top rv"><p class="eyebrow">FAQ</p><span class="idx">(10)</span></div>
       <div class="faq-head">
         <h2 id="faq-h" class="disp h2 rv" style="--d: 90ms">Questions, <span class="it">answered.</span></h2>
         <p class="rv" style="--d: 150ms">Short answers to what clients ask before they book.</p>
@@ -1833,15 +1885,15 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>03</b>Airport</span><span class="faq-q">Where do we meet at MCO?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
-            <p class="ans">Inside baggage claim, with your name on a sign. Add your flight number and we follow your arrival.</p>
+            <p class="ans">We confirm the exact meeting point with your booking. Add your flight number and we follow your arrival.</p>
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>04</b>Airport</span><span class="faq-q">What if my flight is delayed?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
-            <p class="ans">We track the flight number you give us and adjust pickup to your real arrival. Free waiting is 60 minutes for international arrivals and 45 for domestic.</p>
+            <p class="ans">We track the flight number you give us and adjust the pickup to your real arrival. Waiting time is set out in your written confirmation.</p>
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>05</b>The ride</span><span class="faq-q">How many people and bags fit?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
-            <p class="ans">Up to six passengers with luggage. For seven or more, we arrange a second vehicle with a trusted operator.</p>
+            <p class="ans">Up to six passengers with luggage. For a larger group, write to us before booking.</p>
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>06</b>The ride</span><span class="faq-q">Can I book by the hour?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
@@ -1849,11 +1901,11 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>07</b>Payment</span><span class="faq-q">How do I pay?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
-            <p class="ans">Credit card or Zelle, on confirmation. You receive an invoice from MTC Cargo Corp d/b/a Connexxions Elite.</p>
+            <p class="ans">Payment details come with your written confirmation. You receive an invoice from MTC Cargo Corp d/b/a Connexxions Elite.</p>
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>08</b>Payment</span><span class="faq-q">What is the cancellation policy?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
-            <p class="ans">Free cancellation up to 48 hours before pickup. Later cancellations are charged 50% of the rate.</p>
+            <p class="ans">The cancellation terms come in writing with your confirmation, before you pay anything.</p>
           </details>
           <details class="faq">
             <summary><span class="faq-k"><b>09</b>Trips</span><span class="faq-q">Do you go beyond Orlando?</span><span class="faq-x"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span></summary>
@@ -1892,11 +1944,11 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
       <nav aria-label="Footer" class="ft-col">
         <span class="ft-k"><b>01</b>Explore</span>
         <a class="ftl" href="https://connexxionselite.com/quote/"><span>Instant quote</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a><a class="ftl" href="#services"><span>Destinations</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a><a class="ftl" href="#chauffeur"><span>Your chauffeur</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a><a class="ftl" href="#faq"><span>FAQ</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
-      </nav>
+      <a class="ftl" href="https://connexxionselite.com/quote/?type=hourly"><span>Charter, as directed</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></nav>
       <div class="ft-col">
         <span class="ft-k"><b>02</b>Contact</span>
         <a class="ftl ft-mail" href="{{ mailtoGeneral }}"><span>{{ email }}</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
-        <a class="ftl" href="https://connexxionselite.com/quote/?type=hourly"><span>Charter, as directed</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a>
+        <span class="ft-t ft-dim">We answer by email</span>
       </div>
       <div class="ft-col">
         <span class="ft-k"><b>03</b>Company</span>
@@ -1917,7 +1969,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":16720}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15260}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -2420,7 +2472,6 @@ class Component extends DCLogic {
       if (o.child) add('Child seat', P.childSeat);
       if (o.stop) add('Extra stop', P.extraStop);
       if (o.late) add('Late-night pickup' + (o.late > 1 ? ' × 2' : '') + ' · 10 pm to 5 am', P.lateNight * o.late);
-      add('Gratuity · ' + P.gratuity + '%', svc * P.gratuity / 100);
       let total = 0; lines.forEach((l) => { total += l.v; });
       return { lines: lines.map((l) => ({ label: l.label, amount: money(l.v) })), total: total, m: m, t: t, r: r };
     };
@@ -2467,7 +2518,7 @@ class Component extends DCLogic {
       focusA: (e) => this.setState({ sgOpen: 'A', sgText: e && e.target ? e.target.value : '' }),
       focusB: (e) => this.setState({ sgOpen: 'B', sgText: e && e.target ? e.target.value : '' }),
       toLabel: isHourly ? 'Drop-off (optional)' : 'Drop-off',
-      paxNote: s.pax > 6 ? 'Second vehicle quoted separately' : 'Up to 6 in one vehicle',
+      paxNote: s.pax > 6 ? 'Groups of 7+: write to us' : 'Up to 6 in one vehicle',
       aHint: aH.txt, aHintStyle: aH.style, bHint: bH.txt, bHintStyle: bH.style,
       onFrom: (e) => {
         const v = e && e.target ? e.target.value : '';
@@ -2670,7 +2721,7 @@ class Component extends DCLogic {
     const mco = this.byShort['MCO'];
     const fromMco = (sh) => { const f = fare(mco, this.byShort[sh], { trip: 'oneway', hours: 0 }); return { t: f.t, total: f.total }; };
     const BD = [
-      { title: 'Airport transfers', tag: 'Airport', kind: 'air', src: '/img/p-mco.webp', alt: 'Suburban Premier curbside at MCO Terminal C', pos: '60% 50%', a: 'MCO', b: 'Magic Kingdom', meta: 'From MCO · met inside baggage claim', ax: -0.95, ay: -0.62, r0: -7, r1: -2.5 },
+      { title: 'Airport transfers', tag: 'Airport', kind: 'air', src: '/img/p-mco.webp', alt: 'Suburban Premier curbside at MCO Terminal C', pos: '60% 50%', a: 'MCO', b: 'Magic Kingdom', meta: 'From MCO · flight tracked', ax: -0.95, ay: -0.62, r0: -7, r1: -2.5 },
       { title: 'Disney resorts', tag: 'Parks & resorts', kind: 'park', src: '/img/p-gf.webp', alt: 'Suburban Premier at a Disney resort entrance', pos: '55% 50%', a: 'MCO', b: 'Magic Kingdom', ax: -0.31, ay: -0.98, r0: 5, r1: 1.5 },
       { title: 'Universal Orlando', tag: 'Parks & resorts', kind: 'park', src: '/img/p-uni-side.webp', alt: 'Suburban Premier at the Universal Orlando guest drop-off', pos: '50% 50%', a: 'MCO', b: 'Universal', ax: 0.34, ay: -0.98, r0: -3, r1: -1 },
       { title: 'Resort hotels', tag: 'Parks & resorts', kind: 'park', src: '/img/p-cabana-front.webp', alt: 'Suburban Premier at a Universal resort hotel entrance', pos: '45% 50%', a: 'MCO', b: 'Universal hotels', ax: 0.95, ay: -0.62, r0: 8, r1: 2 },
@@ -2680,7 +2731,7 @@ class Component extends DCLogic {
     ];
     const burst = BD.map((d, i) => {
       const e2 = fromMco(d.b);
-      const meta = d.meta ? d.meta : d.hourly ? 'Charter from ' + money(P.hourly) + '/hr · or ~' + fmtTime(e2.t) + ' from MCO' : '~' + fmtTime(e2.t) + ' from MCO';
+      const meta = d.meta ? d.meta : d.hourly ? 'By the hour · ' + P.hourMin + 'h minimum' : '~' + fmtTime(e2.t) + ' from MCO';
       const href = 'https://connexxionselite.com/quote/?type=' + ({ air: 'airport', park: 'parks', biz: d.hourly ? 'corp' : 'events', trip: 'trip' }[d.kind]) + '&from=' + encodeURIComponent(d.a) + '&to=' + encodeURIComponent(d.b);
       return {
         title: d.title, tag: d.tag, src: d.src, alt: d.alt, pos: d.pos, meta: meta, href: href,
@@ -2716,7 +2767,7 @@ class Component extends DCLogic {
       name: c.name || '—', contact: [c.email, c.phone].filter((x) => !!x).join(' · ') || 'Add your details',
       service: tripLabel, when: dateTxt, isRound: isRound, ret: retTxt,
       from: A ? A.name : '—', to: B ? B.name : (isHourly ? 'As directed' : '—'),
-      pax: s.pax + (s.pax === 1 ? ' passenger' : ' passengers') + (s.pax > 6 ? ' (second vehicle quoted separately)' : ''),
+      pax: s.pax + (s.pax === 1 ? ' passenger' : ' passengers') + (s.pax > 6 ? ' (write to us for 7+)' : ''),
       dist: est.ready && B ? est.mi + ' · ' + est.time : '—',
       flight: c.flight || '—',
       issued: s.issued, err: !!s.qerr, errText: s.qerr,

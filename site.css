@@ -20,5 +20,5 @@ html.mb-on .mscale{display:none}
 .ce-snd:hover span,.ce-snd:focus-visible span{display:inline}
 .ce-snd[aria-pressed="true"]{color:#F2F0EB;border-color:rgba(212,42,39,.6)}
 .ce-snd[aria-pressed="true"] svg{color:#E2312D}
-@media (max-width:760px){.ce-snd{left:10px;bottom:10px;width:34px;height:34px}}
+@media (max-width:760px){.ce-snd{left:10px;bottom:10px;width:34px;height:34px;transition:opacity .25s ease,transform .25s ease}.ce-snd.is-away{opacity:0;transform:translateY(12px);pointer-events:none}}
 @media print{.ce-snd{display:none}}

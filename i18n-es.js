@@ -1,6 +1,34 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'and not included. Clients usually leave 15–20% of the service total, about': 'y no está incluida. Los clientes suelen dejar entre 15 y 20 % del total del servicio, unos',
+    'for this ride.': 'en este viaje.',
+
+    'Flat rate per vehicle. Tolls and parking included, gratuity optional.': 'Tarifa fija por vehículo. Peajes y estacionamiento incluidos, propina opcional.',
+    'Travel to and from the pickup area': 'Traslado hacia y desde la zona de recogida',
+    'Gratuity is optional': 'La propina es opcional',
+    'Flat rate per vehicle, up to 6 passengers. Tolls and parking included as shown. Gratuity is optional and not included. Cancellation and payment terms are sent with our written confirmation. This quote becomes final once we confirm it in writing.': 'Tarifa fija por vehículo, hasta 6 pasajeros. Peajes y estacionamiento incluidos como se muestra. La propina es opcional y no está incluida. Las condiciones de cancelación y pago llegan con nuestra confirmación por escrito. Esta cotización es final cuando la confirmamos por escrito.',
+
+    // ---- v33: softened promises, new stats ----
+    'Airport rides': 'Viajes al aeropuerto', 'Flight tracked': 'Seguimos tu vuelo',
+    'Terms confirmed in writing before you pay.': 'Condiciones confirmadas por escrito antes de pagar.',
+    'You pay only after we confirm. On the day, your chauffeur is waiting at your pickup, with your flight tracked on airport rides.': 'Pagas solo después de que confirmamos. Ese día tu chofer te espera en el punto de recogida, y en viajes al aeropuerto seguimos tu vuelo.',
+    'Met on arrival.': 'Te recibimos al llegar.',
+    'We track your flight from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.': 'Seguimos tu vuelo desde que despega. Si llega temprano o con retraso, ajustamos la recogida a tu hora real de llegada y tu chofer está ahí cuando aterrizas.',
+    'Every detail confirmed in writing before you pay': 'Cada detalle confirmado por escrito antes de pagar',
+    'Met on arrival': 'Te recibimos al llegar', 'Tracked, pickup adjusted': 'Lo seguimos y ajustamos la recogida',
+    'Meet & greet on arrival': 'Recibimiento al llegar',
+    'Model year, delivered new': 'Año del modelo, entregada nueva', '3 hours': '3 horas', 'Charter minimum, as directed': 'Mínimo de un servicio por hora',
+    'We confirm the exact meeting point with your booking. Add your flight number and we follow your arrival.': 'Te confirmamos el punto exacto de encuentro con tu reserva. Agrega tu número de vuelo y seguimos tu llegada.',
+    'We track the flight number you give us and adjust the pickup to your real arrival. Waiting time is set out in your written confirmation.': 'Seguimos el número de vuelo que nos das y ajustamos la recogida a tu llegada real. El tiempo de espera queda indicado en tu confirmación por escrito.',
+    'Up to six passengers with luggage. For a larger group, write to us before booking.': 'Hasta seis pasajeros con equipaje. Si son más, escríbenos antes de reservar.',
+    'Payment details come with your written confirmation. You receive an invoice from MTC Cargo Corp d/b/a Connexxions Elite.': 'Los detalles de pago llegan con tu confirmación por escrito. Recibes una factura de MTC Cargo Corp d/b/a Connexxions Elite.',
+    'The cancellation terms come in writing with your confirmation, before you pay anything.': 'Las condiciones de cancelación llegan por escrito con tu confirmación, antes de que pagues nada.',
+    'From MCO · flight tracked': 'Desde MCO · seguimos tu vuelo',
+    'We answer by email': 'Te respondemos por correo',
+    'The Suburban seats up to 6 passengers. For a larger group, write to us before booking.': 'La Suburban lleva hasta 6 pasajeros. Si son más, escríbenos antes de reservar.',
+    'Flat rate per vehicle, up to 6 passengers. Tolls, parking and gratuity included as shown. Cancellation and payment terms are sent with our written confirmation. This quote becomes final once we confirm it in writing.': 'Tarifa fija por vehículo, hasta 6 pasajeros. Peajes, estacionamiento y propina incluidos como se muestra. Las condiciones de cancelación y pago llegan con nuestra confirmación por escrito. Esta cotización es final cuando la confirmamos por escrito.',
+
     /* nav + hero */
     'Instant quote': 'Cotización al instante', 'Destinations': 'Destinos', 'Vehicle': 'Vehículo', 'Chauffeur': 'Chofer',
     'Get a price': 'Cotizar', 'Now booking': 'Reservas abiertas', 'Orlando, Florida': 'Orlando, Florida', 'Local time': 'Hora local',
@@ -157,7 +185,7 @@ window.CE_ES = {
     'Drop-off (optional)': 'Destino (opcional)', 'Pickup address or place': 'Dirección o lugar de recogida', 'Clear pickup': 'Borrar recogida', 'Stop address or place': 'Dirección o lugar de la parada',
     'Remove stop': 'Quitar parada', 'Drop-off address or place': 'Dirección o lugar de destino', 'Clear drop-off': 'Borrar destino', 'Fewer hours': 'Menos horas', 'More hours': 'Más horas',
     'Fewer passengers': 'Menos pasajeros', 'More passengers': 'Más pasajeros', 'Fewer bags': 'Menos maletas', 'More bags': 'Más maletas',
-    'e.g. AA 1234 · we track it and wait inside': 'ej. AA 1234 · lo seguimos y te esperamos adentro', 'Occasion, special requests, car seat ages': 'Ocasión, pedidos especiales',
+    'e.g. AA 1234 · we track it': 'ej. AA 1234 · lo seguimos', 'Occasion, special requests, car seat ages': 'Ocasión, pedidos especiales',
     'Route map': 'Mapa de la ruta', 'Quote form': 'Formulario de cotización', 'Trip': 'Viaje', 'Connexxions Elite home': 'Connexxions Elite, inicio',
     'Could not find that address. Try another or tap the map.': 'No encontramos esa dirección. Prueba otra o toca el mapa.', 'Pinned location': 'Punto en el mapa',
     'Orlando International Airport (MCO)': 'Aeropuerto Internacional de Orlando (MCO)'
@@ -171,7 +199,7 @@ window.CE_ES = {
     ['Events & nights out', 'Eventos y salidas'], ['Corporate & conventions', 'Corporativo y convenciones'], ['Day trips', 'Paseos de un día'], ['Something else', 'Otra cosa'],
     ['Round trip', 'Ida y vuelta'], ['One way', 'Solo ida'], ['Private ride', 'Viaje privado'], ['as directed', 'a disposición'], ['As directed', 'A disposición'],
     [' going ', ' ida '], [' return ', ' regreso '], ['approx.', 'aprox.'], ['Issued', 'Emitida'], ['Pickup', 'Recogida'], ['min from MCO', 'min desde MCO'],
-    ['Charter from', 'Charter desde'], ['/hr', '/h'], [' or ~', ' o ~'], ['. Price this ride', '. Cotiza este viaje'],
+    ['Charter from', 'Charter desde'], ['By the hour · ', 'Por hora · mínimo '], ['h minimum', ' h'], ['/hr', '/h'], [' or ~', ' o ~'], ['. Price this ride', '. Cotiza este viaje'],
     ['Sent. Our team has your quote', 'Enviada. Nuestro equipo tiene tu cotización'], ['and will confirm by email at', 'y la confirmará por correo a'], ['No payment until then.', 'Sin pago hasta entonces.'],
     ['or write to', 'o escribe a']
   ]

@@ -180,6 +180,8 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 .qrow span:last-child{text-align:right}
 .qtot{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px}
 .qtot strong{font-family:var(--serif);font-weight:400;font-size:46px;line-height:1}
+.qtip{margin:10px 0 0;padding:10px 12px;border-radius:10px;background:rgba(10,10,10,.045);font-size:12.5px;line-height:1.5;color:#3E3B36}
+.qtip b{font-weight:600}
 .qterms{margin:14px 0 0;padding-top:14px;border-top:1px solid rgba(10,10,10,.1);font-size:11.5px;line-height:1.6;color:#5E5A53}
 .qroute{display:grid;grid-template-columns:24px 1fr;gap:6px 12px;align-items:start;padding:14px;margin:4px 0 12px;background:#F4F2ED;border-radius:10px;font-size:14px}
 .qroute .pin{width:22px;height:22px;font-size:10px}
@@ -381,9 +383,9 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
         <div class="grid2">
           <div class="box"><span class="lab">Passengers · max 6</span><div class="cnt"><button type="button" data-cnt="pax" data-d="-1" aria-label="Fewer passengers">−</button><output id="o-pax">2</output><button type="button" data-cnt="pax" data-d="1" aria-label="More passengers">+</button></div></div>
           <div class="box"><span class="lab">Bags</span><div class="cnt"><button type="button" data-cnt="bags" data-d="-1" aria-label="Fewer bags">−</button><output id="o-bags">2</output><button type="button" data-cnt="bags" data-d="1" aria-label="More bags">+</button></div></div>
-          <div class="box full fl"><label class="lab" for="in-flight">Flight number</label><input id="in-flight" type="text" placeholder="e.g. AA 1234 · we track it and wait inside" autocomplete="off"></div>
+          <div class="box full fl"><label class="lab" for="in-flight">Flight number</label><input id="in-flight" type="text" placeholder="e.g. AA 1234 · we track it" autocomplete="off"></div>
         </div>
-        <p class="note" id="paxNote" hidden>The Suburban seats up to 6 passengers. For 7 or more, write it in the notes and we will arrange a second vehicle.</p>
+        <p class="note" id="paxNote" hidden>The Suburban seats up to 6 passengers. For a larger group, write to us before booking.</p>
         <p class="err" id="err3"></p>
         <p class="note">Charter service has a <span class="hmin">3</span>-hour minimum. A pickup between 10 pm and 5 am adds a late-night fee.</p>
       </div>
@@ -408,7 +410,8 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
               <div id="q-rows"></div>
               <div id="q-lines"></div>
               <div class="qtot"><span class="lab" style="color:#5E5A53">Estimated total</span><strong id="q-total"></strong></div>
-              <p class="qterms">Flat rate per vehicle, up to 6 passengers. Tolls, parking and gratuity included as shown. Free cancellation up to 48 hours before pickup; later cancellations are charged 50% of the rate. Payment by credit card or Zelle on confirmation. This quote becomes final once we confirm it in writing.<br>MTC Cargo Corp d/b/a Connexxions Elite · Orlando, FL · marco@connexxionselite.com</p>
+              <p class="qtip" id="q-tip"></p>
+              <p class="qterms">Flat rate per vehicle, up to 6 passengers. Tolls and parking included as shown. Gratuity is optional and not included. Cancellation and payment terms are sent with our written confirmation. This quote becomes final once we confirm it in writing.<br>MTC Cargo Corp d/b/a Connexxions Elite · Orlando, FL · marco@connexxionselite.com</p>
             </div>
           </article>
           <div class="qacts">
@@ -468,7 +471,7 @@ var BY = {}; PLACES.forEach(function (p) { BY[p.short.toLowerCase()] = p; });
 function find(q) { if (!q) return null; var k = String(q).toLowerCase(); if (BY[k]) return BY[k]; var n = norm(q); for (var i = 0; i < PLACES.length; i++) if (PLACES[i].keys.indexOf(n) >= 0) return PLACES[i]; return null; }
 
 var TYPES = [
-  { id: 'airport', t: 'Airport transfer', d: 'From MCO · met inside baggage claim', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>' },
+  { id: 'airport', t: 'Airport transfer', d: 'From MCO · flight tracked', ic: '<path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/>' },
   { id: 'parks', t: 'Parks & resorts', d: 'Disney · Universal · SeaWorld', ic: '<path d="M4 21V11l2-1.5L8 11V7l4-3 4 3v4l2-1.5 2 1.5v10z"/><path d="M10 21v-4a2 2 0 0 1 4 0v4"/>' },
   { id: 'hourly', t: 'Charter, as directed', d: 'Minimum ' + P.hourMin + ' hours · stops as you like', ic: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>', mode: 'hourly' },
   { id: 'events', t: 'Events & nights out', d: 'Dinners, concerts, games, weddings', ic: '<path d="M7 3h10l-1.2 7a3.8 3.8 0 0 1-7.6 0z"/><path d="M12 14v6M8 21h8"/>' },
@@ -515,7 +518,8 @@ function fare() {
   var svc = 0, dead = deadMiles() * P.perMile * DEAD.rate;
   if (S.mode === 'hourly') {
     var h = Math.max(S.hours, P.hourMin); svc = h * P.hourly + dead;
-    add('Charter, as directed · ' + h + ' h × ' + money(P.hourly), svc);
+    add('Charter, as directed · ' + h + ' h × ' + money(P.hourly), h * P.hourly);
+    if (dead >= 1) add('Travel to and from the pickup area', dead);
     if (S.A.air) add('Airport pickup · meet & greet, parking', P.airportPickup);
   } else {
     var legs = S.mode === 'round' ? 2 : 1;
@@ -532,9 +536,10 @@ function fare() {
   }
   var late = (lateNight(tm) ? 1 : 0) + (S.mode === 'round' && lateNight(rtm) ? 1 : 0);
   if (late) add('Late-night pickup' + (late > 1 ? ' × 2' : '') + ' · 10 pm to 5 am', P.lateNight * late);
-  add('Gratuity · ' + P.gratuity + '%', svc * P.gratuity / 100);
   var total = 0; lines.forEach(function (x) { total += x.v; });
-  return { lines: lines, total: total, mi: m, min: Math.max(10, Math.round(t / 5) * 5), est: r && r.est };
+  // gratuity is optional and stays out of the total; clients usually leave 15–20% of the service
+  var tip = [Math.round(total * 0.15), Math.round(total * 0.20)];
+  return { lines: lines, total: total, tip: tip, mi: m, min: Math.max(10, Math.round(t / 5) * 5), est: r && r.est };
 }
 
 /* ---------- helpers ---------- */
@@ -884,6 +889,7 @@ function issue() {
   $('#q-rows').innerHTML = rows.map(function (r, i) { return '<div class="qrow"><span>' + esc(r[0]) + '</span><span' + (i === 0 ? ' translate="no"' : '') + '>' + esc(r[1]) + '</span></div>'; }).join('');
   $('#q-lines').innerHTML = f.lines.map(function (l) { return '<div class="qrow"><span>' + esc(l.l) + '</span><span>' + money(l.v) + '</span></div>'; }).join('');
   $('#q-total').textContent = money(f.total);
+  $('#q-tip').innerHTML = '<b>Gratuity is optional</b> <span>and not included. Clients usually leave 15–20% of the service total, about</span> <span translate="no">' + money(f.tip[0]) + '–' + money(f.tip[1]) + '</span> <span>for this ride.</span>';
   var body = [
     'Hi Connexxions Elite team,', '', 'I would like to confirm this quote.', '',
     'Quote: ' + no, 'Service: ' + svcLabel(),
@@ -895,13 +901,13 @@ function issue() {
   body.push('Passengers: ' + S.pax + ' · Bags: ' + S.bags);
   if (val('in-flight')) body.push('Flight: ' + val('in-flight'));
   if (S.stopOn && S.S) body.push('Extras: extra stop');
-  body.push('', 'Estimated total: ' + money(f.total), '');
+  body.push('', 'Estimated total: ' + money(f.total) + ' (gratuity optional, not included)', '');
   f.lines.forEach(function (l) { body.push('  ' + l.l + ': ' + money(l.v)); });
   body.push('', 'Name: ' + val('in-name'), 'Email: ' + val('in-email'));
   if (val('in-phone')) body.push('Mobile: ' + val('in-phone'));
   if (val('in-notes')) body.push('Notes: ' + val('in-notes'));
   $('#q-mail').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Confirm quote ' + no) + '&cc=' + encodeURIComponent(val('in-email')) + '&body=' + encodeURIComponent(body.join('\n'));
-  S.payload = { no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
+  S.payload = { tip: money(f.tip[0]) + '–' + money(f.tip[1]) + ' suggested (15–20%), optional', no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
   S.sent = false; $('#q-stat').className = 'qstat'; $('#q-send').disabled = false; $('#q-send').textContent = 'Send to confirm';
   S.issued = true; render();
   setTimeout(function () { var q = $('#qwrap'); if (q.scrollIntoView) q.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
@@ -923,7 +929,7 @@ $('#q-send').addEventListener('click', function () {
     Stop: S.stopOn && S.S ? S.S.name : '—', Dropoff: S.B ? S.B.name : 'As directed',
     Return: S.mode === 'round' ? fmtDate(val('in-rdate')) + ' · ' + fmtT(val('in-rtime')) : '—',
     Passengers: String(S.pax), Bags: String(S.bags), Flight: val('in-flight') || '—',
-    'Estimated total': P2.total, Breakdown: P2.lines, Notes: val('in-notes') || '—', Page: location.href.split('#')[0]
+    'Estimated total': P2.total, Gratuity: P2.tip, Breakdown: P2.lines, Notes: val('in-notes') || '—', Page: location.href.split('#')[0]
   };
   fetch(FORM, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
     .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || String(j.success) === 'false') throw new Error(j.message || r.status); return j; }); })
@@ -931,11 +937,33 @@ $('#q-send').addEventListener('click', function () {
       S.sent = true; btn.textContent = 'Sent ✓';
       st.className = 'qstat on ok'; st.textContent = 'Sent. Our team has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
     })
-    .catch(function () {
-      btn.disabled = false; btn.textContent = 'Try again';
-      st.className = 'qstat on bad'; st.innerHTML = 'We could not send it from here. <a href="' + $('#q-mail').getAttribute('href').replace(/"/g, '&quot;') + '">Send it from your email app</a> or write to ' + EMAIL + '.';
+    .catch(function (err) {
+      try { console.warn('[CE] quick send failed, trying the form route:', err && err.message); } catch (e) {}
+      postForm(data).then(function () {
+        S.sent = true; btn.textContent = 'Sent ✓';
+        st.className = 'qstat on ok'; st.textContent = 'Sent. Our team has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
+      }, function () {
+        btn.disabled = false; btn.textContent = 'Try again';
+        st.className = 'qstat on bad'; st.innerHTML = 'We could not send it from here. <a href="' + $('#q-mail').getAttribute('href').replace(/"/g, '&quot;') + '">Send it from your email app</a> or write to ' + EMAIL + '.';
+      });
     });
 });
+/* second route: a normal form post into a hidden frame; FormSubmit sends the browser back to /quote/sent.html, which tells this page it arrived */
+function postForm(data) {
+  return new Promise(function (ok, fail) {
+    var name = 'ce-sink-' + Date.now(), ifr = document.createElement('iframe'), form = document.createElement('form'), done = false;
+    ifr.name = name; ifr.title = 'Sending'; ifr.style.cssText = 'position:absolute;width:1px;height:1px;border:0;left:-9999px;top:0';
+    form.method = 'POST'; form.action = 'https://formsubmit.co/' + EMAIL; form.target = name; form.style.display = 'none';
+    var fields = Object.assign({}, data, { _next: location.origin + '/quote/sent.html', _captcha: 'false' });
+    delete fields._template;
+    Object.keys(fields).forEach(function (k) { var i = document.createElement('input'); i.type = 'hidden'; i.name = k; i.value = String(fields[k]); form.appendChild(i); });
+    var finish = function (good) { if (done) return; done = true; window.removeEventListener('message', onMsg); clearTimeout(tm); setTimeout(function () { ifr.remove(); form.remove(); }, 1000); good ? ok() : fail(); };
+    var onMsg = function (e) { if (e.origin === location.origin && e.data === 'ce-sent') finish(true); };
+    window.addEventListener('message', onMsg);
+    var tm = setTimeout(function () { finish(false); }, 15000);
+    document.body.appendChild(ifr); document.body.appendChild(form); form.submit();
+  });
+}
 
 /* ---------- render ---------- */
 function render() {
