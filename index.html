@@ -1159,6 +1159,62 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
 .pass-stamp::after{content:"";position:absolute;inset:0;border-radius:99px;background:radial-gradient(circle,rgba(212,42,39,.3),rgba(212,42,39,0) 65%);opacity:0}
 .pass.is-in .pass-stamp::after{animation:stampring .7s ease-out 1.38s both}
 @media (max-width:560px){.pass-stamp{left:calc(20% - 46px);bottom:14px;width:92px;height:92px}}
+
+/* ================= how it works: the car drives the route as you scroll ================= */
+.hw{margin-top:72px;view-timeline-name:--hw;view-timeline-axis:block}
+.hw-track{position:relative;height:96px;margin:0 calc(100% / 6);container-type:inline-size}
+.hw-line,.hw-fill{position:absolute;left:0;right:0;top:58px;height:2px;border-radius:2px}
+.hw-line{background:repeating-linear-gradient(90deg,rgba(10,10,10,.28) 0 8px,transparent 8px 16px)}
+.hw-fill{background:linear-gradient(90deg,#0A0A0A,var(--accent,#D42A27));transform-origin:0 50%;transform:scaleX(0)}
+.hw-node{position:absolute;top:47px;width:24px;height:24px;margin-left:-12px;display:flex;flex-direction:column;align-items:center}
+.hw-node.n1{left:0}.hw-node.n2{left:50%}.hw-node.n3{left:100%}
+.hw-node b{width:24px;height:24px;border-radius:99px;background:#F7F5F0;border:2px solid rgba(10,10,10,.25);box-shadow:0 0 0 5px #E8E5DE;transition:background .3s,border-color .3s}
+.hw-node em{position:absolute;top:34px;white-space:nowrap;font-style:normal;font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A63}
+.hw-car{position:absolute;left:0;top:22px;width:64px;height:26px;margin-left:-32px;filter:drop-shadow(0 8px 8px rgba(10,10,10,.22))}
+.hw-car svg{width:100%;height:100%;display:block}
+.hw-car::after{content:"";position:absolute;right:-26px;top:9px;width:30px;height:8px;border-radius:99px;background:radial-gradient(closest-side,rgba(255,231,194,.9),rgba(255,231,194,0));opacity:.85}
+/* scroll-driven: the car, the red line and the stops all follow the same timeline */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .hw-car{animation:hwcar linear both;animation-timeline:--hw;animation-range:entry 70% cover 62%}
+    .hw-fill{animation:hwfill linear both;animation-timeline:--hw;animation-range:entry 70% cover 62%}
+    .hw-node.n1 b{animation:hwn1 linear both;animation-timeline:--hw;animation-range:entry 70% cover 62%}
+    .hw-node.n2 b{animation:hwn2 linear both;animation-timeline:--hw;animation-range:entry 70% cover 62%}
+    .hw-node.n3 b{animation:hwn3 linear both;animation-timeline:--hw;animation-range:entry 70% cover 62%}
+  }
+}
+@supports not (animation-timeline: view()){
+  .hw-car{animation:hwcar 2.6s cubic-bezier(.45,0,.2,1) .4s both}
+  .hw-fill{animation:hwfill 2.6s cubic-bezier(.45,0,.2,1) .4s both}
+  .hw-node.n1 b{animation:hwn1 2.6s linear .4s both}.hw-node.n2 b{animation:hwn2 2.6s linear .4s both}.hw-node.n3 b{animation:hwn3 2.6s linear .4s both}
+  .hw.off .hw-car,.hw.off .hw-fill,.hw.off .hw-node b{animation-play-state:paused}
+}
+@keyframes hwcar{from{transform:translate3d(0,0,0)}to{transform:translate3d(100cqw,0,0)}}
+@keyframes hwfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes hwn1{0%{background:#D42A27;border-color:#D42A27}100%{background:#D42A27;border-color:#D42A27}}
+@keyframes hwn2{0%,48%{background:#F7F5F0;border-color:rgba(10,10,10,.25)}52%,100%{background:#D42A27;border-color:#D42A27}}
+@keyframes hwn3{0%,96%{background:#F7F5F0;border-color:rgba(10,10,10,.25)}99%,100%{background:#0A0A0A;border-color:#0A0A0A}}
+@media (prefers-reduced-motion: reduce){.hw-car{transform:translate3d(100cqw,0,0)}.hw-fill{transform:none}.hw-node b{background:#D42A27;border-color:#D42A27}}
+.hw-list{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hw-card{position:relative;height:100%;display:flex;flex-direction:column;gap:14px;padding:32px 32px 34px;border-radius:20px;background:#F7F5F0;box-shadow:0 1px 0 rgba(10,10,10,.05),0 30px 60px -46px rgba(10,10,10,.45)}
+.hw-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.hw-n{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:88px;line-height:.78;color:var(--accent,#D42A27)}
+.hw-ic{width:46px;height:46px;border-radius:99px;display:flex;align-items:center;justify-content:center;background:#0A0A0A;color:#F2F0EB}
+.hw-k{font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A63}
+.hw-card .h3{margin:0}
+.hw-card p{margin:0;color:#5E5A53;font-weight:300;line-height:1.55}
+.hw-cta{display:flex;justify-content:center;margin-top:40px}
+@media (max-width:860px){
+  .hw-track{margin:0 18px}
+  .hw-list{grid-template-columns:1fr;gap:12px}
+  .hw-n{font-size:68px}
+  .hw-card{padding:26px 24px 28px}
+}
+
+@media (max-width:860px){
+  .hw-sticky{position:sticky;top:60px;z-index:4;margin:0 -20px;padding:4px 20px 10px;background:#E8E5DE;box-shadow:0 14px 16px -12px rgba(10,10,10,.18)}
+  .hw-track{margin:0 22px;height:92px}
+}
 </style>
 </helmet>
 
@@ -1474,7 +1530,7 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
           <span class="pass-slot" aria-hidden="true"></span>
           <div class="pass-top"><span>Connexxions <em>Elite</em></span><span>Chauffeur pass</span></div>
           <div class="pass-body">
-            <div class="pass-photo"><img loading="lazy" decoding="async" src="img/marco.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite"></div>
+            <div class="pass-photo"><img loading="lazy" decoding="async" src="img/marco2.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite"></div>
             <dl class="pass-dl">
               <div><dt>Name</dt><dd class="pass-name">Marco Cardozo</dd></div>
               <div><dt>Role</dt><dd>Founder · CEO · Chauffeur</dd></div>
@@ -1509,32 +1565,45 @@ html:not(.rv-on) .vtile .vlit{opacity:1}
     <div style="max-width: 1360px; margin: 0 auto; padding: 144px 40px">
       <div class="sec-top rv"><p class="eyebrow">Process</p><span class="idx">(06)</span></div>
       <h2 id="how-h" class="disp h2 rv" style="--d: 90ms; margin-top: 56px; max-width: 18ch">From estimate to curb <span class="it">in three steps.</span></h2>
-      <ol class="tg" style="list-style: none; margin: 72px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 16px">
-        <li class="rv" style="--d: 0ms">
-          <div class="tilt" style="background: #F7F5F0; border-radius: 3px; padding: 40px; display: flex; flex-direction: column; gap: 22px; min-height: 320px; height: 100%">
+      <div class="hw">
+        <div class="hw-sticky">
+        <div class="hw-track" aria-hidden="true">
+          <i class="hw-line"></i><i class="hw-fill"></i>
+          <span class="hw-node n1"><b></b><em>Quote</em></span><span class="hw-node n2"><b></b><em>Confirm</em></span><span class="hw-node n3"><b></b><em>Your door</em></span>
+          <span class="hw-car"><svg viewBox="0 0 64 26" aria-hidden="true"><path d="M3 18.5V14c0-1.2.7-2 1.8-2.3l6.4-1.8 6.2-5.4c.9-.8 2-1.2 3.2-1.2h22.6c1.4 0 2.6.6 3.4 1.7l4.6 6.2 7.2 1.6c1.3.3 2.1 1.4 2.1 2.7v3" fill="#0A0A0A"/><path d="M19 9.6 23.3 6h9.2v3.6zM35 9.6V6h8.6c.7 0 1.3.3 1.7.8l2.1 2.8z" fill="#3A3D44"/><rect x="2" y="16.4" width="60" height="4.6" rx="2.3" fill="#0A0A0A"/><path d="M58.5 13.2h3" stroke="#FFE7C2" stroke-width="1.6" stroke-linecap="round"/><path d="M2.8 14.2h2.4" stroke="#D42A27" stroke-width="1.6" stroke-linecap="round"/><circle cx="15" cy="20.5" r="4.6" fill="#141416" stroke="#C9C6BF" stroke-width="1.6"/><circle cx="49" cy="20.5" r="4.6" fill="#141416" stroke="#C9C6BF" stroke-width="1.6"/></svg></span>
+        </div>
+        </div>
+        <ol class="hw-list">
+        <li class="hw-step rv" style="--d: 0ms">
+          <div class="hw-card tilt">
             <span class="glare" aria-hidden="true"></span>
-            <span class="it" style="font-size: 96px; line-height: .8; color: var(--accent)">1</span>
-            <h3 class="h3" style="margin-top: auto">Plan &amp; price</h3>
-            <p style="margin: 0; color: #5E5A53; font-weight: 300">Set pickup and drop-off on the planner and see an instant flat-fare estimate.</p>
+            <div class="hw-top"><span class="hw-n">1</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg></span></div>
+            <span class="hw-k">Step 01 · Quote</span>
+            <h3 class="h3">Get your price</h3>
+            <p>Pick the ride and drop in any address. The live map shows your price in seconds, tolls included.</p>
           </div>
         </li>
-        <li class="rv" style="--d: 120ms">
-          <div class="tilt" style="background: #F7F5F0; border-radius: 3px; padding: 40px; display: flex; flex-direction: column; gap: 22px; min-height: 320px; height: 100%">
+        <li class="hw-step rv" style="--d: 120ms">
+          <div class="hw-card tilt">
             <span class="glare" aria-hidden="true"></span>
-            <span class="it" style="font-size: 96px; line-height: .8; color: var(--accent)">2</span>
-            <h3 class="h3" style="margin-top: auto">Official quote</h3>
-            <p style="margin: 0; color: #5E5A53; font-weight: 300">Add your details and get a quote with a reference number, ready as a PDF.</p>
+            <div class="hw-top"><span class="hw-n">2</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span></div>
+            <span class="hw-k">Step 02 · Confirm</span>
+            <h3 class="h3">Marco confirms</h3>
+            <p>Send it from the quote page. Marco confirms availability in writing. No payment until then.</p>
           </div>
         </li>
-        <li class="rv" style="--d: 240ms">
-          <div class="tilt" style="background: #F7F5F0; border-radius: 3px; padding: 40px; display: flex; flex-direction: column; gap: 22px; min-height: 320px; height: 100%">
+        <li class="hw-step rv" style="--d: 240ms">
+          <div class="hw-card tilt">
             <span class="glare" aria-hidden="true"></span>
-            <span class="it" style="font-size: 96px; line-height: .8; color: var(--accent)">3</span>
-            <h3 class="h3" style="margin-top: auto">Confirm &amp; ride</h3>
-            <p style="margin: 0; color: #5E5A53; font-weight: 300">We confirm in writing, you pay by card or Zelle, and your chauffeur is waiting on the day.</p>
+            <div class="hw-top"><span class="hw-n">3</span><span class="hw-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15.5V12l2.2-4.4A2 2 0 0 1 8 6.5h8a2 2 0 0 1 1.8 1.1L20 12v3.5"/><path d="M3 15.5h18v2H3z"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg></span></div>
+            <span class="hw-k">Step 03 · Pickup</span>
+            <h3 class="h3">Your ride arrives</h3>
+            <p>Pay by card or Zelle on confirmation. On the day, Marco is at the curb, or inside baggage claim at MCO.</p>
           </div>
         </li>
-      </ol>
+        </ol>
+        <div class="hw-cta rv"><a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start step 1</span><span aria-hidden="true">Start step 1</span></span></a></div>
+      </div>
     </div>
   </section>
 
@@ -2198,7 +2267,7 @@ class Component extends DCLogic {
       this.ioSeen = new WeakSet();
       // pause endless loops (marquees, floating cards, hero streaks) while they are off screen
       this.ioOff = new IntersectionObserver((es) => { es.forEach((e) => { e.target.classList.toggle('off', !e.isIntersecting); if (e.isIntersecting && e.intersectionRatio > 0.25) e.target.classList.add('is-lit'); }); }, { rootMargin: '120px 0px', threshold: [0, 0.3] });
-      document.querySelectorAll('.hx, .burst-outer, .mq-wrap, .vtrack, .hs-outer, .band, .vtile, .pass').forEach((el) => this.ioOff.observe(el));
+      document.querySelectorAll('.hx, .burst-outer, .mq-wrap, .vtrack, .hs-outer, .band, .vtile, .pass, .hw').forEach((el) => this.ioOff.observe(el));
       document.querySelectorAll('.rv, .img-rv').forEach((el) => { this.ioSeen.add(el); this.io.observe(el); });
     } catch (err) {
       document.documentElement.classList.remove('rv-on');
