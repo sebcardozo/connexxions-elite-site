@@ -1455,6 +1455,36 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.38s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
 .nav-logo{view-transition-name:ce-logo}
+
+/* ================= personality v35 ================= */
+/* night mode: Orlando after sunset (html.is-night) */
+.hx-night{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
+.hn-stars{position:absolute;left:0;right:0;top:0;height:46%;background-image:radial-gradient(1px 1px at 8% 18%,#fff 60%,transparent),radial-gradient(1px 1px at 17% 41%,rgba(255,255,255,.8) 60%,transparent),radial-gradient(1.4px 1.4px at 26% 12%,#fff 60%,transparent),radial-gradient(1px 1px at 34% 33%,rgba(255,255,255,.7) 60%,transparent),radial-gradient(1px 1px at 44% 9%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 52% 27%,rgba(255,255,255,.85) 60%,transparent),radial-gradient(1px 1px at 61% 15%,#fff 60%,transparent),radial-gradient(1px 1px at 69% 38%,rgba(255,255,255,.7) 60%,transparent),radial-gradient(1.4px 1.4px at 77% 8%,#fff 60%,transparent),radial-gradient(1px 1px at 85% 24%,rgba(255,255,255,.8) 60%,transparent),radial-gradient(1px 1px at 93% 13%,#fff 60%,transparent),radial-gradient(1px 1px at 12% 6%,rgba(255,255,255,.6) 60%,transparent),radial-gradient(1px 1px at 39% 21%,rgba(255,255,255,.6) 60%,transparent),radial-gradient(1px 1px at 73% 29%,rgba(255,255,255,.6) 60%,transparent);animation:hntw 5s ease-in-out infinite alternate}
+@keyframes hntw{from{opacity:.55}to{opacity:1}}
+.hn-moon{position:absolute;left:11%;top:17%;width:46px;height:46px;border-radius:99px;background:radial-gradient(circle at 38% 38%,#FFFDF4 0%,#EDE8D8 55%,#CFC8B3 100%);box-shadow:0 0 40px 10px rgba(255,250,230,.18),0 0 120px 40px rgba(170,190,255,.08)}
+.hn-glow{position:absolute;left:0;right:0;bottom:30%;height:22%;background:radial-gradient(60% 100% at 30% 100%,rgba(255,170,90,.22),transparent 70%),radial-gradient(50% 100% at 80% 100%,rgba(212,42,39,.14),transparent 70%)}
+.hx-beam{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease;background:radial-gradient(30% 7% at 26% 84%,rgba(205,220,255,.16),rgba(205,220,255,0) 70%)}
+html.is-night .hx-frame{background:linear-gradient(180deg,#060A16 0%,#0C1426 42%,#141A26 70%,#0E0F12 100%)}
+html.is-night .hx-bg{filter:brightness(.34) saturate(.7) hue-rotate(12deg) contrast(1.08)}
+html.is-night .hx-night{opacity:1}
+html.is-night .hx-drive>img.scene,html.is-night .bob>img.scene:not(.hx-flare){filter:brightness(.72) contrast(1.06) saturate(.9)}
+html.is-night .hx-carw .hx-flare{animation:none;opacity:.95}
+html.is-night .hx-beam{opacity:1}
+html.is-night .hx-glint{opacity:.45}
+html.is-night .hx-dot{background:#8FB4FF;box-shadow:0 0 0 3px rgba(143,180,255,.22)}
+.hx.off .hn-stars{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.hn-stars{animation:none}}
+@media (max-width:760px){.hn-moon{display:none}}
+/* cursor bubble on destinations and routes (mouse only) */
+.ce-cur{position:fixed;left:0;top:0;z-index:70;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:99px;display:grid;place-items:center;background:var(--accent,#D42A27);color:#FFFFFF;font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;opacity:0;transform:translate3d(-200px,-200px,0) scale(.4);transition:opacity .25s ease;box-shadow:0 14px 40px -10px rgba(212,42,39,.65);will-change:transform}
+.ce-cur.on{opacity:1}
+@media (hover:hover) and (pointer:fine){html.ce-cur-ready .bcard,html.ce-cur-ready .qcta-r a{cursor:none}}
+@media (hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.ce-cur{display:none}}
+/* hand-written sign-off */
+.signoff{display:flex;flex-direction:column;align-items:center;gap:2px;margin-top:22px}
+.so-line{margin:0;font-family:'Mrs Saint Delafield','Brush Script MT',cursive;font-size:clamp(46px,5.4vw,78px);line-height:1.05;color:var(--accent,#D42A27);padding:0 .25em;clip-path:inset(-20% 100% -20% 0);transition:clip-path 1.8s cubic-bezier(.65,0,.35,1) .35s}
+html:not(.rv-on) .so-line,.signoff.is-in .so-line{clip-path:inset(-20% -5% -20% 0)}
+.so-by{font-family:'Michroma','Geist',sans-serif;font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:#77736C}
 </style>
 </helmet>
 
@@ -1507,7 +1537,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
           <button type="button" aria-pressed="true">EN</button>
           <button type="button" aria-pressed="false">ES</button>
         </div>
-        <a class="btn btn-p btn-shine" href="https://connexxionselite.com/quote/" style="min-height: 46px; padding: 0 22px"><span class="swap"><span>Get a price</span><span aria-hidden="true">Get a price</span></span></a>
+        <a class="btn btn-p btn-shine" href="https://connexxionselite.com/quote/" style="min-height: 46px; padding: 0 22px"><span class="swap"><span>Get a price</span><span aria-hidden="true">Let&#39;s go</span></span></a>
       </div>
     </nav>
     <div class="progress" aria-hidden="true"></div>
@@ -1523,6 +1553,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
           <img class="scene hx-in" src="/img/hero-plate-blur.webp" alt="" fetchpriority="high" decoding="async">
         </div>
       </div>
+      <div class="hx-night" aria-hidden="true"><i class="hn-stars"></i><i class="hn-moon"></i><i class="hn-glow"></i></div>
       <div class="hx-shade" aria-hidden="true"></div>
       <div class="streaks" aria-hidden="true">
         <i style="--y: 47%; --w: 22%; --d: 1.7s; --dl: -0.9s; --o: .4"></i>
@@ -1531,7 +1562,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
         <i style="--y: 74%; --w: 38%; --d: 0.95s; --dl: -0.35s; --o: .55; --h: 2px"></i>
       </div>
       <div class="hx-meta">
-        <span class="hm"><i class="hx-dot" aria-hidden="true"></i><b>Now booking</b></span>
+        <span class="hm"><i class="hx-dot" aria-hidden="true"></i><b>{{ greet }}</b></span>
         <span class="hm hx-geo"><em>Orlando, Florida</em><b>28.54° N · 81.38° W</b></span>
         <span class="hm"><b>Local time</b><em>{{ clock }}</em></span>
       </div>
@@ -1548,6 +1579,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
             <img class="scene" src="/img/hero-car.webp" alt="Black 2026 Chevrolet Suburban Premier with Connexxions Elite plate, in motion">
             <span class="hx-glint" aria-hidden="true"><i></i></span>
             <img class="scene hx-flare" src="/img/hero-flare.webp" alt="" aria-hidden="true" decoding="async">
+            <i class="hx-beam" aria-hidden="true"></i>
           </div>
         </div>
       </div>
@@ -1585,10 +1617,10 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
       <div class="fade-up" style="--d: 2.6s; display: flex; flex-direction: column; gap: 24px; max-width: 460px; padding-left: 28px; border-left: 1px solid rgba(255,255,255,0.16)">
         <p class="lede" style="margin: 0; font-size: 17px; color: #D9D6CF">Private chauffeured transfers in a brand-new 2026 Suburban Premier. Airports, resorts, theme parks and evenings out across Orlando, with the same chauffeur every time.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 10px">
-          <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get instant price</span><span aria-hidden="true">Get instant price</span></span>
+          <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get instant price</span><span aria-hidden="true">Price it now</span></span>
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
           </a>
-          <a class="btn btn-od" href="#services"><span class="swap"><span>Destinations</span><span aria-hidden="true">Destinations</span></span></a>
+          <a class="btn btn-od" href="#services"><span class="swap"><span>Destinations</span><span aria-hidden="true">Where to?</span></span></a>
         </div>
       </div>
     </div>
@@ -1626,7 +1658,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
           <h2 id="planner-h" class="disp h2 rv" style="--d: 90ms; max-width: 13ch">Plan the ride. <span class="it" style="color: #BDBAB3">See the price.</span></h2>
           <p class="lede rv" style="--d: 180ms; margin: 0; max-width: 40ch; color: #A8A49C; font-size: 17px">Pick the ride, drop in any address and see your price on a live map. Four quick steps, then we confirm by email.</p>
           <div class="rv" style="--d: 260ms; display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
-            <a class="btn btn-p" href="https://connexxionselite.com/quote/" style="min-height: 60px; padding: 0 34px"><span class="swap"><span>Start my quote</span><span aria-hidden="true">Start my quote</span></span></a>
+            <a class="btn btn-p" href="https://connexxionselite.com/quote/" style="min-height: 60px; padding: 0 34px"><span class="swap"><span>Start my quote</span><span aria-hidden="true">Let&#39;s ride</span></span></a>
             <span class="lab" style="color: #77736C">No payment until we confirm</span>
           </div>
         </div>
@@ -1685,7 +1717,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
       <div class="sec-top rv" style="--rule: rgba(255,255,255,.14); color: #BDBAB3"><p class="eyebrow">The vehicle</p><span class="idx">(04)</span></div>
       <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 28px; margin-top: 56px">
         <h2 id="vehicle-h" class="disp h2 rv" style="--d: 90ms">2026 Suburban <span class="it">Premier.</span></h2>
-        <a class="btn btn-od rv" href="https://connexxionselite.com/quote/" style="--d: 180ms"><span class="swap"><span>Check availability</span><span aria-hidden="true">Check availability</span></span></a>
+        <a class="btn btn-od rv" href="https://connexxionselite.com/quote/" style="--d: 180ms"><span class="swap"><span>Check availability</span><span aria-hidden="true">Pick your date</span></span></a>
       </div>
       <figure class="vx tile img-rv vtile">
         <img loading="lazy" decoding="async" class="vx-img zoom" src="/img/v-hotel.webp" alt="Black 2026 Suburban Premier at a resort hotel entrance at dusk">
@@ -1706,7 +1738,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
       <ul class="vspecs"><li class="rv" style="--d: 0ms"><span class="vs-n">01</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h7a2 2 0 0 1 2 2v7H7z"/><path d="M5 13h13l1 5H6z"/><path d="M7 18v2M18 18v2"/></svg></span><span class="vs-k">Seats</span><span class="vs-v">Up to 6 passengers</span></li><li class="rv" style="--d: 60ms"><span class="vs-n">02</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7c4-3 12-3 16 0v10c-4 3-12 3-16 0z"/><path d="M8 7v10M16 7v10" stroke-dasharray="1.5 2"/></svg></span><span class="vs-k">Interior</span><span class="vs-v">Black leather · contrast piping</span></li><li class="rv" style="--d: 120ms"><span class="vs-n">03</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M4.5 7.5l15 9M19.5 7.5l-15 9"/></svg></span><span class="vs-k">Climate</span><span class="vs-v">Rear controls</span></li><li class="rv" style="--d: 180ms"><span class="vs-n">04</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0"/><path d="M6.5 12.5a8 8 0 0 1 11 0"/><path d="M10 16a3 3 0 0 1 4 0"/><circle cx="12" cy="19" r=".8" fill="currentColor"/></svg></span><span class="vs-k">Connectivity</span><span class="vs-v">Wi‑Fi · USB‑C</span></li><li class="rv" style="--d: 240ms"><span class="vs-n">05</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3h4v3l2 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9l2-3z"/><path d="M8 13h8"/></svg></span><span class="vs-k">Onboard</span><span class="vs-v">Bottled water</span></li><li class="rv" style="--d: 300ms"><span class="vs-n">06</span><span class="vs-i"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 13.5 21 7.8c.9-.3 1.6.9.9 1.5L14 15.5l-1 5.5-2 .5-.5-4.8-4 1.8L5 19l1.2-3.6-3.7-1.9z"/></svg></span><span class="vs-k">Airport rides</span><span class="vs-v">Flight tracked</span></li></ul>
       <div class="vx-cta rv">
         <p>Flat rate per vehicle. Tolls and parking included, gratuity optional. <span>Terms confirmed in writing before you pay.</span></p>
-        <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get my price</span><span aria-hidden="true">Get my price</span></span></a>
+        <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get my price</span><span aria-hidden="true">Show me</span></span></a>
       </div>
       <div class="cab">
         <div class="cab-top">
@@ -1745,7 +1777,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
     <div class="band-cap">
       <p class="eyebrow" style="color: #F2F0EB">On the road</p>
       <h2 id="band-h" class="disp h2">Smooth on <span class="it">every mile.</span></h2>
-      <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start my quote</span><span aria-hidden="true">Start my quote</span></span></a>
+      <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start my quote</span><span aria-hidden="true">Let&#39;s ride</span></span></a>
     </div>
   </section>
 
@@ -1783,7 +1815,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
             <span style="font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive; font-size: 64px; line-height: 1.1; color: var(--accent); padding-right: .2em">Marco Cardozo</span>
             <span class="lab" style="color: #6E6A63">Founder &amp; CEO, Connexxions Elite</span>
           </span>
-          <a class="btn btn-ink" href="https://connexxionselite.com/quote/"><span class="swap"><span>Book with us</span><span aria-hidden="true">Book with us</span></span></a>
+          <a class="btn btn-ink" href="https://connexxionselite.com/quote/"><span class="swap"><span>Book with us</span><span aria-hidden="true">Let&#39;s ride</span></span></a>
         </div>
       </div>
     </div>
@@ -1831,7 +1863,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
           </div>
         </li>
         </ol>
-        <div class="hw-cta rv"><a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start step 1</span><span aria-hidden="true">Start step 1</span></span></a></div>
+        <div class="hw-cta rv"><a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Start step 1</span><span aria-hidden="true">Off we go</span></span></a></div>
       </div>
     </div>
   </section>
@@ -1879,7 +1911,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
           </tbody>
         </table>
       </div>
-      <div class="cm-cta rv"><a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get my price</span><span aria-hidden="true">Get my price</span></span></a><span>Comparisons are general and vary by company and trip.</span></div>
+      <div class="cm-cta rv"><a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get my price</span><span aria-hidden="true">Show me</span></span></a><span>Comparisons are general and vary by company and trip.</span></div>
     </div>
   </section>
 
@@ -2007,7 +2039,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
       </div>
       <div class="faq-ask rv dark grain">
         <div><h3 class="it">Still have a question?</h3><p>Write to the Connexxions Elite team and we answer by email.</p></div>
-        <a class="btn btn-p" href="{{ mailtoGeneral }}"><span class="swap"><span>Email us</span><span aria-hidden="true">Email us</span></span></a>
+        <a class="btn btn-p" href="{{ mailtoGeneral }}"><span class="swap"><span>Email us</span><span aria-hidden="true">Say hello</span></span></a>
       </div>
     </div>
   </section>
@@ -2019,9 +2051,10 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
       <p class="eyebrow rv" style="color: #A8A49C">Orlando · Florida</p>
       <h2 class="disp rv" style="--d: 90ms; margin: 0; font-size: clamp(30px, 5vw, 78px); line-height: 1.02; max-width: 16ch">Your itinerary, <span class="it">flawlessly executed.</span></h2>
       <p class="lede rv" style="--d: 160ms; margin: 0; color: #BDBAB3; max-width: 44ch">Plan your route, see the price and get an official quote in under a minute.</p>
-      <a class="btn btn-p rv" href="https://connexxionselite.com/quote/" style="--d: 230ms; min-height: 60px; padding: 0 34px"><span class="swap"><span>Get instant price</span><span aria-hidden="true">Get instant price</span></span>
+      <a class="btn btn-p rv" href="https://connexxionselite.com/quote/" style="--d: 230ms; min-height: 60px; padding: 0 34px"><span class="swap"><span>Get instant price</span><span aria-hidden="true">Price it now</span></span>
         <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
       </a>
+      <div class="signoff rv" style="--d: 320ms"><p class="so-line">See you at the curb.</p><span class="so-by">The Connexxions Elite team</span></div>
     </div>
 
 <div class="ft-grid">
@@ -2058,7 +2091,7 @@ html[data-rm="r4"] .rm-s4{opacity:.85}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15570}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":15720}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -2453,12 +2486,13 @@ class Component extends DCLogic {
     try { this.plCount(); } catch (e) {}
     try { this.startFlow(); } catch (e) {}
     try { this.routeMap(); } catch (e) {}
+    try { this.cursorBubble(); } catch (e) {}
     try { this.hotspots(); } catch (e) {}
     if (window.CE_MAPBOX) { try { window.CE_MAPBOX.attach(this); } catch (e) {} }
     this.setInput('pl-from', this.state.A ? this.state.A.name : '');
     this.setInput('pl-to', this.state.B ? this.state.B.name : '');
     const tick = () => {
-      try { this.setState({ clock: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }) }); } catch (e) {}
+      try { this.setState({ clock: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }), greet: this.greeting() }); } catch (e) {}
     };
     tick();
     this.clockTimer = setInterval(tick, 30000);
@@ -2485,6 +2519,62 @@ class Component extends DCLogic {
     } catch (err) {
       document.documentElement.classList.remove('rv-on');
     }
+  }
+  isNight() {
+    // sunrise and sunset in Orlando for today's date (NOAA approximation); ?night=1 or ?day=1 force a mode
+    try {
+      const q = location.search;
+      if (/[?&]night=1/.test(q)) return true;
+      if (/[?&]day=1/.test(q)) return false;
+    } catch (e) {}
+    const now = new Date(), rad = Math.PI / 180, lat = 28.54, lon = -81.38;
+    const N = Math.floor((now - Date.UTC(now.getUTCFullYear(), 0, 0)) / 864e5);
+    const g = 2 * Math.PI / 365 * (N - 1);
+    const eqt = 229.18 * (0.000075 + 0.001868 * Math.cos(g) - 0.032077 * Math.sin(g) - 0.014615 * Math.cos(2 * g) - 0.040849 * Math.sin(2 * g));
+    const dec = 0.006918 - 0.399912 * Math.cos(g) + 0.070257 * Math.sin(g) - 0.006758 * Math.cos(2 * g) + 0.000907 * Math.sin(2 * g) - 0.002697 * Math.cos(3 * g) + 0.00148 * Math.sin(3 * g);
+    const ha = Math.acos(Math.cos(90.833 * rad) / (Math.cos(lat * rad) * Math.cos(dec)) - Math.tan(lat * rad) * Math.tan(dec)) / rad;
+    const noon = 720 - 4 * lon - eqt;            // minutes after 00:00 UTC
+    const rise = noon - 4 * ha, set = noon + 4 * ha;
+    let t = now.getUTCHours() * 60 + now.getUTCMinutes();
+    if (t < rise - 360) t += 1440;              // past midnight UTC but still the same Orlando evening
+    return t < rise || t >= set;
+  }
+  greeting() {
+    let h = 12;
+    try { h = parseInt(new Intl.DateTimeFormat('en-US', { hour: 'numeric', hour12: false, timeZone: 'America/New_York' }).format(new Date()), 10) % 24; } catch (e) {}
+    const night = this.isNight();
+    document.documentElement.classList.toggle('is-night', night);
+    if (h < 5) return 'Late night, Orlando';
+    if (h < 12) return 'Good morning, Orlando';
+    if (!night) return 'Good afternoon, Orlando';
+    return 'Good evening, Orlando';
+  }
+  cursorBubble() {
+    // a red "Price it" bubble follows the mouse over destinations and routes
+    if (this.curOn || !window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this.curOn = 1;
+    const c = document.createElement('div'); c.className = 'ce-cur'; c.setAttribute('aria-hidden', 'true'); c.textContent = 'Price it';
+    document.body.appendChild(c); document.documentElement.classList.add('ce-cur-ready');
+    this.curEl = c;
+    let x = -200, y = -200, tx = -200, ty = -200, s = 0.4, ts = 0.4, run = false;
+    const loop = () => {
+      x += (tx - x) * 0.22; y += (ty - y) * 0.22; s += (ts - s) * 0.2;
+      c.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(3) + ')';
+      if (Math.abs(tx - x) + Math.abs(ty - y) + Math.abs(ts - s) > 0.3) this.curRaf = requestAnimationFrame(loop); else run = false;
+    };
+    const kick = () => { if (!run) { run = true; this.curRaf = requestAnimationFrame(loop); } };
+    this.onCur = (e) => {
+      const hit = e.target.closest ? e.target.closest('.bcard, .qcta-r a') : null;
+      tx = e.clientX; ty = e.clientY;
+      if (hit) { if (!c.classList.contains('on')) { x = tx; y = ty; } c.classList.add('on'); ts = 1; } else { c.classList.remove('on'); ts = 0.4; }
+      kick();
+    };
+    document.addEventListener('pointermove', this.onCur, { passive: true });
+    // scrolling moves the page under a still mouse: check again what is under it
+    let st = false;
+    this.onCurScroll = () => { if (st) return; st = true; requestAnimationFrame(() => { st = false; const el = document.elementFromPoint(tx, ty); const hit = el && el.closest ? el.closest('.bcard, .qcta-r a') : null; if (!hit && c.classList.contains('on')) { c.classList.remove('on'); ts = 0.4; kick(); } }); };
+    window.addEventListener('scroll', this.onCurScroll, { passive: true });
   }
   routeMap() {
     // "Plan the ride": each route row draws its drive from MCO on the map; it cycles on its own until someone points at a row.
@@ -2529,6 +2619,10 @@ class Component extends DCLogic {
     if (this.ioOff) this.ioOff.disconnect();
     if (this.clockTimer) clearInterval(this.clockTimer);
     if (this.rmTimer) clearInterval(this.rmTimer);
+    if (this.onCur) document.removeEventListener('pointermove', this.onCur);
+    if (this.onCurScroll) window.removeEventListener('scroll', this.onCurScroll);
+    if (this.curRaf) cancelAnimationFrame(this.curRaf);
+    if (this.curEl) this.curEl.remove();
     if (this.onRmIn) { document.removeEventListener('mouseover', this.onRmIn); document.removeEventListener('focusin', this.onRmIn); document.removeEventListener('mouseout', this.onRmOut); document.removeEventListener('focusout', this.onRmOut); }
     if (this.onHs) document.removeEventListener('click', this.onHs);
     document.removeEventListener('pointermove', this.onMove);
@@ -2932,7 +3026,7 @@ class Component extends DCLogic {
     const mailtoGeneral = 'mailto:' + email + '?subject=' + encodeURIComponent('Question for Connexxions Elite');
     return {
       mstep: s.mOpen ? 'm-open' : 'm-closed',
-      accent: accent, email: email, clock: s.clock || 'Live',
+      accent: accent, email: email, clock: s.clock || 'Live', greet: s.greet || 'Now booking',
       price: { hourMin: P.hourMin, childSeat: P.childSeat, extraStop: P.extraStop },
       places: this.places.map((p) => ({ name: p.name })),
       mapLabels: this.mapLabels, sg: sg,

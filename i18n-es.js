@@ -1,6 +1,9 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'Late night, Orlando': 'De madrugada, Orlando', 'Good morning, Orlando': 'Buenos días, Orlando', 'Good afternoon, Orlando': 'Buenas tardes, Orlando', 'Good evening, Orlando': 'Buenas noches, Orlando',
+    "Let's ride": 'Vamos', 'Pick your date': 'Elige tu fecha', 'Where to?': '¿A dónde vamos?', 'Say hello': 'Escríbenos', "Let's go": 'Vamos allá', 'Price it now': 'Cotízalo ya', 'Show me': 'Muéstrame', 'Off we go': 'Arrancamos',
+    'See you at the curb.': 'Nos vemos en la puerta.', 'The Connexxions Elite team': 'El equipo de Connexxions Elite',
     'MCO → Convention Center': 'MCO → Centro de Convenciones', 'Charter → As directed': 'Charter → A disposición',
     'Route preview': 'Vista de la ruta',
     "Second row": "Segunda fila",
