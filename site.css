@@ -12,3 +12,13 @@ html.mb-on .mscale{display:none}
 .mbspot span{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,4px);opacity:0;pointer-events:none;white-space:nowrap;background:#FFFFFF;color:#0A0A0A;font:500 12px/1 'Geist',system-ui,sans-serif;padding:6px 10px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.18);transition:opacity .25s ease,transform .25s ease}
 .mbspot:hover i,.mbspot:focus-visible i{transform:scale(1.35)}
 .mbspot:hover span,.mbspot:focus-visible span{opacity:1;transform:translate(-50%,0)}
+
+/* optional engine sound toggle (off by default) */
+.ce-snd{position:fixed;left:14px;bottom:14px;z-index:60;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:38px;height:38px;padding:0;overflow:hidden;white-space:nowrap;transition:width .3s,opacity .2s,color .2s,border-color .2s;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(10,10,10,.82);color:#BDBAB3;font:500 11px/1 'Geist Mono',ui-monospace,monospace;letter-spacing:.06em;cursor:pointer;opacity:.85;transition:opacity .2s,color .2s,border-color .2s}
+.ce-snd:hover,.ce-snd:focus-visible{opacity:1;color:#F2F0EB;width:auto;padding:0 14px 0 11px}
+.ce-snd span{display:none}
+.ce-snd:hover span,.ce-snd:focus-visible span{display:inline}
+.ce-snd[aria-pressed="true"]{color:#F2F0EB;border-color:rgba(212,42,39,.6)}
+.ce-snd[aria-pressed="true"] svg{color:#E2312D}
+@media (max-width:760px){.ce-snd{left:10px;bottom:10px;width:34px;height:34px}}
+@media print{.ce-snd{display:none}}

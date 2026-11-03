@@ -6,12 +6,17 @@
 <title>Instant Quote · Connexxions Elite</title>
 <meta name="description" content="Plan your private SUV ride in Orlando and see the price instantly: airport transfers, Disney, Universal, the Convention Center and hourly service.">
 <link rel="canonical" href="https://connexxionselite.com/quote/">
-<link rel="icon" href="../img/connexxions-logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Instant Quote · Connexxions Elite">
 <meta property="og:description" content="Plan your private SUV ride in Orlando and see the price instantly.">
 <meta property="og:url" content="https://connexxionselite.com/quote/">
-<meta property="og:image" content="https://connexxionselite.com/img/hero-bg.webp">
+<meta property="og:image" content="https://connexxionselite.com/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://connexxionselite.com/img/og.jpg">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -432,7 +437,7 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
     <button type="button" class="heat-key" id="heatKey" aria-pressed="true" hidden><span class="hk-dot"></span><span><b>Hot pickup zones</b><small><i class="hk-bar"></i>Busy<span>Hottest</span></small></span></button>
     <div class="mempty"><span class="ring"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><b>Your route appears here</b><span>Add a pickup and a drop-off</span></div>
     <div class="mcard" id="mcard">
-      <div class="od"><b id="mc-a">—</b><span class="ln"></span><b id="mc-b">—</b></div>
+      <div class="od"><b id="mc-a" translate="no">—</b><span class="ln"></span><b id="mc-b" translate="no">—</b></div>
       <div class="st"><div><span class="lab">Distance</span><strong id="mc-mi">—</strong></div><div><span class="lab">Time</span><strong id="mc-min">—</strong></div><div><span class="lab">Estimate</span><strong id="mc-tot">—</strong></div></div>
     </div>
   </section>
@@ -591,7 +596,7 @@ function openSug(k) {
   if (loc.length) html += '<li class="gh" role="presentation">' + (q ? 'Places' : 'Popular') + '</li>';
   items.forEach(function (it, i) {
     if (i === loc.length && mb.length) html += '<li class="gh" role="presentation">Addresses</li>';
-    html += '<li role="option" id="op-' + k + '-' + i + '" data-i="' + i + '" aria-selected="' + (i === sugState.idx) + '"><span class="si">' + (it.kind === 'air' ? IC_AIR : it.kind === 'loc' ? IC_STAR : IC_PIN) + '</span><span><b>' + esc(it.label) + '</b><small>' + esc(it.sub) + '</small></span></li>';
+    html += '<li role="option" id="op-' + k + '-' + i + '" data-i="' + i + '" aria-selected="' + (i === sugState.idx) + '"><span class="si">' + (it.kind === 'air' ? IC_AIR : it.kind === 'loc' ? IC_STAR : IC_PIN) + '</span><span><b translate="no">' + esc(it.label) + '</b><small' + (it.kind === 'mb' || it.kind === 'air' && !it.place.lat ? ' translate="no"' : '') + '>' + esc(it.sub) + '</small></span></li>';
   });
   if (!items.length && q.length >= 3) html = '<li class="gh" role="presentation">' + (HAS_MB ? 'Searching…' : 'No match. Try a place name or ZIP code.') + '</li>';
   list.innerHTML = html;
@@ -725,7 +730,18 @@ function initMap() {
     map.addLayer({ id: 'draft', type: 'line', source: 'draft', layout: round, paint: { 'line-color': '#F2F0EB', 'line-opacity': 0.5, 'line-width': 2, 'line-dasharray': [1.5, 2] } });
     map.addLayer({ id: 'rt-glow', type: 'line', source: 'rt', layout: round, paint: { 'line-color': '#D42A27', 'line-opacity': 0.28, 'line-width': w(10, 18), 'line-blur': 6 } });
     map.addLayer({ id: 'rt', type: 'line', source: 'rt', layout: round, paint: { 'line-color': '#E2312D', 'line-width': w(3.4, 6.5) } });
-    map.addLayer({ id: 'car', type: 'circle', source: 'car', paint: { 'circle-radius': w(5, 7), 'circle-color': '#FFFFFF', 'circle-stroke-color': '#D42A27', 'circle-stroke-width': 3 } });
+    // our own Suburban drives the route (a right-facing and a mirrored copy, so it always faces where it is going)
+    var suv = new Image();
+    suv.onload = function () {
+      try {
+        map.addImage('suv-r', suv);
+        var c = document.createElement('canvas'); c.width = suv.width; c.height = suv.height;
+        var x = c.getContext('2d'); x.translate(c.width, 0); x.scale(-1, 1); x.drawImage(suv, 0, 0);
+        map.addImage('suv-l', x.getImageData(0, 0, c.width, c.height));
+        map.addLayer({ id: 'car', type: 'symbol', source: 'car', layout: { 'icon-image': ['coalesce', ['get', 'dir'], 'suv-r'], 'icon-size': ['interpolate', ['linear'], ['zoom'], 8, 0.15, 12, 0.2, 15, 0.27], 'icon-anchor': 'bottom', 'icon-offset': [0, 18], 'icon-allow-overlap': true, 'icon-ignore-placement': true } });
+      } catch (e) {}
+    };
+    suv.src = '../img/suv-side.webp';
     mapReady = true; drawMap(true);
   });
   map.on('click', function (e) {
@@ -772,13 +788,15 @@ function runCar(coords) {
   var src = map && map.getSource('car'); if (!src) return;
   if (!coords || coords.length < 2) { src.setData({ type: 'FeatureCollection', features: [] }); return; }
   var cum = [0]; for (var i = 1; i < coords.length; i++) cum.push(cum[i - 1] + Math.hypot((coords[i][0] - coords[i - 1][0]) * 0.88, coords[i][1] - coords[i - 1][1]));
-  var total = cum[cum.length - 1] || 1, dur = 2600, t0 = performance.now(), j = 1;
+  var total = cum[cum.length - 1] || 1, dur = 4200, t0 = performance.now(), j = 1;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var carDir = 'suv-r';
   var tick = function (now) {
     var u0 = reduce ? 1 : Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - u0, 3), d = e * total;
     while (j < cum.length - 1 && cum[j] < d) j++;
     var seg = (cum[j] - cum[j - 1]) || 1, u = Math.min(1, Math.max(0, (d - cum[j - 1]) / seg));
-    src.setData({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [coords[j - 1][0] + (coords[j][0] - coords[j - 1][0]) * u, coords[j - 1][1] + (coords[j][1] - coords[j - 1][1]) * u] } });
+    var dx = coords[j][0] - coords[j - 1][0]; if (Math.abs(dx) > 1e-6) carDir = dx < 0 ? 'suv-l' : 'suv-r';
+    src.setData({ type: 'Feature', properties: { dir: carDir }, geometry: { type: 'Point', coordinates: [coords[j - 1][0] + (coords[j][0] - coords[j - 1][0]) * u, coords[j - 1][1] + (coords[j][1] - coords[j - 1][1]) * u] } });
     if (u0 < 1) carRaf = requestAnimationFrame(tick);
   };
   carRaf = requestAnimationFrame(tick);
@@ -854,16 +872,16 @@ function issue() {
   $('#q-no').textContent = no;
   $('#q-issued').textContent = 'Issued ' + now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   $('#q-svc').textContent = svcLabel();
-  var rt = '<span class="pin a">A</span><div><div class="lab" style="color:#6E6A63">Pickup · ' + esc(fmtDate(val('in-date'))) + ' · ' + esc(fmtT(val('in-time'))) + '</div>' + esc(S.A.name) + '</div>';
-  if (S.stopOn && S.S) rt += '<span class="pin s">+</span><div><div class="lab" style="color:#6E6A63">Stop</div>' + esc(S.S.name) + '</div>';
-  if (S.B) rt += '<span class="pin b">B</span><div><div class="lab" style="color:#6E6A63">Drop-off</div>' + esc(S.B.name) + '</div>';
+  var rt = '<span class="pin a">A</span><div><div class="lab" style="color:#6E6A63">Pickup · ' + esc(fmtDate(val('in-date'))) + ' · ' + esc(fmtT(val('in-time'))) + '</div><span translate="no">' + esc(S.A.name) + '</span></div>';
+  if (S.stopOn && S.S) rt += '<span class="pin s">+</span><div><div class="lab" style="color:#6E6A63">Stop</div><span translate="no">' + esc(S.S.name) + '</span></div>';
+  if (S.B) rt += '<span class="pin b">B</span><div><div class="lab" style="color:#6E6A63">Drop-off</div><span translate="no">' + esc(S.B.name) + '</span></div>';
   $('#q-route').innerHTML = rt;
   var rows = [['Prepared for', val('in-name') + ' · ' + val('in-email') + (val('in-phone') ? ' · ' + val('in-phone') : '')]];
   if (S.mode === 'round') rows.push(['Return pickup · B to A', fmtDate(val('in-rdate')) + ' · ' + fmtT(val('in-rtime'))]);
   rows.push(['Passengers · bags', S.pax + ' · ' + S.bags]);
   if (S.B) rows.push(['Distance · drive time', f.mi.toFixed(1) + ' mi · ~' + fmtMin(f.min)]);
   if (val('in-flight')) rows.push(['Flight', val('in-flight')]);
-  $('#q-rows').innerHTML = rows.map(function (r) { return '<div class="qrow"><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></div>'; }).join('');
+  $('#q-rows').innerHTML = rows.map(function (r, i) { return '<div class="qrow"><span>' + esc(r[0]) + '</span><span' + (i === 0 ? ' translate="no"' : '') + '>' + esc(r[1]) + '</span></div>'; }).join('');
   $('#q-lines').innerHTML = f.lines.map(function (l) { return '<div class="qrow"><span>' + esc(l.l) + '</span><span>' + money(l.v) + '</span></div>'; }).join('');
   $('#q-total').textContent = money(f.total);
   var body = [
@@ -967,5 +985,7 @@ function render() {
 })();
 })();
 </script>
+<script src="../i18n-es.js"></script>
+<script src="../site.js"></script>
 </body>
 </html>

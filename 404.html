@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wrong turn · Connexxions Elite</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Geist:wght@300..600&family=Instrument+Serif:ital@0;1&family=Michroma&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A0A0A;--cream:#F2F0EB;--mute:#A8A49C;--red:#D42A27}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(120% 90% at 50% 0%,#1A1A1D 0%,#0A0A0A 60%);color:var(--cream);font-family:'Geist',system-ui,sans-serif;font-weight:350;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid rgba(255,255,255,.08)}
+header img{height:30px;width:auto;display:block;mix-blend-mode:lighten}
+header a{color:var(--mute);text-decoration:none;font-size:13px}
+header a:hover{color:var(--cream)}
+main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 20px 64px}
+.k{font-family:'Michroma',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:12px}
+.k i{width:22px;height:1.5px;background:var(--red)}
+h1{margin:18px 0 0;font-family:'Bricolage Grotesque','Geist',sans-serif;font-weight:600;font-size:clamp(44px,8vw,96px);letter-spacing:-.03em;line-height:.95}
+h1 em{display:block;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.01em;color:#E9E5DD}
+p{margin:20px 0 0;max-width:42ch;color:var(--mute);font-size:17px;line-height:1.55}
+.road{position:relative;width:min(760px,92vw);height:150px;margin:44px 0 8px}
+.road .ln{position:absolute;left:0;right:0;bottom:30px;height:2px;background:repeating-linear-gradient(90deg,rgba(242,240,235,.35) 0 10px,transparent 10px 20px)}
+.road .end{position:absolute;right:0;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.road .end b{width:18px;height:18px;border-radius:99px;border:2px solid rgba(242,240,235,.4)}
+.road .end span{font-family:'Michroma',sans-serif;font-size:8.5px;letter-spacing:.16em;color:var(--mute);text-transform:uppercase}
+.suv{position:absolute;left:0;bottom:30px;width:150px;animation:lost 6s cubic-bezier(.45,0,.3,1) infinite}
+.suv img{width:100%;display:block;filter:drop-shadow(0 8px 8px rgba(0,0,0,.5))}
+.suv::after{content:"?";position:absolute;left:50%;top:-34px;transform:translateX(-50%);font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:34px;color:var(--red);animation:q 6s ease-in-out infinite}
+@keyframes lost{0%{transform:translateX(0)}38%{transform:translateX(calc(min(760px,92vw) * .42))}50%{transform:translateX(calc(min(760px,92vw) * .42)) scaleX(-1)}62%{transform:translateX(calc(min(760px,92vw) * .18)) scaleX(-1)}74%{transform:translateX(calc(min(760px,92vw) * .18))}100%{transform:translateX(0)}}
+@keyframes q{0%,30%{opacity:0}40%,70%{opacity:1}80%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.suv,.suv::after{animation:none}.suv{transform:translateX(30%)}.suv::after{opacity:1}}
+.btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 24px;border-radius:99px;font-size:15px;font-weight:500;text-decoration:none;transition:background .2s,border-color .2s}
+.btn-p{background:var(--red);color:#fff}
+.btn-p:hover{background:#E2312D}
+.btn-g{border:1px solid rgba(242,240,235,.25);color:var(--cream)}
+.btn-g:hover{border-color:var(--cream)}
+footer{padding:20px 28px;border-top:1px solid rgba(255,255,255,.08);font-family:'Michroma',sans-serif;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:#77736C;text-align:center}
+</style>
+</head>
+<body>
+<header><a href="/"><img src="/img/connexxions-logo.png" alt="Connexxions Elite"></a><a href="mailto:marco@connexxionselite.com">marco@connexxionselite.com</a></header>
+<main>
+  <span class="k"><i></i>Error 404<i></i></span>
+  <h1>Wrong turn. <em>Let's get you back on route.</em></h1>
+  <p>This page isn't on our map. The ride you're looking for is one tap away.</p>
+  <div class="road" aria-hidden="true"><i class="ln"></i><span class="suv"><img src="/img/suv-side.webp" alt=""></span><span class="end"><b></b><span>Your door</span></span></div>
+  <div class="btns">
+    <a class="btn btn-p" href="/quote/">Get a price →</a>
+    <a class="btn btn-g" href="/">Back home</a>
+  </div>
+</main>
+<footer>Connexxions Elite · Orlando, Florida</footer>
+</body>
+</html>
