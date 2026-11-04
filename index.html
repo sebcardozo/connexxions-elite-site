@@ -1831,6 +1831,17 @@ a.cb-qr{text-decoration:none;color:inherit;cursor:pointer;transition:background 
 a.cb-qr:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
 .cb-go{flex:none;width:18px;height:18px;margin-left:auto;fill:none;stroke:var(--accent,#D42A27);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
+
+/* ================= v5 · brand red, used with intent =================
+   Display italics carry the promise of each heading, in Connexxions red.
+   Body copy gets one marked phrase per section, never more. */
+:root{--red:#D42A27;--red-hi:#EE4A43}
+h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
+.hl{color:#0A0A0A;font-weight:450;padding:0 .06em;margin:0 -.06em;background-image:linear-gradient(transparent 58%,rgba(212,42,39,.2) 58%,rgba(212,42,39,.2) 94%,transparent 94%);background-repeat:no-repeat;background-size:0% 100%;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size 1.3s cubic-bezier(.65,0,.25,1) .5s}
+.is-in .hl,html:not(.rv-on) .hl{background-size:100% 100%}
+.hl-d{color:#FFFFFF;background-image:linear-gradient(transparent 58%,rgba(238,74,67,.55) 58%,rgba(238,74,67,.55) 94%,transparent 94%);animation:hlin 1.3s cubic-bezier(.65,0,.25,1) 1.6s both}
+@keyframes hlin{from{background-size:0% 100%}to{background-size:100% 100%}}
+@media (prefers-reduced-motion:reduce){.hl{transition:none;background-size:100% 100%}.hl-d{animation:none}}
 </style>
 </helmet>
 
@@ -1961,7 +1972,7 @@ a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
         <span class="ln"><span class="ln-i it" style="--d: 2.42s">class of one.</span></span>
       </h1>
       <div class="fade-up" style="--d: 2.6s; display: flex; flex-direction: column; gap: 24px; max-width: 460px; padding-left: 28px; border-left: 1px solid rgba(255,255,255,0.16)">
-        <p class="lede" style="margin: 0; font-size: 17px; color: #D9D6CF">Private chauffeured transfers in a brand-new 2026 Suburban Premier. Airports, resorts, theme parks and evenings out across Orlando, with the same chauffeur every time.</p>
+        <p class="lede" style="margin: 0; font-size: 17px; color: #D9D6CF">Private chauffeured transfers in a brand-new 2026 Suburban Premier. Airports, resorts, theme parks and evenings out across Orlando, with <span class="hl hl-d">the same chauffeur every time</span>.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 10px">
           <a class="btn btn-p" href="https://connexxionselite.com/quote/"><span class="swap"><span>Get instant price</span><span aria-hidden="true">Price it now</span></span>
             <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg>
@@ -1975,7 +1986,7 @@ a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
   <!-- ABOUT -->
   <section id="about" aria-labelledby="about-h" style="max-width: 1360px; margin: 0 auto; padding: 144px 40px 112px">
     <div class="sec-top rv"><p class="eyebrow">About Connexxions Elite</p><span class="idx">(01)</span></div>
-    <h2 id="about-h" class="disp about-h rv" style="--d: 90ms; margin: 64px 0 0; max-width: 20ch">One car, one chauffeur, one price. <span class="it" style="color: #6E6A63">Exactly what you were shown,</span> every single ride.</h2>
+    <h2 id="about-h" class="disp about-h rv" style="--d: 90ms; margin: 64px 0 0; max-width: 20ch">One car, one chauffeur, one price. <span class="it">Exactly what you were shown,</span> every single ride.</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 0; margin-top: 96px; border-top: 1px solid rgba(10,10,10,.14)">
       <div class="rv" style="--d: 0ms; display: flex; flex-direction: column; gap: 18px; padding: 36px 36px 8px 0">
         <span class="idx" style="color: var(--accent)">i.</span>
@@ -2186,7 +2197,7 @@ a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
       <div style="display: flex; flex-direction: column; gap: 30px">
         <h2 id="ceo-h" class="disp h2 rv" style="--d: 90ms">A whole team <span class="it">behind every ride.</span></h2>
         <p class="team-steps rv" style="--d: 130ms"><span>Get your price</span><span>We confirm</span><span>Your ride arrives</span></p>
-        <p class="lede rv" style="--d: 160ms; margin: 0; color: #5E5A53; max-width: 46ch">You plan and price the ride online, the Connexxions Elite team confirms every detail in writing, and your chauffeur is waiting on the day. Behind the wheel is Marco Cardozo, our founder, with a Florida commercial license and five years of passenger transport.</p>
+        <p class="lede rv" style="--d: 160ms; margin: 0; color: #5E5A53; max-width: 46ch">You plan and price the ride online, the Connexxions Elite team confirms <span class="hl">every detail in writing</span>, and your chauffeur is waiting on the day. Behind the wheel is Marco Cardozo, our founder, with a Florida commercial license and five years of passenger transport.</p>
         <div class="rv" style="--d: 400ms; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px">
           <span style="display: flex; flex-direction: column">
             <span style="font-family: 'Mrs Saint Delafield', 'Brush Script MT', cursive; font-size: 64px; line-height: 1.1; color: var(--accent); padding-right: .2em">Marco Cardozo</span>
@@ -2204,7 +2215,7 @@ a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
       <div class="sec-top rv"><p class="eyebrow">Process</p><span class="idx">(06)</span></div>
       <div class="hw-head">
         <h2 id="how-h" class="disp h2 rv" style="--d: 90ms">From estimate to curb <span class="it">in three steps.</span></h2>
-        <p class="hw-lede rv" style="--d: 160ms">No app and no account. You see the price first, we confirm it in writing, and you pay only after that.</p>
+        <p class="hw-lede rv" style="--d: 160ms">No app and no account. You see the price first, we confirm it in writing, and <span class="hl">you pay only after that</span>.</p>
       </div>
       <div class="hw">
         <div class="hw-sticky">
@@ -2290,7 +2301,7 @@ a.cb-qr:hover .cb-go{transform:translate(2px,-2px)}
       </figure>
       <div style="display: flex; flex-direction: column; gap: 32px">
         <h2 id="why-h" class="disp h2 rv" style="--d: 90ms">Met on arrival. <span class="it">Never left waiting.</span></h2>
-        <p class="lede rv" style="--d: 180ms; margin: 0; color: #5E5A53; max-width: 46ch">We track your flight from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.</p>
+        <p class="lede rv" style="--d: 180ms; margin: 0; color: #5E5A53; max-width: 46ch"><span class="hl">We track your flight</span> from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.</p>
         <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
           <li class="rv" style="--d: 240ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">i.</span>The vehicle you see is the vehicle that arrives</li>
           <li class="rv" style="--d: 300ms; display: flex; gap: 20px; align-items: baseline; padding: 18px 0; border-top: 1px solid rgba(10,10,10,.14)"><span class="idx" style="color: var(--accent); font-size: 18px; min-width: 22px">ii.</span>The same chauffeur on every ride</li>

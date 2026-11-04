@@ -1,6 +1,15 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'Private chauffeured transfers in a brand-new 2026 Suburban Premier. Airports, resorts, theme parks and evenings out across Orlando, with': 'Traslados privados con chofer en una Suburban Premier 2026 nueva. Aeropuertos, resorts, parques temáticos y salidas de noche por todo Orlando, siempre',
+    'the same chauffeur every time': 'con el mismo chofer',
+    'You plan and price the ride online, the Connexxions Elite team confirms': 'Tú planeas y cotizas el viaje en línea, el equipo de Connexxions Elite confirma',
+    'every detail in writing': 'cada detalle por escrito',
+    ', and your chauffeur is waiting on the day. Behind the wheel is Marco Cardozo, our founder, with a Florida commercial license and five years of passenger transport.': ' y tu chofer te espera el día del viaje. Al volante está Marco Cardozo, nuestro fundador, con licencia comercial de Florida y cinco años en transporte de pasajeros.',
+    'No app and no account. You see the price first, we confirm it in writing, and': 'Sin app y sin cuenta. Primero ves el precio, te lo confirmamos por escrito y',
+    'you pay only after that': 'pagas solo después',
+    'We track your flight': 'Seguimos tu vuelo',
+    'from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.': 'desde que despega. Si llega temprano o con retraso, ajustamos la recogida a tu hora real de llegada y tu chofer está ahí cuando aterrizas.',
     'Scan or tap to price a ride': 'Escanea o toca para cotizar',
     'N° 01 · 2026 Suburban Premier': 'N° 01 · Suburban Premier 2026',
     'Suburban Premier waiting curbside at MCO Terminal C': 'Suburban Premier esperando en la acera de la Terminal C de MCO',
