@@ -1,6 +1,16 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'Quote no.': 'Cotización n.º',
+    'Gratuity for your chauffeur': 'Propina para tu chofer',
+    'Optional and never required. Add it now to see it on your quote, or decide on the day.': 'Opcional y nunca obligatoria. Agrégala ahora para verla en tu cotización, o decide el día del viaje.',
+    'Later': 'Después', 'On the day': 'Ese día', 'Custom': 'Otro', 'Custom amount': 'Monto propio', 'Your amount': 'Tú eliges',
+    'Gratuity amount in dollars': 'Monto de la propina en dólares',
+    'Ride': 'Viaje', 'gratuity': 'propina',
+    'Clients usually leave 15–20%. It is never added unless you choose it.': 'Los clientes suelen dejar entre 15 y 20 %. Nunca se agrega si no la eliges.',
+    'Your ride,': 'Tu viaje,', 'priced.': 'cotizado.', 'Issued': 'Emitida', 'Price': 'Precio',
+    'Total with gratuity': 'Total con propina', '· optional': '· opcional',
+    'Added at your request. You can change it or leave it out before we confirm.': 'Agregada a tu pedido. Puedes cambiarla o quitarla antes de que confirmemos.',
     'Private chauffeured transfers in a brand-new 2026 Suburban Premier. Airports, resorts, theme parks and evenings out across Orlando, with': 'Traslados privados con chofer en una Suburban Premier 2026 nueva. Aeropuertos, resorts, parques temáticos y salidas de noche por todo Orlando, siempre',
     'the same chauffeur every time': 'con el mismo chofer',
     'You plan and price the ride online, the Connexxions Elite team confirms': 'Tú planeas y cotizas el viaje en línea, el equipo de Connexxions Elite confirma',
@@ -252,6 +262,7 @@ window.CE_ES = {
   },
   /* fragments for strings built on the fly (prices, dates, routes) — longest first */
   parts: [
+    [' gratuity', ' de propina'],
     ['Charter, as directed', 'Charter a disposición'], ['Airport pickup · meet & greet, parking', 'Recogida en el aeropuerto · recibimiento y estacionamiento'],
     ['Late-night pickup', 'Recogida nocturna'], ['10 pm to 5 am', '10 p. m. a 5 a. m.'], ['Airport drop-off fee', 'Cargo por dejar en el aeropuerto'], ['Airport pickup', 'Recogida en el aeropuerto'],
     ['Distance fare', 'Tarifa por distancia'], ['Tolls (est.)', 'Peajes (est.)'], ['Gratuity', 'Propina'], ['Extra stop', 'Parada adicional'],

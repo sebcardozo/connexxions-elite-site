@@ -286,6 +286,108 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+
+/* ---------- gratuity ---------- */
+.tipbox{margin-top:14px;padding:18px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));border:1px solid var(--line)}
+.tip-h{display:flex;gap:12px;align-items:flex-start}
+.tip-ic{flex:none;width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(212,42,39,.14);color:var(--red);box-shadow:inset 0 0 0 1px rgba(212,42,39,.28)}
+.tip-h b{display:block;font-family:var(--serif);font-weight:400;font-size:23px;line-height:1.05;color:var(--cream)}
+.tip-h small{display:block;margin-top:5px;font-size:12.5px;line-height:1.45;color:var(--mute)}
+.tip-seg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:16px;padding:5px;border-radius:15px;background:rgba(0,0,0,.4);border:1px solid var(--line)}
+.tip-seg button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:62px;padding:10px 2px 9px;border-radius:11px;border:1px solid transparent;background:transparent;color:var(--cream);cursor:pointer;transition:background .25s,border-color .25s,box-shadow .25s,transform .2s}
+.tip-seg button:hover{background:rgba(255,255,255,.05)}
+.tip-seg button:active{transform:scale(.97)}
+.tip-seg button b{font-family:var(--serif);font-weight:400;font-size:25px;line-height:1;letter-spacing:-.01em}
+.tip-seg button small{font-size:11px;color:var(--mute);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tip-seg [data-tip="0"] b,.tip-seg [data-tip="c"] b{font-family:var(--sans);font-size:13px;font-weight:500;line-height:25px;letter-spacing:.01em}
+.tip-seg button[aria-pressed="true"]{background:linear-gradient(180deg,rgba(212,42,39,.26),rgba(212,42,39,.08));border-color:var(--red);box-shadow:0 10px 24px -12px rgba(212,42,39,.8),inset 0 1px 0 rgba(255,255,255,.08)}
+.tip-seg button[aria-pressed="true"] small{color:#F4CFCC}
+.tip-seg button[data-tip="0"][aria-pressed="true"]{background:rgba(255,255,255,.07);border-color:var(--line2);box-shadow:none}
+.tip-seg button[data-tip="0"][aria-pressed="true"] small{color:var(--mute)}
+.tip-custom{display:flex;align-items:center;gap:8px;margin-top:10px;padding:0 16px;border-radius:12px;background:var(--card);border:1px solid var(--line2)}
+.tip-custom span{font-family:var(--serif);font-size:26px;color:var(--mute)}
+.tip-custom input::-webkit-outer-spin-button,.tip-custom input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.tip-custom input{-moz-appearance:textfield;appearance:textfield;flex:1;min-width:0;height:52px;border:0;background:transparent;color:var(--cream);font-family:var(--serif);font-size:28px;outline:none}
+.tip-live{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line2);font-size:12.5px;color:var(--mute)}
+.tip-live b{font-weight:500;color:var(--cream);font-variant-numeric:tabular-nums}
+.tip-live .tl-p,.tip-live .tl-e{color:var(--mute2);margin:0 2px}
+.tip-live strong{margin-left:auto;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1;color:var(--cream)}
+@media (max-width:420px){.tip-seg button b{font-size:21px}.tip-seg [data-tip="0"] b,.tip-seg [data-tip="c"] b{font-size:12px}.tip-seg button small{font-size:10px}}
+
+/* ---------- quote document v2 ---------- */
+.qdoc{border-radius:18px;box-shadow:0 30px 70px -36px rgba(0,0,0,.9)}
+.qdoc .qh{padding:20px 24px;border-bottom:3px solid var(--red)}
+.qdoc .qh img{height:30px}
+.qh-r{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.qh-r .lab{color:#A8A49C;font-size:10px}
+.qdoc .qh .no{font-size:14px;font-weight:500;letter-spacing:.08em;color:#FFFFFF}
+.qhero{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:22px 24px 18px;border-bottom:1px solid rgba(10,10,10,.08)}
+.qhero .lab{color:#8C887F;font-size:10px}
+.qhero .qt{margin:8px 0 0;font-family:var(--serif);font-weight:400;font-size:36px;line-height:.95;letter-spacing:-.012em;color:var(--ink)}
+.qhero .qt em{font-style:italic;color:var(--red)}
+.qhero .qi{display:flex;flex-direction:column;align-items:flex-end;gap:5px;text-align:right;font-size:13.5px;white-space:nowrap}
+.qdoc .qb{padding:18px 24px 22px}
+.qroute{position:relative;grid-template-columns:24px 1fr;gap:12px 12px;padding:16px;margin:0 0 6px;background:#F4F2ED;border-radius:12px;font-size:15px;line-height:1.35}
+.qroute::before{content:"";position:absolute;left:27px;top:30px;bottom:30px;border-left:1.5px dashed rgba(10,10,10,.28)}
+.qroute .pin{position:relative;z-index:1;margin-top:1px}
+.qroute .lab{font-size:10px;margin-bottom:3px}
+.qgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);margin-top:8px}
+.qc{display:flex;flex-direction:column;gap:5px;min-width:0;padding:12px 0;border-bottom:1px solid rgba(10,10,10,.08)}
+.qc:nth-child(odd){padding-right:16px}
+.qc:nth-child(even){padding-left:16px;border-left:1px solid rgba(10,10,10,.08)}
+.qc .lab{font-size:10px;color:#8C887F}
+.qc>span:last-child{font-size:14px;line-height:1.3;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.qsec{display:block;margin:20px 0 2px;font-size:10px;color:#8C887F}
+.qdoc .qrow{font-size:14px;padding:10px 0}
+.qdoc .qrow span:last-child{font-variant-numeric:tabular-nums}
+.qtot{align-items:center;margin-top:14px;padding:18px 20px;border-radius:14px;background:var(--ink);color:var(--cream)}
+.qtot>span{display:flex;flex-direction:column;gap:5px}
+.qtot .lab{color:#A8A49C}
+.qtot small{font-size:12px;color:#8C887F}
+.qtot strong{font-size:52px;color:#FFFFFF;letter-spacing:-.01em}
+.qtip{margin:10px 0 0;padding:0;border-radius:12px;background:transparent;font-size:12.5px;color:#3E3B36}
+.qtip p{margin:0;padding:11px 14px;border-radius:12px;background:rgba(10,10,10,.045);line-height:1.5}
+.qtip.on{padding:4px 16px 12px;border:1px solid rgba(212,42,39,.32);background:linear-gradient(180deg,rgba(212,42,39,.06),rgba(212,42,39,.02))}
+.qtip.on p{padding:0;background:transparent;color:#6E6A63;font-size:12px}
+.qtip-r{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid rgba(212,42,39,.16);font-size:14px;color:var(--ink)}
+.qtip-r small{font-size:12.5px;color:#6E6A63}
+.qtip-r>span:last-child{font-variant-numeric:tabular-nums}
+.qtip-t{border-bottom:0;margin-bottom:6px}
+.qtip-t strong{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1;color:var(--red)}
+.qtip b{font-weight:600}
+.qfoot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 16px;margin-top:12px;font-size:11px;letter-spacing:.02em;color:#8C887F}
+@media (max-width:480px){.qhero{flex-direction:column;align-items:flex-start}.qhero .qi{align-items:flex-start;text-align:left}.qtot strong{font-size:44px}.qgrid{grid-template-columns:minmax(0,1fr)}.qc:nth-child(n){padding-left:0;padding-right:0;border-left:0}}
+
+/* ---------- print / PDF: one clean letter page ---------- */
+@page{size:letter;margin:0}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  html,body{background:#FFFFFF!important;height:auto!important}
+  .step[data-step="4"],.qwrap{margin:0!important;padding:0!important}
+  .hp,#q-hp{display:none!important}
+  .qdoc{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-height:10.9in;display:flex!important;flex-direction:column}
+  .qdoc .qh{padding:.34in .58in .24in}
+  .qdoc .qh img{height:34px}
+  .qdoc .qh .no{font-size:15px}
+  .qhero{padding:.26in .58in .18in}
+  .qhero .qt{font-size:42px}
+  .qhero .qi{font-size:14px}
+  .qdoc .qb{flex:1;display:flex;flex-direction:column;padding:.2in .58in .36in}
+  .qroute{font-size:14.5px;padding:14px 18px;gap:10px 12px}
+  .qroute::before{left:29px}
+  .qgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .qc:nth-child(n){padding:9px 14px;border-left:1px solid rgba(10,10,10,.08)}
+  .qc:nth-child(3n+1){padding-left:0;border-left:0}
+  .qc>span:last-child,.qdoc .qrow{font-size:14px}
+  .qdoc .qrow{padding:8px 0}
+  .qsec{margin-top:16px}
+  .qtot{padding:14px 22px;margin-top:12px}
+  .qtot strong{font-size:52px}
+  .qtip-r{padding:8px 0}
+  .qroute,.qgrid,.qtot,.qtip{break-inside:avoid}
+  .qterms{margin-top:auto;padding-top:14px;font-size:10.5px}
+}
+
 /* print: the quote only */
 @media print{
   body{overflow:visible;background:#fff}
@@ -390,6 +492,21 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
           <div class="box"><span class="lab">Bags</span><div class="cnt"><button type="button" data-cnt="bags" data-d="-1" aria-label="Fewer bags">−</button><output id="o-bags">2</output><button type="button" data-cnt="bags" data-d="1" aria-label="More bags">+</button></div></div>
           <div class="box full fl"><label class="lab" for="in-flight">Flight number</label><input id="in-flight" type="text" placeholder="e.g. AA 1234 · we track it" autocomplete="off"></div>
         </div>
+        <div class="tipbox" id="tipbox">
+          <div class="tip-h">
+            <span class="tip-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M16.5 7.5c-.8-1.3-2.4-2-4.5-2-2.6 0-4.3 1.3-4.3 3.1 0 4.4 9 2.3 9 6.8 0 1.9-1.8 3.1-4.7 3.1-2.2 0-3.9-.8-4.8-2.2"/></svg></span>
+            <div><b>Gratuity for your chauffeur</b><small>Optional and never required. Add it now to see it on your quote, or decide on the day.</small></div>
+          </div>
+          <div class="tip-seg" role="group" aria-label="Gratuity">
+            <button type="button" data-tip="0" aria-pressed="true"><b>Later</b><small>On the day</small></button>
+            <button type="button" data-tip="15" aria-pressed="false"><b>15%</b><small translate="no">—</small></button>
+            <button type="button" data-tip="18" aria-pressed="false"><b>18%</b><small translate="no">—</small></button>
+            <button type="button" data-tip="20" aria-pressed="false"><b>20%</b><small translate="no">—</small></button>
+            <button type="button" data-tip="c" aria-pressed="false"><b>Custom</b><small>Your amount</small></button>
+          </div>
+          <label class="tip-custom" id="tipCustom" hidden><span aria-hidden="true">$</span><input id="in-tip" type="number" inputmode="numeric" min="0" step="1" placeholder="0" aria-label="Gratuity amount in dollars"></label>
+          <div class="tip-live" id="tipLive"></div>
+        </div>
         <p class="note" id="paxNote" hidden>The Suburban seats up to 6 passengers. For a larger group, write to us before booking.</p>
         <p class="err" id="err3"></p>
         <p class="note">Charter service has a <span class="hmin">3</span>-hour minimum. A pickup between 10 pm and 5 am adds a late-night fee.</p>
@@ -408,15 +525,20 @@ h1 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--mut
         <p class="err" id="err4"></p>
         <div class="qwrap" id="qwrap" hidden>
           <article class="qdoc" aria-label="Quote">
-            <div class="qh"><img src="../img/connexxions-logo.png" alt="Connexxions Elite"><div style="text-align:right"><div class="lab" style="color:#A8A49C">Quote</div><div class="no" id="q-no"></div></div></div>
+            <div class="qh"><img src="../img/connexxions-logo.png" alt="Connexxions Elite"><div class="qh-r"><span class="lab">Quote no.</span><span class="no" id="q-no"></span></div></div>
+            <div class="qhero">
+              <div><span class="lab" id="q-svc"></span><h2 class="qt">Your ride, <em>priced.</em></h2></div>
+              <div class="qi"><span class="lab">Issued</span><span id="q-issued"></span></div>
+            </div>
             <div class="qb">
-              <div class="qrow" style="border:0;padding-top:0"><span id="q-issued"></span><span id="q-svc"></span></div>
               <div class="qroute" id="q-route"></div>
-              <div id="q-rows"></div>
+              <div class="qgrid" id="q-rows"></div>
+              <span class="lab qsec">Price</span>
               <div id="q-lines"></div>
-              <div class="qtot"><span class="lab" style="color:#5E5A53">Estimated total</span><strong id="q-total"></strong></div>
-              <p class="qtip" id="q-tip"></p>
-              <p class="qterms">Flat rate per vehicle, up to 6 passengers. Tolls and parking included as shown. Gratuity is optional and not included. Cancellation and payment terms are sent with our written confirmation. This quote becomes final once we confirm it in writing.<br>MTC Cargo Corp d/b/a Connexxions Elite · Orlando, FL · marco@connexxionselite.com</p>
+              <div class="qtot"><span><span class="lab">Estimated total</span><small>Flat rate per vehicle</small></span><strong id="q-total"></strong></div>
+              <div class="qtip" id="q-tip"></div>
+              <p class="qterms">Flat rate per vehicle, up to 6 passengers. Tolls and parking included as shown. Gratuity is optional and not included. Cancellation and payment terms are sent with our written confirmation. This quote becomes final once we confirm it in writing.</p>
+              <div class="qfoot"><span>MTC Cargo Corp d/b/a Connexxions Elite · Orlando, FL</span><span>marco@connexxionselite.com · connexxionselite.com</span></div>
             </div>
           </article>
           <div class="qacts">
@@ -487,7 +609,7 @@ var TYPES = [
 var CHIPS = { airport: ['MCO', 'Magic Kingdom', 'Universal', 'Convention Center', 'Disney Springs', 'I-Drive'], parks: ['Magic Kingdom', 'EPCOT area', 'Universal', 'SeaWorld', 'Disney Springs', 'MCO'], events: ['Downtown', 'Kia Center', 'Dr. Phillips Center', 'Camping World', 'Winter Park', 'Dr. Phillips'], corp: ['Convention Center', 'MCO', 'I-Drive', 'Downtown', 'Lake Nona', 'Grande Lakes'], trip: ['Cocoa Beach', 'Kennedy Space Center', 'Tampa', 'Clearwater Beach', 'LEGOLAND', 'MCO'] };
 CHIPS.hourly = CHIPS.events; CHIPS.other = CHIPS.airport;
 
-var S = { step: 1, type: null, mode: 'oneway', A: null, S: null, B: null, stopOn: false, hours: P.hourMin, pax: 2, bags: 2, route: null, routeKey: '', ret: null, retKey: '', routing: false, issued: false };
+var S = { step: 1, type: null, mode: 'oneway', A: null, S: null, B: null, stopOn: false, hours: P.hourMin, pax: 2, bags: 2, tip: 0, tipC: 0, route: null, routeKey: '', ret: null, retKey: '', routing: false, issued: false };
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 var money = function (n) { return '$' + Math.round(n).toLocaleString('en-US'); };
@@ -880,6 +1002,19 @@ $('#nextBtn').addEventListener('click', function () { if (S.step < 4) go(S.step 
 $('#backBtn').addEventListener('click', function () { go(Math.max(1, S.step - 1)); });
 $$('#steps li').forEach(function (li) { li.querySelector('button').addEventListener('click', function () { var n = +li.dataset.go; if (n < S.step) go(n); else if (n > S.step) go(n); }); });
 
+/* ---------- gratuity (optional, never part of the ride total) ---------- */
+function tipAmt(f) { if (!f || !S.tip) return 0; if (S.tip === 'c') return Math.max(0, Math.round(+S.tipC || 0)); return Math.round(f.total * S.tip / 100); }
+function tipLabel() { return S.tip === 'c' ? 'Custom amount' : S.tip + '%'; }
+$$('.tip-seg button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var v = b.dataset.tip; S.tip = v === 'c' ? 'c' : +v;
+    $('#tipCustom').hidden = S.tip !== 'c';
+    if (S.tip === 'c') setTimeout(function () { $('#in-tip').focus(); }, 30);
+    render();
+  });
+});
+$('#in-tip').addEventListener('input', function () { S.tipC = Math.min(5000, Math.max(0, Math.round(+this.value || 0))); render(); });
+
 /* ---------- quote ---------- */
 function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36).toUpperCase().slice(-4).padStart(4, '0'); }
 function fmtDate(d) { if (!d) return '—'; return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }); }
@@ -892,21 +1027,29 @@ function issue() {
   var now = new Date(), p2 = function (n) { return String(n).padStart(2, '0'); };
   var no = 'CE-' + String(now.getFullYear()).slice(2) + p2(now.getMonth() + 1) + p2(now.getDate()) + '-' + hash([S.A.name, S.B ? S.B.name : '', val('in-date'), val('in-time'), val('in-email'), f.total].join('|'));
   $('#q-no').textContent = no;
-  $('#q-issued').textContent = 'Issued ' + now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  $('#q-issued').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   $('#q-svc').textContent = svcLabel();
   var rt = '<span class="pin a">A</span><div><div class="lab" style="color:#6E6A63">Pickup · ' + esc(fmtDate(val('in-date'))) + ' · ' + esc(fmtT(val('in-time'))) + '</div><span translate="no">' + esc(S.A.name) + '</span></div>';
   if (S.stopOn && S.S) rt += '<span class="pin s">+</span><div><div class="lab" style="color:#6E6A63">Stop</div><span translate="no">' + esc(S.S.name) + '</span></div>';
   if (S.B) rt += '<span class="pin b">B</span><div><div class="lab" style="color:#6E6A63">Drop-off</div><span translate="no">' + esc(S.B.name) + '</span></div>';
   $('#q-route').innerHTML = rt;
-  var rows = [['Prepared for', val('in-name') + ' · ' + val('in-email') + (val('in-phone') ? ' · ' + val('in-phone') : '')]];
+  var rows = [['Prepared for', val('in-name')], ['Email', val('in-email')]];
+  if (val('in-phone')) rows.push(['Mobile', val('in-phone')]);
   if (S.mode === 'round') rows.push(['Return pickup · B to A', fmtDate(val('in-rdate')) + ' · ' + fmtT(val('in-rtime'))]);
   rows.push(['Passengers · bags', S.pax + ' · ' + S.bags]);
   if (S.B) rows.push(['Distance · drive time', f.mi.toFixed(1) + ' mi · ~' + fmtMin(f.min)]);
   if (val('in-flight')) rows.push(['Flight', val('in-flight')]);
-  $('#q-rows').innerHTML = rows.map(function (r, i) { return '<div class="qrow"><span>' + esc(r[0]) + '</span><span' + (i === 0 ? ' translate="no"' : '') + '>' + esc(r[1]) + '</span></div>'; }).join('');
+  if (rows.length % 2) rows.push(['Vehicle', '2026 Suburban Premier']);
+  $('#q-rows').innerHTML = rows.map(function (r) { var nt = /^(Prepared for|Email|Mobile|Flight)$/.test(r[0]); return '<div class="qc"><span class="lab">' + esc(r[0]) + '</span><span' + (nt ? ' translate="no"' : '') + '>' + esc(r[1]) + '</span></div>'; }).join('');
   $('#q-lines').innerHTML = f.lines.map(function (l) { return '<div class="qrow"><span>' + esc(l.l) + '</span><span>' + money(l.v) + '</span></div>'; }).join('');
   tweenMoney($('#q-total'), f.total);
-  $('#q-tip').innerHTML = '<b>Gratuity is optional</b> <span>and not included. Clients usually leave 15–20% of the service total, about</span> <span translate="no">' + money(f.tip[0]) + '–' + money(f.tip[1]) + '</span> <span>for this ride.</span>';
+  var tA = tipAmt(f);
+  $('#q-tip').classList.toggle('on', tA > 0);
+  $('#q-tip').innerHTML = tA > 0
+    ? '<div class="qtip-r"><span><b>Gratuity</b> <small>' + esc(tipLabel()) + '</small> <small>· optional</small></span><span translate="no">' + money(tA) + '</span></div>'
+      + '<div class="qtip-r qtip-t"><span>Total with gratuity</span><strong translate="no">' + money(f.total + tA) + '</strong></div>'
+      + '<p><span>Added at your request. You can change it or leave it out before we confirm.</span></p>'
+    : '<p><b>Gratuity is optional</b> <span>and not included. Clients usually leave 15–20% of the service total, about</span> <span translate="no">' + money(f.tip[0]) + '–' + money(f.tip[1]) + '</span> <span>for this ride.</span></p>';
   var body = [
     'Hi Connexxions Elite team,', '', 'I would like to confirm this quote.', '',
     'Quote: ' + no, 'Service: ' + svcLabel(),
@@ -918,13 +1061,15 @@ function issue() {
   body.push('Passengers: ' + S.pax + ' · Bags: ' + S.bags);
   if (val('in-flight')) body.push('Flight: ' + val('in-flight'));
   if (S.stopOn && S.S) body.push('Extras: extra stop');
-  body.push('', 'Estimated total: ' + money(f.total) + ' (gratuity optional, not included)', '');
+  body.push('', 'Estimated total: ' + money(f.total) + ' (gratuity optional, not included)');
+  if (tA > 0) body.push('Gratuity: ' + tipLabel() + ' · ' + money(tA) + ' · total with gratuity ' + money(f.total + tA));
+  body.push('');
   f.lines.forEach(function (l) { body.push('  ' + l.l + ': ' + money(l.v)); });
   body.push('', 'Name: ' + val('in-name'), 'Email: ' + val('in-email'));
   if (val('in-phone')) body.push('Mobile: ' + val('in-phone'));
   if (val('in-notes')) body.push('Notes: ' + val('in-notes'));
   $('#q-mail').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Confirm quote ' + no) + '&cc=' + encodeURIComponent(val('in-email')) + '&body=' + encodeURIComponent(body.join('\n'));
-  S.payload = { tip: money(f.tip[0]) + '–' + money(f.tip[1]) + ' suggested (15–20%), optional', no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
+  S.payload = { tip: tA > 0 ? tipLabel() + ' · ' + money(tA) + ' added by the client (total with gratuity ' + money(f.total + tA) + ')' : 'Not added · ' + money(f.tip[0]) + '–' + money(f.tip[1]) + ' suggested (15–20%), optional', no: no, total: money(f.total), lines: f.lines.map(function (l) { return l.l + ': ' + money(l.v); }).join('\n'), body: body.join('\n') };
   S.sent = false; $('#q-stat').className = 'qstat'; $('#q-send').disabled = false; $('#q-send').textContent = 'Send to confirm';
   S.issued = true; render();
   setTimeout(function () { var q = $('#qwrap'); if (q.scrollIntoView) q.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
@@ -1011,6 +1156,15 @@ function render() {
   $('#mc-mi').textContent = mi; $('#mc-min').textContent = tm; tweenMoney($('#mc-tot'), f ? f.total : null);
   tweenMoney($('#estTot'), f ? f.total : null);
   $('#estSub').textContent = !S.type ? 'Choose a ride to start' : !ready() ? (hourly ? 'Add a pickup' : 'Add a pickup and a drop-off') : (S.routing && !S.route ? 'Getting the best route…' : (S.B ? mi + ' · ' + tm + (f && f.est ? ' · approx.' : '') : S.hours + ' h · as directed'));
+  var tA2 = tipAmt(f);
+  $$('.tip-seg button').forEach(function (b) {
+    var v = b.dataset.tip; b.setAttribute('aria-pressed', String(String(S.tip) === v));
+    if (v !== '0' && v !== 'c') b.querySelector('small').textContent = f ? money(Math.round(f.total * +v / 100)) : '—';
+  });
+  $('#tipLive').innerHTML = f && tA2 > 0
+    ? '<span>Ride</span> <b translate="no">' + money(f.total) + '</b><span class="tl-p">+</span><span>gratuity</span> <b translate="no">' + money(tA2) + '</b><span class="tl-e">=</span><strong translate="no">' + money(f.total + tA2) + '</strong>'
+    : '<span>Clients usually leave 15–20%. It is never added unless you choose it.</span>';
+  if (f && tA2 > 0 && ready() && !(S.routing && !S.route)) $('#estSub').textContent += ' · + ' + money(tA2) + ' gratuity';
   $('#backBtn').hidden = S.step === 1;
   $('#nextBtn').textContent = S.step < 4 ? (S.step === 3 ? 'Review' : 'Next') : (S.issued ? 'Update quote' : 'Get my quote');
   $('#qwrap').hidden = !S.issued;
