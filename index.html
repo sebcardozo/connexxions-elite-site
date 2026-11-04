@@ -265,7 +265,7 @@ a:hover .swap>span+span,button:hover .swap>span+span{transform:translateY(0)}
 .bin{position:relative;display:block;width:100%;height:100%;overflow:hidden;border-radius:2px;background:#141416}
 .bin img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
 .bcard:hover .bin img{transform:scale(1.07)}
-.bin{animation:bfloat var(--fd,6s) ease-in-out var(--fdl,0s) infinite}
+.bin{animation:bfloat var(--bfd,6s) ease-in-out var(--fdl,0s) infinite}
 @keyframes bfloat{0%,100%{transform:translate3d(0,0,0) rotate(0deg)}50%{transform:translate3d(0,-7px,0) rotate(.5deg)}}
 .bshade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,0) 34%,rgba(10,10,10,0) 44%,rgba(10,10,10,.88) 100%)}
 .btag{position:absolute;top:9px;left:9px;display:inline-flex;align-items:center;gap:7px;padding:5px 9px 5px 6px;background:rgba(10,10,10,.62);color:#FFFFFF;font-size:8px;letter-spacing:.18em}
@@ -1727,6 +1727,102 @@ body{font-family:var(--ft)}
   .hw-pv{height:188px}
   .hw-node em{font-size:10px}
 }
+
+/* ================= v4 · credential, arrival photo, ticker, type pass ================= */
+/* credential: straight, quiet, one grid */
+.cred-hang{rotate:0deg}
+@keyframes credswing4{0%{rotate:7deg}24%{rotate:-4.5deg}46%{rotate:2.4deg}66%{rotate:-1.2deg}84%{rotate:.4deg}100%{rotate:0deg}}
+.cred-wrap.is-in .cred-hang,html:not(.rv-on) .cred-hang,.cred-hang:has(.cred.is-in){animation-name:credswing4}
+.cred-strap{width:30px;margin-left:-15px;border-radius:2px;background:linear-gradient(90deg,#C42724 0 2px,transparent 2px calc(100% - 2px),#C42724 calc(100% - 2px)),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px),linear-gradient(90deg,#08080A,#202024 50%,#08080A)}
+.cred-strap b{font-size:7px;letter-spacing:.4em;color:rgba(242,240,235,.7)}
+.cred-face{border-radius:22px}
+.cred{border-radius:22px}
+.cred-front{display:flex;flex-direction:column;padding:24px 26px 20px}
+.cr-guil path{stroke:rgba(242,240,235,.04)}
+.cr-head{margin-top:18px;padding-bottom:16px;align-items:center;border-bottom:1px solid rgba(255,255,255,.1)}
+.cr-logo{height:26px}
+.cr-kind{gap:5px}
+.cr-kind b{font-size:9.5px;letter-spacing:.24em;font-weight:500;color:#E6E2DA}
+.cr-kind i{font-size:9.5px;letter-spacing:.18em;color:#E2524F}
+.cr-id{display:grid;grid-template-columns:128px minmax(0,1fr);gap:20px;align-items:end;padding:20px 0}
+.cr-photo{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:#EDEBE6;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 16px 28px -16px rgba(0,0,0,.8)}
+.cr-photo img{border-radius:0;box-shadow:none;object-position:50% 20%}
+.cr-who{display:flex;flex-direction:column;gap:7px;min-width:0}
+.cr-k{font-size:9px;letter-spacing:.18em;color:#8C887F}
+.cr-name{font-size:40px;line-height:.88;letter-spacing:-.012em;color:#FFFFFF;margin-top:2px}
+.cr-role{font-size:12.5px;color:#BDBAB3;letter-spacing:.005em}
+.cr-status{align-self:flex-start;margin-top:8px;padding:5px 10px;font-size:9px;letter-spacing:.18em}
+.cr-dl{margin:0;display:block;border-top:1px solid rgba(255,255,255,.1)}
+.cr-dl div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.cr-dl dt{font-size:9px;letter-spacing:.18em;color:#8C887F;flex:none}
+.cr-dl dd{font-size:13px;line-height:1.25;color:#F2F0EB;text-align:right;font-variant-numeric:tabular-nums;min-width:0}
+.cr-sign{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:2px 16px;padding:14px 0 0;border-top:0}
+.cr-sig{font-size:40px;line-height:1;color:#F2F0EB}
+.cr-sign .cr-k{grid-column:1}
+.cr-emb{grid-column:2;grid-row:1/3;align-self:end;position:relative;width:44px;height:44px;border-radius:10px;overflow:hidden;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 6px 14px -6px rgba(0,0,0,.6)}
+.cr-emb i{position:absolute;inset:-40%;background:conic-gradient(from 0deg,#7A1C1A,#C9A86A,#6FA89A,#6F86C2,#A877B5,#7A1C1A);opacity:.55;animation:credseal 9s linear infinite}
+.cr-emb::after{content:"";position:absolute;inset:4px;border-radius:7px;border:1px solid rgba(255,255,255,.38)}
+.cr-emb b{position:relative;font-family:var(--fd);font-style:italic;font-weight:400;font-size:19px;color:#FFFFFF;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.cred.off .cr-emb i{animation-play-state:paused}
+@media (max-width:560px){
+.cred-front{padding:22px 18px 16px}
+.cr-id{grid-template-columns:104px minmax(0,1fr);gap:14px;padding:16px 0}
+.cr-name{font-size:32px}
+.cr-dl div{padding:9px 0}
+.cr-dl dd{font-size:12px}
+.cr-sig{font-size:34px}
+.cr-emb{width:38px;height:38px}
+}
+@media (prefers-reduced-motion:reduce){.cr-emb i{animation:none}}
+
+/* step 3 preview: a real photo at the curb */
+.pv3{background:#0B0A09}
+.pv3::before,.pv3::after{display:none}
+.pv-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%;z-index:1}
+.pv-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(10,10,10,.55) 0%,rgba(10,10,10,0) 34%,rgba(10,10,10,0) 58%,rgba(10,10,10,.72) 100%)}
+@supports (animation-timeline:view()){
+.pv-photo{animation:pvarrive cubic-bezier(.2,.7,.2,1) both;animation-timeline:--pv;animation-range:entry 10% cover 40%}
+}
+@keyframes pvarrive{from{scale:1.22;filter:brightness(.55) saturate(.8)}to{scale:1;filter:brightness(1) saturate(1)}}
+
+/* met on arrival: bigger, cinematic, with captions */
+.why-g{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+.why-ph{margin:0;border-radius:20px;aspect-ratio:3/2;background:#141416;box-shadow:0 50px 90px -60px rgba(10,10,10,.7)}
+.why-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:46% 56%}
+.why-sh{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(10,10,10,.34) 0%,rgba(10,10,10,0) 24%,rgba(10,10,10,0) 55%,rgba(10,10,10,.66) 100%)}
+.why-chip{position:absolute;z-index:2;left:20px;top:20px;display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:99px;background:rgba(10,10,10,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);color:#F2F0EB;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.why-chip svg{width:13px;height:13px}
+.why-cap{position:absolute;z-index:2;left:24px;right:24px;bottom:22px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;color:#FFFFFF}
+.why-k{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#E6E3DC}
+.why-k i{width:7px;height:7px;border-radius:99px;background:#5FD39A;box-shadow:0 0 0 3px rgba(95,211,154,.22)}
+.why-t{font-family:var(--fd);font-style:italic;font-weight:400;font-size:clamp(26px,2.6vw,38px);line-height:1;letter-spacing:-.01em}
+@media (max-width:900px){.why-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.why-ph{border-radius:16px;aspect-ratio:4/3}.why-ph img{object-position:50% 60%}.why-k{display:none}.why-t{font-size:24px}.why-chip{left:14px;top:14px;font-size:10px;padding:7px 11px}.why-cap{left:16px;bottom:16px}}
+
+/* ticker: two layers, display voice over text voice */
+.tk{background:#0A0A0A;color:#FFFFFF}
+.tk-a{position:relative;background:var(--accent,#D42A27);padding:30px 0;overflow:hidden}
+.tk-a::before,.tk-a::after{content:"";position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.28);z-index:1}
+.tk-a::before{top:9px}.tk-a::after{bottom:9px}
+.tk-b{padding:15px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.06)}
+.tk-track{align-items:center;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.tk-a .tk-track{gap:40px;animation-duration:64s}
+.tk-b .tk-track{gap:26px;animation-duration:52s;animation-direction:reverse}
+.tk-a-i{font-family:var(--fd);font-weight:400;font-size:clamp(30px,3vw,44px);line-height:1;letter-spacing:-.01em;color:#FFFFFF}
+.tk-s{flex:none;width:16px;height:16px;fill:rgba(255,255,255,.62)}
+.tk-b-i{font-family:var(--ft);font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,240,235,.72)}
+.tk-d{flex:none;width:5px;height:5px;border-radius:99px;background:var(--accent,#D42A27)}
+.tk:hover .mq{animation-play-state:paused}
+@media (max-width:560px){.tk-a{padding:24px 0}.tk-a::before{top:7px}.tk-a::after{bottom:7px}.tk-s{width:12px;height:12px}.tk-a .tk-track{gap:28px}}
+
+/* type pass: one voice per role, everywhere */
+.about-h{font-size:clamp(38px,4.9vw,76px);line-height:1;letter-spacing:-.02em}
+.about-h .it{font-size:1em}
+.hx-meta .hm em,.pass-stamp .st-n,.cr-stamp .st-n{font-weight:400}
+.lab,.eyebrow,.sp-k,.vx-k,.pv-tag,.pv-pin,.pl-cap,.ft-k,.hx-live,.hw-k,.hw-tag,.cm thead small{letter-spacing:.14em;font-weight:500}
+.hw-lede{font-size:18px;font-weight:300}
+.hw-card p{font-weight:300}
+.ft-bar,.ft-bar span,.ft-bar .ft-top{font-family:var(--ft);font-size:11.5px;font-weight:400;letter-spacing:.1em;text-transform:uppercase}
 </style>
 </helmet>
 
@@ -1871,7 +1967,7 @@ body{font-family:var(--ft)}
   <!-- ABOUT -->
   <section id="about" aria-labelledby="about-h" style="max-width: 1360px; margin: 0 auto; padding: 144px 40px 112px">
     <div class="sec-top rv"><p class="eyebrow">About Connexxions Elite</p><span class="idx">(01)</span></div>
-    <h2 id="about-h" class="rv" style="--d: 90ms; margin: 64px 0 0; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.1; font-weight: 300; letter-spacing: -0.04em; max-width: 22ch; text-wrap: balance">One car, one chauffeur, one price. <span class="it" style="font-size: 1.12em; color: #6E6A63">Exactly what you were shown,</span> every single ride.</h2>
+    <h2 id="about-h" class="disp about-h rv" style="--d: 90ms; margin: 64px 0 0; max-width: 20ch">One car, one chauffeur, one price. <span class="it" style="color: #6E6A63">Exactly what you were shown,</span> every single ride.</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 0; margin-top: 96px; border-top: 1px solid rgba(10,10,10,.14)">
       <div class="rv" style="--d: 0ms; display: flex; flex-direction: column; gap: 18px; padding: 36px 36px 8px 0">
         <span class="idx" style="color: var(--accent)">i.</span>
@@ -2035,30 +2131,27 @@ body{font-family:var(--ft)}
             <div class="cred-in">
               <div class="cred-face cred-front">
                 <svg class="cr-guil" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M478 70 L477 69 L477 67 L476 66 L475 65 L474 63 L473 62 L471 61 L469 59 L467 58 L465 57 L462 56 L460 55 L457 54 L453 54 L450 53 L446 53 L442 52 L438 52 L434 51 L430 51 L425 51 L421 51 L416 52 L411 52 L406 52 L401 53 L396 54 L390 55 L385 56 L380 57 L374 58 L369 60 L363 61 L357 63 L352 65 L346 66 L341 68 L335 71 L330 73 L324 75 L319 78 L313 80 L308 83 L303 86 L298 88 L293 91 L288 94 L283 97 L279 100 L274 103 L270 107 L266 110 L262 113 L258 116 L254 119 L251 123 L248 126 L245 129 L242 132 L239 135 L237 138 L234 141 L232 144 L230 147 L229 150 L227 153 L226 155 L225 158 L224 160 L224 162 L223 164 L223 166 L223 168 L223 170 L224 171 L224 173 L225 174 L226 175 L227 176 L229 176 L230 177 L232 177 L234 177 L236 177 L238 176 L240 176 L242 175 L245 174 L247 173 L250 171 L253 170 L256 168 L259 166 L262 163 L265 161 L268 158 L271 155 L274 152 L277 149 L281 146 L284 142 L287 138 L290 134 L293 130 L297 126 L300 121 L303 117 L306 112 L309 107 L312 102 L314 97 L317 92 L320 87 L322 81 L325 76 L327 70 L329 65 L332 59 L334 54 L335 48 L337 43 L339 37 L340 31 L342 26 L343 20 L344 15 L345 10 L346 4 L347 -1 L348 -6 L348 -11 L348 -16 L349 -21 L349 -25 L349 -30 L349 -34 L348 -38 L348 -42 L347 -46 L347 -50 L346 -53 L346 -57 L345 -60 L344 -62 L343 -65 L342 -67 L341 -69 L339 -71 L338 -73 L337 -74 L335 -75 L334 -76 L333 -77 L331 -77 L330 -78 L329 -77 L327 -77 L326 -76 L325 -75 L323 -74 L322 -73 L321 -71 L319 -69 L318 -67 L317 -65 L316 -62 L315 -60 L314 -57 L314 -53 L313 -50 L313 -46 L312 -42 L312 -38 L311 -34 L311 -30 L311 -25 L311 -21 L312 -16 L312 -11 L312 -6 L313 -1 L314 4 L315 10 L316 15 L317 20 L318 26 L320 31 L321 37 L323 43 L325 48 L326 54 L328 59 L331 65 L333 70 L335 76 L338 81 L340 87 L343 92 L346 97 L348 102 L351 107 L354 112 L357 117 L360 121 L363 126 L367 130 L370 134 L373 138 L376 142 L379 146 L383 149 L386 152 L389 155 L392 158 L395 161 L398 163 L401 166 L404 168 L407 170 L410 171 L413 173 L415 174 L418 175 L420 176 L422 176 L424 177 L426 177 L428 177 L430 177 L431 176 L433 176 L434 175 L435 174 L436 173 L436 171 L437 170 L437 168 L437 166 L437 164 L436 162 L436 160 L435 158 L434 155 L433 153 L431 150 L430 147 L428 144 L426 141 L423 138 L421 135 L418 132 L415 129 L412 126 L409 123 L406 119 L402 116 L398 113 L394 110 L390 107 L386 103 L381 100 L377 97 L372 94 L367 91 L362 88 L357 86 L352 83 L347 80 L341 78 L336 75 L330 73 L325 71 L319 68 L314 66 L308 65 L303 63 L297 61 L291 60 L286 58 L280 57 L275 56 L270 55 L264 54 L259 53 L254 52 L249 52 L244 52 L239 51 L235 51 L230 51 L226 51 L222 52 L218 52 L214 53 L210 53 L207 54 L203 54 L200 55 L198 56 L195 57 L193 58 L191 59 L189 61 L187 62 L186 63 L185 65 L184 66 L183 67 L183 69 L182 70 L183 71 L183 73 L184 74 L185 75 L186 77 L187 78 L189 79 L191 81 L193 82 L195 83 L198 84 L200 85 L203 86 L207 86 L210 87 L214 87 L218 88 L222 88 L226 89 L230 89 L235 89 L239 89 L244 88 L249 88 L254 88 L259 87 L264 86 L270 85 L275 84 L280 83 L286 82 L291 80 L297 79 L303 77 L308 75 L314 74 L319 72 L325 69 L330 67 L336 65 L341 62 L347 60 L352 57 L357 54 L362 52 L367 49 L372 46 L377 43 L381 40 L386 37 L390 33 L394 30 L398 27 L402 24 L406 21 L409 17 L412 14 L415 11 L418 8 L421 5 L423 2 L426 -1 L428 -4 L430 -7 L431 -10 L433 -13 L434 -15 L435 -18 L436 -20 L436 -22 L437 -24 L437 -26 L437 -28 L437 -30 L436 -31 L436 -33 L435 -34 L434 -35 L433 -36 L431 -36 L430 -37 L428 -37 L426 -37 L424 -37 L422 -36 L420 -36 L418 -35 L415 -34 L413 -33 L410 -31 L407 -30 L404 -28 L401 -26 L398 -23 L395 -21 L392 -18 L389 -15 L386 -12 L383 -9 L379 -6 L376 -2 L373 2 L370 6 L367 10 L363 14 L360 19 L357 23 L354 28 L351 33 L348 38 L346 43 L343 48 L340 53 L338 59 L335 64 L333 70 L331 75 L328 81 L326 86 L325 92 L323 97 L321 103 L320 109 L318 114 L317 120 L316 125 L315 130 L314 136 L313 141 L312 146 L312 151 L312 156 L311 161 L311 165 L311 170 L311 174 L312 178 L312 182 L313 186 L313 190 L314 193 L314 197 L315 200 L316 202 L317 205 L318 207 L319 209 L321 211 L322 213 L323 214 L325 215 L326 216 L327 217 L329 217 L330 218 L331 217 L333 217 L334 216 L335 215 L337 214 L338 213 L339 211 L341 209 L342 207 L343 205 L344 202 L345 200 L346 197 L346 193 L347 190 L347 186 L348 182 L348 178 L349 174 L349 170 L349 165 L349 161 L348 156 L348 151 L348 146 L347 141 L346 136 L345 130 L344 125 L343 120 L342 114 L340 109 L339 103 L337 97 L335 92 L334 86 L332 81 L329 75 L327 70 L325 64 L322 59 L320 53 L317 48 L314 43 L312 38 L309 33 L306 28 L303 23 L300 19 L297 14 L293 10 L290 6 L287 2 L284 -2 L281 -6 L277 -9 L274 -12 L271 -15 L268 -18 L265 -21 L262 -23 L259 -26 L256 -28 L253 -30 L250 -31 L247 -33 L245 -34 L242 -35 L240 -36 L238 -36 L236 -37 L234 -37 L232 -37 L230 -37 L229 -36 L227 -36 L226 -35 L225 -34 L224 -33 L224 -31 L223 -30 L223 -28 L223 -26 L223 -24 L224 -22 L224 -20 L225 -18 L226 -15 L227 -13 L229 -10 L230 -7 L232 -4 L234 -1 L237 2 L239 5 L242 8 L245 11 L248 14 L251 17 L254 21 L258 24 L262 27 L266 30 L270 33 L274 37 L279 40 L283 43 L288 46 L293 49 L298 52 L303 54 L308 57 L313 60 L319 62 L324 65 L330 67 L335 69 L341 72 L346 74 L352 75 L357 77 L363 79 L369 80 L374 82 L380 83 L385 84 L390 85 L396 86 L401 87 L406 88 L411 88 L416 88 L421 89 L425 89 L430 89 L434 89 L438 88 L442 88 L446 87 L450 87 L453 86 L457 86 L460 85 L462 84 L465 83 L467 82 L469 81 L471 79 L473 78 L474 77 L475 75 L476 74 L477 73 L477 71 L478 70"/><path d="M152 330 L150 323 L142 317 L131 314 L116 313 L99 316 L81 322 L63 332 L46 345 L32 361 L21 378 L13 394 L10 410 L10 424 L13 434 L19 440 L26 441 L33 437 L39 428 L44 416 L45 400 L44 381 L38 362 L30 343 L18 325 L4 310 L-12 298 L-27 290 L-42 286 L-54 286 L-62 290 L-67 295 L-66 303 L-61 310 L-52 317 L-38 323 L-21 325 L-1 325 L19 321 L39 314 L57 303 L73 291 L85 277 L93 263 L97 250 L97 239 L94 232 L88 229 L79 230 L71 237 L63 247 L56 262 L52 280 L51 300 L54 321 L60 342 L68 360 L79 376 L92 389 L104 397 L115 401 L125 400 L131 396 L133 389 L130 380 L123 370 L112 361 L96 353 L78 348 L57 345 L36 346 L15 350 L-4 357 L-19 366 L-32 377 L-39 388 L-43 398 L-41 406 L-36 411 L-28 413 L-18 409 L-7 402 L4 389 L13 374 L20 355 L24 334 L25 313 L22 292 L17 274 L9 258 L0 247 L-10 240 L-19 237 L-26 239 L-30 245 L-31 255 L-27 266 L-19 278 L-6 291 L10 302 L28 310 L49 316 L70 319 L90 318 L108 314 L123 307 L133 299 L140 291 L141 282 L138 276 L131 273 L120 273 L107 277 L93 285 L79 297 L67 313 L56 331 L49 351 L45 371 L45 391 L47 408 L53 422 L60 431 L67 436 L75 437 L80 432 L84 424 L84 412 L80 397 L72 382 L60 366 L45 352 L27 340 L8 332 L-11 326 L-30 325 L-46 326 L-58 331 L-67 337 L-71 344 L-70 351 L-64 357 L-54 360 L-40 360 L-24 357 L-8 349 L9 338 L25 324 L38 307 L48 289 L54 271 L57 254 L56 239 L53 228 L47 220 L40 218 L33 220 L27 228 L24 239 L23 254 L26 271 L32 289 L42 307 L55 324 L71 338 L88 349 L104 357 L120 360 L134 360 L144 357 L150 351 L151 344 L147 337 L138 331 L126 326 L110 325 L91 326 L72 332 L53 340 L35 352 L20 366 L8 382 L0 397 L-4 412 L-4 424 L0 432 L5 437 L13 436 L20 431 L27 422 L33 408 L35 391 L35 371 L31 351 L24 331 L13 313 L1 297 L-13 285 L-27 277 L-40 273 L-51 273 L-58 276 L-61 282 L-60 291 L-53 299 L-43 307 L-28 314 L-10 318 L10 319 L31 316 L52 310 L70 302 L86 291 L99 278 L107 266 L111 255 L110 245 L106 239 L99 237 L90 240 L80 247 L71 258 L63 274 L58 292 L55 313 L56 334 L60 355 L67 374 L76 389 L87 402 L98 409 L108 413 L116 411 L121 406 L123 398 L119 388 L112 377 L99 366 L84 357 L65 350 L44 346 L23 345 L2 348 L-16 353 L-32 361 L-43 370 L-50 380 L-53 389 L-51 396 L-45 400 L-35 401 L-24 397 L-12 389 L1 376 L12 360 L20 342 L26 321 L29 300 L28 280 L24 262 L17 247 L9 237 L1 230 L-8 229 L-14 232 L-17 239 L-17 250 L-13 263 L-5 277 L7 291 L23 303 L41 314 L61 321 L81 325 L101 325 L118 323 L132 317 L141 310 L146 303 L147 295 L142 290 L134 286 L122 286 L107 290 L92 298 L76 310 L62 325 L50 343 L42 362 L36 381 L35 400 L36 416 L41 428 L47 437 L54 441 L61 440 L67 434 L70 424 L70 410 L67 394 L59 378 L48 361 L34 345 L17 332 L-1 322 L-19 316 L-36 313 L-51 314 L-62 317 L-70 323 L-72 330 L-70 337 L-62 343 L-51 346 L-36 347 L-19 344 L-1 338 L17 328 L34 315 L48 299 L59 282 L67 266 L70 250 L70 236 L67 226 L61 220 L54 219 L47 223 L41 232 L36 244 L35 260 L36 279 L42 298 L50 317 L62 335 L76 350 L92 362 L107 370 L122 374 L134 374 L142 370 L147 365 L146 357 L141 350 L132 343 L118 337 L101 335 L81 335 L61 339 L41 346 L23 357 L7 369 L-5 383 L-13 397 L-17 410 L-17 421 L-14 428 L-8 431 L1 430 L9 423 L17 413 L24 398 L28 380 L29 360 L26 339 L20 318 L12 300 L1 284 L-12 271 L-24 263 L-35 259 L-45 260 L-51 264 L-53 271 L-50 280 L-43 290 L-32 299 L-16 307 L2 312 L23 315 L44 314 L65 310 L84 303 L99 294 L112 283 L119 272 L123 262 L121 254 L116 249 L108 247 L98 251 L87 258 L76 271 L67 286 L60 305 L56 326 L55 347 L58 368 L63 386 L71 402 L80 413 L90 420 L99 423 L106 421 L110 415 L111 405 L107 394 L99 382 L86 369 L70 358 L52 350 L31 344 L10 341 L-10 342 L-28 346 L-43 353 L-53 361 L-60 369 L-61 378 L-58 384 L-51 387 L-40 387 L-27 383 L-13 375 L1 363 L13 347 L24 329 L31 309 L35 289 L35 269 L33 252 L27 238 L20 229 L13 224 L5 223 L0 228 L-4 236 L-4 248 L0 263 L8 278 L20 294 L35 308 L53 320 L72 328 L91 334 L110 335 L126 334 L138 329 L147 323 L151 316 L150 309 L144 303 L134 300 L120 300 L104 303 L88 311 L71 322 L55 336 L42 353 L32 371 L26 389 L23 406 L24 421 L27 432 L33 440 L40 442 L47 440 L53 432 L56 421 L57 406 L54 389 L48 371 L38 353 L25 336 L9 322 L-8 311 L-24 303 L-40 300 L-54 300 L-64 303 L-70 309 L-71 316 L-67 323 L-58 329 L-46 334 L-30 335 L-11 334 L8 328 L27 320 L45 308 L60 294 L72 278 L80 263 L84 248 L84 236 L80 228 L75 223 L67 224 L60 229 L53 238 L47 252 L45 269 L45 289 L49 309 L56 329 L67 347 L79 363 L93 375 L107 383 L120 387 L131 387 L138 384 L141 378 L140 369 L133 361 L123 353 L108 346 L90 342 L70 341 L49 344 L28 350 L10 358 L-6 369 L-19 382 L-27 394 L-31 405 L-30 415 L-26 421 L-19 423 L-10 420 L0 413 L9 402 L17 386 L22 368 L25 347 L24 326 L20 305 L13 286 L4 271 L-7 258 L-18 251 L-28 247 L-36 249 L-41 254 L-43 262 L-39 272 L-32 283 L-19 294 L-4 303 L15 310 L36 314 L57 315 L78 312 L96 307 L112 299 L123 290 L130 280 L133 271 L131 264 L125 260 L115 259 L104 263 L92 271 L79 284 L68 300 L60 318 L54 339 L51 360 L52 380 L56 398 L63 413 L71 423 L79 430 L88 431 L94 428 L97 421 L97 410 L93 397 L85 383 L73 369 L57 357 L39 346 L19 339 L-1 335 L-21 335 L-38 337 L-52 343 L-61 350 L-66 357 L-67 365 L-62 370 L-54 374 L-42 374 L-27 370 L-12 362 L4 350 L18 335 L30 317 L38 298 L44 279 L45 260 L44 244 L39 232 L33 223 L26 219 L19 220 L13 226 L10 236 L10 250 L13 266 L21 282 L32 299 L46 315 L63 328 L81 338 L99 344 L116 347 L131 346 L142 343 L150 337 L152 330"/></svg>
-                <span class="cred-micro cm-t" aria-hidden="true">CONNEXXIONS ELITE · CHAUFFEUR CREDENTIAL · ORLANDO FL · CONNEXXIONS ELITE · CHAUFFEUR CREDENTIAL · ORLANDO FL · CONNEXXIONS ELITE</span>
                 <span class="cred-hole" aria-hidden="true"></span>
                 <div class="cr-head">
                   <img class="cr-logo" src="img/connexxions-logo.png" alt="" aria-hidden="true">
                   <span class="cr-kind"><b>Chauffeur credential</b><i>N° CE-0001</i></span>
                 </div>
-                <div class="cr-main">
-                  <div class="cr-photo"><img loading="lazy" decoding="async" src="img/marco2.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite"><span class="cr-seal" aria-hidden="true"><i></i><b>CE</b></span></div>
-                  <div class="cr-info">
+                <div class="cr-id">
+                  <div class="cr-photo"><img loading="lazy" decoding="async" src="img/marco2.webp" alt="Marco Cardozo, founder, CEO and chauffeur of Connexxions Elite"></div>
+                  <div class="cr-who">
                     <span class="cr-k">Holder</span>
                     <span class="cr-name">Marco<br>Cardozo</span>
                     <span class="cr-role">Founder · CEO · Chauffeur</span>
-                    <dl class="cr-dl">
-                      <div><dt>License</dt><dd>Florida CDL · Class A</dd></div>
-                      <div><dt>Endorsement</dt><dd>Passenger (P)</dd></div>
-                      <div><dt>Experience</dt><dd>5 years</dd></div>
-                      <div><dt>Vehicle</dt><dd>N° 01 · Suburban</dd></div>
-                    </dl>
+                    <span class="cr-status"><i></i>Active</span>
                   </div>
-                  <img class="cr-ghost" src="img/marco2.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
-                  <span class="cr-stamp" aria-hidden="true"><svg viewBox="0 0 120 120"><defs><path id="stc" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"></path></defs><circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2.4"></circle><circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.2"></circle><text><textPath href="#stc" textLength="276" lengthAdjust="spacing">CONNEXXIONS ELITE · ORLANDO · </textPath></text><text class="st-n" x="60" y="58" text-anchor="middle">N°1</text><text class="st-s" x="60" y="74" text-anchor="middle">SINCE DAY ONE</text></svg></span>
                 </div>
-                <div class="cr-sign"><span class="cr-sig" aria-hidden="true">Marco Cardozo</span><span class="cr-k">Holder's signature</span><span class="cr-status"><i></i>Active</span></div>
-                <div class="cr-mrz" aria-hidden="true"><span>CE&lt;USA&lt;CARDOZO&lt;&lt;MARCO&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span><span>CHAUFFEUR&lt;N01&lt;SUBURBAN&lt;PREMIER&lt;ORL&lt;FL</span></div>
+                <dl class="cr-dl">
+                  <div><dt>License</dt><dd>Florida CDL · Class A</dd></div>
+                  <div><dt>Endorsement</dt><dd>Passenger (P)</dd></div>
+                  <div><dt>Experience</dt><dd>5 years</dd></div>
+                  <div><dt>Vehicle</dt><dd>N° 01 · 2026 Suburban Premier</dd></div>
+                </dl>
+                <div class="cr-sign"><span class="cr-sig" aria-hidden="true">Marco Cardozo</span><span class="cr-k">Holder's signature</span><span class="cr-emb" aria-hidden="true"><i></i><b>CE</b></span></div>
                 <span class="cred-holo" aria-hidden="true"><i></i></span>
                 <span class="glare" aria-hidden="true"></span>
               </div>
@@ -2164,8 +2257,8 @@ body{font-family:var(--ft)}
             <div class="hw-pv pv3" aria-hidden="true">
               <span class="pv-tag pv-tl"><i class="g"></i>Chauffeur waiting</span>
               <span class="pv-tag pv-tr"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z"/></svg>Flight tracked</span>
-              <span class="pv-glow"></span>
-              <img class="pv-car" src="img/suv-side.webp" alt="" loading="lazy" decoding="async">
+              <img class="pv-photo" src="img/p-uni-front.webp" alt="" loading="lazy" decoding="async">
+              <span class="pv-shade"></span>
               <span class="pv-pin">Your pickup</span>
             </div>
           </div>
@@ -2179,12 +2272,14 @@ body{font-family:var(--ft)}
   <!-- WHY US -->
   <section aria-labelledby="why-h" style="max-width: 1360px; margin: 0 auto; padding: 144px 40px 112px">
     <div class="sec-top rv"><p class="eyebrow">Why Connexxions Elite</p><span class="idx">(07)</span></div>
-    <div class="tg" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr)); gap: 72px; align-items: center; margin-top: 64px">
-      <div class="tile img-rv tilt" style="border-radius: 3px; aspect-ratio: 4 / 3; background: #141416">
-        <img loading="lazy" decoding="async" class="zoom" src="img/p-cabana-rear.webp" alt="Suburban Premier waiting at a resort entrance in Orlando" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%">
-        <span class="lab" style="position: absolute; left: 24px; bottom: 24px; padding: 8px 12px; background: rgba(10,10,10,0.6); color: #FFFFFF">Ready before you are</span>
+    <div class="tg why-g" style="display: grid; gap: 72px; align-items: center; margin-top: 64px">
+      <figure class="why-ph tile img-rv tilt">
+        <img loading="lazy" decoding="async" class="zoom" src="img/p-mco.webp" alt="Suburban Premier waiting curbside at MCO Terminal C">
+        <span class="why-sh" aria-hidden="true"></span>
+        <span class="why-chip"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z"/></svg>MCO · Terminal C</span>
+        <figcaption class="why-cap"><span class="why-k"><i></i>Flight tracked</span><span class="why-t">Ready before you are.</span></figcaption>
         <span class="glare" aria-hidden="true"></span>
-      </div>
+      </figure>
       <div style="display: flex; flex-direction: column; gap: 32px">
         <h2 id="why-h" class="disp h2 rv" style="--d: 90ms">Met on arrival. <span class="it">Never left waiting.</span></h2>
         <p class="lede rv" style="--d: 180ms; margin: 0; color: #5E5A53; max-width: 46ch">We track your flight from the moment it leaves. Early or delayed, we adjust the pickup to your real arrival, so your chauffeur is there when you land.</p>
@@ -2224,11 +2319,9 @@ body{font-family:var(--ft)}
   </section>
 
   <!-- TICKER -->
-  <div class="mq-wrap" role="region" aria-label="What every ride includes" style="background: var(--accent); color: #FFFFFF; padding: 24px 0">
-    <div class="mq mq-fast" style="gap: 44px; white-space: nowrap; align-items: center">
-      <span class="lab" style="font-size: 12px">Flight tracking</span><span class="it" style="font-size: 30px">Meet &amp; greet on arrival</span><span class="lab" style="font-size: 12px">Flat rates</span><span class="it" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" style="font-size: 12px">Wi-Fi onboard</span><span class="it" style="font-size: 30px">Bottled water</span>
-      <span class="lab" aria-hidden="true" style="font-size: 12px">Flight tracking</span><span class="it" aria-hidden="true" style="font-size: 30px">Meet &amp; greet on arrival</span><span class="lab" aria-hidden="true" style="font-size: 12px">Flat rates</span><span class="it" aria-hidden="true" style="font-size: 30px">Tolls &amp; parking included</span><span class="lab" aria-hidden="true" style="font-size: 12px">Wi-Fi onboard</span><span class="it" aria-hidden="true" style="font-size: 30px">Bottled water</span>
-    </div>
+  <div class="mq-wrap tk" role="region" aria-label="What every ride includes">
+    <div class="tk-a"><div class="mq tk-track"><span class="tk-a-i">Meet &amp; greet on arrival</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i">Flight tracking</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i">Tolls &amp; parking included</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i">Flat rates</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i">Wi-Fi onboard</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i">Bottled water</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Meet &amp; greet on arrival</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Flight tracking</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Tolls &amp; parking included</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Flat rates</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Wi-Fi onboard</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg><span class="tk-a-i" aria-hidden="true">Bottled water</span><svg class="tk-s" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.6 5.7 4.8 9.9 10.5 10.5-5.7.6-9.9 4.8-10.5 10.5C11.4 16.8 7.2 12.6 1.5 12 7.2 11.4 11.4 7.2 12 1.5z"/></svg></div></div>
+    <div class="tk-b"><div class="mq tk-track tk-rev"><span class="tk-b-i">Connexxions Elite</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i">Orlando, Florida</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i">2026 Suburban Premier</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i">Up to 6 passengers</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i">Flat rate per vehicle</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i">Confirmed in writing</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">Connexxions Elite</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">Orlando, Florida</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">2026 Suburban Premier</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">Up to 6 passengers</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">Flat rate per vehicle</span><i class="tk-d" aria-hidden="true"></i><span class="tk-b-i" aria-hidden="true">Confirmed in writing</span><i class="tk-d" aria-hidden="true"></i></div></div>
   </div>
 
   <!-- STATS -->
@@ -2399,7 +2492,7 @@ body{font-family:var(--ft)}
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":16258}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#D42A27","options":["#D42A27","#0A0A0A","#B08A4E"]},"email":{"editor":"text","default":"marco@connexxionselite.com"},"baseFare":{"editor":"float","default":45,"min":0,"max":500,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"perMile":{"editor":"float","default":3,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"longAfter":{"editor":"int","default":30,"min":5,"max":200,"unit":"mi","section":"Pricing (sample values, set your own)"},"perMileLong":{"editor":"float","default":2.5,"min":0,"max":20,"step":0.25,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"minFare":{"editor":"float","default":95,"min":0,"max":1000,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportPickup":{"editor":"float","default":35,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"airportDropoff":{"editor":"float","default":15,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"tollPerMile":{"editor":"float","default":0.1,"min":0,"max":2,"step":0.05,"unit":"$/mi","section":"Pricing (sample values, set your own)"},"gratuity":{"editor":"int","default":20,"min":0,"max":40,"unit":"%","section":"Pricing (sample values, set your own)"},"lateNight":{"editor":"float","default":20,"min":0,"max":300,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"hourly":{"editor":"float","default":95,"min":0,"max":500,"step":5,"unit":"$/hr","section":"Pricing (sample values, set your own)"},"hourMin":{"editor":"int","default":3,"min":1,"max":12,"section":"Pricing (sample values, set your own)"},"childSeat":{"editor":"float","default":15,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"extraStop":{"editor":"float","default":25,"min":0,"max":200,"step":5,"unit":"$","section":"Pricing (sample values, set your own)"},"$preview":{"width":1440,"height":16510}}'>
 class Component extends DCLogic {
   constructor(props) {
     super(props);
@@ -3279,7 +3372,7 @@ class Component extends DCLogic {
         title: d.title, tag: d.tag, src: d.src, alt: d.alt, pos: d.pos, meta: meta, href: href,
         aria: d.title + ': ' + meta + '. Price this ride',
         isAir: d.kind === 'air', isPark: d.kind === 'park', isBiz: d.kind === 'biz', isTrip: d.kind === 'trip',
-        style: '--ax:' + d.ax + ';--ay:' + d.ay + ';--r0:' + d.r0 + 'deg;--r1:' + d.r1 + 'deg;--a0:' + (3 + i * 2.6).toFixed(1) + '%;--a1:' + (38 + i * 3).toFixed(1) + '%;--fd:' + (5.4 + (i % 3) * 0.9).toFixed(1) + 's;--fdl:-' + (i * 0.8).toFixed(1) + 's;z-index:' + (BD.length - i),
+        style: '--ax:' + d.ax + ';--ay:' + d.ay + ';--r0:' + d.r0 + 'deg;--r1:' + d.r1 + 'deg;--a0:' + (3 + i * 2.6).toFixed(1) + '%;--a1:' + (38 + i * 3).toFixed(1) + '%;--bfd:' + (5.4 + (i % 3) * 0.9).toFixed(1) + 's;--fdl:-' + (i * 0.8).toFixed(1) + 's;z-index:' + (BD.length - i),
         plan: () => {
           const a = Object.assign({ typed: '' }, this.byShort[d.a]), b = Object.assign({ typed: '' }, this.byShort[d.b]);
           this.setInput('pl-from', a.name); this.setInput('pl-to', b.name);

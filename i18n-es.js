@@ -1,6 +1,12 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'N° 01 · 2026 Suburban Premier': 'N° 01 · Suburban Premier 2026',
+    'Suburban Premier waiting curbside at MCO Terminal C': 'Suburban Premier esperando en la acera de la Terminal C de MCO',
+    'Ready before you are.': 'Lista antes que tú.',
+    'Flat rate per vehicle': 'Tarifa fija por vehículo',
+    'Confirmed in writing': 'Confirmado por escrito',
+    '2026 Suburban Premier': 'Suburban Premier 2026',
     'No app and no account. You see the price first, we confirm it in writing, and you pay only after that.': 'Sin app y sin cuenta. Primero ves el precio, te lo confirmamos por escrito y pagas solo después.',
     'Price in seconds': 'Precio en segundos', 'To you · by email': 'Para ti · por correo', 'Confirmed': 'Confirmado',
     'Your ride is confirmed.': 'Tu viaje está confirmado.', 'Pickup and drop-off': 'Recogida y destino', 'Date and time': 'Fecha y hora',
