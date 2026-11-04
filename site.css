@@ -14,7 +14,7 @@ html.mb-on .mscale{display:none}
 .mbspot:hover span,.mbspot:focus-visible span{opacity:1;transform:translate(-50%,0)}
 
 /* optional engine sound toggle (off by default) */
-.ce-snd{position:fixed;left:14px;bottom:14px;z-index:60;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:38px;height:38px;padding:0;overflow:hidden;white-space:nowrap;transition:width .3s,opacity .2s,color .2s,border-color .2s;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(10,10,10,.82);color:#BDBAB3;font:500 11px/1 'Geist Mono',ui-monospace,monospace;letter-spacing:.06em;cursor:pointer;opacity:.85;transition:opacity .2s,color .2s,border-color .2s}
+.ce-snd{position:fixed;left:14px;bottom:14px;z-index:60;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:38px;height:38px;padding:0;overflow:hidden;white-space:nowrap;transition:width .3s,opacity .2s,color .2s,border-color .2s;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(10,10,10,.82);color:#BDBAB3;font:500 11px/1 'Geist',system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;opacity:.85;transition:opacity .2s,color .2s,border-color .2s}
 .ce-snd:hover,.ce-snd:focus-visible{opacity:1;color:#F2F0EB;width:auto;padding:0 14px 0 11px}
 .ce-snd span{display:none}
 .ce-snd:hover span,.ce-snd:focus-visible span{display:inline}

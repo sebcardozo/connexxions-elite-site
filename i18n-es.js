@@ -1,6 +1,10 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'No app and no account. You see the price first, we confirm it in writing, and you pay only after that.': 'Sin app y sin cuenta. Primero ves el precio, te lo confirmamos por escrito y pagas solo después.',
+    'Price in seconds': 'Precio en segundos', 'To you · by email': 'Para ti · por correo', 'Confirmed': 'Confirmado',
+    'Your ride is confirmed.': 'Tu viaje está confirmado.', 'Pickup and drop-off': 'Recogida y destino', 'Date and time': 'Fecha y hora',
+    'Price, in writing': 'Precio, por escrito', 'Chauffeur waiting': 'Chofer esperando', 'Your pickup': 'Tu punto de recogida',
     "Chauffeur credential": "Credencial de chofer",
     "Holder": "Titular",
     "Endorsement": "Endoso",
