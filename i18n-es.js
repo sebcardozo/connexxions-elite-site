@@ -1,6 +1,7 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'Scan or tap to price a ride': 'Escanea o toca para cotizar',
     'N° 01 · 2026 Suburban Premier': 'N° 01 · Suburban Premier 2026',
     'Suburban Premier waiting curbside at MCO Terminal C': 'Suburban Premier esperando en la acera de la Terminal C de MCO',
     'Ready before you are.': 'Lista antes que tú.',
