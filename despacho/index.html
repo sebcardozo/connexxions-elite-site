@@ -1,0 +1,1212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Despacho · Connexxions Elite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/img/connexxions-logo.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{
+  --bg:#0A0A0A; --panel:#111110; --panel2:#161614; --panel3:#1e1d1a;
+  --line:#23221f; --line2:#312f2b; --text:#F2F0EB; --muted:#BDBAB3; --dim:#7d7a73;
+  --cream:#F2F0EB; --stone:#E9E6DF;
+  --accent:#D42A27; --accent2:#EE4A43; --accent-soft:rgba(212,42,39,.13); --accent-line:rgba(212,42,39,.6);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --ok:#22c55e; --ok-soft:rgba(34,197,94,.12); --warn:#eab308; --warn-soft:rgba(234,179,8,.12);
+  --bad:#ef4444; --bad-soft:rgba(239,68,68,.12);
+  --r:12px; --r-sm:8px;
+  --mono:"Geist Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:radial-gradient(1200px 500px at 70% -200px,rgba(212,42,39,.08),transparent 60%),var(--bg);color:var(--text);font:14px/1.5 Geist,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)} .dim{color:var(--dim)}
+
+/* ---------- auth screens ---------- */
+.gate{min-height:100%;display:grid;place-items:center;padding:24px 16px}
+.gate .card{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px}
+.gate h1{font-family:var(--serif);font-weight:400;font-size:34px;letter-spacing:-.6px;line-height:1.05;margin:18px 0 6px} .gate p{margin:0 0 20px;color:var(--muted)}
+.brandmark{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:13px;color:var(--muted);font-weight:500}
+.input{background:var(--panel2);border:1px solid var(--line2);border-radius:var(--r-sm);padding:10px 12px;outline:none;width:100%;min-width:0}
+.input:focus{border-color:var(--accent-line);box-shadow:0 0 0 3px var(--accent-soft)}
+.input::placeholder{color:var(--dim)}
+.err{color:var(--bad);font-size:13px;min-height:18px;margin-top:4px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:10px 16px;border:1px solid var(--line2);background:var(--panel2);font-weight:500;white-space:nowrap}
+a.btn{color:inherit;text-decoration:none}
+.btn:hover{border-color:#4a4740;background:var(--panel3)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn-primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn-ghost:hover{background:var(--panel2);color:var(--text)}
+.btn-sm{padding:7px 14px;font-size:13px;border-radius:999px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100%;background:linear-gradient(to right,var(--panel) 231px,var(--line) 231px 232px,var(--bg) 232px)}
+.side{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;padding:16px 12px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px}
+.brand{flex-direction:column;align-items:flex-start;gap:6px}
+.brand img{width:168px;height:auto;display:block}
+.brand .lockup{font-family:var(--serif);font-size:24px;line-height:1;letter-spacing:-.3px}
+.brand .lockup em{color:var(--accent);font-style:italic}
+.brand small{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:10.5px;letter-spacing:2px;text-transform:uppercase}
+.brand small::before{content:"";width:18px;height:1px;background:var(--accent)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;border:0;background:transparent;color:var(--muted);text-align:left;font-weight:500}
+.nav button:hover{background:var(--panel2);color:var(--text)}
+.nav button.on{background:var(--panel3);color:var(--text);box-shadow:inset 2px 0 0 var(--accent)}
+.nav button.on svg{color:var(--accent)}
+.side .foot{margin-top:auto;border-top:1px solid var(--line);padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.side .foot span{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:16px;padding:16px 28px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(9,9,11,.92);backdrop-filter:blur(8px);z-index:5;flex-wrap:wrap}
+.topbar h2{font-size:11px;margin:0;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.topbar .geo{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--muted);white-space:nowrap}
+.topbar .geo b{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--dim);font-weight:400;margin-left:8px}
+.topbar .spacer{flex:1}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border-radius:999px;border:1px solid var(--line2);font-size:12.5px;color:var(--muted);background:var(--panel)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dim)}
+.dot.ok{background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)} .dot.warn{background:var(--warn)} .dot.bad{background:var(--bad)}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:999px;font-weight:500;font-size:13px}
+.seg button.on{background:var(--panel3);color:var(--text)}
+.seg button.on[data-mode="live"]{background:var(--accent);color:#fff}
+.seg button.on[data-mode="off"]{background:var(--bad-soft);color:#fca5a5}
+.content{padding:24px 28px 40px;max-width:1280px;width:100%}
+
+/* ---------- cards / tables ---------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.kpi .k{font-size:11px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase} .kpi .v{font-size:38px;font-weight:400;margin-top:6px;font-family:var(--serif);letter-spacing:-.8px;line-height:1.05}
+.kpi .s{font-size:12px;color:var(--dim);margin-top:2px}
+.grid2{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.box > header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.box > header h3{margin:0;font-family:var(--serif);font-size:22px;font-weight:400;letter-spacing:-.2px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--dim);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;padding:10px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);white-space:nowrap}
+.cut{max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:500;white-space:nowrap;border:1px solid transparent}
+.b-accept{background:var(--ok-soft);color:#86efac;border-color:rgba(34,197,94,.3)}
+.b-would{background:var(--accent-soft);color:#fdba74;border-color:var(--accent-line)}
+.b-skip{background:var(--panel3);color:var(--muted);border-color:var(--line2)}
+.b-fail{background:var(--bad-soft);color:#fca5a5;border-color:rgba(239,68,68,.35)}
+.empty{padding:28px 16px;text-align:center;color:var(--dim);font-size:13px}
+.bars{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.bar .t{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);gap:8px}
+.bar .t span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .track{height:6px;background:var(--panel3);border-radius:4px;margin-top:5px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:4px}
+
+/* ---------- filter editor (BotPilot-style) ---------- */
+.editor{background:var(--panel);border:1px solid var(--line);border-radius:16px;display:grid;grid-template-columns:300px 1fr;min-height:640px;overflow:hidden}
+.editor .left{border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:4px;background:#0c0c0f}
+.editor .left .meta{padding:0 8px 14px;font-size:12px;color:var(--dim)}
+.sec-btn{display:flex;gap:12px;align-items:center;padding:11px 10px;border-radius:12px;border:1px solid transparent;background:transparent;text-align:left;width:100%}
+.sec-btn:hover{background:var(--panel2)}
+.sec-btn.on{background:var(--panel2);border-color:var(--line2)}
+.ico{width:38px;height:38px;flex:0 0 38px;border-radius:10px;display:grid;place-items:center;background:var(--panel3);color:var(--muted)}
+.sec-btn.on .ico{background:var(--accent-soft);color:var(--accent2)}
+.sec-btn b{display:block;font-weight:600;font-size:14px} .sec-btn small{display:block;color:var(--muted);font-size:12.5px;margin-top:1px}
+.editor .right{display:flex;flex-direction:column;min-width:0}
+.editor .scroll{padding:28px 36px;overflow:auto;flex:1}
+.sec-head{display:flex;gap:16px;align-items:flex-start;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.sec-head .ico{width:48px;height:48px;flex-basis:48px;border-radius:12px;background:var(--accent-soft);color:var(--accent)}
+.sec-head .n{font-size:12.5px;color:var(--muted)} .sec-head h3{font-family:var(--serif);font-size:34px;line-height:1.05;margin:2px 0 6px;font-weight:400;letter-spacing:-.6px}
+.sec-head p{margin:0;color:var(--muted)}
+.group{margin-bottom:28px}
+.group > h4{font-size:16px;margin:0 0 4px;font-weight:600;display:flex;align-items:center;gap:8px}
+.group > p{margin:0 0 14px;color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.suffix{position:relative} .suffix .input{padding-right:52px} .suffix i{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-style:normal;color:var(--dim);font-size:12.5px;pointer-events:none}
+.hint{font-size:12.5px;color:var(--dim);margin-top:2px}
+.tcard{border:1px solid var(--line2);border-radius:14px;background:var(--panel2);margin-bottom:12px;overflow:hidden}
+.tcard .top{display:flex;gap:14px;align-items:center;padding:16px 18px}
+.tcard .top .txt{flex:1;min-width:0} .tcard .top b{display:block;font-weight:600}
+.tcard .top small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.tcard .body{border-top:1px solid var(--line2);padding:16px 18px}
+.tcard.off .body{display:none}
+.switch{position:relative;width:44px;height:26px;flex:0 0 44px}
+.switch input{opacity:0;width:0;height:0;position:absolute}
+.switch span{position:absolute;inset:0;background:#2a2a31;border-radius:999px;transition:.15s}
+.switch span::after{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#d4d4d8;border-radius:50%;transition:.15s}
+.switch input:checked + span{background:var(--accent)}
+.switch input:checked + span::after{transform:translateX(18px);background:#fff}
+.switch input:focus-visible + span{box-shadow:0 0 0 3px var(--accent-soft)}
+.choice{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.opt{display:flex;align-items:center;gap:12px;padding:16px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);text-align:left;font-weight:500;letter-spacing:.3px}
+.opt .box2{width:20px;height:20px;border-radius:6px;border:1.5px solid #4a4a54;display:grid;place-items:center;flex:0 0 20px}
+.opt.on{border-color:var(--accent);background:var(--accent-soft)}
+.opt.on .box2{background:var(--accent);border-color:var(--accent);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 6px 5px 11px;border-radius:999px;background:var(--panel3);border:1px solid var(--line2);font-size:13px}
+.chip button{border:0;background:transparent;color:var(--dim);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;padding:0}
+.chip button:hover{background:var(--line2);color:var(--text)}
+.addrow{display:flex;gap:10px}
+.dropzone{border:1px dashed var(--line2);border-radius:12px;padding:16px;text-align:center;color:var(--dim);font-size:13px;margin-top:10px}
+.days{display:flex;flex-direction:column;gap:8px}
+.day{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:start;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:var(--panel2)}
+.day.off{opacity:.55}
+.day label.dn{display:flex;align-items:center;gap:10px;font-weight:500;padding-top:6px}
+.day input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px}
+.wins{display:flex;flex-direction:column;gap:8px}
+.win{display:flex;align-items:center;gap:8px}
+.win .input{width:120px;padding:7px 10px}
+.calc{border:1px solid var(--accent-line);background:linear-gradient(180deg,rgba(212,42,39,.07),transparent);border-radius:14px;padding:18px}
+.calc .out{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.calc .cell{background:var(--panel);border:1px solid var(--line2);border-radius:10px;padding:10px 12px}
+.calc .cell small{display:block;color:var(--muted);font-size:12px} .calc .cell b{font-family:var(--mono);font-size:17px;font-weight:500}
+.verdict{margin-top:12px;font-size:13px;padding:10px 12px;border-radius:10px}
+.verdict.ok{background:var(--ok-soft);color:#86efac} .verdict.bad{background:var(--bad-soft);color:#fca5a5} .verdict.na{background:var(--panel3);color:var(--muted)}
+.note{border:1px solid var(--line2);background:var(--panel2);border-radius:12px;padding:14px 16px;color:var(--muted);font-size:13px;display:flex;gap:10px}
+.note svg{flex:0 0 18px;color:var(--accent);margin-top:1px}
+.savebar{display:flex;align-items:center;gap:10px;padding:14px 24px;border-top:1px solid var(--line);background:#0c0c0f}
+.savebar .state{display:flex;align-items:center;gap:8px;color:var(--muted);flex:1;font-size:13px}
+.savebar .state .dot.warn{background:var(--accent)}
+
+/* ---------- modal / toast ---------- */
+tr[data-offer]{cursor:pointer} tr[data-offer]:hover td{background:var(--panel2)}
+.drawer-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--panel);border-left:1px solid var(--line2);z-index:41;overflow-y:auto;box-shadow:-20px 0 60px rgba(0,0,0,.5)}
+.drawer .dh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:22px 24px 18px;border-bottom:1px solid var(--line)}
+.drawer .route{font-family:var(--serif);font-size:34px;line-height:1.05;letter-spacing:-.6px;margin:10px 0 4px}
+.drawer .route em{color:var(--accent2)}
+.drawer .db{padding:20px 24px;display:flex;flex-direction:column;gap:18px}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dgrid div{background:var(--panel2);padding:12px 14px} .dgrid small{display:block;color:var(--muted);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase}
+.dgrid b{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:-.4px}
+.stops{position:relative;padding-left:22px;display:flex;flex-direction:column;gap:14px}
+.stops::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:1px;background:var(--line2)}
+.stops div{position:relative} .stops div::before{content:"";position:absolute;left:-20px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--panel);border:2px solid var(--accent)}
+.stops div:last-child::before{background:var(--accent)}
+.stops small{display:block;color:var(--muted);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase}
+.verd{border-radius:12px;padding:12px 14px;font-size:13.5px}
+.verd.ok{background:var(--ok-soft);color:#86efac} .verd.no{background:var(--panel2);border:1px solid var(--line2);color:var(--muted)} .verd.bad{background:var(--bad-soft);color:#fca5a5}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;z-index:50;padding:16px}
+.modal{background:var(--panel);border:1px solid var(--line2);border-radius:16px;max-width:460px;width:100%;padding:24px}
+.modal h3{margin:0 0 8px;font-size:18px} .modal p{color:var(--muted);margin:0 0 10px}
+.modal .acts{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--panel3);border:1px solid var(--line2);padding:12px 16px;border-radius:12px;z-index:60;max-width:360px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.toast.bad{border-color:rgba(239,68,68,.5)}
+
+/* ---------- v2: sidebar cards, dashboard, pages ---------- */
+.conn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin:0 2px 14px;font-weight:600;font-size:13.5px}
+.conn{text-transform:uppercase;letter-spacing:1.4px;font-size:11px;font-weight:500;border:1px solid var(--line2);background:var(--panel2)}
+.conn.ok{color:var(--text)} .conn.ok .ck{background:var(--ok);color:var(--ok);width:9px;height:9px;flex-basis:9px;box-shadow:0 0 0 4px var(--ok-soft)} .conn.ok .ck svg{display:none}
+.conn small{text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted)} .conn.bad{background:var(--bad-soft);color:#fca5a5;border:1px solid rgba(239,68,68,.35)} .conn.warn{background:var(--warn-soft);color:#fde68a;border:1px solid rgba(234,179,8,.35)}
+.conn .ck{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.95);color:#16a34a;display:grid;place-items:center;flex:0 0 20px}
+.conn.bad .ck,.conn.warn .ck{background:transparent;color:inherit}
+.conn small{display:block;font-weight:400;font-size:11.5px;opacity:.85}
+.auto{border:1px solid var(--line2);border-radius:12px;padding:12px;margin-top:auto;background:var(--panel2)}
+.auto b{display:flex;align-items:center;gap:8px;font-size:13.5px}
+.auto .seg{width:100%;margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr)}
+.auto .seg button{padding:7px 4px;font-size:12px}
+.auto p{margin:8px 0 0;font-size:12px;color:var(--muted)}
+.auto p.warnline{color:#fde68a}
+.side .foot{margin-top:12px}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.pagehead .eyebrow{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.pagehead .eyebrow .no{color:var(--text)} .pagehead .eyebrow .dash{width:28px;height:1px;background:var(--accent)}
+.pagehead h1{margin:0;font-family:var(--serif);font-size:52px;line-height:1;letter-spacing:-1.4px;font-weight:400}
+.pagehead h1 em,.gate h1 em,.sec-head h3 em{font-style:italic;color:var(--accent2)}
+.pagehead p{margin:6px 0 0;color:var(--muted);max-width:720px}
+.rng{display:inline-flex;max-width:100%;overflow-x:auto;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
+.rng button{border:0;background:transparent;color:var(--muted);padding:9px 14px;font-weight:500;font-size:13px;border-right:1px solid var(--line2)}
+.rng button:last-child{border-right:0}
+.rng button.on{background:var(--panel3);color:var(--text)}
+.bigk{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+.bk{background:linear-gradient(180deg,#141418,#101013);border:1px solid var(--line);border-radius:16px;padding:20px;min-height:170px;display:flex;flex-direction:column}
+.bk .k{color:var(--muted);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.bk .v{font-size:48px;font-weight:400;letter-spacing:-1.2px;line-height:1;margin:14px 0 auto;font-family:var(--serif)}
+.bk .t{font-weight:600;margin-top:16px} .bk .s{color:var(--muted);font-size:12.5px;margin-top:2px}
+.mini{display:inline-flex;background:var(--panel);border:1px solid var(--line2);border-radius:8px;padding:2px}
+.mini button{border:0;background:transparent;color:var(--muted);font-size:11.5px;padding:3px 8px;border-radius:6px}
+.mini button.on{background:var(--accent);color:#fff;font-weight:600}
+.chartbox{padding:18px 20px}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tabs{display:inline-flex;background:var(--panel2);border:1px solid var(--line2);border-radius:999px;padding:3px;gap:2px}
+.tabs button{border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:999px;font-weight:500;font-size:13px}
+.tabs button.on{background:var(--panel3);color:var(--text)}
+.pager{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+.pager div{display:flex;gap:8px;align-items:center}
+.stack{display:flex;flex-direction:column;gap:14px}
+.rcard{border:1px solid var(--line2);border-radius:14px;background:var(--panel);overflow:hidden}
+.rcard .rh{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line2);background:var(--panel2);flex-wrap:wrap}
+.rcard .rh .input{max-width:280px}
+.rcard .rb{padding:16px}
+.rcard.disabled{opacity:.6}
+.tagsel{display:flex;gap:6px;flex-wrap:wrap}
+.tagsel button{border:1px solid var(--line2);background:var(--panel2);color:var(--muted);border-radius:8px;padding:6px 10px;font-size:12.5px}
+.tagsel button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.act-accept{color:#86efac} .act-skip{color:#fca5a5}
+.presets{display:flex;gap:8px;flex-wrap:wrap}
+.agenda{display:flex;flex-direction:column;gap:6px}
+.arow{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center}
+.arow .dl{font-size:13px} .arow .dl small{display:block;color:var(--dim);font-size:11.5px}
+.track2{position:relative;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);overflow:hidden}
+.track2 .wh{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.035)}
+.track2 .blk{position:absolute;top:6px;bottom:6px;border-radius:6px;font-size:11px;padding:0 6px;display:flex;align-items:center;overflow:hidden;white-space:nowrap}
+.blk.bus{background:repeating-linear-gradient(45deg,#26262d,#26262d 6px,#1d1d23 6px,#1d1d23 12px);color:var(--muted);border:1px solid var(--line2)}
+.blk.ride{background:var(--accent);color:#fff;font-weight:600}
+.blk.would{border:1.5px dashed var(--accent);color:#fdba74;background:var(--accent-soft)}
+.blk.manual{background:#3f3f46;color:#e4e4e7}
+.hours{display:grid;grid-template-columns:120px 1fr;gap:12px;font-size:11px;color:var(--dim)}
+.hours .hs{position:relative;height:16px} .hours .hs span{position:absolute;transform:translateX(-50%)}
+.stats{display:grid;grid-template-columns:1.2fr 1fr;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}
+.stats .l{padding:26px 28px;border-right:1px solid var(--line)} .stats .r{padding:26px 28px}
+.stats .lab{letter-spacing:3px;font-size:12px;color:var(--muted);font-weight:600;display:flex;gap:10px;align-items:center}
+.stats .hero{font-size:84px;font-weight:400;font-family:var(--serif);letter-spacing:-2px;line-height:1;margin:18px 0 26px}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px 16px}
+.sgrid small{display:block;color:var(--muted);letter-spacing:1.5px;font-size:11.5px;font-weight:600} .sgrid b{font-family:var(--mono);font-size:20px;font-weight:500}
+.ncards{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.bubble{background:var(--panel2);border:1px solid var(--line2);border-radius:14px;padding:16px;font-size:13.5px;line-height:1.7}
+.bubble .hdr{font-weight:600;border-bottom:1px solid var(--line2);padding-bottom:8px;margin-bottom:8px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px} .kv span:nth-child(odd){color:var(--muted)}
+.okc{color:#86efac} .badc{color:#fca5a5}
+@media (max-width:960px){
+  .ncards,.stats{grid-template-columns:1fr} .bigk,.sgrid{grid-template-columns:repeat(2,minmax(0,1fr))} .bk{min-width:0;padding:16px} .bk .v{font-size:24px} .bk .k{flex-wrap:wrap} .stats .l{border-right:0;border-bottom:1px solid var(--line)} .arow,.hours{grid-template-columns:70px 1fr}
+  .auto,.conn{display:none}
+
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;gap:8px;overflow-x:auto;padding:10px 12px}
+  .brand{padding:0 8px 0 0} .brand small{display:none}
+  .nav{flex-direction:row} .side .foot{display:none}
+  .topbar,.content{padding-left:16px;padding-right:16px}
+  .grid2,.row,.row3,.choice,.calc .out{grid-template-columns:1fr}
+  .editor{grid-template-columns:1fr}
+  .editor .left{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
+  .editor .left .meta{display:none} .sec-btn{min-width:200px}
+  .editor .scroll{padding:20px 16px} .day{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Setup: Supabase public key (stored only in this browser) -->
+<section id="setup" class="gate hidden">
+  <div class="card">
+    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
+    <h1>Conectar con <em>Supabase</em></h1>
+    <p>Solo la primera vez en este navegador. Usa la clave <b>anon public</b> (o la <b>publishable</b>), nunca la service_role.</p>
+    <form id="setupForm">
+      <div class="field"><label for="sbUrl">Project URL</label><input class="input" id="sbUrl" value="https://lqeulxlxcbvkvkjozujf.supabase.co" required></div>
+      <div class="field"><label for="sbKey">Anon / publishable key</label><input class="input mono" id="sbKey" required autocomplete="off"></div>
+      <button class="btn btn-primary" style="width:100%">Guardar</button>
+      <div class="err" id="setupErr"></div>
+    </form>
+  </div>
+</section>
+
+<!-- Login -->
+<section id="login" class="gate hidden">
+  <div class="card">
+    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
+    <h1>Despacho, <em>en automático.</em></h1>
+    <p>Bot Blacklane · solo personal autorizado.</p>
+    <form id="loginForm">
+      <div class="field"><label for="email">Correo</label><input class="input" id="email" type="email" required autocomplete="username"></div>
+      <div class="field"><label for="pass">Contraseña</label><input class="input" id="pass" type="password" required autocomplete="current-password"></div>
+      <button class="btn btn-primary" style="width:100%">Entrar</button>
+      <div class="err" id="loginErr"></div>
+    </form>
+    <button class="btn btn-ghost btn-sm" id="resetKey" style="margin-top:6px">Cambiar clave de Supabase</button>
+    <a class="btn btn-ghost btn-sm" id="homeLink" href="/" style="margin-top:6px;display:none">← connexxionselite.com</a>
+  </div>
+</section>
+
+<!-- App -->
+<div id="app" class="app hidden">
+  <aside class="side">
+    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Despacho · Bot Blacklane</small></div>
+    <div class="conn" id="conn"></div>
+    <nav class="nav" id="nav">
+      <button data-view="overview"><span data-icon="gauge"></span>Dashboard</button>
+      <button data-view="filter"><span data-icon="filter"></span>Filtro</button>
+      <button data-view="routes"><span data-icon="zap"></span>Rutas</button>
+      <button data-view="visibility"><span data-icon="activity"></span>Visibilidad</button>
+      <button data-view="locations"><span data-icon="pin"></span>Ubicaciones</button>
+      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
+      <button data-view="agenda"><span data-icon="calendar"></span>Agenda</button>
+      <button data-view="notifications"><span data-icon="bell"></span>Notificaciones</button>
+      <button data-view="decisions"><span data-icon="list"></span>Decisiones</button>
+      <button data-view="offers"><span data-icon="inbox"></span>Ofertas</button>
+      <button data-view="health"><span data-icon="heart"></span>Salud</button>
+    </nav>
+    <div class="auto">
+      <b><span class="dot" id="autoDot"></span>Automatización</b>
+      <div class="seg" id="modeSeg" role="group" aria-label="Modo del bot">
+        <button data-mode="off">Apagado</button>
+        <button data-mode="dry_run">Prueba</button>
+        <button data-mode="live">En vivo</button>
+      </div>
+      <p id="autoTxt"></p>
+    </div>
+    <div class="foot"><span id="who"></span><button class="btn btn-ghost btn-sm" id="logout" title="Salir"><span data-icon="logout"></span></button></div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <h2 id="viewTitle">Resumen</h2>
+      <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
+      <div class="spacer"></div>
+      <span class="geo">Orlando, Florida<b>28.54° N · 81.38° W</b><b id="clock">--:--</b></span>
+      <button class="btn btn-sm" data-act="refresh" title="Actualizar"><span data-icon="refresh"></span>Actualizar</button>
+    </div>
+    <div class="content" id="view"></div>
+  </main>
+</div>
+
+<div id="modalRoot"></div>
+
+<script>
+/* ======================= helpers ======================= */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch {} },
+  del(k){ try { localStorage.removeItem(k); } catch {} },
+};
+const DEMO = new URLSearchParams(location.search).has("demo");
+const TZ = "America/New_York";
+const DAYS = [["mon","Lunes"],["tue","Martes"],["wed","Miércoles"],["thu","Jueves"],["fri","Viernes"],["sat","Sábado"],["sun","Domingo"]];
+const money = v => v == null || isNaN(v) ? "—" : "$" + Number(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0 = v => v == null || isNaN(v) ? "—" : "$" + Math.round(Number(v)).toLocaleString("en-US");
+const fmtTime = iso => iso ? new Date(iso).toLocaleString("es-US",{timeZone:TZ,month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "—";
+const fmtHM = iso => new Date(iso).toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
+const fmtClock = iso => iso ? new Date(iso).toLocaleTimeString("es-US",{timeZone:TZ,hour:"numeric",minute:"2-digit",second:"2-digit"}) : "—";
+const ago = iso => { if(!iso) return "nunca"; const s=(Date.now()-new Date(iso))/1000; if(s<60) return `hace ${Math.max(1,Math.round(s))} s`; if(s<3600) return `hace ${Math.round(s/60)} min`; if(s<86400) return `hace ${Math.round(s/3600)} h`; return `hace ${Math.round(s/86400)} d`; };
+const dur = s => s == null ? "—" : s < 60 ? `${Math.round(s)} s` : s < 3600 ? `${Math.floor(s/60)} min ${Math.round(s%60)} s` : `${(s/3600).toFixed(1)} h`;
+const startOfTodayET = () => { const parts = Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:TZ,hour:"numeric",minute:"numeric",second:"numeric",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return new Date(Date.now() - ((+parts.hour % 24)*3600 + (+parts.minute)*60 + (+parts.second))*1000 - new Date().getMilliseconds()); };
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* key search like the bot's find(): case/underscore-insensitive, breadth-first */
+function findKey(obj, ...names){
+  const norm = k => String(k).replace(/[_\-]/g,"").toLowerCase();
+  const want = new Set(names.map(norm)); const q = [obj];
+  while(q.length){ const cur = q.shift();
+    if(cur && typeof cur === "object" && !Array.isArray(cur)){
+      for(const [k,v] of Object.entries(cur)){ if(want.has(norm(k)) && v !== null && v !== "" && !(typeof v==="object" && !Object.keys(v).length)) return v; }
+      for(const v of Object.values(cur)) if(v && typeof v === "object") q.push(v);
+    } else if(Array.isArray(cur)) for(const v of cur) if(v && typeof v === "object") q.push(v);
+  }
+  return null;
+}
+const toNum = v => typeof v === "number" ? v : typeof v === "string" ? (parseFloat(v.replace(/,/g,"").match(/-?\d+(\.\d+)?/)?.[0]) || null) : (v && typeof v === "object") ? toNum(findKey(v,"amount","value","total","gross")) : null;
+const placeText = v => !v ? "" : typeof v === "string" ? v : (findKey(v,"address","name","formatted_address") || JSON.stringify(v));
+
+/* ======================= icons ======================= */
+const ICONS = {
+  zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
+  home:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
+  sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  activity:'<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+  car:'<path d="M5 17h14M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0M3 17v-4l2-5h14l2 5v4"/>',
+  dollar:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>',
+  trend:'<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  truck:'<path d="M10 17h4V5H2v12h3M14 9h4l4 4v4h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  pin:'<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',
+  save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
+  info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  gauge:'<circle cx="12" cy="12" r="10"/><path d="m12 12 4-4M12 7v.01M7 12h.01M17 12h.01"/>',
+  filter:'<path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>',
+  bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>',
+  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/>',
+  refresh:'<path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/>',
+  send:'<path d="m22 2-7 20-4-9-9-4zM22 2 11 13"/>',
+  up:'<path d="m18 15-6-6-6 6"/>', down:'<path d="m6 9 6 6 6-6"/>',
+  trash:'<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+};
+const icon = (n, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]||""}</svg>`;
+function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEach(el => { if(!el.dataset.painted){ el.insertAdjacentHTML("afterbegin", icon(el.dataset.icon, el.classList.contains("brandmark") ? 20 : 18)); el.dataset.painted = 1; } }); }
+
+/* ======================= state ======================= */
+const S = {
+  sb: null, user: null, view: "overview", section: 0,
+  control: null, cfgRow: null, cfg: null, saved: null,
+  decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
+  range: 30, revMode: "would", tab: "valid", page: 0, visRange: 7,
+};
+const DEFAULT_CFG = {"ride_types":["transfer","hourly"],"vehicle_classes":[],"offer_distance_unit":"km","min_price":75,"max_price":null,"min_price_per_mile":null,"min_miles":null,"max_miles":null,"base_lat":28.4221476,"base_lng":-81.3890723,"max_pickup_miles_from_base":null,"min_lead_minutes":120,"max_days_ahead":30,"work_hours":Object.fromEntries(DAYS.map(([k])=>[k,[["05:00","23:00"]]])),"weekly_blocks":{},"blocked_windows":[],"blackout_dates":[],"daily_limit":4,"min_gap_minutes":60,"duration_multiplier":1.5,"min_busy_minutes":60,"default_busy_minutes":120,"airport_keywords":["airport","mco","sfb"],"airport":{"pickup_only":false,"no_airport_pickup":false,"dropoff_only":false},"pickup_must_contain_any":[],"blocked_places":[],"blocked_words":["child seat","pet"],"driver_pct":0.25,"cost_per_mile":0.34,"road_factor":1.3,"avg_mph":30,"buffer_minutes":30,"min_net":null,"min_net_per_hour":null,"routes":[],"locations":[],"fleet":[{"name":"Suburban Premier 2026","plate":"JCFW41","class":"Business van","active":true}]};
+const dirty = () => S.cfg && S.saved && JSON.stringify(S.cfg) !== JSON.stringify(S.saved);
+const getP = (o, p) => p.split(".").reduce((a, k) => a == null ? undefined : a[k], o);
+function setP(o, p, v){ const ks = p.split("."); let cur = o; ks.slice(0,-1).forEach(k => { if(cur[k] == null || typeof cur[k] !== "object") cur[k] = {}; cur = cur[k]; }); cur[ks.at(-1)] = v; }
+
+/* ======================= data ======================= */
+async function loadAll(){
+  if(DEMO){ if(!S.loaded) demoData(); S.loaded = true; return; }
+  const sb = S.sb, since = new Date(Date.now() - 92*86400e3).toISOString();
+  const [c, f, d, o, p, pl, st] = await Promise.all([
+    sb.from("bl_control").select("*").eq("id",1).maybeSingle(),
+    sb.from("bl_config").select("config,updated_at,updated_by").eq("id",1).maybeSingle(),
+    sb.from("bl_decisions").select("*").gte("decided_at", since).order("decided_at",{ascending:false}).limit(5000),
+    sb.from("bl_offers").select("offer_key,first_seen_at,last_seen_at,seen_count,price_changes,last_payload").gte("first_seen_at", since).order("first_seen_at",{ascending:false}).limit(3000),
+    sb.from("bl_polls").select("*").order("polled_at",{ascending:false}).limit(300),
+    sb.from("bl_planned").select("*").order("start_at",{ascending:true}).limit(200),
+    sb.from("bl_status").select("*").eq("id",1).maybeSingle(),
+  ]);
+  const err = [c,f,d,o,p,pl,st].find(r => r.error)?.error;
+  if(err) throw err;
+  S.control = c.data; S.decisions = d.data || []; S.offers = o.data || []; S.polls = p.data || [];
+  S.planned = pl.data || []; S.status = st.data;
+  if(!f.data){ S.cfgRow = null; }
+  else {
+    S.cfgRow = f.data;
+    const remote = {...DEFAULT_CFG, ...(f.data.config || {})};
+    if(!S.cfg || !dirty()){ S.cfg = clone(remote); S.saved = clone(remote); }
+  }
+  S.loaded = true;
+}
+
+async function setMode(mode){
+  if(DEMO){ S.control.mode = mode; render(); toast(`Modo: ${modeName(mode)} (demo)`); return; }
+  const { data, error } = await S.sb.from("bl_control").update({ mode }).eq("id",1).select();
+  if(error || !data?.length) return toast("No se pudo cambiar el modo: " + (error?.message || "sin permiso"), true);
+  S.control = data[0]; render(); toast(`Modo cambiado a ${modeName(mode)}. El bot lo aplica en ≤30 s.`);
+}
+
+async function saveCfg(){
+  if(DEMO){ S.saved = clone(S.cfg); render(); toast("Filtro guardado (demo)"); return; }
+  const { data, error } = await S.sb.from("bl_config").update({ config: S.cfg }).eq("id",1).select();
+  if(error || !data?.length) return toast("No se guardó: " + (error?.message || "sin permiso"), true);
+  S.cfgRow = data[0]; S.saved = clone(S.cfg); render(); toast("Filtro guardado. El bot lo aplica en ≤30 s.");
+}
+
+async function testNotify(){
+  if(DEMO){ toast("Prueba enviada (demo)"); return; }
+  const { data, error } = await S.sb.from("bl_control").update({ test_notify_at: new Date().toISOString() }).eq("id",1).select();
+  if(error || !data?.length) return toast("No se pudo pedir la prueba: " + (error?.message || "sin permiso"), true);
+  S.control = data[0]; toast("Pedido enviado. El bot manda el mensaje en ≤30 s si los avisos están configurados.");
+}
+
+/* ======================= derived ======================= */
+const modeName = m => ({off:"Apagado",dry_run:"Prueba",live:"En vivo"}[m] || m);
+function lastPoll(){ return S.polls[0] || null; }
+function healthState(){
+  const p = lastPoll(); if(!p) return ["bad","Sin datos del bot"];
+  const age = (Date.now() - new Date(p.polled_at))/1000;
+  if(!p.ok) return ["bad", `Error ${ago(p.polled_at)}`];
+  if(age > 600) return ["warn", `Sin señal ${ago(p.polled_at)}`];
+  return ["ok", `Bot activo · ${ago(p.polled_at)}`];
+}
+function stats(){
+  const t0 = startOfTodayET();
+  const today = S.decisions.filter(d => new Date(d.decided_at) >= t0);
+  const by = dec => new Set(today.filter(d => d.decision === dec).map(d => d.offer_key)).size;
+  const offersToday = S.offers.filter(o => new Date(o.first_seen_at) >= t0);
+  const vis = offersToday.map(o => (new Date(o.last_seen_at) - new Date(o.first_seen_at))/1000);
+  const p24 = S.polls.filter(p => Date.now() - new Date(p.polled_at) < 86400e3);
+  const reasons = {}; today.filter(d => d.decision === "skip").forEach(d => { reasons[d.reason] = (reasons[d.reason]||0) + 1; });
+  return {
+    offers: offersToday.length, would: by("would_accept"), accepted: by("accepted"), failed: by("accept_failed"),
+    skipped: by("skip"), visAvg: vis.length ? vis.reduce((a,b)=>a+b,0)/vis.length : null,
+    uptime: p24.length ? Math.round(100 * p24.filter(p => p.ok).length / p24.length) : null,
+    reasons: Object.entries(reasons).sort((a,b) => b[1]-a[1]).slice(0,6),
+  };
+}
+function decBadge(d){
+  return ({accepted:'<span class="badge b-accept">Aceptado</span>', would_accept:'<span class="badge b-would">Aceptaría</span>',
+           accept_failed:'<span class="badge b-fail">Falló</span>'})[d] || '<span class="badge b-skip">Saltado</span>';
+}
+
+/* economics preview — same formula the bot uses (economics() in bot.py) */
+/* Blacklane offer format (confirmed 2026-11-09): {id, price, currency, vehicleClass,
+   rides:[{type, createdAt, pickupTime, guestRequests, pickUpLocation:{address,latitude,longitude},
+   dropOffLocation:{...}, estimatedDistanceMeters, estimatedDurationMinutes}]} */
+function parseOffer(p){
+  p = p || {}; const r = Array.isArray(p.rides) && p.rides[0] ? p.rides[0] : {};
+  const loc = l => l && typeof l === "object" ? { addr: l.address || l.name || "", lat: l.latitude ?? l.lat ?? null, lng: l.longitude ?? l.lng ?? null } : { addr: typeof l === "string" ? l : "", lat: null, lng: null };
+  const pick = loc(r.pickUpLocation || findKey(p,"pickUpLocation","pickup_location","pickup")), drop = loc(r.dropOffLocation || findKey(p,"dropOffLocation","dropoff_location","dropoff"));
+  const meters = toNum(r.estimatedDistanceMeters);
+  const price = typeof p.price === "number" ? p.price : typeof p.price_minor_unit === "number" ? p.price_minor_unit/100 : toNum(findKey(p,"price","total_price","payout","amount"));
+  return { price, currency: p.currency || "USD", start: r.pickupTime || findKey(p,"pickupTime","start_time","startTime","pickup_time") || null,
+    miles: meters != null ? meters/1609.344 : null, dur: toNum(r.estimatedDurationMinutes), type: r.type || "", cls: p.vehicleClass || "",
+    pick, drop, notes: r.guestRequests || "", created: r.createdAt || null };
+}
+const shortAddr = a => { const parts = String(a || "").split(",").map(x => x.trim()).filter(Boolean); return parts.length > 2 ? `${parts[0]}, ${parts[1]}` : (a || "—"); };
+const cityOf = a => { const parts = String(a || "").split(",").map(x => x.trim()); return parts.length > 2 ? parts[1] : (parts[0] || "—"); };
+const hav = (a, b) => { const R = 3958.8, t = x => x*Math.PI/180, dLa = t(b[0]-a[0]), dLo = t(b[1]-a[1]); const h = Math.sin(dLa/2)**2 + Math.cos(t(a[0]))*Math.cos(t(b[0]))*Math.sin(dLo/2)**2; return 2*R*Math.asin(Math.sqrt(h)); };
+/* same formula as economics() in bot.py */
+function offerEcon(cfg, o){
+  const base = [cfg.base_lat, cfg.base_lng]; if(base.includes(null) || base.includes(undefined) || o.pick.lat == null || o.price == null) return null;
+  const rf = cfg.road_factor ?? 1.3, mph = cfg.avg_mph ?? 30, P = [o.pick.lat, o.pick.lng], D = o.drop.lat != null ? [o.drop.lat, o.drop.lng] : null;
+  const trip = o.miles ?? (D ? hav(P, D)*rf : null); if(trip == null) return null;
+  const dead = hav(base, P)*rf, back = D ? hav(D, base)*rf : dead, total = dead + trip + back;
+  const rideH = o.dur ? o.dur/60 : trip/mph, backMph = rideH ? Math.max(mph, trip/rideH) : mph;
+  const hours = dead/mph + rideH + back/backMph + (cfg.buffer_minutes ?? 30)/60;
+  const driver = o.price*(cfg.driver_pct ?? 0.25), running = total*(cfg.cost_per_mile ?? 0.34), net = o.price - driver - running;
+  return { dead, back, total, hours, driver, running, net, perHour: net/hours };
+}
+/* merged view of one offer: raw payload (best) + bot's decision */
+function offerInfo(key){
+  const row = S.offers.find(o => o.offer_key === key), d = S.decisions.find(x => x.offer_key === key);
+  const o = row ? parseOffer(row.last_payload) : null, n = d?.normalized || {};
+  const v = o || { price: n.price, start: n.start, miles: n.miles, dur: n.duration_min, type: n.ride_type, cls: n.vehicle_class, notes: n.guest_requests || "", created: n.created_at,
+    pick: { addr: n.pickup_display || n.pickup || "", lat: n.pickup_latlng?.[0] ?? null, lng: n.pickup_latlng?.[1] ?? null },
+    drop: { addr: n.dropoff_display || n.dropoff || "", lat: n.dropoff_latlng?.[0] ?? null, lng: n.dropoff_latlng?.[1] ?? null } };
+  return { key, row, d, ...v, econ: offerEcon(S.cfg || DEFAULT_CFG, v) };
+}
+function openOffer(key){
+  const x = offerInfo(key), e = x.econ;
+  const maps = x.pick.lat != null && x.drop.lat != null ? `https://www.google.com/maps/dir/?api=1&origin=${x.pick.lat},${x.pick.lng}&destination=${x.drop.lat},${x.drop.lng}` : null;
+  const seen = x.row ? (new Date(x.row.last_seen_at) - new Date(x.row.first_seen_at))/1000 : null;
+  const delay = x.row && x.created ? (new Date(x.row.first_seen_at) - new Date(x.created))/1000 : null;
+  const verdict = !x.d ? `<div class="verd no">El bot no registró decisión para esta oferta.</div>`
+    : x.d.decision === "accepted" ? `<div class="verd ok"><b>Aceptada</b> por el bot.</div>`
+    : x.d.decision === "would_accept" ? `<div class="verd ok"><b>El bot la aceptaría.</b> En modo Prueba no acepta.</div>`
+    : x.d.decision === "accept_failed" ? `<div class="verd bad"><b>Falló al aceptar:</b> ${esc(x.d.reason)}</div>`
+    : `<div class="verd no"><b style="color:var(--text)">Saltada:</b> ${esc(x.d.reason)}</div>`;
+  $("#modalRoot").innerHTML = `<div class="drawer-bg" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="Detalle de la oferta">
+    <div class="dh"><div><div class="pagehead" style="margin:0"><div class="eyebrow" style="margin:0"><span class="no">Oferta</span><span class="dash"></span>${esc((x.type || "viaje").toUpperCase())} · ${esc((x.cls || "—").toUpperCase())}</div></div>
+      <div class="route">${esc(cityOf(x.pick.addr))} <em>→</em> ${esc(cityOf(x.drop.addr))}</div>
+      <div class="muted">${x.start ? fmtTime(x.start) : "Hora no disponible"}</div></div>
+      <button class="btn btn-ghost btn-sm" data-close aria-label="Cerrar">${icon("x",16)}</button></div>
+    <div class="db">
+      ${verdict}
+      <div class="dgrid">
+        <div><small>Paga</small><b>${money(x.price)}</b></div>
+        <div><small>Millas</small><b>${x.miles != null ? x.miles.toFixed(0) : "—"}</b></div>
+        <div><small>Duración</small><b>${x.dur ? Math.round(x.dur) + " min" : "—"}</b></div>
+        <div><small>$ / milla</small><b>${x.price != null && x.miles ? "$" + (x.price/x.miles).toFixed(2) : "—"}</b></div>
+        <div><small>Neto est.</small><b style="color:${e && e.net < 0 ? "var(--bad)" : "var(--text)"}">${e ? money(e.net) : "—"}</b></div>
+        <div><small>Neto / hora</small><b>${e ? money0(e.perHour) : "—"}</b></div>
+      </div>
+      <div class="stops">
+        <div><small>Recogida · ${x.start ? fmtHM(x.start) : "—"}</small>${esc(x.pick.addr || "—")}</div>
+        <div><small>Destino</small>${esc(x.drop.addr || "—")}</div>
+      </div>
+      ${maps ? `<a class="btn" href="${maps}" target="_blank" rel="noopener">${icon("pin",15)} Ver ruta en Google Maps</a>` : ""}
+      ${x.notes ? `<div class="note" style="display:block"><small class="muted" style="letter-spacing:1.4px;font-size:10.5px">NOTAS DEL PASAJERO</small><div style="color:var(--text);margin-top:4px">${esc(x.notes)}</div></div>` : ""}
+      ${e ? `<div class="box"><header><h3>Cómo sale el neto</h3><span class="muted" style="font-size:12px">estimado</span></header><div style="padding:14px 16px"><div class="kv">
+        <span>Paga Blacklane</span><span class="mono">${money(x.price)}</span>
+        <span>Chofer (${Math.round((S.cfg?.driver_pct ?? .25)*100)}%)</span><span class="mono">−${money(e.driver)}</span>
+        <span>Gasolina y desgaste</span><span class="mono">−${money(e.running)}</span>
+        <span class="dim">Millas: yard→pickup ${e.dead.toFixed(0)} · viaje ${(x.miles ?? 0).toFixed(0)} · regreso ${e.back.toFixed(0)}</span><span class="mono dim">${e.total.toFixed(0)} mi</span>
+        <span>Horas de camioneta ocupada</span><span class="mono">${e.hours.toFixed(1)} h</span>
+        <span><b style="color:var(--text)">Neto empresa</b></span><span class="mono"><b style="color:var(--text)">${money(e.net)}</b></span></div></div></div>` : ""}
+      <div class="box"><header><h3>Visibilidad</h3></header><div style="padding:14px 16px"><div class="kv">
+        <span>Creada por Blacklane</span><span class="mono">${x.created ? fmtClock(x.created) : "—"}</span>
+        <span>Vista por el bot</span><span class="mono">${x.row ? fmtClock(x.row.first_seen_at) : "—"}${delay != null ? ` <span class="dim">(+${dur(delay)})</span>` : ""}</span>
+        <span>Desapareció</span><span class="mono">${x.row ? fmtClock(x.row.last_seen_at) : "—"}</span>
+        <span>Tiempo visible</span><span class="mono">${seen != null ? dur(seen) : "—"}</span>
+        <span>ID</span><span class="mono dim" style="font-size:11px">${esc(key)}</span></div></div></div>
+    </div></aside>`;
+  $("#modalRoot").querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
+}
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+
+function econ(cfg, price, tripMi, deadMi, backMi, durMin){
+  const mph = cfg.avg_mph ?? 30, total = deadMi + tripMi + backMi;
+  const hours = (deadMi + backMi)/mph + Math.max(tripMi/mph, (durMin||0)/60) + (cfg.buffer_minutes ?? 30)/60;
+  const driver = price * (cfg.driver_pct ?? 0.25), running = total * (cfg.cost_per_mile ?? 0.34);
+  const net = price - driver - running;
+  return { driver, running, net, hours, perHour: net / hours, total };
+}
+
+/* ======================= render: shell ======================= */
+const VIEWS = { overview:"Dashboard", filter:"Filtro", routes:"Rutas", visibility:"Visibilidad", locations:"Ubicaciones", fleet:"Flota", agenda:"Agenda", notifications:"Notificaciones", decisions:"Decisiones", offers:"Ofertas", health:"Salud" };
+const RENDER = () => ({overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+function renderSide(){
+  const [hs] = healthState(), info = S.status?.info || {};
+  const conn = $("#conn");
+  if(hs === "ok") conn.className = "conn ok", conn.innerHTML = `<span class="ck">${icon("check",13)}</span><span>Conectado a Blacklane<small>${info.last_login_at ? "login " + ago(info.last_login_at) : "bot activo"}</small></span>`;
+  else if(hs === "warn") conn.className = "conn warn", conn.innerHTML = `<span class="ck">${icon("info",16)}</span><span>Sin señal del bot<small>¿La Mac se durmió?</small></span>`;
+  else conn.className = "conn bad", conn.innerHTML = `<span class="ck">${icon("x",16)}</span><span>Desconectado<small>Revisa la Terminal del bot</small></span>`;
+  const mode = S.control?.mode || "dry_run";
+  $("#autoDot").className = "dot " + (mode === "live" ? "ok" : mode === "off" ? "bad" : "warn");
+  const blocked = mode === "live" && S.status && info.allow_live === false;
+  $("#autoTxt").className = blocked ? "warnline" : "";
+  $("#autoTxt").textContent = blocked ? "El servidor tiene ALLOW_LIVE=false: el bot sigue en prueba."
+    : ({off:"Solo guarda ofertas.", dry_run:"Evalúa y avisa. No acepta.", live:"Acepta ofertas reales."})[mode];
+}
+function render(){
+  $("#viewTitle").textContent = VIEWS[S.view];
+  document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.view === S.view));
+  const mode = S.control?.mode || "dry_run";
+  document.querySelectorAll("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
+  const [hs, ht] = healthState(); $("#health").innerHTML = `<span class="dot ${hs}"></span><span>${esc(ht)}</span>`;
+  renderSide();
+  const v = $("#view");
+  if(!S.cfgRow && !DEMO){
+    v.innerHTML = `<div class="note">${icon("info")}<div><b style="color:var(--text)">Tu usuario no tiene acceso a los datos del bot.</b><br>En Supabase → SQL Editor ejecuta:<br><code class="mono">insert into bl_admins(email) values ('${esc(S.user?.email || "tu@correo.com")}');</code><br>Luego recarga esta página.</div></div>`;
+    return;
+  }
+  RENDER()[S.view]();
+  paintIcons(v);
+}
+
+/* ---------- shared helpers for v2 pages ---------- */
+const dayKey = iso => new Date(iso).toLocaleDateString("en-CA",{timeZone:TZ});
+const minutesET = iso => { const p = Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:TZ,hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date(iso)).map(x=>[x.type,x.value])); return (+p.hour % 24)*60 + (+p.minute); };
+const dayIdx = key => (new Date(key + "T12:00:00Z").getUTCDay() + 6) % 7;
+const lastDays = n => Array.from({length:n}, (_,k) => dayKey(Date.now() - (n-1-k)*86400e3));
+const latestPerOffer = rows => { const seen = new Set(), out = []; for(const d of rows){ if(!seen.has(d.offer_key)){ seen.add(d.offer_key); out.push(d); } } return out; };
+const rangeStart = days => Date.now() - days*86400e3;
+const isValid = d => d.decision === "accepted" || d.decision === "would_accept";
+const pct = (arr, q) => { if(!arr.length) return null; const a = [...arr].sort((x,y)=>x-y); const i = (a.length-1)*q, lo = Math.floor(i), hi = Math.ceil(i); return a[lo] + (a[hi]-a[lo])*(i-lo); };
+const saveBar = () => `<div class="savebar" style="border:1px solid var(--line);border-radius:14px;margin-top:18px;position:sticky;bottom:12px">
+  <div class="state">${dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado'}</div>
+  <button class="btn" data-act="discard" ${dirty() ? "" : "disabled"}>Descartar</button>
+  <button class="btn btn-primary" data-act="save" ${dirty() ? "" : "disabled"}>${icon("save",16)} Guardar</button></div>`;
+const head = (title, sub, eyebrow, right = "") => { const i = Object.keys(VIEWS).indexOf(S.view) + 1;
+  return `<div class="pagehead"><div><div class="eyebrow"><span class="no">N° ${String(i).padStart(2,"0")}</span><span class="dash"></span>${eyebrow || VIEWS[S.view]}</div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>`; };
+const rangeSel = (attr, cur, opts) => `<div class="rng">${opts.map(([v,l]) => `<button data-${attr}="${v}" class="${cur===v?"on":""}">${l}</button>`).join("")}</div>`;
+
+function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacked
+  const H = 240, padL = 34, padB = 26, padT = 10, n = days.length;
+  const totals = days.map((_,i) => series.reduce((a,s) => a + s.values[i], 0));
+  const max = Math.max(4, ...totals), step = Math.ceil(max/4);
+  const top = step*4, bw = Math.max(2, (W-padL)/n*0.62), x = i => padL + (i+0.5)*(W-padL)/n, y = v => H-padB - (v/top)*(H-padB-padT);
+  let g = "";
+  for(let k=0;k<=4;k++){ const yy = y(k*step); g += `<line x1="${padL}" x2="${W}" y1="${yy}" y2="${yy}" stroke="#222228"/><text x="${padL-8}" y="${yy+4}" fill="#5f5f69" font-size="11" text-anchor="end">${k*step}</text>`; }
+  days.forEach((d,i) => { let acc = 0; series.forEach(s => { const v = s.values[i]; if(v){ g += `<rect x="${x(i)-bw/2}" y="${y(acc+v)}" width="${bw}" height="${y(acc)-y(acc+v)}" rx="2" fill="${s.color}"><title>${d}: ${v}</title></rect>`; } acc += v; });
+    const every = Math.ceil(n/12); if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-6}" fill="#5f5f69" font-size="11" text-anchor="middle">${new Date(d+"T12:00:00Z").toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</text>`; });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ofertas por día">${g}</svg>`;
+}
+
+/* ---------- Dashboard ---------- */
+function renderOverview(){
+  const since = rangeStart(S.range);
+  const dec = latestPerOffer(S.decisions.filter(d => new Date(d.decided_at) >= since));
+  const live = S.revMode === "accepted";
+  const counted = dec.filter(d => live ? d.decision === "accepted" : isValid(d));
+  const revenue = counted.reduce((a,d) => a + (+d.normalized?.price || 0), 0);
+  const withMi = counted.filter(d => d.normalized?.miles);
+  const perMi = withMi.length ? withMi.reduce((a,d)=>a+ +d.normalized.price,0) / withMi.reduce((a,d)=>a+ +d.normalized.miles,0) : null;
+  const offers = S.offers.filter(o => new Date(o.first_seen_at) >= since).length;
+  const skipped = dec.filter(d => d.decision === "skip");
+  const days = lastDays(S.range);
+  const byDay = (pred) => days.map(k => dec.filter(d => pred(d) && dayKey(d.decided_at) === k).length);
+  const rows = S.tab === "valid" ? dec.filter(isValid) : skipped, per = 12, pages = Math.max(1, Math.ceil(rows.length/per));
+  S.page = Math.min(S.page, pages-1); const slice = rows.slice(S.page*per, S.page*per+per);
+  $("#view").innerHTML = `
+  ${head("Lo que el bot <em>vio.</em>", "Ofertas que llegaron, cuáles pasan el filtro y cuáles se saltaron.", "Dashboard", rangeSel("range", S.range, [[7,"7 días"],[14,"14 días"],[30,"30 días"],[90,"3 meses"]]))}
+  <div class="bigk">
+    <div class="bk"><div class="k"><span>Ingreso total</span><span class="mini"><button data-rev="accepted" class="${live?"on":""}">Aceptadas</button><button data-rev="would" class="${!live?"on":""}">Aceptaría</button></span></div><div class="v">${money(revenue)}</div><div class="t">${live ? "De viajes aceptados" : "De ofertas que pasan el filtro"}</div><div class="s">Precio Blacklane, todo incluido</div></div>
+    <div class="bk"><div class="k">Ofertas totales</div><div class="v">${offers}</div><div class="t">Vistas por el bot</div><div class="s">Todas las que llegaron a la cuenta</div></div>
+    <div class="bk"><div class="k">Saltadas</div><div class="v">${skipped.length}</div><div class="t">No cumplen el filtro</div><div class="s">Cada una con su motivo</div></div>
+    <div class="bk"><div class="k">Ingreso por milla</div><div class="v">${perMi == null ? "—" : "$" + perMi.toFixed(2)}</div><div class="t">Precio ÷ millas con pasajero</div><div class="s">${live ? "Aceptadas" : "Aceptaría"}, con distancia conocida</div></div>
+  </div>
+  <div class="box" style="margin-bottom:18px"><header><h3>Ofertas por día</h3><span class="muted" style="font-size:12.5px">últimos ${S.range} días</span></header>
+    <div class="chartbox chart">${barChart(days, [{color:"#D42A27", values: byDay(isValid)},{color:"#3a3833", values: byDay(d => d.decision === "skip")}])}
+    <div class="legend"><span><i style="background:#D42A27"></i>${live ? "Aceptadas / aceptaría" : "Aceptaría"}</span><span><i style="background:#3a3833"></i>Saltadas</span></div></div></div>
+  <div class="box"><header><div class="tabs"><button data-tab="valid" class="${S.tab==="valid"?"on":""}">Válidas (${dec.filter(isValid).length})</button><button data-tab="skipped" class="${S.tab==="skipped"?"on":""}">Saltadas (${skipped.length})</button></div></header>
+    ${slice.length ? `<div class="tablewrap"><table><thead><tr>${S.tab==="valid" ? "<th>Estado</th>" : "<th>Motivo</th>"}<th>Desde</th><th>Hasta</th><th>Paga</th><th>Millas</th><th>Neto est.</th><th>Clase</th><th>Recogida</th><th>Visto</th></tr></thead><tbody>
+    ${slice.map(d => { const x = offerInfo(d.offer_key); return `<tr data-offer="${esc(d.offer_key)}">${S.tab==="valid" ? `<td>${decBadge(d.decision)}</td>` : `<td class="cut muted" title="${esc(d.reason)}">${esc(d.reason)}</td>`}<td class="cut" title="${esc(x.pick.addr)}">${esc(shortAddr(x.pick.addr))}</td><td class="cut" title="${esc(x.drop.addr)}">${esc(shortAddr(x.drop.addr))}</td><td class="num">${money(x.price)}</td><td class="num">${x.miles == null ? "—" : (+x.miles).toFixed(0)}</td><td class="num">${x.econ ? money(x.econ.net) : "—"}</td><td class="muted">${esc(x.cls || "—")}</td><td class="num">${fmtTime(x.start)}</td><td class="num">${fmtTime(d.decided_at)}</td></tr>`; }).join("")}
+    </tbody></table></div>` : `<div class="empty">${S.tab==="valid" ? "Ninguna oferta pasó el filtro en este rango." : "Ninguna oferta saltada en este rango."}</div>`}
+    <div class="pager"><span>${rows.length} resultado(s)</span><div><button class="btn btn-sm" data-pg="-1" ${S.page===0?"disabled":""}>Anterior</button><span>Página ${S.page+1} de ${pages}</span><button class="btn btn-sm" data-pg="1" ${S.page>=pages-1?"disabled":""}>Siguiente</button></div></div></div>`;
+}
+
+/* ---------- Visibilidad (offer delay) ---------- */
+function renderVisibility(){
+  const since = rangeStart(S.visRange), rows = S.offers.filter(o => new Date(o.first_seen_at) >= since);
+  const measured = rows.filter(o => o.seen_count >= 2).map(o => (new Date(o.last_seen_at) - new Date(o.first_seen_at))/1000);
+  const mean = measured.length ? measured.reduce((a,b)=>a+b,0)/measured.length : null;
+  const sd = measured.length > 1 ? Math.sqrt(measured.reduce((a,b)=>a+(b-mean)**2,0)/(measured.length-1)) : null;
+  const days = lastDays(S.visRange);
+  const avgDay = days.map(k => { const v = rows.filter(o => o.seen_count >= 2 && dayKey(o.first_seen_at) === k).map(o => (new Date(o.last_seen_at)-new Date(o.first_seen_at))/1000); return v.length ? Math.round(v.reduce((a,b)=>a+b,0)/v.length) : 0; });
+  const f = v => v == null ? "—" : dur(v);
+  const delays = rows.map(o => { const c = parseOffer(o.last_payload).created; return c ? (new Date(o.first_seen_at) - new Date(c))/1000 : null; }).filter(v => v != null && v >= 0);
+  $("#view").innerHTML = `
+  ${head("Cuánto dura <em>una oferta.</em>", "Cuánto tiempo sigue visible una oferta en la cuenta antes de que otro chofer la tome o expire. Si es menor de ~30 s, a mano no se alcanza.", "Telemetría en vivo", rangeSel("vis", S.visRange, [[3,"3 días"],[7,"7 días"],[30,"30 días"]]))}
+  <div class="stats"><div class="l"><div class="lab">PROMEDIO VISIBLE <span class="badge b-skip">${measured.length ? "Midiendo" : "Recolectando"}</span></div>
+    <div class="hero">${f(mean)}</div>
+    <div class="sgrid"><div><small>MEDIANA</small><b>${f(pct(measured,.5))}</b></div><div><small>P90</small><b>${f(pct(measured,.9))}</b></div><div><small>P95</small><b>${f(pct(measured,.95))}</b></div><div><small>MÍNIMO</small><b>${f(measured.length ? Math.min(...measured) : null)}</b></div>
+    <div><small>MÁXIMO</small><b>${f(measured.length ? Math.max(...measured) : null)}</b></div><div><small>DESV. EST.</small><b>${f(sd)}</b></div><div><small>MEDIDAS</small><b>${measured.length} de ${rows.length}</b></div><div><small>MUY RÁPIDAS</small><b>${rows.length - measured.length}</b></div></div></div>
+    <div class="r"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><b style="font-size:16px">Visibilidad diaria</b><div class="muted" style="font-size:13px">promedio en segundos</div></div></div>
+    ${measured.length ? `<div class="chart" style="margin-top:12px">${barChart(days, [{color:"#D42A27", values: avgDay}], 560)}</div>` : `<div class="dropzone" style="margin-top:16px;padding:40px 16px">${icon("activity",22)}<br><b style="color:var(--text)">Recolectando mediciones</b><br>Aparecen cuando el bot vea ofertas en al menos dos consultas seguidas.</div>`}</div></div>
+  <div class="kpis" style="margin-top:16px"><div class="kpi"><div class="k">Retraso de Blacklane</div><div class="v">${f(delays.length ? delays.reduce((a,b)=>a+b,0)/delays.length : null)}</div><div class="s">promedio entre que Blacklane crea la oferta y el bot la ve · ${delays.length} medidas</div></div>
+    <div class="kpi"><div class="k">Retraso mínimo</div><div class="v">${f(delays.length ? Math.min(...delays) : null)}</div><div class="s">la oferta más temprana vista</div></div></div>
+  <div class="note" style="margin-top:16px">${icon("info")}<div>“Muy rápidas” = ofertas que solo aparecieron en una consulta: duraron menos que el intervalo del bot (${esc(S.status?.info?.poll_seconds ?? 5)} s aprox.). Son las que más se pierden a mano.</div></div>`;
+}
+
+/* ---------- Rutas ---------- */
+function renderRoutes(){
+  const routes = S.cfg.routes || [], locs = (S.cfg.locations || []).map(l => l.name).filter(Boolean);
+  const locSel = (path, v) => `<select class="input" data-path="${path}" data-kind="str"><option value="">Cualquiera</option>${locs.map(n => `<option ${n===v?"selected":""}>${esc(n)}</option>`).join("")}</select>`;
+  $("#view").innerHTML = `
+  ${head("Rutas con <em>prioridad.</em>", "Reglas con varias condiciones que se revisan antes del filtro, en orden. La primera que coincide decide.", "", `<button class="btn btn-primary" data-act="routeadd">${icon("plus",16)} Agregar ruta</button>`)}
+  <div class="note" style="margin-bottom:16px">${icon("info")}<div><b style="color:var(--text)">Aceptar siempre</b> salta las reglas de precio, rentabilidad, aeropuertos y lugares, pero <b style="color:var(--text)">nunca</b> la agenda, el horario, el límite diario ni las palabras bloqueadas. <b style="color:var(--text)">Rechazar siempre</b> descarta la oferta de inmediato.</div></div>
+  <div class="stack">${routes.length ? routes.map((r,i) => { const w = r.when || {}, P = `routes.${i}`;
+    return `<div class="rcard ${r.enabled === false ? "disabled" : ""}"><div class="rh">
+      <span class="mono dim">#${i+1}</span><input class="input" data-path="${P}.name" data-kind="text" value="${esc(r.name)}" placeholder="Nombre de la ruta">
+      <select class="input" style="max-width:190px" data-path="${P}.action" data-kind="str"><option value="accept" ${r.action==="accept"?"selected":""}>Aceptar siempre</option><option value="skip" ${r.action==="skip"?"selected":""}>Rechazar siempre</option></select>
+      <span style="flex:1"></span>
+      <button class="btn btn-ghost btn-sm" data-move="${i}" data-d="-1" ${i===0?"disabled":""} aria-label="Subir">${icon("up",15)}</button><button class="btn btn-ghost btn-sm" data-move="${i}" data-d="1" ${i===routes.length-1?"disabled":""} aria-label="Bajar">${icon("down",15)}</button>
+      <label class="switch"><input type="checkbox" data-flag="${P}.enabled" ${r.enabled !== false ? "checked" : ""} aria-label="Activa"><span></span></label>
+      <button class="btn btn-ghost btn-sm" data-del="routes" data-k="${i}" aria-label="Borrar ruta">${icon("trash",15)}</button></div>
+      <div class="rb">
+        <div class="row"><div class="field"><label>Pickup en ubicación</label>${locSel(`${P}.when.pickup_location`, w.pickup_location)}</div><div class="field"><label>…o el pickup contiene</label><input class="input" data-path="${P}.when.pickup_contains" data-kind="text" value="${esc(w.pickup_contains)}" placeholder="ej. MCO"></div></div>
+        <div class="row"><div class="field"><label>Drop-off en ubicación</label>${locSel(`${P}.when.dropoff_location`, w.dropoff_location)}</div><div class="field"><label>…o el drop-off contiene</label><input class="input" data-path="${P}.when.dropoff_contains" data-kind="text" value="${esc(w.dropoff_contains)}" placeholder="ej. Disney"></div></div>
+        <div class="row3">${num(`${P}.when.min_price`,"Precio mínimo",{suf:"USD",ph:"—"})}${num(`${P}.when.max_price`,"Precio máximo",{suf:"USD",ph:"—"})}${num(`${P}.when.min_net`,"Neto mínimo",{suf:"USD",ph:"—"})}</div>
+        <div class="row3">${num(`${P}.when.min_miles`,"Millas mínimas",{suf:"mi",ph:"—"})}${num(`${P}.when.max_miles`,"Millas máximas",{suf:"mi",ph:"—"})}<div class="field"><label>Hora del pickup</label><div class="win"><input class="input mono" type="time" data-path="${P}.when.time_from" data-kind="text" value="${esc(w.time_from)}" aria-label="Desde"><span class="dim">→</span><input class="input mono" type="time" data-path="${P}.when.time_to" data-kind="text" value="${esc(w.time_to)}" aria-label="Hasta"></div></div></div>
+        <div class="field"><label>Días (vacío = todos)</label><div class="tagsel">${DAYS.map(([k,n]) => `<button data-rday="${P}.when.days" data-d="${k}" class="${(w.days||[]).includes(k)?"on":""}">${n.slice(0,3)}</button>`).join("")}</div></div>
+      </div></div>`; }).join("") : `<div class="dropzone" style="padding:30px">Sin rutas. Ejemplo: “Aceptar siempre pickups en MCO de más de $90” o “Rechazar siempre The Villages”.</div>`}</div>
+  ${saveBar()}`;
+}
+
+/* ---------- Ubicaciones ---------- */
+const PRESETS = [
+  {name:"MCO", keywords:["mco","orlando international"], lat:28.4312, lng:-81.3081, radius_mi:3},
+  {name:"Disney", keywords:["disney","lake buena vista"], lat:28.3772, lng:-81.5707, radius_mi:5},
+  {name:"Universal", keywords:["universal orlando"], lat:28.4744, lng:-81.4678, radius_mi:2},
+  {name:"SFB", keywords:["sfb","sanford"], lat:28.7776, lng:-81.2375, radius_mi:2},
+];
+function renderLocations(){
+  const locs = S.cfg.locations || [];
+  $("#view").innerHTML = `
+  ${head("Lugares que <em>conocemos.</em>", "Define un lugar una vez —palabras de la dirección o un radio en el mapa— y úsalo en las Rutas.", "", `<button class="btn btn-primary" data-act="locadd">${icon("plus",16)} Agregar ubicación</button>`)}
+  <div class="box" style="margin-bottom:16px;padding:14px 16px"><div class="muted" style="font-size:13px;margin-bottom:10px">Atajos (coordenadas aproximadas, verifícalas en Google Maps):</div><div class="presets">${PRESETS.map((p,i) => `<button class="btn btn-sm" data-preset="${i}" ${locs.some(l=>l.name===p.name)?"disabled":""}>${icon("plus",14)} ${p.name}</button>`).join("")}</div></div>
+  <div class="stack">${locs.length ? locs.map((l,i) => { const P = `locations.${i}`;
+    return `<div class="rcard"><div class="rh">${icon("pin",16)}<input class="input" data-path="${P}.name" data-kind="text" value="${esc(l.name)}" placeholder="Nombre"><span style="flex:1"></span><button class="btn btn-ghost btn-sm" data-del="locations" data-k="${i}" aria-label="Borrar ubicación">${icon("trash",15)}</button></div>
+    <div class="rb"><div class="field"><label>Palabras en la dirección (separadas por coma)</label><input class="input" data-path="${P}.keywords" data-kind="csv" value="${esc((l.keywords||[]).join(", "))}" placeholder="ej. mco, orlando international"></div>
+    <div class="row3">${num(`${P}.lat`,"Latitud",{step:"0.0001",ph:"—"})}${num(`${P}.lng`,"Longitud",{step:"0.0001",ph:"—"})}${num(`${P}.radius_mi`,"Radio",{suf:"mi",step:"0.5",ph:"—"})}</div>
+    <div class="hint">Coincide si la dirección contiene alguna palabra, o si el punto está dentro del radio.</div></div></div>`; }).join("") : `<div class="dropzone" style="padding:30px">Sin ubicaciones todavía.</div>`}</div>
+  ${saveBar()}`;
+}
+
+/* ---------- Flota ---------- */
+function renderFleet(){
+  const fleet = S.cfg.fleet || [], cap = Math.max(1, fleet.filter(v => v.active !== false).length || 1);
+  $("#view").innerHTML = `
+  ${head((S.cfg.fleet || []).filter(v => v.active !== false).length > 1 ? "La <em>flota.</em>" : "Un vehículo. <em>Por ahora.</em>", "Los vehículos activos definen cuántos viajes pueden coincidir en el tiempo.", "", `<button class="btn btn-primary" data-act="fleetadd">${icon("plus",16)} Agregar vehículo</button>`)}
+  <div class="kpis"><div class="kpi"><div class="k">Capacidad simultánea</div><div class="v" style="color:var(--accent)">${cap}</div><div class="s">viaje${cap===1?"":"s"} a la vez</div></div><div class="kpi"><div class="k">Vehículos activos</div><div class="v">${fleet.filter(v=>v.active!==false).length}</div><div class="s">de ${fleet.length}</div></div></div>
+  <div class="stack">${fleet.map((v,i) => { const P = `fleet.${i}`;
+    return `<div class="rcard ${v.active === false ? "disabled" : ""}"><div class="rh">${icon("truck",16)}<input class="input" data-path="${P}.name" data-kind="text" value="${esc(v.name)}" placeholder="Vehículo"><span style="flex:1"></span>
+    <label class="switch"><input type="checkbox" data-flag="${P}.active" ${v.active !== false ? "checked" : ""} aria-label="Activo"><span></span></label><button class="btn btn-ghost btn-sm" data-del="fleet" data-k="${i}" aria-label="Borrar vehículo">${icon("trash",15)}</button></div>
+    <div class="rb"><div class="row"><div class="field"><label>Placa</label><input class="input mono" data-path="${P}.plate" data-kind="text" value="${esc(v.plate)}"></div><div class="field"><label>Clase en Blacklane</label><input class="input" data-path="${P}.class" data-kind="text" value="${esc(v.class)}"></div></div></div></div>`; }).join("")}</div>
+  <div class="note" style="margin-top:16px">${icon("info")}<div>Un vehículo nuevo (por ejemplo, la Escalade) solo debe activarse aquí cuando ya esté aprobado en Blacklane, con su permiso VFH y en el seguro. Si no, el bot aceptaría viajes que no se pueden cubrir.</div></div>
+  ${saveBar()}`;
+}
+
+/* ---------- Agenda (dispatcher) ---------- */
+function renderAgenda(){
+  const c = S.cfg, days = Array.from({length:7}, (_,k) => dayKey(Date.now() + k*86400e3));
+  const pos = m => `${(m/1440*100).toFixed(2)}%`;
+  const span = (a,b) => `left:${pos(a)};width:${pos(Math.max(b-a, 12))}`;
+  const hm = t => { const [h,m] = t.split(":").map(Number); return h*60+m; };
+  const upcoming = latestPerOffer(S.decisions).filter(d => isValid(d) && d.normalized?.start && new Date(d.normalized.start) > Date.now());
+  const ride = r => { const p = r.payload || {}; return { pick: placeText(findKey(p,"pickup_location","pickUpLocation","pickup")), drop: placeText(findKey(p,"dropoff_location","dropOffLocation","dropoff")), price: toNum(findKey(p,"price","total_price","payout","amount")) }; };
+  $("#view").innerHTML = `
+  ${head("La semana de <em>Marco.</em>", "Próximos 7 días: viajes de Blacklane, turnos fijos y lo que el bot aceptaría.", "Operación")}
+  <div class="box" style="padding:16px 18px;margin-bottom:16px">
+    <div class="hours"><span></span><div class="hs">${[0,6,12,18,24].map(h => `<span style="left:${h/24*100}%">${h===24?"":h+":00"}</span>`).join("")}</div></div>
+    <div class="agenda">${days.map(k => { const di = dayIdx(k), dn = DAYS[di];
+      const wh = (c.work_hours?.[dn[0]]||[]).map(([a,b]) => `<div class="wh" style="${span(hm(a),hm(b))}"></div>`).join("");
+      const bus = (c.weekly_blocks?.[dn[0]]||[]).map(([a,b]) => `<div class="blk bus" style="${span(hm(a), hm(b) > hm(a) ? hm(b) : 1440)}" title="Turno fijo ${a}–${b}">Turno fijo</div>`).join("");
+      const dayStart = new Date(new Date(k + "T00:00:00").getTime()), dayEnd = new Date(dayStart.getTime() + 86400e3);
+      const shifts = (c.blocked_windows || []).map(w => { const [ds, ts] = w.start.split("T"), [de, te] = w.end.split("T");
+          const a = ds === k ? hm(ts) : ds < k && de >= k ? 0 : null, b2 = de === k ? hm(te) : de > k && ds <= k ? 1440 : null;
+          return a != null && b2 != null && b2 > a ? `<div class="blk bus" style="${span(a, b2)}" title="${esc(w.label || "Bloqueo")} · ${esc(w.start.replace("T"," "))} → ${esc(w.end.replace("T"," "))}">${esc((w.label || "Bloqueo").split("(")[0].trim())}</div>` : ""; }).join("");
+      const rides = S.planned.filter(r => dayKey(r.start_at) === k).map(r => { const m = minutesET(r.start_at), d = +r.duration_min || c.default_busy_minutes || 120; return `<div class="blk ride" style="${span(m, m+d)}" title="${esc(fmtHM(r.start_at) + " · " + ride(r).pick)}">${fmtHM(r.start_at)}</div>`; }).join("");
+      const would = upcoming.filter(d => dayKey(d.normalized.start) === k).map(d => { const m = minutesET(d.normalized.start); return `<div class="blk would" style="${span(m, m + (c.default_busy_minutes || 120))}" title="${esc(fmtHM(d.normalized.start) + " · " + money0(d.normalized.price) + " · " + d.normalized.pickup)}">${money0(d.normalized.price)}</div>`; }).join("");
+      const date = new Date(k+"T12:00:00Z");
+      return `<div class="arow"><div class="dl">${dn[1]}<small>${date.toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</small></div><div class="track2">${wh}${bus}${shifts}${would}${rides}</div></div>`; }).join("")}</div>
+    <div class="legend" style="margin-top:12px"><span><i style="background:var(--accent)"></i>Viaje en Blacklane</span><span><i style="background:var(--accent-soft);border:1.5px dashed var(--accent)"></i>El bot aceptaría</span><span><i style="background:#26262d;border:1px solid var(--line2)"></i>Turno Connexxions Bus / bloqueo</span><span><i style="background:rgba(255,255,255,.08)"></i>Horario de trabajo</span></div></div>
+  <div class="box"><header><h3>Viajes planificados en Blacklane</h3><span class="muted" style="font-size:12.5px">${S.planned.length ? "sincronizado " + ago(S.planned[0].synced_at) : "el bot los sincroniza cada 5 min"}</span></header>
+  ${S.planned.length ? `<div class="tablewrap"><table><thead><tr><th>Hora</th><th>Desde</th><th>Hasta</th><th>Precio</th><th>Duración</th></tr></thead><tbody>${S.planned.map(r => { const x = ride(r); return `<tr><td class="num">${fmtTime(r.start_at)}</td><td class="cut" title="${esc(x.pick)}">${esc(x.pick || "—")}</td><td class="cut" title="${esc(x.drop)}">${esc(x.drop || "—")}</td><td class="num">${money(x.price)}</td><td class="num">${r.duration_min ? Math.round(r.duration_min) + " min" : "—"}</td></tr>`; }).join("")}</tbody></table></div>` : `<div class="empty">No hay viajes planificados en Blacklane.</div>`}</div>`;
+}
+
+/* ---------- Notificaciones ---------- */
+function renderNotifications(){
+  const nt = S.status?.info?.notify, ex = latestPerOffer(S.decisions).find(isValid)?.normalized;
+  const ok = nt?.configured && (nt.sms + nt.whatsapp) > 0;
+  $("#view").innerHTML = `
+  ${head("Avisos al <em>instante.</em>", "Avisos por SMS y WhatsApp cuando el bot acepta (o aceptaría) una oferta.")}
+  <div class="ncards">
+    <div class="box"><header><h3 style="display:flex;gap:10px;align-items:center"><span class="ico" style="width:34px;height:34px;flex-basis:34px;background:var(--accent-soft);color:var(--accent)">${icon("bell",17)}</span>SMS y WhatsApp</h3><span class="badge ${ok ? "b-accept" : "b-skip"}">${!S.status ? "Sin datos del bot" : ok ? "Configurado" : "No configurado"}</span></header>
+      <div style="padding:18px"><div class="kv"><span>Proveedor</span><span>Twilio</span><span>Números SMS</span><span class="mono">${nt ? nt.sms : "—"}</span><span>Números WhatsApp</span><span class="mono">${nt ? nt.whatsapp : "—"}</span><span>Reporte del bot</span><span>${S.status ? ago(S.status.updated_at) : "—"}</span></div>
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap"><button class="btn btn-primary" data-act="testnotify" ${ok || DEMO ? "" : "disabled"}>${icon("send",15)} Enviar prueba</button>${S.control?.test_notify_at ? `<span class="muted" style="font-size:12.5px;align-self:center">Última prueba pedida ${ago(S.control.test_notify_at)}</span>` : ""}</div>
+      <div class="note" style="margin-top:18px">${icon("info")}<div>Se configuran en el <span class="mono">.env</span> del bot (<span class="mono">TWILIO_*</span> y <span class="mono">NOTIFY_*</span>). En EE. UU. los SMS automatizados y el remitente de WhatsApp requieren registro del negocio en Twilio antes de enviar.</div></div></div></div>
+    <div class="box"><header><h3 style="display:flex;gap:10px;align-items:center"><span class="ico" style="width:34px;height:34px;flex-basis:34px;background:var(--accent-soft);color:var(--accent)">${icon("send",17)}</span>Lo que vas a recibir</h3></header>
+      <div style="padding:18px"><div class="bubble"><div class="hdr">${S.control?.mode === "live" ? "Blacklane ACEPTADO" : "[Prueba] Blacklane aceptaría"}</div>
+      ${ex ? `💵 ${money(ex.price)}${ex.miles ? " · " + (+ex.miles).toFixed(0) + " mi" : ""}${ex.net != null ? " · neto ~" + money0(ex.net) : ""}<br>📍 ${esc(ex.pickup || "—")}<br>🏁 ${esc(ex.dropoff || "—")}<br>🕒 ${fmtTime(ex.start)}`
+            : `💵 $112.00 · 18 mi<br>📍 Orlando International Airport (MCO)<br>🏁 Disney's Contemporary Resort<br>🕒 lun 10 nov, 2:40 p.m.`}</div>
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">En modo En vivo el encabezado cambia a “Blacklane ACEPTADO”. ${ex ? "Ejemplo armado con la última oferta válida." : "Ejemplo ilustrativo."}</p></div></div>
+  </div>`;
+}
+
+function renderDecisions(){
+  const rows = S.decisions;
+  $("#view").innerHTML = `${head("Cada decisión, <em>con su motivo.</em>", "Lo que el bot hizo con cada oferta, en el orden en que las vio.")}<div class="box"><header><h3>Decisiones del bot</h3><span class="muted" style="font-size:12.5px">últimas ${rows.length}</span></header>
+  ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>Decidido</th><th>Modo</th><th>Decisión</th><th>Ruta</th><th>Recogida</th><th>Paga</th><th>Millas</th><th>Neto est.</th><th>$/h</th><th>Motivo</th></tr></thead><tbody>
+  ${rows.map(d => { const x = offerInfo(d.offer_key), e = x.econ;
+    return `<tr data-offer="${esc(d.offer_key)}"><td class="num">${fmtTime(d.decided_at)}</td><td class="muted">${esc(modeName(d.mode))}</td><td>${decBadge(d.decision)}</td><td class="cut" title="${esc(x.pick.addr + " → " + x.drop.addr)}">${esc(cityOf(x.pick.addr))} → ${esc(cityOf(x.drop.addr))}</td><td class="num">${fmtTime(x.start)}</td><td class="num">${money(x.price)}</td><td class="num">${x.miles == null ? "—" : (+x.miles).toFixed(0)}</td><td class="num">${e ? money(e.net) : "—"}</td><td class="num">${e ? money0(e.perHour) : "—"}</td><td class="cut muted" title="${esc(d.reason)}">${esc(d.reason)}</td></tr>`; }).join("")}
+  </tbody></table></div>` : `<div class="empty">Sin decisiones todavía.</div>`}</div>`;
+}
+
+function renderOffers(){
+  const rows = S.offers;
+  $("#view").innerHTML = `${head("Todo lo que <em>llegó.</em>", "Cada oferta que Blacklane mostró a la cuenta, cuánto duró visible y si cambió de precio.")}<div class="box"><header><h3>Ofertas vistas</h3><span class="muted" style="font-size:12.5px">${rows.length} ofertas</span></header>
+  ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>Vista</th><th>Visible</th><th>Paga</th><th>Recogida</th><th>Millas</th><th>Desde</th><th>Hasta</th></tr></thead><tbody>
+  ${rows.map(o => { const x = parseOffer(o.last_payload);
+    return `<tr data-offer="${esc(o.offer_key)}"><td class="num">${fmtTime(o.first_seen_at)}</td><td class="num">${dur((new Date(o.last_seen_at)-new Date(o.first_seen_at))/1000)}</td><td class="num">${money(x.price)}</td><td class="num">${x.start ? fmtTime(x.start) : "—"}</td><td class="num">${x.miles == null ? "—" : x.miles.toFixed(0)}</td><td class="cut" title="${esc(x.pick.addr)}">${esc(shortAddr(x.pick.addr))}</td><td class="cut" title="${esc(x.drop.addr)}">${esc(shortAddr(x.drop.addr))}</td></tr>`; }).join("")}
+  </tbody></table></div>` : `<div class="empty">Sin ofertas en las últimas 48 h.</div>`}</div>`;
+}
+
+function renderHealth(){
+  const rows = S.polls.slice(0, 100), errs = S.polls.filter(p => !p.ok);
+  $("#view").innerHTML = `
+  ${head("Estado del <em>sistema.</em>", "Si el bot está vivo, quién cambió qué y cada error reciente.")}
+  <div class="kpis">
+    <div class="kpi"><div class="k">Última señal</div><div class="v" style="font-size:20px">${ago(lastPoll()?.polled_at)}</div><div class="s">${fmtTime(lastPoll()?.polled_at)}</div></div>
+    <div class="kpi"><div class="k">Errores recientes</div><div class="v">${errs.length}</div><div class="s">en los últimos ${S.polls.length} registros</div></div>
+    <div class="kpi"><div class="k">Modo cambiado por</div><div class="v" style="font-size:15px;font-family:Inter">${esc(S.control?.updated_by || "—")}</div><div class="s">${fmtTime(S.control?.updated_at)}</div></div>
+    <div class="kpi"><div class="k">Bot</div><div class="v" style="font-size:15px;font-family:Inter">${S.status ? "v" + esc(S.status.info?.version || "?") + " · " + esc(modeName(S.status.info?.effective_mode)) : "—"}</div><div class="s">${S.status ? "aceptar real: " + (S.status.info?.allow_live ? "permitido" : "bloqueado (ALLOW_LIVE)") : "sin reporte"}</div></div>
+    <div class="kpi"><div class="k">Filtro guardado por</div><div class="v" style="font-size:15px;font-family:Inter">${esc(S.cfgRow?.updated_by || "—")}</div><div class="s">${fmtTime(S.cfgRow?.updated_at)}</div></div>
+  </div>
+  <div class="box"><header><h3>Registro de consultas</h3><span class="muted" style="font-size:12.5px">el bot registra cada 5 min o cuando hay ofertas</span></header>
+  ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>Hora</th><th>Estado</th><th>HTTP</th><th>Ofertas</th><th>Error</th></tr></thead><tbody>
+  ${rows.map(p => `<tr><td class="num">${fmtTime(p.polled_at)}</td><td>${p.ok ? '<span class="badge b-accept">OK</span>' : '<span class="badge b-fail">Error</span>'}</td><td class="num">${p.http_status ?? "—"}</td><td class="num">${p.offer_count ?? "—"}</td><td class="cut muted" title="${esc(p.error)}">${esc(p.error || "")}</td></tr>`).join("")}
+  </tbody></table></div>` : `<div class="empty">El bot todavía no ha registrado consultas.</div>`}</div>`;
+}
+
+/* ======================= render: filter editor ======================= */
+const SECTIONS = [
+  { id:"basics", t:"Básicos", icon:"car", d:"Qué tipo de viajes y vehículo cubre este filtro." },
+  { id:"price", t:"Precio y distancia", icon:"dollar", d:"Solo viajes que pagan lo suficiente por la distancia." },
+  { id:"profit", t:"Rentabilidad", icon:"trend", d:"Neto real después del chofer, la gasolina y las millas vacías." },
+  { id:"schedule", t:"Horario", icon:"calendar", d:"Cuándo puede empezar un viaje aceptado." },
+  { id:"limits", t:"Días libres y límites", icon:"shield", d:"Evita que el bot sobrecargue a Marco." },
+  { id:"conflicts", t:"Choques de agenda", icon:"truck", d:"Nunca dos viajes en la misma camioneta." },
+  { id:"airports", t:"Aeropuertos", icon:"plane", d:"Reglas para viajes que empiezan o terminan en un aeropuerto." },
+  { id:"places", t:"Lugares", icon:"pin", d:"Dónde pueden empezar y terminar los viajes." },
+];
+function summary(id, c){
+  const n = v => v == null ? null : v;
+  switch(id){
+    case "basics": { const rt = (c.ride_types||[]).length >= 2 || !(c.ride_types||[]).length ? "Transfer y por hora" : c.ride_types[0] === "hourly" ? "Solo por hora" : "Solo transfer";
+      return `${rt} · ${(c.vehicle_classes||[]).length ? c.vehicle_classes.map(x=>x[0].toUpperCase()+x.slice(1)).join(", ") : "Todas las clases"}`; }
+    case "price": return `${c.min_price ? "$"+c.min_price+"+" : "Sin mínimo"} · ${n(c.max_price) ? "máx $"+c.max_price : "sin máximo"}${n(c.max_miles) ? " · hasta "+c.max_miles+" mi" : ""}`;
+    case "profit": { const a = []; if(n(c.min_net) != null) a.push("Neto ≥ $"+c.min_net); if(n(c.min_net_per_hour) != null) a.push("≥ $"+c.min_net_per_hour+"/h"); if(n(c.max_pickup_miles_from_base) != null) a.push("radio "+c.max_pickup_miles_from_base+" mi"); return a.length ? a.join(" · ") : "Sin reglas de neto"; }
+    case "schedule": { const on = DAYS.filter(([k]) => (c.work_hours?.[k]||[]).length).length; return `${on} día${on===1?"":"s"} · ${c.min_lead_minutes ?? 0} min de anticipación`; }
+    case "limits": return `${c.daily_limit == null ? "Sin límite diario" : "Máx "+c.daily_limit+"/día"} · ${(c.blackout_dates||[]).length} días bloqueados`;
+    case "conflicts": { const t = Object.values(c.weekly_blocks||{}).reduce((a,v)=>a+(v||[]).length,0); return `Margen ${c.min_gap_minutes ?? 60} min · ${t} turno${t===1?"":"s"} fijo${t===1?"":"s"}`; }
+    case "airports": { const a = c.airport||{}; const r = [a.pickup_only&&"solo pickups",a.no_airport_pickup&&"sin pickups",a.dropoff_only&&"solo drop-offs"].filter(Boolean); return r.length ? r.join(" · ") : "Sin reglas de aeropuerto"; }
+    case "places": { const k = (c.pickup_must_contain_any||[]).length + (c.blocked_places||[]).length + (c.blocked_words||[]).length; return k ? `${k} regla${k===1?"":"s"} de lugar` : "Sin reglas de lugar"; }
+  }
+}
+
+function renderFilter(){
+  const c = S.cfg, i = S.section, sec = SECTIONS[i];
+  $("#view").innerHTML = `
+  ${head("Las reglas del <em>juego.</em>", "Lo que una oferta tiene que cumplir para que el bot la acepte. El bot aplica los cambios en ≤30 s.")}
+  <div class="editor">
+    <div class="left">
+      <div class="meta">Guardado ${S.cfgRow?.updated_at ? fmtTime(S.cfgRow.updated_at) : "—"}${S.cfgRow?.updated_by ? " · " + esc(S.cfgRow.updated_by) : ""}</div>
+      ${SECTIONS.map((s, k) => `<button class="sec-btn ${k===i?"on":""}" data-sec="${k}"><span class="ico">${icon(s.icon)}</span><span><b>${s.t}</b><small data-sum="${s.id}">${esc(summary(s.id, c))}</small></span></button>`).join("")}
+    </div>
+    <div class="right">
+      <div class="scroll" id="secBody">
+        <div class="sec-head"><span class="ico">${icon(sec.icon, 22)}</span><div><div class="n">Sección ${i+1} de ${SECTIONS.length}</div><h3>${sec.t}</h3><p>${sec.d}</p></div></div>
+        ${SECTION_HTML[sec.id](c)}
+      </div>
+      <div class="savebar">
+        <div class="state">${dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado'}</div>
+        <button class="btn" data-act="discard" ${dirty() ? "" : "disabled"}>Descartar</button>
+        ${i < SECTIONS.length-1 ? `<button class="btn" data-sec="${i+1}">Siguiente: ${SECTIONS[i+1].t} ${icon("arrow",16)}</button>` : ""}
+        <button class="btn btn-primary" data-act="save" ${dirty() ? "" : "disabled"}>${icon("save",16)} Guardar filtro</button>
+      </div>
+    </div>
+  </div>`;
+  if(sec.id === "profit") updateCalc();
+}
+function refreshEditorChrome(){
+  if(!$(".savebar")) return;
+  SECTIONS.forEach(s => { const el = document.querySelector(`[data-sum="${s.id}"]`); if(el) el.textContent = summary(s.id, S.cfg); });
+  const st = $(".savebar .state"); if(st) st.innerHTML = dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado';
+  document.querySelectorAll('[data-act="save"],[data-act="discard"]').forEach(b => b.disabled = !dirty());
+  if(S.section === 2) updateCalc();
+}
+
+/* --- field builders --- */
+const num = (path, label, opts = {}) => {
+  const v = getP(S.cfg, path);
+  return `<div class="field"><label>${label}</label><div class="${opts.suf ? "suffix" : ""}"><input class="input mono" type="number" inputmode="decimal" data-path="${path}" data-kind="num" value="${v ?? ""}" ${opts.step ? `step="${opts.step}"` : ""} ${opts.min != null ? `min="${opts.min}"` : ""} placeholder="${opts.ph ?? ""}">${opts.suf ? `<i>${opts.suf}</i>` : ""}</div>${opts.hint ? `<div class="hint">${opts.hint}</div>` : ""}</div>`;
+};
+/* toggle card for a nullable rule: off => null, on => default value */
+const rule = (path, title, desc, def, field) => {
+  const on = getP(S.cfg, path) != null;
+  return `<div class="tcard ${on ? "" : "off"}"><div class="top"><div class="txt"><b>${title}</b><small>${desc}</small></div>
+    <label class="switch"><input type="checkbox" data-rule="${path}" data-def="${def}" ${on ? "checked" : ""} aria-label="${esc(title)}"><span></span></label></div>
+    <div class="body">${field}</div></div>`;
+};
+const flag = (path, title, desc) => `<div class="tcard off"><div class="top"><div class="txt"><b>${title}</b><small>${desc}</small></div>
+  <label class="switch"><input type="checkbox" data-flag="${path}" ${getP(S.cfg, path) ? "checked" : ""} aria-label="${esc(title)}"><span></span></label></div></div>`;
+const chips = (path, ph, emptyTxt) => {
+  const list = getP(S.cfg, path) || [];
+  return `<div class="addrow"><input class="input" placeholder="${ph}" data-chipin="${path}"><button class="btn" data-chipadd="${path}">Agregar</button></div>
+    ${list.length ? `<div class="chips">${list.map((x, k) => `<span class="chip">${esc(x)}<button data-chipdel="${path}" data-k="${k}" aria-label="Quitar ${esc(x)}">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">${emptyTxt}</div>`}`;
+};
+const daysEditor = (path, emptyMeansOff) => {
+  const obj = getP(S.cfg, path) || {};
+  return `<div class="days">${DAYS.map(([k, name]) => { const wins = obj[k] || []; const on = wins.length > 0;
+    return `<div class="day ${on ? "" : "off"}"><label class="dn"><input type="checkbox" data-dayon="${path}.${k}" ${on ? "checked" : ""}>${name}</label>
+      <div class="wins">${on ? wins.map((w, j) => `<div class="win"><input class="input mono" type="time" value="${w[0]}" data-win="${path}.${k}" data-j="${j}" data-e="0" aria-label="${name} inicio"><span class="dim">→</span><input class="input mono" type="time" value="${w[1]}" data-win="${path}.${k}" data-j="${j}" data-e="1" aria-label="${name} fin"><button class="btn btn-ghost btn-sm" data-windel="${path}.${k}" data-j="${j}" aria-label="Quitar ventana">${icon("x",14)}</button></div>`).join("")
+        + (wins.length < 3 ? `<div><button class="btn btn-ghost btn-sm" data-winadd="${path}.${k}">${icon("plus",14)} Agregar ventana</button></div>` : "")
+        : `<span class="dim" style="padding-top:6px">${emptyMeansOff}</span>`}</div></div>`; }).join("")}</div>`;
+};
+
+const SECTION_HTML = {
+  basics: c => {
+    const rt = (c.ride_types||[]).length === 1 ? c.ride_types[0] : "both";
+    const cls = c.vehicle_classes || [];
+    return `<div class="group"><h4>Tipo de viaje</h4><p>Transfers (A → B), por hora, o ambos.</p>
+      <select class="input" data-kind="ridetype" style="max-width:420px"><option value="both" ${rt==="both"?"selected":""}>Ambos</option><option value="transfer" ${rt==="transfer"?"selected":""}>Solo transfer</option><option value="hourly" ${rt==="hourly"?"selected":""}>Solo por hora</option></select></div>
+    <div class="group"><h4>Clase de vehículo</h4><p>Vacío = todas. En Blacklane la Suburban está registrada como business van.</p>
+      <div class="choice">${["business","van","first","electric"].map(x => `<button class="opt ${cls.includes(x)?"on":""}" data-cls="${x}"><span class="box2">${cls.includes(x) ? icon("check",14) : ""}</span>${x.toUpperCase()}</button>`).join("")}</div></div>`;
+  },
+  price: c => `
+    <div class="group"><h4>Precio</h4><p>Lo que paga Blacklane, todo incluido (peajes, parqueo y fees de aeropuerto).</p>
+      <div class="row">${num("min_price","Precio mínimo (USD)",{suf:"USD",min:0})}${rule("max_price","Precio máximo","Normalmente apagado: no hay razón para rechazar viajes caros.",500, num("max_price","Máximo (USD)",{suf:"USD"}))}</div>
+      ${rule("min_price_per_mile","Mínimo por milla","Protege contra viajes que pagan poco para lo que se manejan.",3, num("min_price_per_mile","USD por milla del viaje",{suf:"$/mi",step:"0.1"}))}</div>
+    <div class="group"><h4>Distancia del viaje</h4><p>Millas con pasajero.</p>
+      <div class="row">${rule("min_miles","Distancia mínima","Salta viajes demasiado cortos.",5, num("min_miles","Millas",{suf:"mi"}))}${rule("max_miles","Distancia máxima","Salta viajes demasiado largos.",80, num("max_miles","Millas",{suf:"mi"}))}</div>
+      <div class="field" style="max-width:420px"><label>Unidad en que Blacklane manda la distancia</label><select class="input" data-path="offer_distance_unit" data-kind="str">${[["km","Kilómetros"],["mi","Millas"],["m","Metros"]].map(([v,l])=>`<option value="${v}" ${c.offer_distance_unit===v?"selected":""}>${l}</option>`).join("")}</select><div class="hint">Se confirma con la primera oferta guardada.</div></div></div>`,
+  profit: c => `
+    <div class="note" style="margin-bottom:22px">${icon("info")}<div>Blacklane solo paga el trayecto con pasajero. La ida vacía desde el yard y el regreso salen de su bolsillo. Estas reglas usan la misma fórmula que el bot: <span class="mono">neto = precio × (1 − % chofer) − millas totales × costo por milla</span>.</div></div>
+    <div class="group"><h4>Costos</h4><p>Los valores que vienen puestos son estimados; ajústenlos con sus números reales.</p>
+      <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× tarifa",hint:"0.25 = 25%"})}${num("cost_per_mile","Costo por milla",{step:"0.01",suf:"$/mi",hint:"Gasolina $0.24 + desgaste $0.10 (estimado)"})}${num("avg_mph","Velocidad promedio",{suf:"mph",hint:"Para estimar horas ocupadas"})}</div>
+      <div class="row3">${num("road_factor","Factor de ruta",{step:"0.05",hint:"Línea recta × 1.3 ≈ millas reales"})}${num("buffer_minutes","Margen por viaje",{suf:"min",hint:"Espera y preparación"})}${num("base_lat","Yard · latitud",{step:"0.0000001"})}</div>
+      <div class="row3">${num("base_lng","Yard · longitud",{step:"0.0000001",hint:"931 W Taft Vineland Rd"})}</div></div>
+    <div class="group"><h4>Reglas de rentabilidad</h4><p>Apagadas hasta que ustedes decidan los valores.</p>
+      ${rule("min_net","Neto mínimo por viaje","Lo que le queda a la empresa después del chofer, gasolina, desgaste y millas vacías.",50, num("min_net","Neto mínimo (USD)",{suf:"USD"}))}
+      ${rule("min_net_per_hour","Neto mínimo por hora","Con un solo carro, el tiempo ocupado es el recurso escaso.",30, num("min_net_per_hour","USD por hora de carro ocupado",{suf:"$/h"}))}
+      ${rule("max_pickup_miles_from_base","Radio máximo del pickup","Distancia en línea recta del yard al punto de recogida.",25, num("max_pickup_miles_from_base","Millas desde el yard",{suf:"mi",hint:"MCO y Disney quedan dentro de 15 mi; The Villages, a ~50"}))}</div>
+    <div class="group"><h4>Calculadora</h4><p>Prueba una oferta antes de cambiar las reglas.</p>
+      <div class="calc"><div class="row3">
+        <div class="field"><label>Precio de la oferta</label><div class="suffix"><input class="input mono" type="number" id="cPrice" value="121"><i>USD</i></div></div>
+        <div class="field"><label>Millas del viaje</label><div class="suffix"><input class="input mono" type="number" id="cTrip" value="45"><i>mi</i></div></div>
+        <div class="field"><label>Yard → pickup (y regreso)</label><div class="suffix"><input class="input mono" type="number" id="cDead" value="60"><i>mi</i></div></div>
+      </div><div class="out" id="cOut"></div><div id="cVerdict"></div></div></div>`,
+  schedule: c => `
+    <div class="group"><h4>Anticipación</h4><p>Marco necesita tiempo para llegar al pickup.</p>
+      <div class="row">${num("min_lead_minutes","No aceptar viajes que empiecen en menos de",{suf:"min",min:0})}${num("max_days_ahead","Ni con más de",{suf:"días",min:1})}</div></div>
+    <div class="group"><h4>Horario de trabajo</h4><p>El bot solo acepta pickups dentro de estas ventanas. Hasta 3 por día.</p>
+      <div style="display:flex;justify-content:flex-end;margin:-6px 0 10px"><button class="btn btn-ghost btn-sm" data-act="copymon">Copiar el lunes a todos los días</button></div>
+      ${daysEditor("work_hours","No trabaja")}</div>`,
+  limits: c => `
+    ${rule("daily_limit","Límite diario de viajes","Cuando se llega al límite, el bot salta las ofertas de ese día. Cuenta también los viajes que Marco acepta a mano.",4, num("daily_limit","Máximo de viajes por día",{min:1}))}
+    <div class="group" style="margin-top:22px"><h4>Días bloqueados</h4><p>Días completos sin aceptar nada: vacaciones, eventos de Connexxions Bus, mantenimiento.</p>
+      <div class="addrow"><input class="input mono" type="date" id="bdIn" style="max-width:240px"><button class="btn" data-act="bdadd">Agregar día</button></div>
+      ${(c.blackout_dates||[]).length ? `<div class="chips">${c.blackout_dates.map((d,k)=>`<span class="chip mono">${esc(d)}<button data-chipdel="blackout_dates" data-k="${k}" aria-label="Quitar ${esc(d)}">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">Sin días bloqueados.</div>`}</div>
+    <div class="group"><h4>Bloqueos por horas</h4><p>Un rango de horas en una fecha específica (cita, evento).</p>
+      <div class="row3"><div class="field"><label>Fecha</label><input class="input mono" type="date" id="bwDate"></div><div class="field"><label>Desde</label><input class="input mono" type="time" id="bwStart"></div><div class="field"><label>Hasta</label><input class="input mono" type="time" id="bwEnd"></div></div>
+      <div class="addrow"><input class="input" id="bwLabel" placeholder="Etiqueta (opcional)"><button class="btn" data-act="bwadd">Agregar bloqueo</button></div>
+      ${(c.blocked_windows||[]).length ? `<div class="chips">${c.blocked_windows.map((w,k)=>`<span class="chip">${esc((w.label ? w.label+" · " : "") + w.start.replace("T"," ") + " → " + w.end.slice(11))}<button data-bwdel="${k}" aria-label="Quitar bloqueo">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">Sin bloqueos por horas.</div>`}</div>`,
+  conflicts: c => `
+    <div class="note" style="margin-bottom:22px">${icon("info")}<div>Antes de aceptar, el bot revisa la agenda de Blacklane (incluye los viajes que Marco aceptó a mano). Si no puede leerla, no acepta.</div></div>
+    <div class="group"><h4>Tiempo ocupado por viaje</h4><p>Cuánto tiempo bloquea la camioneta cada viaje.</p>
+      <div class="row">${num("min_gap_minutes","Margen antes y después",{suf:"min",hint:"Para llegar al siguiente pickup"})}${num("default_busy_minutes","Duración si Blacklane no la manda",{suf:"min"})}</div>
+      <div class="row">${num("duration_multiplier","Multiplicador de duración",{step:"0.1",hint:"Duración de Blacklane × este número"})}${num("min_busy_minutes","Mínimo ocupado por viaje",{suf:"min"})}</div></div>
+    <div class="group"><h4>Turnos fijos semanales</h4><p>Horas en que Marco no puede manejar para plataformas (por ejemplo, sus turnos en Connexxions Bus). El bot no acepta nada que choque.</p>
+      ${daysEditor("weekly_blocks","Libre")}</div>`,
+  airports: c => `
+    <div class="group"><h4>Dirección</h4><p>Encender una regla restringe; apagadas = se acepta cualquier dirección.</p>
+      ${flag("airport.pickup_only","Solo pickups en aeropuerto","Acepta solo viajes que empiezan en un aeropuerto.")}
+      ${flag("airport.no_airport_pickup","Sin pickups en aeropuerto","Rechaza viajes que empiezan en un aeropuerto.")}
+      ${flag("airport.dropoff_only","Solo drop-offs en aeropuerto","Acepta solo viajes que terminan en un aeropuerto.")}</div>
+    <div class="group"><h4>Cómo reconoce un aeropuerto</h4><p>Si la dirección contiene alguna de estas palabras.</p>${chips("airport_keywords","ej. airport, MCO, SFB","Sin palabras: ninguna dirección se considera aeropuerto.")}</div>`,
+  places: c => `
+    <div class="group"><h4>Zonas permitidas para el pickup</h4><p>Si la lista tiene algo, el pickup debe contener al menos una de estas palabras. Vacío = cualquier lugar.</p>${chips("pickup_must_contain_any","ej. Orlando, Kissimmee, 32819","Cualquier pickup permitido.")}</div>
+    <div class="group"><h4>Lugares bloqueados</h4><p>Pickup o drop-off que contenga alguna de estas palabras.</p>${chips("blocked_places","ej. The Villages, Tampa","Ningún lugar bloqueado.")}</div>
+    <div class="group"><h4>Palabras bloqueadas en la solicitud</h4><p>Se buscan en todo el texto de la oferta.</p>${chips("blocked_words","ej. child seat, pet, extra stop","Ninguna palabra bloqueada.")}</div>`,
+};
+
+function updateCalc(){
+  const out = $("#cOut"); if(!out) return;
+  const c = S.cfg, price = +$("#cPrice").value || 0, trip = +$("#cTrip").value || 0, dead = +$("#cDead").value || 0;
+  const e = econ(c, price, trip, dead, dead, 0);
+  out.innerHTML = `<div class="cell"><small>Chofer</small><b>${money(e.driver)}</b></div><div class="cell"><small>Gasolina y desgaste (${e.total.toFixed(0)} mi)</small><b>${money(e.running)}</b></div><div class="cell"><small>Neto empresa</small><b style="color:${e.net>=0?"var(--text)":"var(--bad)"}">${money(e.net)}</b></div><div class="cell"><small>Por hora (${e.hours.toFixed(1)} h)</small><b>${money0(e.perHour)}</b></div>`;
+  const fails = [];
+  if(c.min_net != null && e.net < c.min_net) fails.push(`neto bajo $${c.min_net}`);
+  if(c.min_net_per_hour != null && e.perHour < c.min_net_per_hour) fails.push(`por hora bajo $${c.min_net_per_hour}`);
+  const rules = c.min_net != null || c.min_net_per_hour != null;
+  $("#cVerdict").innerHTML = !rules ? `<div class="verdict na">Las reglas de neto están apagadas: el bot no filtraría por rentabilidad.</div>`
+    : fails.length ? `<div class="verdict bad">El bot la saltaría: ${fails.join(" y ")}.</div>` : `<div class="verdict ok">Pasa las reglas de rentabilidad.</div>`;
+}
+
+/* ======================= events ======================= */
+document.addEventListener("click", e => {
+  const tr = e.target.closest("tr[data-offer]"); if(tr){ openOffer(tr.dataset.offer); return; }
+  const t = e.target.closest("button, [data-go]"); if(!t) return;
+  if(t.dataset.view){ S.view = t.dataset.view; render(); return; }
+  if(t.dataset.go){ S.view = t.dataset.go; render(); return; }
+  if(t.dataset.mode){ return askMode(t.dataset.mode); }
+  if(t.dataset.sec != null){ S.section = +t.dataset.sec; render(); $("#secBody")?.scrollTo(0,0); return; }
+  if(t.dataset.range){ S.range = +t.dataset.range; S.page = 0; render(); return; }
+  if(t.dataset.vis){ S.visRange = +t.dataset.vis; render(); return; }
+  if(t.dataset.rev){ S.revMode = t.dataset.rev; render(); return; }
+  if(t.dataset.tab){ S.tab = t.dataset.tab; S.page = 0; render(); return; }
+  if(t.dataset.pg){ S.page = Math.max(0, S.page + +t.dataset.pg); render(); return; }
+  if(t.dataset.act === "refresh"){ loadAll().then(render).then(() => toast("Actualizado")).catch(err => toast("Error: " + err.message, true)); return; }
+  if(t.dataset.act === "testnotify"){ return testNotify(); }
+  const c = S.cfg; let changed = false;
+  if(!c) return;
+  if(t.dataset.act === "routeadd"){ (c.routes ||= []).push({ name:`Ruta ${c.routes.length+1}`, action:"accept", enabled:true, when:{} }); changed = true; }
+  else if(t.dataset.act === "locadd"){ (c.locations ||= []).push({ name:`Ubicación ${c.locations.length+1}`, keywords:[], lat:null, lng:null, radius_mi:null }); changed = true; }
+  else if(t.dataset.act === "fleetadd"){ (c.fleet ||= []).push({ name:"Nuevo vehículo", plate:"", class:"", active:false }); changed = true; }
+  else if(t.dataset.preset != null){ (c.locations ||= []).push(clone(PRESETS[+t.dataset.preset])); changed = true; }
+  else if(t.dataset.move != null){ const i = +t.dataset.move, j = i + +t.dataset.d, l = c.routes; if(j >= 0 && j < l.length){ [l[i], l[j]] = [l[j], l[i]]; changed = true; } }
+  else if(t.dataset.del){ getP(c, t.dataset.del).splice(+t.dataset.k, 1); changed = true; }
+  else if(t.dataset.rday){ const l = getP(c, t.dataset.rday) || [], d = t.dataset.d; l.includes(d) ? l.splice(l.indexOf(d),1) : l.push(d); setP(c, t.dataset.rday, l); changed = true; }
+  else if(t.dataset.cls){ const x = t.dataset.cls, l = c.vehicle_classes || (c.vehicle_classes = []); l.includes(x) ? l.splice(l.indexOf(x),1) : l.push(x); changed = true; }
+  else if(t.dataset.chipadd){ const p = t.dataset.chipadd, inp = document.querySelector(`[data-chipin="${p}"]`); addChip(p, inp); return; }
+  else if(t.dataset.chipdel){ const l = getP(c, t.dataset.chipdel); l.splice(+t.dataset.k, 1); changed = true; }
+  else if(t.dataset.winadd){ const l = getP(c, t.dataset.winadd) || []; l.push(["08:00","17:00"]); setP(c, t.dataset.winadd, l); changed = true; }
+  else if(t.dataset.windel){ const l = getP(c, t.dataset.windel); l.splice(+t.dataset.j, 1); changed = true; }
+  else if(t.dataset.bwdel){ c.blocked_windows.splice(+t.dataset.bwdel, 1); changed = true; }
+  else if(t.dataset.act === "save"){ return saveCfg(); }
+  else if(t.dataset.act === "discard"){ S.cfg = clone(S.saved); render(); return; }
+  else if(t.dataset.act === "copymon"){ const m = c.work_hours?.mon || []; DAYS.forEach(([k]) => c.work_hours[k] = clone(m)); changed = true; }
+  else if(t.dataset.act === "bdadd"){ const v = $("#bdIn").value; if(!v) return toast("Elige una fecha", true); c.blackout_dates = [...new Set([...(c.blackout_dates||[]), v])].sort(); changed = true; }
+  else if(t.dataset.act === "bwadd"){ const d = $("#bwDate").value, a = $("#bwStart").value, b = $("#bwEnd").value;
+    if(!d || !a || !b) return toast("Completa fecha, desde y hasta", true); if(b <= a) return toast("La hora final debe ser después de la inicial", true);
+    (c.blocked_windows ||= []).push({ start:`${d}T${a}`, end:`${d}T${b}`, label: $("#bwLabel").value.trim() }); changed = true; }
+  if(changed){ render(); }
+});
+function addChip(path, inp){
+  const v = inp.value.trim(); if(!v) return;
+  const l = getP(S.cfg, path) || []; if(!l.some(x => x.toLowerCase() === v.toLowerCase())) l.push(v); setP(S.cfg, path, l); render();
+  document.querySelector(`[data-chipin="${path}"]`)?.focus();
+}
+document.addEventListener("keydown", e => { if(e.key === "Enter" && e.target.dataset.chipin){ e.preventDefault(); addChip(e.target.dataset.chipin, e.target); } });
+document.addEventListener("input", e => {
+  const t = e.target; if(!S.cfg) return;
+  if(t.dataset.path && t.dataset.kind === "num"){ const v = t.value === "" ? null : Number(t.value); setP(S.cfg, t.dataset.path, v); refreshEditorChrome(); }
+  else if(t.dataset.path && t.dataset.kind === "text"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
+  else if(t.dataset.path && t.dataset.kind === "csv"){ setP(S.cfg, t.dataset.path, t.value.split(",").map(x => x.trim().toLowerCase()).filter(Boolean)); refreshEditorChrome(); }
+  else if(t.dataset.win){ const l = getP(S.cfg, t.dataset.win); l[+t.dataset.j][+t.dataset.e] = t.value; refreshEditorChrome(); }
+  else if(["cPrice","cTrip","cDead"].includes(t.id)) updateCalc();
+});
+document.addEventListener("change", e => {
+  const t = e.target; if(!S.cfg) return;
+  if(t.dataset.rule){ const p = t.dataset.rule; setP(S.cfg, p, t.checked ? Number(t.dataset.def) : null); render(); }
+  else if(t.dataset.flag){ setP(S.cfg, t.dataset.flag, t.checked); if(/^(routes|fleet)\./.test(t.dataset.flag)) render(); else refreshEditorChrome(); }
+  else if(t.dataset.kind === "ridetype"){ S.cfg.ride_types = t.value === "both" ? ["transfer","hourly"] : [t.value]; refreshEditorChrome(); }
+  else if(t.dataset.kind === "str"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
+  else if(t.dataset.kind === "text" && t.type === "time"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
+  else if(t.dataset.dayon){ setP(S.cfg, t.dataset.dayon, t.checked ? [["08:00","17:00"]] : []); render(); }
+});
+window.addEventListener("beforeunload", e => { if(dirty()){ e.preventDefault(); e.returnValue = ""; } });
+
+function askMode(mode){
+  if(mode === (S.control?.mode || "dry_run")) return;
+  if(mode !== "live") return setMode(mode);
+  modal(`<h3>Encender aceptación real</h3>
+    <p>En “En vivo” el bot <b style="color:var(--text)">acepta ofertas de verdad</b> en la cuenta de Blacklane. Cada aceptación es un compromiso: cancelar con menos de 24 h cuesta del 20% al 100% según el contrato.</p>
+    <p>Solo funciona si además el servidor tiene <span class="mono">ALLOW_LIVE=true</span> y la llamada de aceptar ya se confirmó. Si no, el bot sigue en modo prueba.</p>
+    <div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goLive">Sí, encender</button></div>`);
+  $("#goLive").onclick = () => { closeModal(); setMode("live"); };
+}
+function modal(html){ $("#modalRoot").innerHTML = `<div class="overlay"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; $("#modalRoot [data-close]")?.addEventListener("click", closeModal); }
+function closeModal(){ $("#modalRoot").innerHTML = ""; }
+let toastT; function toast(msg, bad){ document.querySelector(".toast")?.remove(); const d = document.createElement("div"); d.className = "toast" + (bad ? " bad" : ""); d.textContent = msg; document.body.append(d); clearTimeout(toastT); toastT = setTimeout(() => d.remove(), 4200); }
+
+/* ======================= boot ======================= */
+function show(id){ ["setup","login","app"].forEach(x => $("#"+x).classList.toggle("hidden", x !== id)); paintIcons(); }
+async function enterApp(){
+  show("app"); $("#who").textContent = DEMO ? "demo" : (S.user?.email || "");
+  try { await loadAll(); } catch(err){ toast("Error cargando datos: " + err.message, true); }
+  render();
+  setInterval(async () => { if(S.view === "filter" && dirty()) return; try { await loadAll(); if(!document.querySelector("#view input:focus, #view select:focus")) render(); } catch {} }, 15000);
+}
+$("#setupForm").addEventListener("submit", e => { e.preventDefault(); const u = $("#sbUrl").value.trim(), k = $("#sbKey").value.trim();
+  if(/service_role/.test(atobSafe(k.split(".")[1] || "")) || k.startsWith("sb_secret_")){ $("#setupErr").textContent = "Esa es la clave secreta. Usa la anon / publishable."; return; }
+  store.set("bl_sb_url", u); store.set("bl_sb_key", k); boot(); });
+function atobSafe(s){ try { return atob(s.replace(/-/g,"+").replace(/_/g,"/")); } catch { return ""; } }
+$("#loginForm").addEventListener("submit", async e => { e.preventDefault(); $("#loginErr").textContent = "";
+  const { data, error } = await S.sb.auth.signInWithPassword({ email: $("#email").value.trim(), password: $("#pass").value });
+  if(error){ $("#loginErr").textContent = error.message === "Invalid login credentials" ? "Correo o contraseña incorrectos." : error.message; return; }
+  S.user = data.user; enterApp(); });
+$("#resetKey").addEventListener("click", () => { store.del("bl_sb_key"); show("setup"); });
+$("#logout").addEventListener("click", async () => { if(!DEMO) await S.sb.auth.signOut(); location.reload(); });
+
+/* Hosted copy (connexxionselite.com/despacho) ships the project URL and PUBLIC key, so
+   there is no setup screen. Safe: the public key only works through Row Level Security,
+   and the bl_* tables are readable only by emails in bl_admins. */
+const EMBED_URL = "https://lqeulxlxcbvkvkjozujf.supabase.co", EMBED_KEY = "sb_publishable_vvjypcxf4-rvnWco3zDKIQ_Knb9z8_S";
+async function boot(){
+  if(DEMO) return enterApp();
+  const url = EMBED_URL || store.get("bl_sb_url"), key = EMBED_KEY || store.get("bl_sb_key");
+  if(url && key && !window.supabase){ show("login"); $("#loginErr").textContent = "No se pudo cargar la conexión. Revisa el internet y recarga."; return; }
+  if(!url || !key) return show("setup");
+  S.sb = window.supabase.createClient(url, key);
+  const { data } = await S.sb.auth.getSession();
+  if(EMBED_KEY){ $("#resetKey").style.display = "none"; $("#homeLink").style.display = "inline-flex"; }
+  if(data.session){ S.user = data.session.user; enterApp(); } else show("login");
+}
+
+/* ======================= demo data ======================= */
+function demoData(){
+  const now = Date.now(), iso = ms => new Date(ms).toISOString();
+  S.control = { mode:"dry_run", updated_at: iso(now-3600e3), updated_by:"sebastian@connexxionselite.com" };
+  S.cfg = clone(DEFAULT_CFG); S.cfg.min_net = 50; S.cfg.min_net_per_hour = 30; S.cfg.max_pickup_miles_from_base = 25;
+  S.cfg.weekly_blocks = {}; const d0 = new Date(now), ymd = k => dayKey(now + k*86400e3);
+  S.cfg.blocked_windows = [{start:`${ymd(1)}T09:44`, end:`${ymd(1)}T18:10`, label:"Bus · MCO→JW Marriott (fin 17:40)"},{start:`${ymd(4)}T17:56`, end:`${ymd(5)}T01:00`, label:"Bus · OCCC→Universal (fin 00:30)"}];
+  S.saved = clone(S.cfg);
+  S.cfgRow = { updated_at: iso(now-7200e3), updated_by:"sebastian@connexxionselite.com" };
+  const places = [["Orlando International Airport (MCO), Terminal A","Disney's Contemporary Resort"],["1773 Hagood Loop, The Villages FL 32162","MCO Terminal C"],["Universal Orlando Resort","MCO Terminal B"],["Hyatt Regency Orlando, 9801 International Dr","Lake Nona Wave Hotel"],["Four Seasons Resort Orlando","Orlando Sanford Intl (SFB)"]];
+  const dec = [["would_accept","ok",112,59.2,1.7],["skip","$16/hora bajo el mínimo $30",121.17,57.9,3.7],["skip","precio $58.00 bajo el mínimo $75",58,null,null],["would_accept","ok",96,61.4,1.5],["skip","choca con turno fijo semanal",140,88,2.1],["skip","pickup a 49 mi de la base",121.17,null,null],["skip","fuera del horario de trabajo",90,52,1.6]];
+  S.decisions = dec.map((d,k) => ({ offer_key:"o"+k, decided_at: iso(now - k*2700e3 - 60e3), mode:"dry_run", decision:d[0], reason:d[1],
+    normalized:{ price:d[2], net:d[3], hours:d[4], miles: 10 + k*4.3, start: iso(now + (k+3)*3600e3), pickup: places[k%places.length][0].toLowerCase() } }));
+  S.offers = dec.map((d,k) => ({ offer_key:"o"+k, first_seen_at: iso(now - k*2700e3 - 90e3), last_seen_at: iso(now - k*2700e3 - 90e3 + (20 + k*13)*1000), seen_count: 4+k, price_changes: k%3,
+    last_payload:{ price:{amount:d[2],currency:"USD"}, start_time: iso(now + (k+3)*3600e3), pickUpLocation:{address:places[k%places.length][0]}, dropOffLocation:{address:places[k%places.length][1]} } }));
+  S.cfg.locations = [clone(PRESETS[0]), clone(PRESETS[1])];
+  S.cfg.routes = [{name:"Nunca The Villages", action:"skip", enabled:true, when:{pickup_contains:"villages"}},{name:"MCO → Disney > $90", action:"accept", enabled:true, when:{pickup_location:"MCO", dropoff_location:"Disney", min_price:90}}];
+  S.saved = clone(S.cfg);
+  for(let k = 0; k < 60; k++){ const ok = k % 3 === 0; const t = now - (k*11+5)*3600e3*0.7;
+    S.decisions.push({ offer_key:"h"+k, decided_at: iso(t), mode:"dry_run", decision: ok ? "would_accept" : "skip", reason: ok ? "ok" : ["precio bajo el mínimo $75","fuera del horario de trabajo","pickup a 41 mi de la base","$19/hora bajo el mínimo $30"][k%4],
+      normalized:{ price: 70 + (k*17)%110, miles: 8 + (k*7)%40, net: ok ? 55 + k%30 : null, hours: 1.6, start: iso(t + 5*3600e3), pickup: places[k%places.length][0].toLowerCase(), dropoff: places[k%places.length][1].toLowerCase(), vehicle_class:"business_van" } });
+    S.offers.push({ offer_key:"h"+k, first_seen_at: iso(t - 60e3), last_seen_at: iso(t - 60e3 + (8 + (k*13)%70)*1000), seen_count: k%5 ? 3 : 1, price_changes: k%2, last_payload:{ price:{amount:70+(k*17)%110}, pickUpLocation:{address:places[k%places.length][0]} } }); }
+  /* real offer seen 2026-11-09 (Blacklane format) */
+  const real = { id:"852034a4-f174-48d9-8f77-9fa1b159c8cc", type:"ride", price:237.86, currency:"USD", vehicleClass:"business", price_minor_unit:23786,
+    rides:[{ type:"transfer", createdAt: iso(now - 33e3 - 23e3 - 60e3), pickupTime:"2026-11-10T12:00:00-05:00", guestRequests:"Pick Point: Front door Notes: Pickup: MEET & GREET. Orlando World Center Marriott. DropOff: The Ritz-Carlton, Amelia Island.",
+      pickUpLocation:{ address:"8701 World Center Drive, Orlando, FL, US 32821", latitude:28.360475, longitude:-81.51007 },
+      dropOffLocation:{ address:"4750 Amelia Island Parkway, Amelia Island, FL, US 32034", latitude:30.594174, longitude:-81.444954 },
+      estimatedDistanceMeters:299203, estimatedDurationMinutes:175 }] };
+  S.offers.unshift({ offer_key: real.id, first_seen_at: iso(now - 83e3), last_seen_at: iso(now - 60e3), seen_count:5, price_changes:0, last_payload: real });
+  S.decisions.unshift({ offer_key: real.id, decided_at: iso(now - 82e3), mode:"dry_run", decision:"skip", reason:"$7/hora bajo el mínimo $30", normalized:{ price:237.86, start:"2026-11-10T12:00:00-05:00" } });
+  S.planned = [{ id:"p1", start_at: iso(now + 26*3600e3), duration_min: 50, synced_at: iso(now - 120e3), payload:{ pickup_location:{address:"MCO Terminal B"}, dropoff_location:{address:"Waldorf Astoria Orlando"}, price:{amount:104} } },
+               { id:"p2", start_at: iso(now + 75*3600e3), duration_min: 35, synced_at: iso(now - 120e3), payload:{ pickup_location:{address:"Universal Orlando Resort"}, dropoff_location:{address:"MCO Terminal C"}, price:{amount:88} } }];
+  S.status = { updated_at: iso(now - 40e3), info:{ version:"1.2", effective_mode:"dry_run", allow_live:false, last_login_at: iso(now - 3*3600e3), poll_seconds:5, notify:{configured:false, sms:0, whatsapp:0} } };
+  S.polls = Array.from({length:40}, (_,k) => ({ polled_at: iso(now - 20e3 - k*300e3), ok: k !== 7, http_status: k === 7 ? 500 : 200, offer_count: k%5===0 ? 1 : 0, error: k === 7 ? "HTTP 500 on https://partner-portal-api.blacklane.com/api/v1/chauffeur/offers" : null }));
+}
+
+function tickClock(){ const el = $("#clock"); if(el) el.textContent = new Date().toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"}); }
+setInterval(tickClock, 15000);
+paintIcons(); boot(); tickClock();
+</script>
+</body>
+</html>
