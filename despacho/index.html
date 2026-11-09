@@ -1421,8 +1421,9 @@ function tripEcon(t, gpm = gasPerMile().v){
   const mi = (paxMi || 0) + (deadMi || 0);
   const gas = mi * gpm, maint = mi * a.maint, extra = (+t.tolls || 0) + (+t.parking || 0);
   const profit = rev - driver - gas - maint - extra;
-  const mins = t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : (t.duration_min != null ? +t.duration_min : null);
-  return { rev, driver, gas, maint, extra, profit, tip: +t.tip || 0, mi, paxMi, deadMi, mins: mins > 0 ? mins : null, counted };
+  const mins = t.engaged_min != null ? +t.engaged_min : t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : (t.duration_min != null ? +t.duration_min : null);
+  const paxMins = t.duration_min != null ? +t.duration_min : t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : null;
+  return { rev, driver, gas, maint, extra, profit, tip: +t.tip || 0, mi, paxMi, deadMi, mins: mins > 0 ? mins : null, paxMins: paxMins > 0 ? paxMins : null, counted };
 }
 function agg(trips){
   const gpm = gasPerMile().v;
@@ -1574,7 +1575,7 @@ function renderHome(){
     <div class="tile hero"><div class="k">Ganancia neta</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">después de chofer y costos del viaje</div></div>
     <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.n} viaje${a.n === 1 ? "" : "s"}</div></div>
     <div class="tile"><div class="k">Margen</div><div class="v ${a.margin < 0 ? "neg" : ""}">${pctf(a.margin)}</div><div class="s">ganancia ÷ ingreso</div></div>
-    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">hora con pasajero</div></div>
+    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">hora ocupada, salida → libre</div></div>
     <div class="tile"><div class="k">Ingreso / milla</div><div class="v">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</div><div class="s">millas totales, incl. vacías</div></div>
   </div>
   <div class="box" style="margin-bottom:16px"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
@@ -1604,7 +1605,7 @@ function tripTable(rows){
     <td>${platTag(t.platform)}${t.status !== "completed" ? `<small class="dim" style="display:block">${STATUS_TXT[t.status]}</small>` : ""}</td>
     <td><div class="route2" title="${esc((t.pickup||"") + " → " + (t.dropoff||""))}">${esc(shortAddr(t.pickup) || "—")}<small>→ ${esc(shortAddr(t.dropoff) || "—")}</small></div></td>
     <td class="num" style="text-align:right">${e.paxMi == null ? "—" : num1(e.paxMi)}${e.deadMi ? `<small class="dim" style="display:block">+${num1(e.deadMi)} vacías</small>` : ""}</td>
-    <td class="num" style="text-align:right">${e.mins ? Math.round(e.mins) : "—"}</td>
+    <td class="num" style="text-align:right">${e.paxMins ? Math.round(e.paxMins) : "—"}${t.engaged_min != null ? `<small class="dim" style="display:block">${Math.round(t.engaged_min)} ocupado</small>` : ""}</td>
     <td class="num" style="text-align:right">${money(e.rev)}${e.tip ? `<small class="dim" style="display:block">+${money(e.tip)} propina</small>` : ""}</td>
     <td class="num" style="text-align:right">${money(e.driver)}</td>
     <td class="num" style="text-align:right">${money(e.gas + e.maint + e.extra)}</td>
@@ -1658,7 +1659,7 @@ function renderPerf(){
     <tr><td><b>Total</b></td><td class="num" style="text-align:right"><b>${a.n}</b></td><td class="num" style="text-align:right"><b>${money(a.rev)}</b></td><td class="num ${a.profit < 0 ? "neg" : ""}" style="text-align:right"><b>${money(a.profit)}</b></td><td class="num" style="text-align:right">${pctf(a.margin)}</td><td class="num" style="text-align:right">${money(a.perTrip)}</td><td class="num" style="text-align:right">${a.perHour == null ? "—" : money0(a.perHour)}</td><td class="num" style="text-align:right">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</td></tr>
     </tbody></table></div></div>
   <div class="g2e">
-    <div class="box"><header><h3>Ganancia por hora</h3><span class="sub">hora con pasajero</span></header><div class="pad"><div class="hbars">
+    <div class="box"><header><h3>Ganancia por hora</h3><span class="sub">hora ocupada</span></header><div class="pad"><div class="hbars">
       ${[...plats].sort((x,y) => (y.perHour ?? -1e9) - (x.perHour ?? -1e9)).map(p => `<div class="hb" data-tip="${esc(`<b>${PLAT[p.k].n}</b>${tipRow(PLAT[p.k].c,"Por hora",p.perHour == null ? "—" : money(p.perHour))}${tipRow("","Viajes",p.n)}`)}"><div class="t"><span>${platTag(p.k)}</span><b class="${p.perHour < 0 ? "neg" : ""}">${p.perHour == null ? "sin duración" : money0(p.perHour) + "/h"}</b></div><div class="tr"><div class="f" style="width:${Math.abs(p.perHour||0)/maxH*100}%;background:${p.perHour < 0 ? "var(--c-neg)" : PLAT[p.k].c}"></div></div></div>`).join("")}
     </div></div></div>
     <div class="box"><header><h3>Ganancia por viaje</h3><span class="sub">promedio</span></header><div class="pad"><div class="hbars">
@@ -1723,6 +1724,7 @@ function openTrip(id){
       ${fin("fPick","Recogida",d.pickup,{type:"text",ph:"ej. MCO Terminal B",mono:false})}
       ${fin("fDrop","Destino",d.dropoff,{type:"text",ph:"ej. Four Seasons Orlando",mono:false})}
       <div class="row3">${fin("fMiles","Millas con pasajero",d.miles,{suf:"mi"})}${fin("fDead","Millas vacías",d.deadhead_miles,{suf:"mi",hint:"Ida al pickup + regreso"})}${fin("fMin","Minutos con pasajero",d.duration_min,{suf:"min"})}</div>
+      ${fin("fEng","Tiempo total ocupado",d.engaged_min,{suf:"min",hint:"Desde que sale hacia el pickup hasta que queda libre (incluye el regreso). Es lo que usa la ganancia por hora."})}
       <div class="row3">${fin("fPayout","Pago de la app",d.payout,{suf:"USD",req:true,hint:"Lo que paga la plataforma a la empresa, sin propina"})}${fin("fTip","Propina",d.tip,{suf:"USD",hint:"100% para el chofer"})}${fin("fFare","Pagó el pasajero",d.fare,{suf:"USD",hint:"Opcional, si la app lo muestra"})}</div>
       <div class="row3">${fin("fTolls","Peajes",d.tolls,{suf:"USD"})}${fin("fPark","Parqueo / aeropuerto",d.parking,{suf:"USD"})}${fin("fDriver","Pago al chofer",d.driver_pay,{suf:"USD",ph:"auto 25%"})}</div>
       ${fin("fNotes","Notas",d.notes,{type:"text",mono:false})}
@@ -1739,7 +1741,7 @@ function readTrip(){
   const d = FORM.d, payout = nval("fPayout");
   return { platform: d.platform, status: val("fStatus"), external_id: val("fExt"),
     started_at: val("fStart") ? etNaiveToISO(val("fStart")) : null, ended_at: val("fEnd") ? etNaiveToISO(val("fEnd")) : null,
-    pickup: val("fPick"), dropoff: val("fDrop"), miles: nval("fMiles"), deadhead_miles: nval("fDead"), duration_min: nval("fMin"),
+    pickup: val("fPick"), dropoff: val("fDrop"), miles: nval("fMiles"), deadhead_miles: nval("fDead"), duration_min: nval("fMin"), engaged_min: nval("fEng"),
     payout, tip: nval("fTip") ?? 0, fare: nval("fFare"), tolls: nval("fTolls") ?? 0, parking: nval("fPark") ?? 0,
     driver_pay: nval("fDriver") ?? (payout != null ? Math.round(payout * A().driverPct * 100)/100 : null), notes: val("fNotes") };
 }
@@ -1814,10 +1816,10 @@ async function deleteFuel(){
 
 function exportCSV(){
   const rows = filteredTrips(), gpm = gasPerMile().v;
-  const cols = ["fecha","plataforma","estado","id_app","recogida","destino","millas_pasajero","millas_vacias","minutos","pago_app","propina","pago_pasajero","peajes","parqueo","pago_chofer","gasolina_est","mantenimiento_est","ganancia"];
+  const cols = ["fecha","plataforma","estado","id_app","recogida","destino","millas_pasajero","millas_vacias","minutos_pasajero","minutos_ocupado","pago_app","propina","pago_pasajero","peajes","parqueo","pago_chofer","gasolina_est","mantenimiento_est","ganancia"];
   const q = v => v == null ? "" : /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g,'""')}"` : String(v);
   const lines = [cols.join(",")].concat(rows.map(t => { const e = tripEcon(t, gpm);
-    return [toLocalInput(t.started_at).replace("T"," "), PLAT[t.platform]?.n, STATUS_TXT[t.status], t.external_id, t.pickup, t.dropoff, t.miles, t.deadhead_miles, e.mins ? Math.round(e.mins) : "",
+    return [toLocalInput(t.started_at).replace("T"," "), PLAT[t.platform]?.n, STATUS_TXT[t.status], t.external_id, t.pickup, t.dropoff, t.miles, t.deadhead_miles, t.duration_min, t.engaged_min,
       t.payout, t.tip, t.fare, t.tolls, t.parking, e.driver.toFixed(2), e.gas.toFixed(2), e.maint.toFixed(2), e.profit.toFixed(2)].map(q).join(","); }));
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type:"text/csv" }));
   a.download = `viajes-connexxions-${dayKey(Date.now())}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
