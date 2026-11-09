@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="theme-color" content="#0E0E0D">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="/img/connexxions-logo.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -479,6 +479,124 @@ tr[data-trip],tr[data-fuel]{cursor:pointer}
   .toast{left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));max-width:none}
 }
 
+/* ===================== v4: light workspace (sidebar + login stay brand-dark) ===================== */
+:root{
+  --bg:#F5F4F1; --panel:#FFFFFF; --panel2:#F8F7F4; --panel3:#EFEDE8;
+  --line:#E6E3DD; --line2:#D9D5CE; --text:#141412; --muted:#4F4D48; --dim:#6B6862;
+  --accent:#D42A27; --accent2:#C4231F; --accent-soft:rgba(212,42,39,.09); --accent-line:rgba(212,42,39,.45);
+  --ok:#16a34a; --ok-soft:rgba(22,163,74,.10); --warn:#b45309; --warn-soft:rgba(234,179,8,.14); --bad:#d03b3b; --bad-soft:rgba(208,59,59,.08);
+  --c-rev:#2a78d6; --c-profit:#008300; --c-neg:#d03b3b;
+  --shadow:0 1px 2px rgba(20,20,18,.04),0 1px 1px rgba(20,20,18,.03);
+}
+/* brand-dark islands */
+.side,.gate,.mtop{
+  --panel:#0E0E0D; --panel2:#171715; --panel3:#232220; --line:#262522; --line2:#34322e;
+  --text:#F2F0EB; --muted:#B4B1AA; --dim:#8a8780; --accent2:#EE4A43; --accent-soft:rgba(212,42,39,.16);
+  color:var(--text);
+}
+.gate{background:#0A0A0A}
+body{background:var(--bg);color:var(--text);font-size:15px}
+.app{background:linear-gradient(to right,#0E0E0D 252px,var(--bg) 252px)}
+.side{background:#0E0E0D;border-right:0}
+
+/* type: one clear sans everywhere in the workspace */
+.pagehead{margin-bottom:22px}
+.pagehead h1{font-family:var(--sans);font-size:28px;font-weight:600;letter-spacing:-.5px;line-height:1.15}
+.pagehead h1 em{color:inherit;font-style:normal}
+.pagehead p{color:var(--muted);font-size:15px;margin-top:6px}
+.pagehead .eyebrow{display:none}
+.topbar{background:rgba(245,244,241,.92);border-bottom:1px solid var(--line);padding:12px 28px}
+.topbar h2{display:none}
+.topbar .geo{font-family:var(--sans);font-style:normal;font-size:13px;color:var(--dim)}
+.topbar .geo b:first-of-type{display:none}
+.topbar .geo b{font-family:var(--sans);font-size:13px;color:var(--dim);letter-spacing:0}
+td.num,.input.mono,.calc .cell b,.sgrid b,.kv .mono,.legrows b{font-family:var(--sans);font-variant-numeric:tabular-nums}
+th{text-transform:none;letter-spacing:0;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--panel2)}
+td{border-bottom-color:var(--line)}
+tbody tr:hover td{background:#FAF9F6}
+.tile .k,.bk .k,.kpi .k,.dgrid small,.stats .lab,.sgrid small,.stops small{text-transform:none;letter-spacing:0;font-size:13px;font-weight:500;color:var(--muted)}
+.tile .v{font-weight:600;letter-spacing:-.6px}
+.tile.hero .v{font-family:var(--sans);font-size:40px;font-weight:600;letter-spacing:-1.2px}
+.onb h2,.drawer .route,.sec-head h3,.gate h1{font-family:var(--sans);font-weight:600;letter-spacing:-.5px}
+.onb h2{font-size:26px} .drawer .route{font-size:24px} .sec-head h3{font-size:24px}
+.onb h2 em,.sec-head h3 em,.drawer .route em{color:var(--accent2);font-style:normal}
+.box > header h3{font-size:16px}
+.hint,.dim{color:var(--dim)}
+
+/* surfaces */
+.box,.tile,.bk,.kpi,.stats,.editor,.rcard,.tcard,.onb,.calc .cell{background:var(--panel);box-shadow:var(--shadow)}
+.tile,.bk{background:var(--panel)}
+.tile.hero{background:radial-gradient(460px 170px at 100% 0,rgba(212,42,39,.07),transparent 70%),#fff;border-color:#EBD6D3}
+.onb{background:radial-gradient(600px 220px at 0 0,rgba(212,42,39,.06),transparent 70%),#fff}
+.editor .left{background:#FAF9F7}
+.savebar{background:#fff}
+.input{background:#fff;border-color:var(--line2)}
+.input:focus{border-color:var(--accent-line)}
+.btn{background:#fff;border-color:var(--line2)}
+.btn:hover{background:var(--panel2);border-color:#c9c5bd}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:#BE2421;border-color:#BE2421}
+.btn-ghost{background:transparent;border-color:transparent}
+.side .btn,.gate .btn{background:var(--panel2);border-color:var(--line2);color:var(--text)}
+.side .btn-ghost,.gate .btn-ghost{background:transparent;border-color:transparent}
+.gate .btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.rng,.seg,.tabs,.selwrap select,.mini{background:#fff}
+.rng button.on,.tabs button.on,.seg button.on{background:var(--text);color:#fff}
+.side .seg{background:var(--panel)} .side .seg button.on{background:var(--panel3);color:var(--text)}
+.seg button.on[data-mode="live"]{background:var(--accent);color:#fff}
+.seg button.on[data-mode="off"]{background:#fdecea;color:#b42318}
+.side .seg button.on[data-mode="off"]{background:rgba(239,68,68,.16);color:#fca5a5}
+.pill{background:#fff}
+.mtop .pill,.side .pill{background:var(--panel2)}
+.switch span{background:#d6d2ca} .switch span::after{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.opt .box2{border-color:#b7b2a9}
+.calc{background:linear-gradient(180deg,rgba(212,42,39,.05),transparent)}
+.note{background:var(--panel2)}
+.dropzone{background:var(--panel2)}
+
+/* status colours readable on white */
+.b-accept{background:#E8F5EC;color:#11692F;border-color:#B9E2C5}
+.b-would{background:#FDECEA;color:#A3201C;border-color:#F3B8B4}
+.b-fail{background:#FDECEA;color:#B42318;border-color:#F3B8B4}
+.b-skip{background:#F1EFEA;color:var(--muted);border-color:#E0DCD5}
+.verdict.ok,.verd.ok{background:#E8F5EC;color:#11692F}
+.verdict.bad,.verd.bad{background:#FDECEA;color:#B42318}
+.okc,.act-accept,.pos{color:#11692F!important}
+.badc,.act-skip,.neg{color:#B42318!important}
+.dot.ok{box-shadow:0 0 0 3px rgba(22,163,74,.15)} .dot.warn{background:#d97706}
+.conn.ok .ck{box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+
+/* overlays */
+.drawer-bg,.overlay,.sheet-bg{background:rgba(20,20,18,.32)}
+.drawer{background:#fff;border-left:1px solid var(--line);box-shadow:-24px 0 60px rgba(20,20,18,.12)}
+.formacts{background:#fff}
+.preview{background:var(--panel2)}
+.modal,.sheet{background:#fff}
+.toast{background:#141412;color:#fff;border:0;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.toast.bad{background:#7f1d1d}
+#tip{background:#141412;color:#fff;border:0;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+#tip .r span:first-child{color:#c9c5bd}
+
+/* agenda */
+.track2 .wh{background:rgba(0,0,0,.035)}
+.blk.bus{background:repeating-linear-gradient(45deg,#ebe8e2,#ebe8e2 6px,#f4f2ee 6px,#f4f2ee 12px);color:var(--muted)}
+.blk.would{color:#A3201C}
+.blk.manual{background:#d6d2ca;color:var(--text)}
+
+/* charts & bars */
+.hb .tr,.meter{background:var(--panel3)}
+.side .nav button{padding:7px 10px} .side .navgroup{padding:12px 10px 4px} .side .brand{padding-bottom:12px} .botcard{margin-top:12px}
+
+/* mobile: dark brand bar on top, white tab bar at the bottom */
+@media (max-width:960px){
+  .app{background:var(--bg)}
+  .mtop{background:#0E0E0D;border-bottom:0}
+  .tabbar{background:rgba(255,255,255,.97);border-top:1px solid var(--line)}
+  .tabbar button{color:var(--dim)} .tabbar button.on{color:var(--text)}
+  .pagehead h1{font-size:24px}
+  .tile.hero .v{font-size:34px}
+}
+
 </style>
 </head>
 <body>
@@ -888,8 +1006,8 @@ const saveBar = () => `<div class="savebar" style="border:1px solid var(--line);
   <div class="state">${dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado'}</div>
   <button class="btn" data-act="discard" ${dirty() ? "" : "disabled"}>Descartar</button>
   <button class="btn btn-primary" data-act="save" ${dirty() ? "" : "disabled"}>${icon("save",16)} Guardar</button></div>`;
-const head = (title, sub, eyebrow, right = "") => { const i = Object.keys(VIEWS).indexOf(S.view) + 1;
-  return `<div class="pagehead"><div><div class="eyebrow"><span class="no">N° ${String(i).padStart(2,"0")}</span><span class="dash"></span>${eyebrow || VIEWS[S.view]}</div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>`; };
+const head = (title, sub, eyebrow, right = "") =>
+  `<div class="pagehead"><div><h1>${esc(VIEWS[S.view])}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>`;
 const rangeSel = (attr, cur, opts) => `<div class="rng">${opts.map(([v,l]) => `<button data-${attr}="${v}" class="${cur===v?"on":""}">${l}</button>`).join("")}</div>`;
 
 function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacked
@@ -898,9 +1016,9 @@ function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacke
   const max = Math.max(4, ...totals), step = Math.ceil(max/4);
   const top = step*4, bw = Math.max(2, (W-padL)/n*0.62), x = i => padL + (i+0.5)*(W-padL)/n, y = v => H-padB - (v/top)*(H-padB-padT);
   let g = "";
-  for(let k=0;k<=4;k++){ const yy = y(k*step); g += `<line x1="${padL}" x2="${W}" y1="${yy}" y2="${yy}" stroke="#222228"/><text x="${padL-8}" y="${yy+4}" fill="#5f5f69" font-size="11" text-anchor="end">${k*step}</text>`; }
+  for(let k=0;k<=4;k++){ const yy = y(k*step); g += `<line x1="${padL}" x2="${W}" y1="${yy}" y2="${yy}" stroke="#ebe8e2"/><text x="${padL-8}" y="${yy+4}" fill="#6B6862" font-size="11" text-anchor="end">${k*step}</text>`; }
   days.forEach((d,i) => { let acc = 0; series.forEach(s => { const v = s.values[i]; if(v){ g += `<rect x="${x(i)-bw/2}" y="${y(acc+v)}" width="${bw}" height="${y(acc)-y(acc+v)}" rx="2" fill="${s.color}"><title>${d}: ${v}</title></rect>`; } acc += v; });
-    const every = Math.ceil(n/12); if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-6}" fill="#5f5f69" font-size="11" text-anchor="middle">${new Date(d+"T12:00:00Z").toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</text>`; });
+    const every = Math.ceil(n/12); if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-6}" fill="#6B6862" font-size="11" text-anchor="middle">${new Date(d+"T12:00:00Z").toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</text>`; });
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ofertas por día">${g}</svg>`;
 }
 
@@ -928,8 +1046,8 @@ function renderOverview(){
     <div class="bk"><div class="k">Ingreso por milla</div><div class="v">${perMi == null ? "—" : "$" + perMi.toFixed(2)}</div><div class="t">Precio ÷ millas con pasajero</div><div class="s">${live ? "Aceptadas" : "Aceptaría"}, con distancia conocida</div></div>
   </div>
   <div class="box" style="margin-bottom:18px"><header><h3>Ofertas por día</h3><span class="muted" style="font-size:12.5px">últimos ${S.range} días</span></header>
-    <div class="chartbox chart">${barChart(days, [{color:"#D42A27", values: byDay(isValid)},{color:"#3a3833", values: byDay(d => d.decision === "skip")}])}
-    <div class="legend"><span><i style="background:#D42A27"></i>${live ? "Aceptadas / aceptaría" : "Aceptaría"}</span><span><i style="background:#3a3833"></i>Saltadas</span></div></div></div>
+    <div class="chartbox chart">${barChart(days, [{color:"#D42A27", values: byDay(isValid)},{color:"#cfcac2", values: byDay(d => d.decision === "skip")}])}
+    <div class="legend"><span><i style="background:#D42A27"></i>${live ? "Aceptadas / aceptaría" : "Aceptaría"}</span><span><i style="background:#cfcac2"></i>Saltadas</span></div></div></div>
   <div class="box"><header><div class="tabs"><button data-tab="valid" class="${S.tab==="valid"?"on":""}">Válidas (${dec.filter(isValid).length})</button><button data-tab="skipped" class="${S.tab==="skipped"?"on":""}">Saltadas (${skipped.length})</button></div></header>
     ${slice.length ? `<div class="tablewrap"><table><thead><tr>${S.tab==="valid" ? "<th>Estado</th>" : "<th>Motivo</th>"}<th>Desde</th><th>Hasta</th><th>Paga</th><th>Millas</th><th>Neto est.</th><th>Clase</th><th>Recogida</th><th>Visto</th></tr></thead><tbody>
     ${slice.map(d => { const x = offerInfo(d.offer_key); return `<tr data-offer="${esc(d.offer_key)}">${S.tab==="valid" ? `<td>${decBadge(d.decision)}</td>` : `<td class="cut muted" title="${esc(d.reason)}">${esc(d.reason)}</td>`}<td class="cut" title="${esc(x.pick.addr)}">${esc(shortAddr(x.pick.addr))}</td><td class="cut" title="${esc(x.drop.addr)}">${esc(shortAddr(x.drop.addr))}</td><td class="num">${money(x.price)}</td><td class="num">${x.miles == null ? "—" : (+x.miles).toFixed(0)}</td><td class="num">${x.econ ? money(x.econ.net) : "—"}</td><td class="muted">${esc(x.cls || "—")}</td><td class="num">${fmtTime(x.start)}</td><td class="num">${fmtTime(d.decided_at)}</td></tr>`; }).join("")}
@@ -1042,7 +1160,7 @@ function renderAgenda(){
       const would = upcoming.filter(d => dayKey(d.normalized.start) === k).map(d => { const m = minutesET(d.normalized.start); return `<div class="blk would" style="${span(m, m + (c.default_busy_minutes || 120))}" title="${esc(fmtHM(d.normalized.start) + " · " + money0(d.normalized.price) + " · " + d.normalized.pickup)}">${money0(d.normalized.price)}</div>`; }).join("");
       const date = new Date(k+"T12:00:00Z");
       return `<div class="arow"><div class="dl">${dn[1]}<small>${date.toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</small></div><div class="track2">${wh}${bus}${shifts}${would}${rides}</div></div>`; }).join("")}</div>
-    <div class="legend" style="margin-top:12px"><span><i style="background:var(--accent)"></i>Viaje en Blacklane</span><span><i style="background:var(--accent-soft);border:1.5px dashed var(--accent)"></i>El bot aceptaría</span><span><i style="background:#26262d;border:1px solid var(--line2)"></i>Turno Connexxions Bus / bloqueo</span><span><i style="background:rgba(255,255,255,.08)"></i>Horario de trabajo</span></div></div>
+    <div class="legend" style="margin-top:12px"><span><i style="background:var(--accent)"></i>Viaje en Blacklane</span><span><i style="background:var(--accent-soft);border:1.5px dashed var(--accent)"></i>El bot aceptaría</span><span><i style="background:#ebe8e2;border:1px solid var(--line2)"></i>Turno Connexxions Bus / bloqueo</span><span><i style="background:rgba(0,0,0,.06)"></i>Horario de trabajo</span></div></div>
   <div class="box"><header><h3>Viajes planificados en Blacklane</h3><span class="muted" style="font-size:12.5px">${S.planned.length ? "sincronizado " + ago(S.planned[0].synced_at) : "el bot los sincroniza cada 5 min"}</span></header>
   ${S.planned.length ? `<div class="tablewrap"><table><thead><tr><th>Hora</th><th>Desde</th><th>Hasta</th><th>Precio</th><th>Duración</th></tr></thead><tbody>${S.planned.map(r => { const x = ride(r); return `<tr><td class="num">${fmtTime(r.start_at)}</td><td class="cut" title="${esc(x.pick)}">${esc(x.pick || "—")}</td><td class="cut" title="${esc(x.drop)}">${esc(x.drop || "—")}</td><td class="num">${money(x.price)}</td><td class="num">${r.duration_min ? Math.round(r.duration_min) + " min" : "—"}</td></tr>`; }).join("")}</tbody></table></div>` : `<div class="empty">No hay viajes planificados en Blacklane.</div>`}</div>`;
 }
@@ -1353,18 +1471,18 @@ Object.assign(ICONS, {
 
 /* Platforms: fixed colour per platform (validated dark palette, adjacent pairs pass CVD + normal-vision). */
 const PLAT = {
-  blacklane:{ n:"Blacklane",  c:"#3987e5" },
-  uber:     { n:"Uber Black", c:"#d95926" },
-  lyft:     { n:"Lyft Black", c:"#199e70" },
-  gnet:     { n:"GNet",       c:"#c98500" },
-  direct:   { n:"Directo",    c:"#d55181" },
-  other:    { n:"Otro",       c:"#9085e9" },
+  blacklane:{ n:"Blacklane",  c:"#2a78d6" },
+  uber:     { n:"Uber Black", c:"#eb6834" },
+  lyft:     { n:"Lyft Black", c:"#1baf7a" },
+  gnet:     { n:"GNet",       c:"#eda100" },
+  direct:   { n:"Directo",    c:"#e87ba4" },
+  other:    { n:"Otro",       c:"#6250d6" },
 };
 const platTag = k => `<span class="pt"><i style="background:${PLAT[k]?.c || "#888"}"></i>${esc(PLAT[k]?.n || k)}</span>`;
 /* Where each dollar goes (validated order). Profit is always aqua; costs never reuse it. */
 const COST = [
-  ["driver","Chofer","#c98500"], ["gas","Gasolina","#d55181"], ["maint","Mantenimiento","#9085e9"],
-  ["extra","Peajes y parqueo","#d95926"], ["profit","Ganancia","#199e70"],
+  ["driver","Chofer","#eb6834"], ["gas","Gasolina","#6250d6"], ["maint","Mantenimiento","#eda100"],
+  ["extra","Peajes y parqueo","#e87ba4"], ["profit","Ganancia","#008300"],
 ];
 const STATUS_TXT = { completed:"Completado", cancelled_paid:"Cancelado (pagado)", cancelled:"Cancelado" };
 
@@ -1486,8 +1604,8 @@ function axisY(min, max, W, H, padL, padT, padB, fmt){
   const y = v => padT + (hi - v)/(hi - lo) * (H - padT - padB);
   let g = "";
   for(let v = lo; v <= hi + 1e-9; v += step){
-    g += `<line x1="${padL}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="${Math.abs(v) < 1e-9 ? "#3a3833" : "#22211e"}" stroke-width="1"/>`;
-    g += `<text x="${padL-8}" y="${y(v)+4}" fill="#8a8780" font-size="11" text-anchor="end" font-family="Geist,system-ui" style="font-variant-numeric:tabular-nums">${fmt(v)}</text>`;
+    g += `<line x1="${padL}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="${Math.abs(v) < 1e-9 ? "#cfcac2" : "#ebe8e2"}" stroke-width="1"/>`;
+    g += `<text x="${padL-8}" y="${y(v)+4}" fill="#6B6862" font-size="11" text-anchor="end" font-family="Geist,system-ui" style="font-variant-numeric:tabular-nums">${fmt(v)}</text>`;
   }
   return { y, g, lo, hi };
 }
@@ -1504,7 +1622,7 @@ function colChart(W, { labels, series, tip, H = 250 }){
       g += `<path d="${barPath(x, bw, ax.y(0), ax.y(v))}" fill="${v < 0 ? "var(--c-neg)" : s.color}"/>`; });
     hit += `<rect x="${padL + i*band}" y="${padT}" width="${band}" height="${H-padT-padB}" fill="transparent" data-tip="${esc(tip(i))}"/>`;
     const every = Math.ceil(n / Math.max(1, Math.floor((W-padL)/64)));
-    if(i % every === 0) g += `<text x="${padL + (i+.5)*band}" y="${H-7}" fill="#8a8780" font-size="11" text-anchor="middle" font-family="Geist,system-ui">${esc(l)}</text>`;
+    if(i % every === 0) g += `<text x="${padL + (i+.5)*band}" y="${H-7}" fill="#6B6862" font-size="11" text-anchor="middle" font-family="Geist,system-ui">${esc(l)}</text>`;
   });
   return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">${g}${hit}</svg>`;
 }
@@ -1521,9 +1639,9 @@ function lineChart(W, { labels, series, tip, H = 240, fmt = kfmt }){
   labels.forEach((l, i) => {
     const half = n === 1 ? (W-padL)/2 : (W-padL-8)/(n-1)/2;
     hit += `<rect x="${x(i)-half}" y="${padT}" width="${half*2}" height="${H-padT-padB}" fill="transparent" data-tip="${esc(tip(i))}" data-cx="${x(i)}"/>`;
-    if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-7}" fill="#8a8780" font-size="11" text-anchor="${i === 0 ? "start" : i === n-1 ? "end" : "middle"}" font-family="Geist,system-ui">${esc(l)}</text>`;
+    if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-7}" fill="#6B6862" font-size="11" text-anchor="${i === 0 ? "start" : i === n-1 ? "end" : "middle"}" font-family="Geist,system-ui">${esc(l)}</text>`;
   });
-  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img"><line class="xhair" x1="0" x2="0" y1="${padT}" y2="${H-padB}" stroke="#4a4740" stroke-width="1" style="display:none"/>${g}${hit}</svg>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img"><line class="xhair" x1="0" x2="0" y1="${padT}" y2="${H-padB}" stroke="#9a958c" stroke-width="1" style="display:none"/>${g}${hit}</svg>`;
 }
 function drawCharts(){
   document.querySelectorAll("[data-chart]").forEach(el => { const f = CHARTS[el.dataset.chart]; if(f){ el.innerHTML = f(Math.max(280, Math.floor(el.clientWidth))); } });
@@ -1559,7 +1677,7 @@ function renderHome(){
   const series = B.keys.map(k => { const g = agg(trips.filter(t => B.keyOf(t.started_at) === k)); return g; });
   CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label),
     series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
-    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#3987e5","Ingreso",money(series[i].rev))}${tipRow("#199e70","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}` });
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}` });
   /* month-to-date vs fixed costs (independent of the range filter) */
   const p = etParts(Date.now()), mStart = dayStartMs(`${p.year}-${p.month}-01`);
   const mtd = agg(S.trips.filter(t => Date.parse(t.started_at) >= mStart && (S.tr.plat === "all" || t.platform === S.tr.plat)));
@@ -1575,7 +1693,7 @@ function renderHome(){
     <div class="tile hero"><div class="k">Ganancia neta</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">después de chofer y costos del viaje</div></div>
     <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.n} viaje${a.n === 1 ? "" : "s"}</div></div>
     <div class="tile"><div class="k">Margen</div><div class="v ${a.margin < 0 ? "neg" : ""}">${pctf(a.margin)}</div><div class="s">ganancia ÷ ingreso</div></div>
-    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">hora ocupada, salida → libre</div></div>
+    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">por hora ocupada</div></div>
     <div class="tile"><div class="k">Ingreso / milla</div><div class="v">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</div><div class="s">millas totales, incl. vacías</div></div>
   </div>
   <div class="box" style="margin-bottom:16px"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
@@ -1643,11 +1761,11 @@ function renderPerf(){
     const end = B.weekly ? Math.min(Date.now(), dayStartMs(addDayKey(k, 7))) : Math.min(Date.now(), dayStartMs(addDayKey(k, 1)));
     cumF.push(dailyFixed * Math.max(0, (end - r0) / 86400e3)); });
   CHARTS.cum = W => lineChart(W, { labels: B.keys.map(B.label), series: [{ name:"Ganancia acumulada", color:"var(--c-profit)", values: cumP }, { name:"Costos fijos acumulados", color:"#8a8780", values: cumF, dash:true }],
-    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#199e70","Ganancia acumulada",money0(cumP[i]))}${tipRow("#8a8780","Fijos acumulados",money0(cumF[i]))}${tipRow("","Diferencia",money0(cumP[i]-cumF[i]))}` });
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#008300","Ganancia acumulada",money0(cumP[i]))}${tipRow("#8a8780","Fijos acumulados",money0(cumF[i]))}${tipRow("","Diferencia",money0(cumP[i]-cumF[i]))}` });
   /* weekday profile */
   const wd = DAYS.map((d, i) => { const ts = trips.filter(t => dayIdx(dayKey(t.started_at)) === i); return { d: d[1].slice(0,3), ...agg(ts) }; });
   CHARTS.wd = W => colChart(W, { H: 210, labels: wd.map(x => x.d), series: [{ name:"Ganancia", color:"var(--c-profit)", values: wd.map(x => x.profit) }],
-    tip: i => `<b>${DAYS[i][1]}</b>${tipRow("#199e70","Ganancia",money(wd[i].profit))}${tipRow("","Viajes",wd[i].n)}${tipRow("","Por viaje",wd[i].perTrip == null ? "—" : money(wd[i].perTrip))}` });
+    tip: i => `<b>${DAYS[i][1]}</b>${tipRow("#008300","Ganancia",money(wd[i].profit))}${tipRow("","Viajes",wd[i].n)}${tipRow("","Por viaje",wd[i].perTrip == null ? "—" : money(wd[i].perTrip))}` });
   const asum = A(), gpm = gasPerMile();
   $("#view").innerHTML = `
   ${head("Qué plataforma <em>rinde más.</em>", "Con un solo carro y un solo chofer, el recurso escaso es la hora de Marco: compara cuánto deja cada app por hora y por viaje.", "Rendimiento")}
@@ -1683,7 +1801,7 @@ function renderFuel(){
   const spend = fills.reduce((s,x) => s + +x.total_cost, 0), gal = fills.reduce((s,x) => s + +x.gallons, 0);
   CHARTS.mpg = W => lineChart(W, { H: 220, labels: f.intervals.map(x => fmtDay(dayKey(x.at))), fmt: v => v.toFixed(0),
     series: [{ name:"mpg", color:"var(--c-rev)", values: f.intervals.map(x => x.mpg) }],
-    tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#3987e5","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
+    tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#2a78d6","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
   $("#view").innerHTML = `
   ${head("Lo que se <em>consume.</em>", "Cada tanqueo con odómetro: así sale el consumo real de la Suburban y el costo de gasolina por milla.", "Gasolina")}
   ${filterBar(`<button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("plus",15)} Registrar tanqueo</button>`, true)}
@@ -1720,7 +1838,7 @@ function openTrip(id){
       <div class="field"><label>Plataforma <span class="req">*</span></label><div class="seg2" id="fPlat">${Object.entries(PLAT).map(([k,p]) => `<button type="button" data-fplat="${k}" class="${d.platform===k?"on":""}"><i style="background:${p.c}"></i>${p.n}</button>`).join("")}</div></div>
       <div class="row"><div class="field"><label for="fStatus">Estado</label><select class="input" id="fStatus">${Object.entries(STATUS_TXT).map(([k,v]) => `<option value="${k}" ${d.status===k?"selected":""}>${v}</option>`).join("")}</select></div>
         ${fin("fExt","ID del viaje en la app",d.external_id,{type:"text",ph:"opcional",mono:true})}</div>
-      <div class="row">${fin("fStart","Recogida (hora Orlando)",toLocalInput(d.started_at),{type:"datetime-local",req:true})}${fin("fEnd","Llegada al destino",toLocalInput(d.ended_at),{type:"datetime-local",hint:"Opcional; si no, usa los minutos"})}</div>
+      <div class="row">${fin("fStart","Hora de recogida",toLocalInput(d.started_at),{type:"datetime-local",req:true})}${fin("fEnd","Hora de llegada",toLocalInput(d.ended_at),{type:"datetime-local",hint:"Opcional; si no, usa los minutos"})}</div>
       ${fin("fPick","Recogida",d.pickup,{type:"text",ph:"ej. MCO Terminal B",mono:false})}
       ${fin("fDrop","Destino",d.dropoff,{type:"text",ph:"ej. Four Seasons Orlando",mono:false})}
       <div class="row3">${fin("fMiles","Millas con pasajero",d.miles,{suf:"mi"})}${fin("fDead","Millas vacías",d.deadhead_miles,{suf:"mi",hint:"Ida al pickup + regreso"})}${fin("fMin","Minutos con pasajero",d.duration_min,{suf:"min"})}</div>
