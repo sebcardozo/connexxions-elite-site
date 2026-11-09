@@ -1443,7 +1443,7 @@ document.addEventListener("change", e => {
   else if(t.dataset.flag){ setP(S.cfg, t.dataset.flag, t.checked); if(/^(routes|fleet)\./.test(t.dataset.flag)) render(); else refreshEditorChrome(); }
   else if(t.dataset.kind === "ridetype"){ S.cfg.ride_types = t.value === "both" ? ["transfer","hourly"] : [t.value]; refreshEditorChrome(); }
   else if(t.dataset.kind === "str"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
-  else if(t.dataset.kind === "text" && t.type === "time"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
+  else if(t.dataset.kind === "text" && (t.type === "time" || t.type === "month")){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
   else if(t.dataset.dayon){ setP(S.cfg, t.dataset.dayon, t.checked ? [["08:00","17:00"]] : []); render(); }
 });
 window.addEventListener("beforeunload", e => { if(dirty()){ e.preventDefault(); e.returnValue = ""; } });
@@ -1510,8 +1510,17 @@ const A = () => ({
   driverPct: cfgv().driver_pct ?? 0.25,
   maint: cfgv().maint_per_mile ?? 0.10,          // ESTIMATED until there are real maintenance receipts
   gasEst: cfgv().gas_per_mile_est ?? 0.24,       // $3.82/gal (AAA Orlando) / 16 mpg — used until fuel log has data
-  fixed: cfgv().fixed_monthly ?? 2686,           // GM Financial + insurance + prorated permits/CPA/subs/BTR
+  fixed: fixedActive().total,                    // sum of active fixed-cost items this month
 });
+/* Fixed monthly costs as items with optional start/end month ("YYYY-MM"), stored in bl_config.fixed_costs. */
+const monthKey = (ms = Date.now()) => { const p = etParts(ms); return `${p.year}-${p.month}`; };
+function fixedActive(mk = monthKey()){
+  const items = cfgv().fixed_costs;
+  if(!Array.isArray(items)) return { total: cfgv().fixed_monthly ?? 2686, items: [] };
+  const on = items.filter(x => (!x.from || x.from <= mk) && (!x.until || x.until >= mk) && +x.amount > 0);
+  return { total: on.reduce((t, x) => t + +x.amount, 0), items: on };
+}
+const monthName = mk => mk ? new Date(mk + "-15T12:00:00Z").toLocaleDateString("es-US",{month:"short",year:"numeric",timeZone:"UTC"}) : "";
 
 /* ---------- fuel ---------- */
 function fuelStats(){
@@ -1708,7 +1717,7 @@ function renderHome(){
       <div class="big ${mtd.profit < 0 ? "neg" : ""}">${money0(mtd.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money0(A().fixed)}</span></div>
       <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round((cover||0)*100)}"><div style="width:${Math.min(100, (cover||0)*100)}%"></div></div>
       <div class="muted" style="font-size:13px">${cover >= 1 ? `<b class="pos">Cubiertos.</b> Todo lo que entre este mes es ganancia después de fijos.` : `Cubre <b style="color:var(--text)">${pctf(cover)}</b> de los fijos. Faltan <b style="color:var(--text)">${money0(left)}</b>${tripsLeft ? ` ≈ <b style="color:var(--text)">${tripsLeft} viaje${tripsLeft===1?"":"s"}</b> al ritmo actual` : ""}.`}</div>
-      <p class="dim" style="font-size:12px;margin:14px 0 0">Fijos: GM Financial, seguro y permisos/CPA/suscripciones prorrateados. Ajustable en Rendimiento → Supuestos.</p>
+      <p class="dim" style="font-size:12.5px;margin:14px 0 0">${fixedActive().items.length ? fixedActive().items.map(x => `${esc(x.name)} ${money(x.amount)}${x.until ? ` (hasta ${monthName(x.until)})` : ""}`).join(" · ") : "GM Financial, seguro y prorrateos"}. Se editan en Rendimiento → Supuestos.</p>
     </div></div>
   </div>
   <div class="box"><header><h3>Últimos viajes</h3><button class="btn btn-sm" data-view="trips">Ver todos ${icon("arrow",14)}</button></header>${tripTable(recent)}</div>`}`;
@@ -1790,8 +1799,17 @@ function renderPerf(){
     <div class="box"><header><h3>Por día de la semana</h3><span class="sub">ganancia</span></header><div class="pad"><div class="chart" data-chart="wd"></div></div></div>
   </div>`}
   <div class="box"><header><h3>Supuestos</h3><span class="sub">se guardan con el filtro del bot</span></header><div class="pad">
-    <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}${num("fixed_monthly","Costos fijos",{step:"1",suf:"$/mes",ph:"2686",hint:"GM Financial $1,634.87 + seguro $957 + prorrateos"})}</div>
+    <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}</div>
     <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.01",suf:"$/mi",ph:"0.24",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Se reemplaza solo con tanqueos registrados"})}</div>
+    <div class="group" style="margin:6px 0 18px"><h4>Costos fijos mensuales <span class="dim" style="font-weight:400;font-size:13px">· este mes ${money(asum.fixed)}</span></h4><p>Cada partida con su mes de fin si tiene; al terminar sale sola de la cuenta.</p>
+      <div class="tablewrap"><table><thead><tr><th>Partida</th><th style="width:180px">Monto / mes</th><th style="width:150px">Desde</th><th style="width:150px">Hasta</th><th style="width:48px"></th></tr></thead><tbody>
+      ${(S.cfg?.fixed_costs || []).map((x, i) => `<tr><td><input class="input" data-path="fixed_costs.${i}.name" data-kind="text" value="${esc(x.name)}" aria-label="Partida"></td>
+        <td><div class="suffix"><input class="input mono" type="number" step="0.01" data-path="fixed_costs.${i}.amount" data-kind="num" value="${x.amount ?? ""}" aria-label="Monto"><i>USD</i></div></td>
+        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.from" data-kind="text" value="${esc(x.from || "")}" aria-label="Desde"></td>
+        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.until" data-kind="text" value="${esc(x.until || "")}" aria-label="Hasta"></td>
+        <td><button class="btn btn-ghost btn-sm" data-del="fixed_costs" data-k="${i}" aria-label="Quitar partida">${icon("trash",15)}</button></td></tr>`).join("")}
+      </tbody></table></div>
+      <button class="btn btn-sm" data-act="fcadd" style="margin-top:10px">${icon("plus",14)} Agregar partida</button></div>
     <div class="note" style="margin-top:4px">${icon("info")}<div>El % del chofer también lo usa el bot para calcular el neto de las ofertas. Mantenimiento es un estimado hasta que haya facturas reales.</div></div>
     ${saveBar()}</div></div>`;
 }
@@ -1971,6 +1989,7 @@ document.addEventListener("click", e => {
     case "fuelsave": return saveFuel();
     case "fueldel": return deleteFuel();
     case "csv": return exportCSV();
+    case "fcadd": (S.cfg.fixed_costs ||= []).push({ name:"Nueva partida", amount:null, from: monthKey(), until:"" }); return render();
     case "more": return openMore();
     case "logout2": return (async () => { if(!DEMO) await S.sb.auth.signOut(); location.reload(); })();
   }
