@@ -644,7 +644,7 @@ tbody tr:hover td{background:#FAF9F6}
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
       <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
-      <button data-view="fuel"><span data-icon="fuel"></span>Gasolina</button>
+      <button data-view="fuel"><span data-icon="fuel"></span>Recibos</button>
       <div class="navgroup">Bot Blacklane</div>
       <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
       <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
@@ -698,8 +698,8 @@ const store = {
 const DEMO = new URLSearchParams(location.search).has("demo");
 const TZ = "America/New_York";
 const DAYS = [["mon","Lunes"],["tue","Martes"],["wed","Miércoles"],["thu","Jueves"],["fri","Viernes"],["sat","Sábado"],["sun","Domingo"]];
-const money = v => v == null || isNaN(v) ? "—" : "$" + Number(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-const money0 = v => v == null || isNaN(v) ? "—" : "$" + Math.round(Number(v)).toLocaleString("en-US");
+const money = v => v == null || isNaN(v) ? "—" : (Number(v) < 0 ? "−$" : "$") + Math.abs(Number(v)).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money0 = v => v == null || isNaN(v) ? "—" : (Math.round(Number(v)) < 0 ? "−$" : "$") + Math.abs(Math.round(Number(v))).toLocaleString("en-US");
 const fmtTime = iso => iso ? new Date(iso).toLocaleString("es-US",{timeZone:TZ,month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}) : "—";
 const fmtHM = iso => new Date(iso).toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
 const fmtClock = iso => iso ? new Date(iso).toLocaleTimeString("es-US",{timeZone:TZ,hour:"numeric",minute:"2-digit",second:"2-digit"}) : "—";
@@ -761,7 +761,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], bizErr: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], bizErr: null,
   tr: { range: store.get("ce_range") || "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -795,12 +795,13 @@ async function loadAll(){
     const remote = {...DEFAULT_CFG, ...(f.data.config || {})};
     if(!S.cfg || !dirty()){ S.cfg = clone(remote); S.saved = clone(remote); }
   }
-  const [tl, fl] = await Promise.all([
+  const [tl, fl, el] = await Promise.all([
     sb.from("trip_log").select("*").order("started_at",{ascending:false}).limit(5000),
     sb.from("fuel_log").select("*").order("filled_at",{ascending:false}).limit(2000),
+    sb.from("expense_log").select("*").order("spent_at",{ascending:false}).limit(5000),
   ]);
-  S.bizErr = tl.error?.message || fl.error?.message || null;
-  S.trips = tl.data || []; S.fuel = fl.data || [];
+  S.bizErr = tl.error?.message || fl.error?.message || el.error?.message || null;
+  S.trips = tl.data || []; S.fuel = fl.data || []; S.exp = el.data || [];
   S.loaded = true;
 }
 
@@ -952,7 +953,7 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Gasolina", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", fleet:"Flota", notifications:"Avisos", health:"Sistema" };
+const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Recibos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", fleet:"Flota", notifications:"Avisos", health:"Sistema" };
 const RENDER = () => ({home:renderHome, trips:renderTrips, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
@@ -1688,7 +1689,7 @@ document.addEventListener("scroll", hideTip, { passive:true, capture:true });
 function onboarding(){
   return `<div class="onb"><div><h2>Registra el <em>primer viaje.</em></h2>
     <p>Cada viaje que entra aquí —Blacklane, Uber, Lyft o directo— alimenta los números del negocio: ingreso, lo que se lleva el chofer, gasolina, ganancia real y cuánto falta para cubrir los fijos del mes.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button><button class="btn" data-act="fuelnew">${icon("fuel",16)} Registrar tanqueo</button></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button><button class="btn" data-act="fuelnew">${icon("fuel",16)} Subir recibo</button></div></div>
     <ul><li>${icon("check")}Ganancia por viaje, por hora y por milla, por plataforma.</li><li>${icon("check")}Consumo real de la Suburban (mpg) con cada tanqueo.</li><li>${icon("check")}Cuánto falta para cubrir los $${A().fixed.toLocaleString("en-US")} de costos fijos del mes.</li><li>${icon("check")}Exportable a CSV para el CPA.</li></ul></div>`;
 }
 
@@ -1729,6 +1730,8 @@ function renderHome(){
       <div class="big ${mtd.profit < 0 ? "neg" : ""}">${money0(mtd.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money0(A().fixed)}</span></div>
       <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round((cover||0)*100)}"><div style="width:${Math.min(100, (cover||0)*100)}%"></div></div>
       <div class="muted" style="font-size:13px">${cover >= 1 ? `<b class="pos">Cubiertos.</b> Todo lo que entre este mes es ganancia después de fijos.` : `Cubre <b style="color:var(--text)">${pctf(cover)}</b> de los fijos. Faltan <b style="color:var(--text)">${money0(left)}</b>${tripsLeft ? ` ≈ <b style="color:var(--text)">${tripsLeft} viaje${tripsLeft===1?"":"s"}</b> al ritmo actual` : ""}.`}</div>
+      ${(() => { const other = S.exp.filter(x => Date.parse(x.spent_at) >= mStart && !MAINT_CATS.includes(x.category)).reduce((t, x) => t + +x.amount, 0), res = mtd.profit - A().fixed - other;
+        return `<div class="kv" style="margin-top:14px;font-size:13.5px"><span>Ganancia de viajes del mes</span><span class="num" style="text-align:right">${money(mtd.profit)}</span><span>Costos fijos</span><span class="num" style="text-align:right">−${money(A().fixed)}</span><span>Otros gastos (lavados, peajes, suministros…)</span><span class="num" style="text-align:right">−${money(other)}</span><span><b style="color:var(--text)">Resultado del mes</b></span><span class="num ${res < 0 ? "neg" : "pos"}" style="text-align:right;font-weight:600">${money(res)}</span></div>`; })()}
       <p class="dim" style="font-size:12.5px;margin:14px 0 0">${fixedActive().items.length ? fixedActive().items.map(x => `${esc(x.name)} ${money(x.amount)}${x.until ? ` (hasta ${monthName(x.until)})` : ""}`).join(" · ") : "GM Financial, seguro y prorrateos"}. Se editan en Rendimiento → Supuestos.</p>
     </div></div>
   </div>
@@ -1826,28 +1829,6 @@ function renderPerf(){
     ${saveBar()}</div></div>`;
 }
 
-function renderFuel(){
-  const f = fuelStats(), r0 = S.tr.range === "all" ? 0 : rangeBounds()[0], fills = f.fills.filter(x => Date.parse(x.filled_at) >= r0).reverse();
-  const spend = fills.reduce((s,x) => s + +x.total_cost, 0), gal = fills.reduce((s,x) => s + +x.gallons, 0);
-  CHARTS.mpg = W => lineChart(W, { H: 220, labels: f.intervals.map(x => fmtDay(dayKey(x.at))), fmt: v => v.toFixed(0),
-    series: [{ name:"mpg", color:"var(--c-rev)", values: f.intervals.map(x => x.mpg) }],
-    tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#2a78d6","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
-  $("#view").innerHTML = `
-  ${head("Lo que se <em>consume.</em>", "Cada tanqueo con odómetro: así sale el consumo real de la Suburban y el costo de gasolina por milla.", "Gasolina")}
-  ${filterBar(`<button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("plus",15)} Registrar tanqueo</button>`, true)}
-  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
-    <div class="tile"><div class="k">Consumo real</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.mpg == null ? "necesita 2 tanques llenos con odómetro" : `en ${num1(f.miles)} mi medidas · estimado era 16`}</div></div>
-    <div class="tile"><div class="k">Gasolina por milla</div><div class="v">${f.perMile == null ? money(A().gasEst) : money(f.perMile)}</div><div class="s">${f.perMile == null ? "estimado (aún sin datos)" : "real · estimado era " + money(A().gasEst)}</div></div>
-    <div class="tile"><div class="k">Gasto en gasolina</div><div class="v">${money0(spend)}</div><div class="s">${rangeLabel().toLowerCase()} · ${fills.length} tanqueo${fills.length===1?"":"s"}</div></div>
-    <div class="tile"><div class="k">Precio promedio</div><div class="v">${gal ? money(spend/gal) : "—"}</div><div class="s">por galón</div></div>
-  </div>
-  ${f.intervals.length ? `<div class="box" style="margin-bottom:16px"><header><h3>Consumo entre tanques llenos</h3><span class="sub">millas por galón</span></header><div class="pad"><div class="chart" data-chart="mpg"></div></div></div>` : ""}
-  <div class="box"><header><h3>Tanqueos</h3><span class="sub">${f.fills.length} en total</span></header>
-  ${fills.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th style="text-align:right">Galones</th><th style="text-align:right">Total</th><th style="text-align:right">$/gal</th><th style="text-align:right">Odómetro</th><th>Lleno</th><th>Estación</th></tr></thead><tbody>
-    ${fills.map(x => `<tr data-fuel="${x.id}"><td class="num">${fmtDate(x.filled_at)} <span class="dim">${fmtHM(x.filled_at)}</span></td><td class="num" style="text-align:right">${(+x.gallons).toFixed(2)}</td><td class="num" style="text-align:right">${money(x.total_cost)}</td><td class="num" style="text-align:right">${money(x.total_cost/x.gallons)}</td><td class="num" style="text-align:right">${x.odometer == null ? "—" : (+x.odometer).toLocaleString("en-US")}</td><td>${x.full_tank ? "Sí" : "No"}</td><td class="cut muted">${esc(x.station || "")}</td></tr>`).join("")}
-  </tbody></table></div>` : `<div class="empty">Sin tanqueos en este rango. Registra cada tanqueo con el odómetro y marcando si llenó el tanque.</div>`}</div>`;
-}
-
 /* ======================= forms ======================= */
 let FORM = null; // { kind:'trip'|'fuel', id, data }
 function drawerShell(title, sub, body, acts){
@@ -1926,32 +1907,109 @@ async function deleteTrip(){
   };
 }
 
+/* ---------- Recibos: fuel + other expenses, with receipt photos ---------- */
+const EXP_CAT = {
+  wash:{ n:"Lavado" }, oil:{ n:"Cambio de aceite" }, tires:{ n:"Llantas" }, maintenance:{ n:"Mantenimiento" }, repair:{ n:"Reparación" },
+  tolls:{ n:"Peajes (SunPass)" }, parking:{ n:"Parqueo" }, supplies:{ n:"Suministros" }, phone:{ n:"Teléfono / datos" }, fees:{ n:"Cuotas y permisos" }, other:{ n:"Otro" },
+};
+const MAINT_CATS = ["oil","tires","maintenance","repair"];          // covered by the $/mi maintenance estimate
+const PAY = ["Tarjeta empresa","Efectivo","Tarjeta personal","Otro"];
+const GRADES = ["Regular","Plus","Premium","Diésel"];
+const catColor = "#8a857c";
+
+function receiptRows(){
+  const r0 = S.tr.range === "all" ? 0 : rangeBounds()[0];
+  const fuel = S.fuel.filter(x => Date.parse(x.filled_at) >= r0).map(x => ({ kind:"fuel", id:x.id, at:x.filled_at, label:"Gasolina", place: x.station || x.address || "", amount:+x.total_cost, gal:+x.gallons, ppg: x.price_per_gallon != null ? +x.price_per_gallon : (+x.total_cost / +x.gallons), pay:x.payment_method, receipt:x.receipt_path, raw:x }));
+  const exp = S.exp.filter(x => Date.parse(x.spent_at) >= r0).map(x => ({ kind:"exp", id:x.id, at:x.spent_at, label: EXP_CAT[x.category]?.n || x.category, cat:x.category, place: x.vendor || x.address || "", amount:+x.amount, pay:x.payment_method, receipt:x.receipt_path, raw:x }));
+  return [...fuel, ...exp].sort((a,b) => Date.parse(b.at) - Date.parse(a.at));
+}
+
+function renderFuel(){
+  const f = fuelStats(), rows = receiptRows();
+  const fuelRows = rows.filter(r => r.kind === "fuel"), expRows = rows.filter(r => r.kind === "exp");
+  const spend = rows.reduce((t,r) => t + r.amount, 0), gasSpend = fuelRows.reduce((t,r) => t + r.amount, 0), gal = fuelRows.reduce((t,r) => t + r.gal, 0);
+  const maintReal = expRows.filter(r => MAINT_CATS.includes(r.cat)).reduce((t,r) => t + r.amount, 0);
+  const byCat = {}; rows.forEach(r => { byCat[r.label] = (byCat[r.label] || 0) + r.amount; });
+  const cats = Object.entries(byCat).sort((a,b) => b[1]-a[1]), maxC = cats[0]?.[1] || 1;
+  CHARTS.mpg = W => lineChart(W, { H: 210, labels: f.intervals.map(x => fmtDay(dayKey(x.at))), fmt: v => v.toFixed(0),
+    series: [{ name:"mpg", color:"var(--c-rev)", values: f.intervals.map(x => x.mpg) }],
+    tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#2a78d6","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
+  $("#view").innerHTML = `
+  ${head("", "Cada recibo de la camioneta: gasolina, lavados, aceite, peajes y más. Mándame la foto en el chat y lo cargo, o súbelo aquí.", "")}
+  ${filterBar(`<button class="btn btn-sm" data-act="expnew">${icon("plus",15)} Otro gasto</button><button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("fuel",15)} Gasolina</button>`, true)}
+  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="tile"><div class="k">Gastado</div><div class="v">${money0(spend)}</div><div class="s">${rows.length} recibo${rows.length===1?"":"s"} · ${rangeLabel().toLowerCase()}</div></div>
+    <div class="tile"><div class="k">Gasolina</div><div class="v">${money0(gasSpend)}</div><div class="s">${gal ? `${num1(gal)} gal · ${money(gasSpend/gal)}/gal` : "sin tanqueos"}</div></div>
+    <div class="tile"><div class="k">Consumo real</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.mpg == null ? "faltan 2 tanques llenos con odómetro" : `gasolina ${money(f.perMile)}/mi (estimado ${money(A().gasEst)})`}</div></div>
+    <div class="tile"><div class="k">Mantenimiento real</div><div class="v">${money0(maintReal)}</div><div class="s">aceite, llantas y reparaciones</div></div>
+  </div>
+  <div class="g2">
+    <div class="box"><header><h3>Recibos</h3><span class="sub">toca uno para verlo o editarlo</span></header>
+    ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Lugar</th><th style="text-align:right">Galones</th><th style="text-align:right">$/gal</th><th style="text-align:right">Monto</th><th>Pago</th><th></th></tr></thead><tbody>
+      ${rows.map(r => `<tr data-rcpt="${r.kind}:${r.id}"><td class="num">${fmtDate(r.at)}<small class="dim" style="display:block">${fmtHM(r.at)}</small></td><td>${r.kind === "fuel" ? `<span class="pt"><i style="background:var(--c-rev)"></i>Gasolina</span>` : esc(r.label)}</td><td class="cut">${esc(r.place || "—")}</td>
+        <td class="num" style="text-align:right">${r.gal ? r.gal.toFixed(2) : "—"}</td><td class="num" style="text-align:right">${r.ppg ? "$" + r.ppg.toFixed(3) : "—"}</td><td class="num" style="text-align:right;font-weight:600">${money(r.amount)}</td>
+        <td class="muted cut" style="max-width:150px">${esc(r.pay || "—")}</td><td>${r.receipt ? `<button class="btn btn-ghost btn-sm" data-photo="${esc(r.receipt)}" aria-label="Ver recibo">${icon("inbox",15)}</button>` : ""}</td></tr>`).join("")}
+    </tbody></table></div>` : `<div class="empty">Sin recibos en este rango. Mándame la foto del recibo en el chat o usa los botones de arriba.</div>`}</div>
+    <div class="stack" style="gap:16px">
+      <div class="box"><header><h3>Por tipo</h3><span class="sub">${rangeLabel()}</span></header><div class="pad">
+        ${cats.length ? `<div class="hbars">${cats.map(([n, v]) => `<div class="hb"><div class="t"><span>${esc(n)}</span><b>${money(v)}</b></div><div class="tr"><div class="f" style="width:${v/maxC*100}%;background:${n === "Gasolina" ? "var(--c-rev)" : catColor}"></div></div></div>`).join("")}</div>` : `<div class="empty" style="padding:8px 0">Sin gastos.</div>`}
+      </div></div>
+      ${f.intervals.length ? `<div class="box"><header><h3>Consumo (mpg)</h3><span class="sub">entre tanques llenos</span></header><div class="pad"><div class="chart" data-chart="mpg"></div></div></div>` : `<div class="note">${icon("info")}<div>Para el <b style="color:var(--text)">mpg real</b>: en cada tanqueo llena el tanque y anota el odómetro (o mándame una foto del tablero con el recibo).</div></div>`}
+    </div>
+  </div>`;
+}
+
+/* ---------- photo helpers ---------- */
+async function uploadReceipt(file, kind){
+  if(!file) return null;
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const path = `${kind}/${monthKey()}/${crypto.randomUUID()}.${ext}`;
+  const { error } = await S.sb.storage.from("receipts").upload(path, file, { contentType: file.type || undefined, upsert: false });
+  if(error) throw error;
+  return path;
+}
+async function openPhoto(path){
+  if(DEMO) return toast("En el modo demo no hay fotos.");
+  const { data, error } = await S.sb.storage.from("receipts").createSignedUrl(path, 600);
+  if(error) return toast("No se pudo abrir el recibo: " + error.message, true);
+  window.open(data.signedUrl, "_blank", "noopener");
+}
+const photoField = (cur) => `<div class="field"><label for="rFile">Foto del recibo</label>
+  <input class="input" id="rFile" type="file" accept="image/*,application/pdf" capture="environment">
+  ${cur ? `<div class="hint">Ya tiene foto · <a href="#" data-photo="${esc(cur)}" style="color:var(--accent2)">ver</a>. Si eliges otra, la reemplaza.</div>` : `<div class="hint">Opcional. En el teléfono abre la cámara.</div>`}</div>`;
+const sel = (id, label, opts, cur, ph = "—") => `<div class="field"><label for="${id}">${label}</label><select class="input" id="${id}"><option value="">${ph}</option>${opts.map(o => `<option ${o === cur ? "selected" : ""}>${esc(o)}</option>`).join("")}</select></div>`;
+
+/* ---------- fuel form ---------- */
 function openFuel(id){
   const x = id ? S.fuel.find(f => String(f.id) === String(id)) : null;
-  const d = x ? { ...x } : { filled_at: new Date().toISOString(), full_tank: true };
+  const d = x ? { ...x } : { filled_at: new Date().toISOString(), full_tank: true, payment_method: PAY[0] };
   FORM = { kind:"fuel", id: x?.id ?? null, d };
-  drawerShell(x ? "Editar tanqueo" : "Nuevo tanqueo", "Gasolina", `
+  drawerShell(x ? "Editar tanqueo" : "Recibo de gasolina", "Gasolina", `
     <form class="form" id="fuelForm" novalidate>
       ${fin("gAt","Fecha y hora",toLocalInput(d.filled_at),{type:"datetime-local",req:true})}
-      <div class="row3">${fin("gGal","Galones",d.gallons,{req:true,suf:"gal"})}${fin("gCost","Total pagado",d.total_cost,{req:true,suf:"USD"})}${fin("gOdo","Odómetro",d.odometer,{suf:"mi",hint:"Necesario para el mpg real"})}</div>
+      <div class="row3">${fin("gGal","Galones",d.gallons,{req:true,suf:"gal"})}${fin("gPpg","Precio por galón",d.price_per_gallon,{suf:"$/gal"})}${fin("gCost","Total pagado",d.total_cost,{req:true,suf:"USD"})}</div>
+      <div class="row">${fin("gSta","Estación",d.station,{type:"text",mono:false,ph:"ej. Wawa"})}${fin("gAddr","Dirección",d.address,{type:"text",mono:false,ph:"ej. 931 W Taft Vineland Rd"})}</div>
+      <div class="row3">${sel("gGrade","Gasolina",GRADES,d.fuel_grade)}${sel("gPay","Pago",PAY,d.payment_method)}${fin("gOdo","Odómetro",d.odometer,{suf:"mi",hint:"Para el mpg real"})}</div>
       <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="gFull" ${d.full_tank ? "checked" : ""} style="accent-color:var(--accent);width:16px;height:16px"> Llené el tanque completo</label>
-      <div class="row">${fin("gSta","Estación",d.station,{type:"text",mono:false,ph:"ej. Wawa Taft Vineland"})}${fin("gNotes","Notas",d.notes,{type:"text",mono:false})}</div>
+      ${photoField(d.receipt_path)}
+      ${fin("gNotes","Notas",d.notes,{type:"text",mono:false})}
       <div class="err" id="gErr"></div></form>`,
     `${x ? `<button class="btn btn-ghost" data-act="fueldel">${icon("trash",15)} Borrar</button>` : "<span></span>"}<div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" data-act="fuelsave">${icon("save",15)} Guardar</button></div>`);
-  $("#modalRoot [data-close].btn:not(.btn-ghost)")?.addEventListener("click", closeModal);
 }
 async function saveFuel(){
-  const r = { filled_at: val("gAt") ? etNaiveToISO(val("gAt")) : null, gallons: nval("gGal"), total_cost: nval("gCost"), odometer: nval("gOdo"),
-    full_tank: $("#gFull").checked, station: val("gSta"), notes: val("gNotes") }, err = $("#gErr");
+  const err = $("#gErr"), file = $("#rFile")?.files?.[0];
+  const r = { filled_at: val("gAt") ? etNaiveToISO(val("gAt")) : null, gallons: nval("gGal"), price_per_gallon: nval("gPpg"), total_cost: nval("gCost"),
+    station: val("gSta"), address: val("gAddr"), fuel_grade: val("gGrade"), payment_method: val("gPay"), odometer: nval("gOdo"), full_tank: $("#gFull").checked, notes: val("gNotes") };
   if(!r.filled_at) return err.textContent = "Falta la fecha.";
   if(!(r.gallons > 0)) return err.textContent = "Faltan los galones.";
+  if(r.total_cost == null && r.price_per_gallon != null) r.total_cost = Math.round(r.gallons * r.price_per_gallon * 100) / 100;
   if(r.total_cost == null) return err.textContent = "Falta el total pagado.";
-  if(DEMO){ if(FORM.id) Object.assign(S.fuel.find(f => f.id === FORM.id), r); else S.fuel.push({ id: Date.now(), ...r }); closeModal(); render(); return toast("Tanqueo guardado (demo)"); }
-  const q = FORM.id ? S.sb.from("fuel_log").update(r).eq("id", FORM.id).select() : S.sb.from("fuel_log").insert(r).select();
-  const { data, error } = await q;
+  if(DEMO){ if(FORM.id) Object.assign(S.fuel.find(f => f.id === FORM.id), r); else S.fuel.push({ id: Date.now(), ...r }); closeModal(); render(); return toast("Recibo guardado (demo)"); }
+  try { const p = await uploadReceipt(file, "fuel"); if(p) r.receipt_path = p; } catch(e){ return err.textContent = "No se pudo subir la foto: " + e.message; }
+  const { data, error } = await (FORM.id ? S.sb.from("fuel_log").update(r).eq("id", FORM.id).select() : S.sb.from("fuel_log").insert(r).select());
   if(error || !data?.length) return err.textContent = "No se guardó: " + (error?.message || "sin permiso");
   if(FORM.id) S.fuel = S.fuel.map(f => f.id === FORM.id ? data[0] : f); else S.fuel.push(data[0]);
-  closeModal(); render(); toast("Tanqueo guardado.");
+  closeModal(); render(); toast("Recibo de gasolina guardado.");
 }
 async function deleteFuel(){
   const id = FORM.id;
@@ -1961,6 +2019,53 @@ async function deleteFuel(){
     S.fuel = S.fuel.filter(f => f.id !== id); closeModal(); render(); toast("Tanqueo borrado.");
   };
 }
+
+/* ---------- other expense form ---------- */
+function openExp(id){
+  const x = id ? S.exp.find(e => String(e.id) === String(id)) : null;
+  const d = x ? { ...x } : { spent_at: new Date().toISOString(), category: "wash", payment_method: PAY[0] };
+  FORM = { kind:"exp", id: x?.id ?? null, d };
+  drawerShell(x ? "Editar gasto" : "Otro gasto", "Recibos", `
+    <form class="form" id="expForm" novalidate>
+      <div class="field"><label>Tipo <span class="req">*</span></label><div class="seg2">${Object.entries(EXP_CAT).map(([k,c]) => `<button type="button" data-ecat="${k}" class="${d.category===k?"on":""}">${esc(c.n)}</button>`).join("")}</div></div>
+      <div class="row">${fin("eAt","Fecha y hora",toLocalInput(d.spent_at),{type:"datetime-local",req:true})}${fin("eAmt","Monto",d.amount,{req:true,suf:"USD"})}</div>
+      <div class="row">${fin("eVen","Comercio",d.vendor,{type:"text",mono:false,ph:"ej. Mister Car Wash"})}${fin("eAddr","Dirección",d.address,{type:"text",mono:false})}</div>
+      <div class="row">${sel("ePay","Pago",PAY,d.payment_method)}${fin("eOdo","Odómetro",d.odometer,{suf:"mi",hint:"Útil en aceite y llantas"})}</div>
+      ${photoField(d.receipt_path)}
+      ${fin("eNotes","Notas",d.notes,{type:"text",mono:false})}
+      <div class="err" id="eErr"></div></form>`,
+    `${x ? `<button class="btn btn-ghost" data-act="expdel">${icon("trash",15)} Borrar</button>` : "<span></span>"}<div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" data-act="expsave">${icon("save",15)} Guardar</button></div>`);
+}
+async function saveExp(){
+  const err = $("#eErr"), file = $("#rFile")?.files?.[0];
+  const r = { category: FORM.d.category, spent_at: val("eAt") ? etNaiveToISO(val("eAt")) : null, amount: nval("eAmt"), vendor: val("eVen"), address: val("eAddr"),
+    payment_method: val("ePay"), odometer: nval("eOdo"), notes: val("eNotes") };
+  if(!r.spent_at) return err.textContent = "Falta la fecha.";
+  if(r.amount == null) return err.textContent = "Falta el monto.";
+  if(DEMO){ if(FORM.id) Object.assign(S.exp.find(e => e.id === FORM.id), r); else S.exp.push({ id: Date.now(), ...r }); closeModal(); render(); return toast("Gasto guardado (demo)"); }
+  try { const p = await uploadReceipt(file, r.category); if(p) r.receipt_path = p; } catch(e){ return err.textContent = "No se pudo subir la foto: " + e.message; }
+  const { data, error } = await (FORM.id ? S.sb.from("expense_log").update(r).eq("id", FORM.id).select() : S.sb.from("expense_log").insert(r).select());
+  if(error || !data?.length) return err.textContent = "No se guardó: " + (error?.message || "sin permiso");
+  if(FORM.id) S.exp = S.exp.map(e => e.id === FORM.id ? data[0] : e); else S.exp.push(data[0]);
+  closeModal(); render(); toast("Gasto guardado.");
+}
+async function deleteExp(){
+  const id = FORM.id;
+  modal(`<h3>Borrar este gasto</h3><p>No se puede deshacer.</p><div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goDel">Borrar</button></div>`);
+  $("#goDel").onclick = async () => {
+    if(!DEMO){ const { error } = await S.sb.from("expense_log").delete().eq("id", id); if(error) return toast("No se borró: " + error.message, true); }
+    S.exp = S.exp.filter(e => e.id !== id); closeModal(); render(); toast("Gasto borrado.");
+  };
+}
+document.addEventListener("click", e => {
+  const ph = e.target.closest("[data-photo]"); if(ph){ e.preventDefault(); e.stopPropagation(); openPhoto(ph.dataset.photo); return; }
+  const rr = e.target.closest("tr[data-rcpt]"); if(rr){ const [k, id] = rr.dataset.rcpt.split(":"); k === "fuel" ? openFuel(id) : openExp(id); return; }
+  const t = e.target.closest("button"); if(!t) return;
+  if(t.dataset.ecat){ FORM.d.category = t.dataset.ecat; document.querySelectorAll("[data-ecat]").forEach(b => b.classList.toggle("on", b === t)); return; }
+  if(t.dataset.act === "expnew") return openExp(null);
+  if(t.dataset.act === "expsave") return saveExp();
+  if(t.dataset.act === "expdel") return deleteExp();
+}, true);
 
 function exportCSV(){
   const rows = filteredTrips(), gpm = gasPerMile().v;
@@ -2017,6 +2122,8 @@ function demoTrips(){
     ["uber",3,"MCO Terminal A, Orlando","Universal Orlando Resort, Orlando",15,14,27,61.2,10],["uber",2,"Disney Springs, Lake Buena Vista","Hilton Orlando, Destination Pkwy",7,12,18,34.9,5],
     ["blacklane",2,"Waldorf Astoria Orlando, Orlando","MCO Terminal B, Orlando",19,18,31,104,0],["uber",1,"MCO Terminal B, Orlando","Lake Nona Wave Hotel, Orlando",9,6,19,41.3,6],["uber",0,"Orlando Convention Center, Orlando","Winter Park, FL",21,17,35,72.8,12]];
   S.trips = T.map((x,i) => ({ id:i+1, platform:x[0], status:"completed", started_at: iso(now - x[1]*86400e3 - (i*2+3)*3600e3), duration_min:x[6], pickup:x[2], dropoff:x[3], miles:x[4], deadhead_miles:x[5], payout:x[7], tip:x[8], tolls: x[0]==="blacklane" ? 0 : 1.5, parking:0, driver_pay: Math.round(x[7]*25)/100 }));
+  S.exp = [{ id:1, spent_at: iso(now - 3*86400e3), category:"wash", vendor:"Mister Car Wash", amount:24.99, payment_method:"Tarjeta empresa" },
+            { id:2, spent_at: iso(now - 2*86400e3), category:"supplies", vendor:"Costco", amount:18.47, payment_method:"Tarjeta empresa", notes:"Agua y mentas" }];
   S.fuel = [{ id:1, filled_at: iso(now - 6*86400e3), gallons:21.4, total_cost:81.1, odometer:1180, full_tank:true, station:"Wawa Taft Vineland" },
             { id:2, filled_at: iso(now - 1*86400e3), gallons:18.9, total_cost:72.4, odometer:1475, full_tank:true, station:"Wawa Taft Vineland" }];
 }
