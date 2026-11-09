@@ -85,6 +85,7 @@ a.btn{color:inherit;text-decoration:none}
 .seg button{border:0;background:transparent;color:var(--muted);padding:7px 12px;border-radius:999px;font-weight:500;font-size:13px}
 .seg button.on{background:var(--panel3);color:var(--text)}
 .seg button.on[data-mode="live"]{background:var(--accent);color:#fff}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
 .seg button.on[data-mode="off"]{background:var(--bad-soft);color:#fca5a5}
 .content{padding:24px 28px 40px;max-width:1280px;width:100%}
 
@@ -639,24 +640,19 @@ tbody tr:hover td{background:#FAF9F6}
     <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <div class="conn" id="conn"></div>
     <nav class="nav" id="nav">
-      <div class="navgroup">Negocio</div>
+      <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
       <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
       <button data-view="fuel"><span data-icon="fuel"></span>Gasolina</button>
-      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
       <div class="navgroup">Bot Blacklane</div>
       <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
-      <button data-view="filter"><span data-icon="filter"></span>Filtro</button>
-      <button data-view="routes"><span data-icon="zap"></span>Rutas</button>
-      <button data-view="locations"><span data-icon="pin"></span>Ubicaciones</button>
-      <button data-view="agenda"><span data-icon="calendar"></span>Agenda</button>
-      <button data-view="visibility"><span data-icon="activity"></span>Visibilidad</button>
-      <button data-view="decisions"><span data-icon="list"></span>Decisiones</button>
+      <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
+      <button data-view="filter" data-also="routes locations"><span data-icon="filter"></span>Reglas del bot</button>
+      <div class="navgroup">Ajustes</div>
+      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
       <button data-view="notifications"><span data-icon="bell"></span>Avisos</button>
-      <div class="navgroup">Sistema</div>
-      <button data-view="offers"><span data-icon="inbox"></span>Historial de ofertas</button>
-      <button data-view="health"><span data-icon="heart"></span>Salud</button>
+      <button data-view="health"><span data-icon="heart"></span>Sistema</button>
     </nav>
     <div class="botcard">
       <div class="h"><span class="dot" id="autoDot"></span>Bot · <span id="autoMode"></span></div>
@@ -673,7 +669,7 @@ tbody tr:hover td{background:#FAF9F6}
       <h2 id="viewTitle">Resumen</h2>
       <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
       <div class="spacer"></div>
-      <span class="geo">Orlando, Florida<b>28.54° N · 81.38° W</b><b id="clock">--:--</b></span>
+      <span class="geo"><b id="clock" style="display:none"></b></span>
       <button class="btn btn-sm" data-act="refresh" title="Actualizar"><span data-icon="refresh"></span>Actualizar</button>
     </div>
     <div class="content" id="view"></div>
@@ -956,7 +952,7 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Gasolina", fleet:"Flota", overview:"Ofertas del bot", filter:"Filtro", routes:"Rutas", locations:"Ubicaciones", agenda:"Agenda", visibility:"Visibilidad", decisions:"Decisiones", notifications:"Avisos", offers:"Historial de ofertas", health:"Salud" };
+const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Gasolina", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", fleet:"Flota", notifications:"Avisos", health:"Sistema" };
 const RENDER = () => ({home:renderHome, trips:renderTrips, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
@@ -966,17 +962,20 @@ function renderSide(){
   else if(hs === "warn") conn.className = "conn warn", conn.innerHTML = `<span class="ck">${icon("info",16)}</span><span>${/error/.test(ht) ? "Bot con errores" : "Sin señal del bot"}<small>${esc(ht)}</small></span>`;
   else conn.className = "conn bad", conn.innerHTML = `<span class="ck">${icon("x",16)}</span><span>Bot detenido<small>${esc(ht)}</small></span>`;
   const mode = S.control?.mode || "dry_run";
+  const liveOk = !!info.allow_live;
+  document.querySelectorAll('[data-mode="live"]').forEach(b => { b.disabled = !liveOk && mode !== "live"; b.title = liveOk ? "" : "Se habilita cuando confirmemos cómo acepta Blacklane"; });
   $("#autoDot").className = "dot " + (mode === "live" ? "ok" : mode === "off" ? "bad" : "warn");
   $("#autoMode").textContent = modeName(mode);
   const blocked = mode === "live" && S.status && info.allow_live === false;
   $("#autoTxt").className = blocked ? "warnline" : "";
   $("#autoTxt").textContent = blocked ? "El servidor no permite aceptar todavía (ALLOW_LIVE): sigue en prueba."
+    : mode === "dry_run" && !liveOk ? "Evalúa y avisa, no acepta. En vivo se habilita al confirmar la aceptación."
     : ({off:"Solo guarda ofertas.", dry_run:"Evalúa y avisa. No acepta.", live:"Acepta ofertas reales."})[mode];
   const n = S.trips.length; $("#tripCnt").textContent = n ? n : "";
 }
 function render(){
   $("#viewTitle").textContent = VIEWS[S.view];
-  document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.view === S.view));
+  document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.view === S.view || (b.dataset.also || "").split(" ").includes(S.view)));
   const mode = S.control?.mode || "dry_run";
   document.querySelectorAll("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
   const [hs, ht] = healthState(); $("#health").innerHTML = `<span class="dot ${hs}"></span><span>${esc(ht)}</span>`;
@@ -1006,8 +1005,9 @@ const saveBar = () => `<div class="savebar" style="border:1px solid var(--line);
   <div class="state">${dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado'}</div>
   <button class="btn" data-act="discard" ${dirty() ? "" : "disabled"}>Descartar</button>
   <button class="btn btn-primary" data-act="save" ${dirty() ? "" : "disabled"}>${icon("save",16)} Guardar</button></div>`;
+const ruleTabs = () => ["filter","routes","locations"].includes(S.view) ? `<div class="tabs" style="margin:-6px 0 18px">${[["filter","Filtro"],["routes","Rutas con prioridad"],["locations","Lugares"]].map(([v,l]) => `<button data-view="${v}" class="${S.view===v?"on":""}">${l}</button>`).join("")}</div>` : "";
 const head = (title, sub, eyebrow, right = "") =>
-  `<div class="pagehead"><div><h1>${esc(VIEWS[S.view])}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>`;
+  `<div class="pagehead"><div><h1>${esc(VIEWS[S.view])}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>${ruleTabs()}`;
 const rangeSel = (attr, cur, opts) => `<div class="rng">${opts.map(([v,l]) => `<button data-${attr}="${v}" class="${cur===v?"on":""}">${l}</button>`).join("")}</div>`;
 
 function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacked
@@ -1023,6 +1023,8 @@ function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacke
 }
 
 /* ---------- Dashboard ---------- */
+const WHY = [[/neto.*bajo el mínimo/,"Deja poco neto"],[/\/hora bajo/,"Deja poco por hora"],[/precio.*bajo el mínimo/,"Precio bajo el mínimo"],[/sobre el máximo/,"Precio sobre el máximo"],[/pickup a .* de la base|distancia del pickup/,"Recogida muy lejos"],[/fuera del horario/,"Fuera del horario de trabajo"],[/bloqueo|turno fijo/,"Choca con turno de Marco"],[/viaje ya planificado/,"Choca con otro viaje"],[/muy pronto/,"Empieza muy pronto"],[/límite diario/,"Límite diario alcanzado"],[/lejos en el futuro/,"Demasiado adelantado"],[/clase|tipo de viaje/,"Tipo o clase no aceptada"],[/agenda de Blacklane no disponible/,"Agenda no disponible"],[/palabra bloqueada/,"Palabra bloqueada"],[/lugar bloqueado|zonas permitidas/,"Lugar bloqueado"],[/día bloqueado/,"Día bloqueado"],[/rechazada por ruta/,"Rechazada por una ruta"]];
+const whyLabel = r => (WHY.find(([re]) => re.test(String(r || ""))) || [null, String(r || "Otro")])[1];
 function renderOverview(){
   const since = rangeStart(S.range);
   const dec = latestPerOffer(S.decisions.filter(d => new Date(d.decided_at) >= since));
@@ -1035,19 +1037,29 @@ function renderOverview(){
   const skipped = dec.filter(d => d.decision === "skip");
   const days = lastDays(S.range);
   const byDay = (pred) => days.map(k => dec.filter(d => pred(d) && dayKey(d.decided_at) === k).length);
+  const visM = S.offers.filter(o => new Date(o.first_seen_at) >= since && o.seen_count >= 2).map(o => (new Date(o.last_seen_at) - new Date(o.first_seen_at))/1000), visMed = pct(visM, .5);
+  const wc = {}; skipped.forEach(d => { const k = whyLabel(d.reason); wc[k] = (wc[k] || 0) + 1; }); const why = Object.entries(wc).sort((x,y) => y[1]-x[1]).slice(0,6);
+  const okD = byDay(isValid), skD = byDay(d => d.decision === "skip");
+  CHARTS.offers = W => colChart(W, { H: 230, labels: days.map(fmtDay), fmt: v => String(Math.round(v)),
+    series: [{ name:"Pasan el filtro", color:"#D42A27", values: okD }, { name:"Saltadas", color:"#cfcac2", values: skD }],
+    tip: i => `<b>${fmtDay(days[i])}</b>${tipRow("#D42A27","Pasan el filtro",okD[i])}${tipRow("#cfcac2","Saltadas",skD[i])}` });
   const rows = S.tab === "valid" ? dec.filter(isValid) : skipped, per = 12, pages = Math.max(1, Math.ceil(rows.length/per));
   S.page = Math.min(S.page, pages-1); const slice = rows.slice(S.page*per, S.page*per+per);
   $("#view").innerHTML = `
-  ${head("Lo que el bot <em>vio.</em>", "Ofertas de Blacklane que llegaron, cuáles pasan el filtro y cuáles se saltaron.", "Bot Blacklane", rangeSel("range", S.range, [[7,"7 días"],[14,"14 días"],[30,"30 días"],[90,"3 meses"]]))}
-  <div class="bigk">
-    <div class="bk"><div class="k"><span>Ingreso total</span><span class="mini"><button data-rev="accepted" class="${live?"on":""}">Aceptadas</button><button data-rev="would" class="${!live?"on":""}">Aceptaría</button></span></div><div class="v">${money(revenue)}</div><div class="t">${live ? "De viajes aceptados" : "De ofertas que pasan el filtro"}</div><div class="s">Precio Blacklane, todo incluido</div></div>
-    <div class="bk"><div class="k">Ofertas totales</div><div class="v">${offers}</div><div class="t">Vistas por el bot</div><div class="s">Todas las que llegaron a la cuenta</div></div>
-    <div class="bk"><div class="k">Saltadas</div><div class="v">${skipped.length}</div><div class="t">No cumplen el filtro</div><div class="s">Cada una con su motivo</div></div>
-    <div class="bk"><div class="k">Ingreso por milla</div><div class="v">${perMi == null ? "—" : "$" + perMi.toFixed(2)}</div><div class="t">Precio ÷ millas con pasajero</div><div class="s">${live ? "Aceptadas" : "Aceptaría"}, con distancia conocida</div></div>
+  ${head("", "Lo que llegó a la cuenta, qué pasaría el filtro y por qué se saltó el resto. Toca una oferta para ver ruta, pago y neto.", "", rangeSel("range", S.range, [[7,"7 días"],[14,"14 días"],[30,"30 días"],[90,"3 meses"]]))}
+  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="tile"><div class="k">Ofertas vistas</div><div class="v">${offers}</div><div class="s">últimos ${S.range} días</div></div>
+    <div class="tile"><div class="k">Pasan el filtro</div><div class="v">${dec.filter(isValid).length}</div><div class="s">${money0(revenue)} en total${perMi == null ? "" : " · $" + perMi.toFixed(2) + "/mi"}</div></div>
+    <div class="tile"><div class="k">Saltadas</div><div class="v">${skipped.length}</div><div class="s">no cumplen las reglas</div></div>
+    <div class="tile"><div class="k">Duran visibles</div><div class="v">${visMed == null ? "—" : dur(visMed)}</div><div class="s">${visMed == null ? "midiendo" : "mediana · a mano no se alcanzan"}</div></div>
   </div>
-  <div class="box" style="margin-bottom:18px"><header><h3>Ofertas por día</h3><span class="muted" style="font-size:12.5px">últimos ${S.range} días</span></header>
-    <div class="chartbox chart">${barChart(days, [{color:"#D42A27", values: byDay(isValid)},{color:"#cfcac2", values: byDay(d => d.decision === "skip")}])}
-    <div class="legend"><span><i style="background:#D42A27"></i>${live ? "Aceptadas / aceptaría" : "Aceptaría"}</span><span><i style="background:#cfcac2"></i>Saltadas</span></div></div></div>
+  <div class="g2">
+    <div class="box"><header><h3>Ofertas por día</h3><div class="lg"><span><i style="background:#D42A27"></i>Pasan el filtro</span><span><i style="background:#cfcac2"></i>Saltadas</span></div></header>
+      <div class="pad"><div class="chart" data-chart="offers"></div></div></div>
+    <div class="box"><header><h3>Por qué se saltan</h3><span class="sub">para ajustar las reglas</span></header><div class="pad">
+      ${why.length ? `<div class="hbars">${why.map(([r, n]) => `<div class="hb"><div class="t"><span>${esc(r)}</span><b>${n}</b></div><div class="tr"><div class="f" style="width:${n/why[0][1]*100}%;background:#8a857c"></div></div></div>`).join("")}</div>` : `<div class="empty">Sin ofertas saltadas en este rango.</div>`}
+    </div></div>
+  </div>
   <div class="box"><header><div class="tabs"><button data-tab="valid" class="${S.tab==="valid"?"on":""}">Válidas (${dec.filter(isValid).length})</button><button data-tab="skipped" class="${S.tab==="skipped"?"on":""}">Saltadas (${skipped.length})</button></div></header>
     ${slice.length ? `<div class="tablewrap"><table><thead><tr>${S.tab==="valid" ? "<th>Estado</th>" : "<th>Motivo</th>"}<th>Desde</th><th>Hasta</th><th>Paga</th><th>Millas</th><th>Neto est.</th><th>Clase</th><th>Recogida</th><th>Visto</th></tr></thead><tbody>
     ${slice.map(d => { const x = offerInfo(d.offer_key); return `<tr data-offer="${esc(d.offer_key)}">${S.tab==="valid" ? `<td>${decBadge(d.decision)}</td>` : `<td class="cut muted" title="${esc(d.reason)}">${esc(d.reason)}</td>`}<td class="cut" title="${esc(x.pick.addr)}">${esc(shortAddr(x.pick.addr))}</td><td class="cut" title="${esc(x.drop.addr)}">${esc(shortAddr(x.drop.addr))}</td><td class="num">${money(x.price)}</td><td class="num">${x.miles == null ? "—" : (+x.miles).toFixed(0)}</td><td class="num">${x.econ ? money(x.econ.net) : "—"}</td><td class="muted">${esc(x.cls || "—")}</td><td class="num">${fmtTime(x.start)}</td><td class="num">${fmtTime(d.decided_at)}</td></tr>`; }).join("")}
@@ -1620,9 +1632,9 @@ function axisY(min, max, W, H, padL, padT, padB, fmt){
 }
 const kfmt = v => Math.abs(v) >= 1000 ? "$" + (v/1000).toFixed(Math.abs(v) >= 10000 ? 0 : 1) + "k" : "$" + Math.round(v);
 /* grouped columns: series [{name,color,values}], labels[]; tip(i) -> html */
-function colChart(W, { labels, series, tip, H = 250 }){
+function colChart(W, { labels, series, tip, H = 250, fmt = kfmt }){
   const padL = 46, padB = 26, padT = 10, n = labels.length, all = series.flatMap(s => s.values);
-  const ax = axisY(Math.min(0, ...all), Math.max(1, ...all), W, H, padL, padT, padB, kfmt);
+  const ax = axisY(Math.min(0, ...all), Math.max(1, ...all), W, H, padL, padT, padB, fmt);
   const band = (W - padL)/n, groupW = Math.min(band*0.72, 64), gap = 2, bw = Math.max(2, (groupW - gap*(series.length-1))/series.length);
   let g = ax.g, hit = "";
   labels.forEach((l, i) => {
@@ -1962,13 +1974,13 @@ function exportCSV(){
 }
 
 function openMore(){
-  const groups = [["Negocio", ["home","trips","perf","fuel","fleet"]], ["Bot Blacklane", ["overview","filter","routes","locations","agenda","visibility","decisions","offers","notifications"]], ["Sistema", ["health"]]];
+  const groups = [["Operación", ["home","trips","perf","fuel"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Ajustes", ["fleet","notifications","health"]]];
   const ic = { home:"gauge", trips:"car", perf:"trend", fuel:"fuel", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
   const mode = S.control?.mode || "dry_run";
   $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
     ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
     <div class="navgroup" style="padding-left:2px">Bot · ${modeName(mode)}</div>
-    <div class="seg" style="display:grid;grid-template-columns:repeat(3,1fr);width:100%">${["off","dry_run","live"].map(m => `<button data-mode="${m}" class="${mode===m?"on":""}">${modeName(m)}</button>`).join("")}</div>
+    <div class="seg" style="display:grid;grid-template-columns:repeat(3,1fr);width:100%">${["off","dry_run","live"].map(m => `<button data-mode="${m}" class="${mode===m?"on":""}" ${m === "live" && !S.status?.info?.allow_live && mode !== "live" ? "disabled" : ""}>${modeName(m)}</button>`).join("")}</div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><span class="muted" style="font-size:12.5px">${esc(DEMO ? "demo" : S.user?.email || "")}</span><button class="btn btn-sm" data-act="logout2">${icon("logout",15)} Salir</button></div></div>`;
   $("#modalRoot").querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
 }
