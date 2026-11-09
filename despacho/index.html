@@ -598,6 +598,11 @@ tbody tr:hover td{background:#FAF9F6}
   .tile.hero .v{font-size:34px}
 }
 
+.today{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;background:#141412;color:#F2F0EB;border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:13.5px}
+.today b{font-weight:600;font-variant-numeric:tabular-nums} .today .neg{color:#fca5a5!important}
+.today .d{background:var(--accent);color:#fff;border-radius:999px;padding:3px 10px;font-weight:600;font-size:12.5px}
+.today .sp{flex:1}
+@media (max-width:960px){ .today .sp{display:none} .today{gap:6px 12px} .fbar [data-act="tripnew"]{display:none} }
 </style>
 </head>
 <body>
@@ -643,16 +648,15 @@ tbody tr:hover td{background:#FAF9F6}
       <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
-      <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
+      <button data-view="driver"><span data-icon="person"></span>Chofer y propinas</button>
       <button data-view="fuel"><span data-icon="fuel"></span>Recibos</button>
+      <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
       <div class="navgroup">Bot Blacklane</div>
       <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
       <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
       <button data-view="filter" data-also="routes locations"><span data-icon="filter"></span>Reglas del bot</button>
-      <div class="navgroup">Ajustes</div>
-      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
-      <button data-view="notifications"><span data-icon="bell"></span>Avisos</button>
-      <button data-view="health"><span data-icon="heart"></span>Sistema</button>
+      <div class="navgroup">Sistema</div>
+      <button data-view="settings" data-also="fleet notifications health"><span data-icon="sliders"></span>Ajustes</button>
     </nav>
     <div class="botcard">
       <div class="h"><span class="dot" id="autoDot"></span>Bot · <span id="autoMode"></span></div>
@@ -678,7 +682,7 @@ tbody tr:hover td{background:#FAF9F6}
     <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
     <button data-view="trips"><span data-icon="car"></span>Viajes</button>
     <button class="add" data-act="tripnew" aria-label="Registrar viaje"><span data-icon="plus"></span></button>
-    <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
+    <button data-view="driver"><span data-icon="person"></span>Chofer</button>
     <button data-act="more"><span data-icon="more"></span>Más</button>
   </nav>
 </div>
@@ -762,7 +766,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 /* ======================= state ======================= */
 const S = {
   sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], bizErr: null,
-  tr: { range: store.get("ce_range") || "all", plat: "all" },
+  tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
   range: 30, revMode: "would", tab: "valid", page: 0, visRange: 7,
@@ -953,8 +957,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Recibos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", fleet:"Flota", notifications:"Avisos", health:"Sistema" };
-const RENDER = () => ({home:renderHome, trips:renderTrips, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -1006,7 +1010,8 @@ const saveBar = () => `<div class="savebar" style="border:1px solid var(--line);
   <div class="state">${dirty() ? '<span class="dot warn"></span>Cambios sin guardar' : '<span class="dot ok"></span>Todo guardado'}</div>
   <button class="btn" data-act="discard" ${dirty() ? "" : "disabled"}>Descartar</button>
   <button class="btn btn-primary" data-act="save" ${dirty() ? "" : "disabled"}>${icon("save",16)} Guardar</button></div>`;
-const ruleTabs = () => ["filter","routes","locations"].includes(S.view) ? `<div class="tabs" style="margin:-6px 0 18px">${[["filter","Filtro"],["routes","Rutas con prioridad"],["locations","Lugares"]].map(([v,l]) => `<button data-view="${v}" class="${S.view===v?"on":""}">${l}</button>`).join("")}</div>` : "";
+const TABSETS = [[["filter","Filtro"],["routes","Rutas con prioridad"],["locations","Lugares"]], [["settings","Costos y supuestos"],["fleet","Flota"],["notifications","Avisos"],["health","Estado del sistema"]]];
+const ruleTabs = () => { const set = TABSETS.find(x => x.some(([v]) => v === S.view)); return set ? `<div class="tabs" style="margin:-6px 0 18px;max-width:100%;overflow-x:auto">${set.map(([v,l]) => `<button data-view="${v}" class="${S.view===v?"on":""}" style="white-space:nowrap">${l}</button>`).join("")}</div>` : ""; };
 const head = (title, sub, eyebrow, right = "") =>
   `<div class="pagehead"><div><h1>${esc(VIEWS[S.view])}</h1>${sub ? `<p>${sub}</p>` : ""}</div>${right}</div>${ruleTabs()}`;
 const rangeSel = (attr, cur, opts) => `<div class="rng">${opts.map(([v,l]) => `<button data-${attr}="${v}" class="${cur===v?"on":""}">${l}</button>`).join("")}</div>`;
@@ -1456,7 +1461,7 @@ document.addEventListener("change", e => {
   else if(t.dataset.flag){ setP(S.cfg, t.dataset.flag, t.checked); if(/^(routes|fleet)\./.test(t.dataset.flag)) render(); else refreshEditorChrome(); }
   else if(t.dataset.kind === "ridetype"){ S.cfg.ride_types = t.value === "both" ? ["transfer","hourly"] : [t.value]; refreshEditorChrome(); }
   else if(t.dataset.kind === "str"){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
-  else if(t.dataset.kind === "text" && (t.type === "time" || t.type === "month")){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
+  else if(t.dataset.kind === "text" && (t.type === "time" || t.type === "month" || t.type === "date")){ setP(S.cfg, t.dataset.path, t.value); refreshEditorChrome(); }
   else if(t.dataset.dayon){ setP(S.cfg, t.dataset.dayon, t.checked ? [["08:00","17:00"]] : []); render(); }
 });
 window.addEventListener("beforeunload", e => { if(dirty()){ e.preventDefault(); e.returnValue = ""; } });
@@ -1476,6 +1481,8 @@ let toastT; function toast(msg, bad){ document.querySelector(".toast")?.remove()
 
 /* ======================= v3: business (trips, fuel, performance) ======================= */
 Object.assign(ICONS, {
+  person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
+  sliders:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   fuel:'<path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18M2 22h14M15 9h2a2 2 0 0 1 2 2v5a2 2 0 0 0 4 0V8l-4-4M6 7h6"/>',
   more:'<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
   download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
@@ -1533,6 +1540,20 @@ function fixedActive(mk = monthKey()){
   const on = items.filter(x => (!x.from || x.from <= mk) && (!x.until || x.until >= mk) && +x.amount > 0);
   return { total: on.reduce((t, x) => t + +x.amount, 0), items: on };
 }
+const START = () => cfgv().business_start || "2026-11-07";          // first official day of operation
+const startMs = () => dayStartMs(START());
+const opDay = () => Math.floor((dayStartMs(dayKey(Date.now())) - startMs()) / 864e5) + 1;
+/* Payment cycle: the Suburban is paid on day `due_day` (26) of each month; earnings count from the day after the
+   previous payment (never before the first day of operation). */
+function payCycle(now = Date.now()){
+  const it = (cfgv().fixed_costs || []).find(x => +x.due_day), d = it ? +it.due_day : 26;
+  const p = etParts(now), k = (Y, M, D) => `${Y}-${String(M).padStart(2,"0")}-${String(D).padStart(2,"0")}`;
+  let ny = +p.year, nm = +p.month; if(+p.day > d){ nm++; if(nm > 12){ nm = 1; ny++; } }
+  let py = ny, pm = nm - 1; if(pm < 1){ pm = 12; py--; }
+  const dueKey = k(ny, nm, d), from = Math.max(dayStartMs(addDayKey(k(py, pm, d), 1)), startMs());
+  return { dueKey, from, item: it || { name:"Pago de la camioneta", amount: 1634.87 },
+           daysLeft: Math.max(0, Math.round((dayStartMs(dueKey) - dayStartMs(dayKey(now))) / 864e5)) };
+}
 const monthName = mk => mk ? new Date(mk + "-15T12:00:00Z").toLocaleDateString("es-US",{month:"short",year:"numeric",timeZone:"UTC"}) : "";
 
 /* ---------- fuel ---------- */
@@ -1583,18 +1604,18 @@ function agg(trips){
 /* ---------- filters ---------- */
 function rangeBounds(){
   const now = Date.now(), r = S.tr.range, todayKey = dayKey(now);
-  if(r === "all"){ const first = S.trips.length ? Math.min(...S.trips.map(t => Date.parse(t.started_at))) : now; return [dayStartMs(dayKey(first)), now]; }
-  if(r === "mtd"){ const p = etParts(now); return [dayStartMs(`${p.year}-${p.month}-01`), now]; }
-  return [dayStartMs(addDayKey(todayKey, -(+r - 1))), now];
+  if(r === "all") return [startMs(), now];
+  if(r === "mtd"){ const p = etParts(now); return [Math.max(dayStartMs(`${p.year}-${p.month}-01`), startMs()), now]; }
+  return [Math.max(dayStartMs(addDayKey(todayKey, -(+r - 1))), startMs()), now];
 }
-const rangeLabel = () => ({ "7":"Últimos 7 días", "30":"Últimos 30 días", "90":"Últimos 90 días", mtd:"Este mes", all:"Desde el primer viaje" })[S.tr.range];
+const rangeLabel = () => ({ "7":"Últimos 7 días", "30":"Últimos 30 días", "90":"Últimos 90 días", mtd:"Este mes", all:`Desde el inicio (${fmtDay(START())})` })[S.tr.range] || "";
 function filteredTrips(){
   const [a, b] = rangeBounds();
   return S.trips.filter(t => { const s = Date.parse(t.started_at); return s >= a && s <= b && (S.tr.plat === "all" || t.platform === S.tr.plat); })
     .sort((x,y) => Date.parse(y.started_at) - Date.parse(x.started_at));
 }
 const filterBar = (extra = "", noPlat = false) => `<div class="fbar">
-  <div class="rng">${[["7","7 días"],["30","30 días"],["mtd","Este mes"],["90","90 días"],["all","Todo"]].map(([v,l]) => `<button data-trange="${v}" class="${S.tr.range===v?"on":""}">${l}</button>`).join("")}</div>
+  <div class="rng">${[["all","Desde el inicio"],["mtd","Este mes"],["30","30 días"],["7","7 días"]].map(([v,l]) => `<button data-trange="${v}" class="${S.tr.range===v?"on":""}">${l}</button>`).join("")}</div>
   ${noPlat ? "" : `<label class="selwrap"><span class="sr-only" style="position:absolute;left:-9999px">Plataforma</span><select data-tplat>
     <option value="all">Todas las plataformas</option>${Object.entries(PLAT).map(([k,p]) => `<option value="${k}" ${S.tr.plat===k?"selected":""}>${p.n}</option>`).join("")}</select></label>`}
   <span class="spacer"></span>${extra}</div>`;
@@ -1700,17 +1721,19 @@ function renderHome(){
   CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label),
     series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
     tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}` });
-  /* month-to-date vs fixed costs (independent of the range filter) */
-  const p = etParts(Date.now()), mStart = dayStartMs(`${p.year}-${p.month}-01`);
-  const mtd = agg(S.trips.filter(t => Date.parse(t.started_at) >= mStart && (S.tr.plat === "all" || t.platform === S.tr.plat)));
-  const cover = A().fixed ? Math.max(0, mtd.profit) / A().fixed : null, left = Math.max(0, A().fixed - mtd.profit);
-  const tripsLeft = mtd.perTrip > 0 ? Math.ceil(left / mtd.perTrip) : all.perTrip > 0 ? Math.ceil(left / all.perTrip) : null;
+  /* payment cycle (independent of the range filter) */
+  const cyc = payCycle(), cy = agg(S.trips.filter(t => Date.parse(t.started_at) >= cyc.from && (S.tr.plat === "all" || t.platform === S.tr.plat)));
+  const due = +cyc.item.amount, cover = due ? Math.max(0, cy.profit) / due : null, left = Math.max(0, due - cy.profit);
+  const daysRun = Math.max(1, (Date.now() - cyc.from) / 864e5), pace = cy.profit / daysRun, need = left / Math.max(1, cyc.daysLeft);
+  const other = S.exp.filter(x => Date.parse(x.spent_at) >= cyc.from && !MAINT_CATS.includes(x.category)).reduce((t, x) => t + +x.amount, 0), res = cy.profit - A().fixed - other;
+  const td = S.trips.filter(t => dayKey(t.started_at) === dayKey(Date.now()) && t.status !== "cancelled"), tdA = agg(td);
   const parts = COST.map(([k, n, c]) => [n, c, Math.max(0, a[k])]), tot = parts.reduce((s, x) => s + x[2], 0);
   const recent = trips.slice(0, 6);
   $("#view").innerHTML = `
   ${head("Cómo va <em>el negocio.</em>", `${rangeLabel()}${S.tr.plat !== "all" ? " · " + PLAT[S.tr.plat].n : " · todas las plataformas"}.`, "Resumen")}
   ${filterBar(`<button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}
   ${!S.trips.length ? onboarding() : `
+  <div class="today"><span class="d">Día ${opDay()} de operación</span><span>Hoy: <b>${tdA.n} viaje${tdA.n===1?"":"s"}</b></span><span><b>${money(tdA.rev)}</b> ingreso</span><span><b class="${tdA.profit < 0 ? "neg" : ""}">${money(tdA.profit)}</b> ganancia</span><span><b>${money(tdA.tips)}</b> en propinas para Marco</span><span class="sp"></span><span>Pago de la camioneta: <b>${fmtDay(cyc.dueKey)}</b> · en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></div>
   <div class="tiles">
     <div class="tile hero"><div class="k">Ganancia neta</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">después de chofer y costos del viaje</div></div>
     <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.n} viaje${a.n === 1 ? "" : "s"}</div></div>
@@ -1726,16 +1749,47 @@ function renderHome(){
       <div class="legrows">${parts.map(([n, c, v]) => `<div class="lr"><i style="background:${c}"></i><span>${n}</span><b>${money(v)}</b><small>${pctf(tot ? v/tot : null)}</small></div>`).join("")}</div>
       <p class="dim" style="font-size:12px;margin:14px 0 0">Gasolina ${gpm.real ? `real del registro (${money(gpm.v)}/mi)` : `estimada a ${money(gpm.v)}/mi hasta registrar tanqueos`} · mantenimiento estimado ${money(A().maint)}/mi.${a.tips ? ` Propinas para el chofer: ${money(a.tips)} (no son ingreso de la empresa).` : ""}</p>` : `<div class="empty">Sin viajes en este rango.</div>`}
     </div></div>
-    <div class="box"><header><h3>Costos fijos del mes</h3><span class="sub">${new Date().toLocaleDateString("es-US",{month:"long",timeZone:TZ})}</span></header><div class="pad">
-      <div class="big ${mtd.profit < 0 ? "neg" : ""}">${money0(mtd.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money0(A().fixed)}</span></div>
+    <div class="box"><header><h3>Próximo pago de la camioneta</h3><span class="sub">${fmtDate(new Date(dayStartMs(cyc.dueKey) + 12*3600e3).toISOString())} · en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></header><div class="pad">
+      <div class="big ${cy.profit < 0 ? "neg" : ""}">${money0(cy.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money(due)} · ${esc(cyc.item.name)}</span></div>
       <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round((cover||0)*100)}"><div style="width:${Math.min(100, (cover||0)*100)}%"></div></div>
-      <div class="muted" style="font-size:13px">${cover >= 1 ? `<b class="pos">Cubiertos.</b> Todo lo que entre este mes es ganancia después de fijos.` : `Cubre <b style="color:var(--text)">${pctf(cover)}</b> de los fijos. Faltan <b style="color:var(--text)">${money0(left)}</b>${tripsLeft ? ` ≈ <b style="color:var(--text)">${tripsLeft} viaje${tripsLeft===1?"":"s"}</b> al ritmo actual` : ""}.`}</div>
-      ${(() => { const other = S.exp.filter(x => Date.parse(x.spent_at) >= mStart && !MAINT_CATS.includes(x.category)).reduce((t, x) => t + +x.amount, 0), res = mtd.profit - A().fixed - other;
-        return `<div class="kv" style="margin-top:14px;font-size:13.5px"><span>Ganancia de viajes del mes</span><span class="num" style="text-align:right">${money(mtd.profit)}</span><span>Costos fijos</span><span class="num" style="text-align:right">−${money(A().fixed)}</span><span>Otros gastos (lavados, peajes, suministros…)</span><span class="num" style="text-align:right">−${money(other)}</span><span><b style="color:var(--text)">Resultado del mes</b></span><span class="num ${res < 0 ? "neg" : "pos"}" style="text-align:right;font-weight:600">${money(res)}</span></div>`; })()}
-      <p class="dim" style="font-size:12.5px;margin:14px 0 0">${fixedActive().items.length ? fixedActive().items.map(x => `${esc(x.name)} ${money(x.amount)}${x.until ? ` (hasta ${monthName(x.until)})` : ""}`).join(" · ") : "GM Financial, seguro y prorrateos"}. Se editan en Rendimiento → Supuestos.</p>
+      <div class="muted" style="font-size:13.5px">${cover >= 1 ? `<b class="pos">Pago cubierto.</b>` : `Faltan <b style="color:var(--text)">${money0(left)}</b> en ${cyc.daysLeft} días: hay que dejar <b style="color:var(--text)">${money0(need)}/día</b>. Ritmo actual <b class="${pace >= need ? "pos" : "neg"}">${money0(pace)}/día</b>.`}</div>
+      <div class="kv" style="margin-top:14px;font-size:13.5px"><span>Ganancia de viajes desde ${fmtDay(dayKey(cyc.from))}</span><span class="num" style="text-align:right">${money(cy.profit)}</span><span>Todos los costos fijos del mes</span><span class="num" style="text-align:right">−${money(A().fixed)}</span><span>Otros gastos (lavados, peajes, suministros…)</span><span class="num" style="text-align:right">${other ? "−" + money(other) : money(0)}</span><span><b style="color:var(--text)">Resultado del ciclo</b></span><span class="num ${res < 0 ? "neg" : "pos"}" style="text-align:right;font-weight:600">${money(res)}</span></div>
+      <p class="dim" style="font-size:12.5px;margin:14px 0 0">Fijos: ${fixedActive().items.length ? fixedActive().items.map(x => `${esc(x.name)} ${money(x.amount)}${+x.due_day ? ` (día ${x.due_day})` : ""}${x.until ? ` hasta ${monthName(x.until)}` : ""}`).join(" · ") : "sin partidas"}. Se editan en Ajustes.</p>
     </div></div>
   </div>
   <div class="box"><header><h3>Últimos viajes</h3><button class="btn btn-sm" data-view="trips">Ver todos ${icon("arrow",14)}</button></header>${tripTable(recent)}</div>`}`;
+}
+
+function renderDriver(){
+  const pct = A().driverPct, trips = filteredTrips().filter(t => t.status !== "cancelled");
+  const rows = trips.map(t => ({ t, pay: t.driver_pay != null ? +t.driver_pay : (+t.payout || 0) * pct, tip: +t.tip || 0 }));
+  const pay = rows.reduce((s, r) => s + r.pay, 0), tips = rows.reduce((s, r) => s + r.tip, 0), withTip = rows.filter(r => r.tip > 0).length;
+  const B = buckets(), per = B.keys.map(k => { const rs = rows.filter(r => B.keyOf(r.t.started_at) === k); return { n: rs.length, pay: rs.reduce((s, r) => s + r.pay, 0), tip: rs.reduce((s, r) => s + r.tip, 0) }; });
+  CHARTS.drv = W => colChart(W, { labels: B.keys.map(B.label), series: [{ name:"Pago 25%", color:"#eb6834", values: per.map(x => x.pay) }, { name:"Propinas", color:"#6250d6", values: per.map(x => x.tip) }],
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#eb6834","Pago 25%",money(per[i].pay))}${tipRow("#6250d6","Propinas",money(per[i].tip))}${tipRow("","Total",money(per[i].pay + per[i].tip))}${tipRow("","Viajes",per[i].n)}` });
+  const plats = Object.keys(PLAT).map(k => { const rs = rows.filter(r => r.t.platform === k); return { k, n: rs.length, tips: rs.reduce((s, r) => s + r.tip, 0), withTip: rs.filter(r => r.tip > 0).length }; }).filter(x => x.n);
+  const maxT = Math.max(1, ...plats.map(x => x.tips));
+  const days = {}; rows.forEach(r => { const k = dayKey(r.t.started_at); const d = days[k] ||= { n:0, pay:0, tip:0 }; d.n++; d.pay += r.pay; d.tip += r.tip; });
+  $("#view").innerHTML = `
+  ${head("", `Lo que lleva ganado Marco: ${Math.round(pct*100)}% del pago de cada viaje más el 100% de las propinas. ${rangeLabel()}.`, "")}
+  ${filterBar()}
+  ${!rows.length ? `<div class="box"><div class="empty">Sin viajes en este rango.</div></div>` : `
+  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="tile hero" style="grid-column:span 1"><div class="k">Total para Marco</div><div class="v">${money(pay + tips)}</div><div class="s">${rows.length} viaje${rows.length===1?"":"s"}</div></div>
+    <div class="tile"><div class="k">Pago por viajes (${Math.round(pct*100)}%)</div><div class="v">${money(pay)}</div><div class="s">lo paga la empresa</div></div>
+    <div class="tile"><div class="k">Propinas</div><div class="v">${money(tips)}</div><div class="s">${withTip} de ${rows.length} viajes con propina (${pctf(withTip/rows.length)})</div></div>
+    <div class="tile"><div class="k">Propina promedio</div><div class="v">${withTip ? money(tips/withTip) : "—"}</div><div class="s">en los viajes que dejaron</div></div>
+  </div>
+  <div class="g2">
+    <div class="box"><header><h3>${B.weekly ? "Por semana" : "Por día"}</h3><div class="lg"><span><i style="background:#eb6834"></i>Pago ${Math.round(pct*100)}%</span><span><i style="background:#6250d6"></i>Propinas</span></div></header><div class="pad"><div class="chart" data-chart="drv"></div></div></div>
+    <div class="box"><header><h3>Propinas por plataforma</h3></header><div class="pad"><div class="hbars">
+      ${plats.map(x => `<div class="hb"><div class="t"><span>${platTag(x.k)} <span class="dim" style="font-size:12px">${x.withTip}/${x.n} viajes</span></span><b>${money(x.tips)}</b></div><div class="tr"><div class="f" style="width:${x.tips/maxT*100}%;background:${PLAT[x.k].c}"></div></div></div>`).join("")}
+    </div></div></div>
+  </div>
+  <div class="box"><header><h3>Detalle por día</h3></header><div class="tablewrap"><table><thead><tr><th>Día</th><th style="text-align:right">Viajes</th><th style="text-align:right">Pago ${Math.round(pct*100)}%</th><th style="text-align:right">Propinas</th><th style="text-align:right">Total para Marco</th></tr></thead><tbody>
+    ${Object.entries(days).sort((a, b) => b[0].localeCompare(a[0])).map(([k, d]) => `<tr><td>${fmtDate(new Date(dayStartMs(k) + 12*3600e3).toISOString())}</td><td class="num" style="text-align:right">${d.n}</td><td class="num" style="text-align:right">${money(d.pay)}</td><td class="num" style="text-align:right">${money(d.tip)}</td><td class="num" style="text-align:right;font-weight:600">${money(d.pay + d.tip)}</td></tr>`).join("")}
+    <tr><td><b>Total</b></td><td class="num" style="text-align:right"><b>${rows.length}</b></td><td class="num" style="text-align:right"><b>${money(pay)}</b></td><td class="num" style="text-align:right"><b>${money(tips)}</b></td><td class="num" style="text-align:right"><b>${money(pay + tips)}</b></td></tr>
+  </tbody></table></div></div>`}`;
 }
 
 function tripTable(rows){
@@ -1772,6 +1826,30 @@ function renderTrips(){
     <div class="tile"><div class="k">Millas</div><div class="v">${num1(a.mi)}</div><div class="s">con pasajero + vacías</div></div>
   </div>
   <div class="box">${tripTable(rows)}</div>`}`;
+}
+
+function renderSettings(){
+  const asum = A(), gpm = gasPerMile();
+  $("#view").innerHTML = `
+  ${head("", "Lo que usan los cálculos del panel y del bot. Los cambios se guardan juntos.", "")}
+  <div class="box" style="margin-bottom:16px"><header><h3>Inicio de operación</h3></header><div class="pad">
+    <div class="row3"><div class="field"><label for="bstart">Primer día oficial</label><input class="input mono" id="bstart" type="date" data-path="business_start" data-kind="text" value="${esc(S.cfg?.business_start || "2026-11-07")}"><div class="hint">Todo el panel cuenta desde este día.</div></div></div>
+  </div></div>
+    <div class="box"><header><h3>Costos y supuestos</h3><span class="sub">se guardan con el filtro del bot</span></header><div class="pad">
+    <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}</div>
+    <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.01",suf:"$/mi",ph:"0.24",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Se reemplaza solo con tanqueos registrados"})}</div>
+    <div class="group" style="margin:6px 0 18px"><h4>Costos fijos mensuales <span class="dim" style="font-weight:400;font-size:13px">· este mes ${money(asum.fixed)}</span></h4><p>Cada partida con su mes de fin si tiene; al terminar sale sola de la cuenta.</p>
+      <div class="tablewrap"><table><thead><tr><th>Partida</th><th style="width:180px">Monto / mes</th><th style="width:110px">Día de pago</th><th style="width:150px">Desde</th><th style="width:150px">Hasta</th><th style="width:48px"></th></tr></thead><tbody>
+      ${(S.cfg?.fixed_costs || []).map((x, i) => `<tr><td><input class="input" data-path="fixed_costs.${i}.name" data-kind="text" value="${esc(x.name)}" aria-label="Partida"></td>
+        <td><div class="suffix"><input class="input mono" type="number" step="0.01" data-path="fixed_costs.${i}.amount" data-kind="num" value="${x.amount ?? ""}" aria-label="Monto"><i>USD</i></div></td>
+        <td><input class="input mono" type="number" min="1" max="28" step="1" data-path="fixed_costs.${i}.due_day" data-kind="num" value="${x.due_day ?? ""}" aria-label="Día de pago" placeholder="—"></td>
+        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.from" data-kind="text" value="${esc(x.from || "")}" aria-label="Desde"></td>
+        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.until" data-kind="text" value="${esc(x.until || "")}" aria-label="Hasta"></td>
+        <td><button class="btn btn-ghost btn-sm" data-del="fixed_costs" data-k="${i}" aria-label="Quitar partida">${icon("trash",15)}</button></td></tr>`).join("")}
+      </tbody></table></div>
+      <button class="btn btn-sm" data-act="fcadd" style="margin-top:10px">${icon("plus",14)} Agregar partida</button></div>
+    <div class="note" style="margin-top:4px">${icon("info")}<div>El % del chofer también lo usa el bot para calcular el neto de las ofertas. Mantenimiento es un estimado hasta que haya facturas reales.</div></div>
+    ${saveBar()}</div></div>`;
 }
 
 function renderPerf(){
@@ -1813,20 +1891,7 @@ function renderPerf(){
       <div class="pad"><div class="chart" data-chart="cum"></div><p class="dim" style="font-size:12px;margin:10px 0 0">Cuando la línea verde pasa la punteada, el período cubrió sus fijos (${money0(asum.fixed)}/mes prorrateado por día).</p></div></div>
     <div class="box"><header><h3>Por día de la semana</h3><span class="sub">ganancia</span></header><div class="pad"><div class="chart" data-chart="wd"></div></div></div>
   </div>`}
-  <div class="box"><header><h3>Supuestos</h3><span class="sub">se guardan con el filtro del bot</span></header><div class="pad">
-    <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}</div>
-    <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.01",suf:"$/mi",ph:"0.24",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Se reemplaza solo con tanqueos registrados"})}</div>
-    <div class="group" style="margin:6px 0 18px"><h4>Costos fijos mensuales <span class="dim" style="font-weight:400;font-size:13px">· este mes ${money(asum.fixed)}</span></h4><p>Cada partida con su mes de fin si tiene; al terminar sale sola de la cuenta.</p>
-      <div class="tablewrap"><table><thead><tr><th>Partida</th><th style="width:180px">Monto / mes</th><th style="width:150px">Desde</th><th style="width:150px">Hasta</th><th style="width:48px"></th></tr></thead><tbody>
-      ${(S.cfg?.fixed_costs || []).map((x, i) => `<tr><td><input class="input" data-path="fixed_costs.${i}.name" data-kind="text" value="${esc(x.name)}" aria-label="Partida"></td>
-        <td><div class="suffix"><input class="input mono" type="number" step="0.01" data-path="fixed_costs.${i}.amount" data-kind="num" value="${x.amount ?? ""}" aria-label="Monto"><i>USD</i></div></td>
-        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.from" data-kind="text" value="${esc(x.from || "")}" aria-label="Desde"></td>
-        <td><input class="input mono" type="month" data-path="fixed_costs.${i}.until" data-kind="text" value="${esc(x.until || "")}" aria-label="Hasta"></td>
-        <td><button class="btn btn-ghost btn-sm" data-del="fixed_costs" data-k="${i}" aria-label="Quitar partida">${icon("trash",15)}</button></td></tr>`).join("")}
-      </tbody></table></div>
-      <button class="btn btn-sm" data-act="fcadd" style="margin-top:10px">${icon("plus",14)} Agregar partida</button></div>
-    <div class="note" style="margin-top:4px">${icon("info")}<div>El % del chofer también lo usa el bot para calcular el neto de las ofertas. Mantenimiento es un estimado hasta que haya facturas reales.</div></div>
-    ${saveBar()}</div></div>`;
+`;
 }
 
 /* ======================= forms ======================= */
@@ -2079,8 +2144,8 @@ function exportCSV(){
 }
 
 function openMore(){
-  const groups = [["Operación", ["home","trips","perf","fuel"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Ajustes", ["fleet","notifications","health"]]];
-  const ic = { home:"gauge", trips:"car", perf:"trend", fuel:"fuel", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
+  const groups = [["Operación", ["home","trips","driver","fuel","perf"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
+  const ic = { driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"fuel", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
   const mode = S.control?.mode || "dry_run";
   $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
     ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
