@@ -299,6 +299,186 @@ tr[data-offer]{cursor:pointer} tr[data-offer]:hover td{background:var(--panel2)}
   .editor .left .meta{display:none} .sec-btn{min-width:200px}
   .editor .scroll{padding:20px 16px} .day{grid-template-columns:1fr}
 }
+/* ===================== v3: design system refresh ===================== */
+:root{
+  --bg:#0A0A0A; --panel:#121211; --panel2:#171715; --panel3:#1f1e1b;
+  --line:#242320; --line2:#32302c; --text:#F2F0EB; --muted:#B4B1AA; --dim:#8a8780;
+  --sans:Geist,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --c-rev:#3987e5; --c-profit:#199e70; --c-neg:#d03b3b;
+  --r:14px;
+}
+body{font:14px/1.5 var(--sans);background:radial-gradient(1000px 420px at 85% -180px,rgba(212,42,39,.10),transparent 60%),var(--bg)}
+.num,td.num,.tnum{font-variant-numeric:tabular-nums}
+
+/* shell */
+.app{grid-template-columns:252px 1fr;background:linear-gradient(to right,var(--panel) 251px,var(--line) 251px 252px,var(--bg) 252px)}
+.side{padding:18px 14px 14px;overflow-y:auto}
+.brand{padding:2px 6px 16px} .brand img{width:150px}
+.navgroup{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--dim);padding:14px 10px 6px;font-weight:500}
+.nav button{padding:8px 10px;font-size:13.5px;border-radius:9px}
+.nav button svg{width:17px;height:17px;opacity:.9}
+.nav button .cnt{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--dim)}
+.conn{margin:0 0 4px}
+.topbar{padding:14px 28px;background:rgba(10,10,10,.86)}
+.topbar h2{font-size:11px}
+.content{padding:26px 28px 56px;max-width:1320px}
+.pagehead{margin-bottom:20px;align-items:flex-end}
+.pagehead .eyebrow{margin-bottom:10px}
+.pagehead h1{font-size:40px;letter-spacing:-1px;line-height:1.02}
+.pagehead p{font-size:14px;margin-top:8px}
+.box{border-radius:var(--r)}
+.box > header{padding:14px 18px;gap:12px;flex-wrap:wrap}
+.box > header h3{font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:0}
+.box > header .sub{color:var(--dim);font-size:12.5px}
+.bk{background:linear-gradient(180deg,#151514,#111110);min-height:150px;border-radius:var(--r)}
+.bk .v{font-family:var(--sans);font-size:34px;font-weight:500;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.kpi .v{font-family:var(--sans);font-size:28px;font-weight:500;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.stats .hero{font-family:var(--sans);font-size:56px;font-weight:500;letter-spacing:-1.6px}
+.sec-head h3{font-size:30px}
+.drawer .route{font-size:30px}
+.dgrid b{font-family:var(--sans);font-size:20px;font-weight:500;font-variant-numeric:tabular-nums}
+th{font-size:10.5px;padding:10px 14px} td{padding:11px 14px}
+tbody tr:hover td{background:rgba(255,255,255,.015)}
+
+/* filter bar */
+.fbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.fbar .spacer{flex:1}
+.selwrap{position:relative} .selwrap select{appearance:none;background:var(--panel);border:1px solid var(--line2);border-radius:999px;padding:8px 34px 8px 14px;font-weight:500;font-size:13px;color:var(--text)}
+.selwrap::after{content:"";position:absolute;right:14px;top:50%;width:7px;height:7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+
+/* KPI tiles */
+.tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.tile{background:linear-gradient(180deg,#161615,#111110);border:1px solid var(--line);border-radius:var(--r);padding:16px 16px 14px;min-width:0;position:relative;overflow:hidden}
+.tile .k{font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .v{font-size:28px;font-weight:500;letter-spacing:-.8px;line-height:1.1;margin-top:10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile .s{font-size:12px;color:var(--dim);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile.hero{grid-column:span 2;background:radial-gradient(420px 160px at 100% 0,rgba(212,42,39,.16),transparent 70%),linear-gradient(180deg,#171615,#111110);border-color:#3a2a28}
+.tile.hero .v{font-family:var(--serif);font-size:48px;font-weight:400;letter-spacing:-1.2px}
+.neg{color:#f08a8a!important}
+.pos{color:#6fd3a8}
+
+/* layout grids */
+.g2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-bottom:16px}
+.g2e{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.pad{padding:16px 18px}
+
+/* charts */
+.chart{position:relative;min-height:60px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.lg{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.lg span{display:inline-flex;align-items:center;gap:7px}
+.lg i{width:10px;height:10px;border-radius:3px;display:inline-block}
+#tip{position:fixed;z-index:80;pointer-events:none;background:#201f1c;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;font-size:12.5px;line-height:1.55;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:260px;display:none}
+#tip b{font-weight:600} #tip .r{display:flex;justify-content:space-between;gap:18px} #tip .r span:first-child{color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+#tip i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.hbars{display:flex;flex-direction:column;gap:12px}
+.hb .t{display:flex;justify-content:space-between;gap:10px;font-size:13px}
+.hb .t b{font-weight:500;font-variant-numeric:tabular-nums}
+.hb .tr{height:10px;background:var(--panel3);border-radius:5px;margin-top:6px;overflow:hidden}
+.hb .f{height:100%;border-radius:0 5px 5px 0;min-width:3px}
+.split{display:flex;height:16px;border-radius:6px;overflow:hidden;gap:2px;margin:6px 0 16px}
+.split div{height:100%}
+.split div:first-child{border-radius:6px 0 0 6px} .split div:last-child{border-radius:0 6px 6px 0}
+.legrows{display:flex;flex-direction:column;gap:9px}
+.legrows .lr{display:grid;grid-template-columns:12px 1fr auto 52px;gap:10px;align-items:center;font-size:13px}
+.legrows .lr i{width:10px;height:10px;border-radius:3px}
+.legrows .lr b{font-weight:500;font-variant-numeric:tabular-nums}
+.legrows .lr small{color:var(--dim);text-align:right;font-variant-numeric:tabular-nums}
+.meter{height:12px;background:var(--panel3);border-radius:6px;overflow:hidden;margin:14px 0 8px;position:relative}
+.meter div{height:100%;background:var(--c-profit);border-radius:6px}
+.big{font-size:34px;font-weight:500;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1.1}
+
+/* platform tags */
+.pt{display:inline-flex;align-items:center;gap:7px;font-weight:500;white-space:nowrap}
+.pt i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+/* trip list */
+tr[data-trip],tr[data-fuel]{cursor:pointer}
+.route2{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.route2 small{display:block;color:var(--dim);font-size:12px}
+.tcardlist{display:none;flex-direction:column}
+.tc{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.tc:last-child{border-bottom:0}
+.tc .a{font-size:12.5px;color:var(--muted)} .tc .b{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc .m{text-align:right;font-variant-numeric:tabular-nums;font-weight:500} .tc .m small{display:block;color:var(--dim);font-weight:400;font-size:12px}
+
+/* empty / onboarding */
+.onb{border:1px solid var(--line2);border-radius:18px;padding:34px 30px;background:radial-gradient(600px 220px at 0 0,rgba(212,42,39,.10),transparent 70%),var(--panel);display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center}
+.onb h2{font-family:var(--serif);font-weight:400;font-size:38px;line-height:1.05;margin:0 0 10px;letter-spacing:-.8px} .onb h2 em{color:var(--accent2)}
+.onb p{color:var(--muted);margin:0 0 18px}
+.onb ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.onb li{display:flex;gap:10px;color:var(--muted);font-size:13.5px} .onb li svg{color:var(--accent2);flex:0 0 18px;margin-top:2px}
+
+/* forms in drawer */
+.form{display:flex;flex-direction:column;gap:16px}
+.form .row,.form .row3{gap:12px}
+.form .field{margin-bottom:0}
+.seg2{display:flex;flex-wrap:wrap;gap:6px}
+.seg2 button{border:1px solid var(--line2);background:var(--panel2);color:var(--muted);border-radius:10px;padding:8px 12px;font-weight:500;font-size:13px;display:inline-flex;align-items:center;gap:7px}
+.seg2 button.on{border-color:var(--text);color:var(--text);background:var(--panel3)}
+.seg2 button i{width:8px;height:8px;border-radius:50%}
+.preview{border:1px solid var(--line2);background:var(--panel2);border-radius:12px;padding:14px 16px}
+.preview .kv{font-size:13px}
+.formacts{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:16px 24px;border-top:1px solid var(--line);position:sticky;bottom:0;background:var(--panel)}
+.req{color:var(--accent2)}
+
+/* sidebar status card */
+.botcard{border:1px solid var(--line2);border-radius:12px;background:var(--panel2);padding:12px;margin-top:14px}
+.botcard .h{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}
+.botcard p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.botcard .seg{width:100%;margin-top:10px;display:grid;grid-template-columns:repeat(3,1fr)}
+.botcard .seg button{padding:7px 4px;font-size:12px}
+.side .auto{display:none}
+
+/* mobile chrome */
+.mtop{display:none}
+.tabbar{display:none}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:44}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--panel);border-top:1px solid var(--line2);border-radius:18px 18px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom));max-height:82vh;overflow-y:auto}
+.sheet .grab{width:40px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 12px}
+.sheet .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.sheet .sg button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);font-size:12px;color:var(--muted)}
+.sheet .sg button.on{color:var(--text);border-color:var(--text)}
+
+@media (max-width:1200px){
+  .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tile.hero{grid-column:span 3}
+}
+@media (max-width:960px){
+  body{font-size:14px}
+  .app{grid-template-columns:1fr;background:var(--bg)}
+  .side{display:none!important}
+  .topbar{display:none}
+  .mtop{display:flex;align-items:center;gap:10px;padding:12px 16px;position:sticky;top:0;z-index:20;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .mtop img{height:22px;width:auto}
+  .mtop .spacer{flex:1}
+  .mtop .pill{font-size:12px;padding:5px 10px}
+  .content{padding:18px 16px calc(96px + env(safe-area-inset-bottom))}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(18,18,17,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar button{border:0;background:transparent;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:500;padding:6px 0}
+  .tabbar button.on{color:var(--text)}
+  .tabbar button.on svg{color:var(--accent2)}
+  .tabbar .add{align-self:center;justify-self:center;width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;box-shadow:0 6px 20px rgba(212,42,39,.45);padding:0;justify-content:center}
+  .pagehead h1{font-size:30px}
+  .pagehead{margin-bottom:16px}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tile.hero{grid-column:span 2}
+  .tile{padding:14px}
+  .tile .v{font-size:22px}
+  .tile.hero .v{font-size:40px}
+  .g2,.g2e,.onb{grid-template-columns:1fr}
+  .onb{padding:24px 20px} .onb h2{font-size:30px}
+  .tablewrap.tripstable{display:none}
+  .tcardlist{display:flex}
+  .fbar .rng{display:flex;width:100%;max-width:100%;overflow-x:auto;scrollbar-width:none} .fbar .rng button{flex:1 0 auto;white-space:nowrap;padding:9px 12px} .fbar .selwrap{flex:1 1 100%} .fbar .selwrap select{width:100%} .fbar .spacer{display:none} .fbar > .btn{flex:1}
+  .drawer{width:100%}
+  .drawer .dh,.drawer .db,.formacts{padding-left:16px;padding-right:16px}
+  .bigk{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bk .v{font-size:24px}
+  .stats .hero{font-size:40px}
+  .toast{left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));max-width:none}
+}
+
 </style>
 </head>
 <body>
@@ -338,33 +518,39 @@ tr[data-offer]{cursor:pointer} tr[data-offer]:hover td{background:var(--panel2)}
 <!-- App -->
 <div id="app" class="app hidden">
   <aside class="side">
-    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Despacho · Bot Blacklane</small></div>
+    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <div class="conn" id="conn"></div>
     <nav class="nav" id="nav">
-      <button data-view="overview"><span data-icon="gauge"></span>Dashboard</button>
+      <div class="navgroup">Negocio</div>
+      <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
+      <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
+      <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
+      <button data-view="fuel"><span data-icon="fuel"></span>Gasolina</button>
+      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
+      <div class="navgroup">Bot Blacklane</div>
+      <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
       <button data-view="filter"><span data-icon="filter"></span>Filtro</button>
       <button data-view="routes"><span data-icon="zap"></span>Rutas</button>
-      <button data-view="visibility"><span data-icon="activity"></span>Visibilidad</button>
       <button data-view="locations"><span data-icon="pin"></span>Ubicaciones</button>
-      <button data-view="fleet"><span data-icon="truck"></span>Flota</button>
       <button data-view="agenda"><span data-icon="calendar"></span>Agenda</button>
-      <button data-view="notifications"><span data-icon="bell"></span>Notificaciones</button>
+      <button data-view="visibility"><span data-icon="activity"></span>Visibilidad</button>
       <button data-view="decisions"><span data-icon="list"></span>Decisiones</button>
-      <button data-view="offers"><span data-icon="inbox"></span>Ofertas</button>
+      <button data-view="notifications"><span data-icon="bell"></span>Avisos</button>
+      <div class="navgroup">Sistema</div>
+      <button data-view="offers"><span data-icon="inbox"></span>Historial de ofertas</button>
       <button data-view="health"><span data-icon="heart"></span>Salud</button>
     </nav>
-    <div class="auto">
-      <b><span class="dot" id="autoDot"></span>Automatización</b>
+    <div class="botcard">
+      <div class="h"><span class="dot" id="autoDot"></span>Bot · <span id="autoMode"></span></div>
       <div class="seg" id="modeSeg" role="group" aria-label="Modo del bot">
-        <button data-mode="off">Apagado</button>
-        <button data-mode="dry_run">Prueba</button>
-        <button data-mode="live">En vivo</button>
+        <button data-mode="off">Apagado</button><button data-mode="dry_run">Prueba</button><button data-mode="live">En vivo</button>
       </div>
       <p id="autoTxt"></p>
     </div>
     <div class="foot"><span id="who"></span><button class="btn btn-ghost btn-sm" id="logout" title="Salir"><span data-icon="logout"></span></button></div>
   </aside>
   <main class="main">
+    <div class="mtop"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--serif);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
     <div class="topbar">
       <h2 id="viewTitle">Resumen</h2>
       <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
@@ -374,9 +560,17 @@ tr[data-offer]{cursor:pointer} tr[data-offer]:hover td{background:var(--panel2)}
     </div>
     <div class="content" id="view"></div>
   </main>
+  <nav class="tabbar" id="tabbar" aria-label="Navegación">
+    <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
+    <button data-view="trips"><span data-icon="car"></span>Viajes</button>
+    <button class="add" data-act="tripnew" aria-label="Registrar viaje"><span data-icon="plus"></span></button>
+    <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
+    <button data-act="more"><span data-icon="more"></span>Más</button>
+  </nav>
 </div>
 
 <div id="modalRoot"></div>
+<div id="tip" role="tooltip"></div>
 
 <script>
 /* ======================= helpers ======================= */
@@ -453,7 +647,8 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "overview", section: 0,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], bizErr: null,
+  tr: { range: store.get("ce_range") || "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
   range: 30, revMode: "would", tab: "valid", page: 0, visRange: 7,
@@ -465,7 +660,7 @@ function setP(o, p, v){ const ks = p.split("."); let cur = o; ks.slice(0,-1).for
 
 /* ======================= data ======================= */
 async function loadAll(){
-  if(DEMO){ if(!S.loaded) demoData(); S.loaded = true; return; }
+  if(DEMO){ if(!S.loaded){ demoData(); demoTrips(); } S.loaded = true; return; }
   const sb = S.sb, since = new Date(Date.now() - 92*86400e3).toISOString();
   const [c, f, d, o, p, pl, st] = await Promise.all([
     sb.from("bl_control").select("*").eq("id",1).maybeSingle(),
@@ -486,6 +681,12 @@ async function loadAll(){
     const remote = {...DEFAULT_CFG, ...(f.data.config || {})};
     if(!S.cfg || !dirty()){ S.cfg = clone(remote); S.saved = clone(remote); }
   }
+  const [tl, fl] = await Promise.all([
+    sb.from("trip_log").select("*").order("started_at",{ascending:false}).limit(5000),
+    sb.from("fuel_log").select("*").order("filled_at",{ascending:false}).limit(2000),
+  ]);
+  S.bizErr = tl.error?.message || fl.error?.message || null;
+  S.trips = tl.data || []; S.fuel = fl.data || [];
   S.loaded = true;
 }
 
@@ -514,11 +715,13 @@ async function testNotify(){
 const modeName = m => ({off:"Apagado",dry_run:"Prueba",live:"En vivo"}[m] || m);
 function lastPoll(){ return S.polls[0] || null; }
 function healthState(){
-  const p = lastPoll(); if(!p) return ["bad","Sin datos del bot"];
-  const age = (Date.now() - new Date(p.polled_at))/1000;
-  if(!p.ok) return ["bad", `Error ${ago(p.polled_at)}`];
-  if(age > 600) return ["warn", `Sin señal ${ago(p.polled_at)}`];
-  return ["ok", `Bot activo · ${ago(p.polled_at)}`];
+  const last = S.polls[0], lastOk = S.polls.find(p => p.ok);
+  if(!last) return ["bad","Sin datos del bot"];
+  const okAge = lastOk ? (Date.now() - new Date(lastOk.polled_at))/1000 : Infinity;
+  if(okAge < 660) return last.ok ? ["ok", `Bot activo · ${ago(lastOk.polled_at)}`] : ["warn", `Activo · error ${ago(last.polled_at)}`];
+  if(!last.ok){ const e = last.error || "";
+    return ["bad", /Faltan secretos/.test(e) ? "Faltan claves en Supabase" : /FATAL|Login rejected/.test(e) ? "Blacklane rechazó el login" : `Error ${ago(last.polled_at)}`]; }
+  return ["warn", `Sin señal ${ago(last.polled_at)}`];
 }
 function stats(){
   const t0 = startOfTodayET();
@@ -635,20 +838,23 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { overview:"Dashboard", filter:"Filtro", routes:"Rutas", visibility:"Visibilidad", locations:"Ubicaciones", fleet:"Flota", agenda:"Agenda", notifications:"Notificaciones", decisions:"Decisiones", offers:"Ofertas", health:"Salud" };
-const RENDER = () => ({overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", trips:"Viajes", perf:"Rendimiento", fuel:"Gasolina", fleet:"Flota", overview:"Ofertas del bot", filter:"Filtro", routes:"Rutas", locations:"Ubicaciones", agenda:"Agenda", visibility:"Visibilidad", decisions:"Decisiones", notifications:"Avisos", offers:"Historial de ofertas", health:"Salud" };
+const RENDER = () => ({home:renderHome, trips:renderTrips, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
-  const [hs] = healthState(), info = S.status?.info || {};
+  const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
+  const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
   const conn = $("#conn");
-  if(hs === "ok") conn.className = "conn ok", conn.innerHTML = `<span class="ck">${icon("check",13)}</span><span>Conectado a Blacklane<small>${info.last_login_at ? "login " + ago(info.last_login_at) : "bot activo"}</small></span>`;
-  else if(hs === "warn") conn.className = "conn warn", conn.innerHTML = `<span class="ck">${icon("info",16)}</span><span>Sin señal del bot<small>¿La Mac se durmió?</small></span>`;
-  else conn.className = "conn bad", conn.innerHTML = `<span class="ck">${icon("x",16)}</span><span>Desconectado<small>Revisa la Terminal del bot</small></span>`;
+  if(hs === "ok") conn.className = "conn ok", conn.innerHTML = `<span class="ck">${icon("check",13)}</span><span>Conectado a Blacklane<small>${esc(host)} · ${ago(lastOk?.polled_at)}</small></span>`;
+  else if(hs === "warn") conn.className = "conn warn", conn.innerHTML = `<span class="ck">${icon("info",16)}</span><span>${/error/.test(ht) ? "Bot con errores" : "Sin señal del bot"}<small>${esc(ht)}</small></span>`;
+  else conn.className = "conn bad", conn.innerHTML = `<span class="ck">${icon("x",16)}</span><span>Bot detenido<small>${esc(ht)}</small></span>`;
   const mode = S.control?.mode || "dry_run";
   $("#autoDot").className = "dot " + (mode === "live" ? "ok" : mode === "off" ? "bad" : "warn");
+  $("#autoMode").textContent = modeName(mode);
   const blocked = mode === "live" && S.status && info.allow_live === false;
   $("#autoTxt").className = blocked ? "warnline" : "";
-  $("#autoTxt").textContent = blocked ? "El servidor tiene ALLOW_LIVE=false: el bot sigue en prueba."
+  $("#autoTxt").textContent = blocked ? "El servidor no permite aceptar todavía (ALLOW_LIVE): sigue en prueba."
     : ({off:"Solo guarda ofertas.", dry_run:"Evalúa y avisa. No acepta.", live:"Acepta ofertas reales."})[mode];
+  const n = S.trips.length; $("#tripCnt").textContent = n ? n : "";
 }
 function render(){
   $("#viewTitle").textContent = VIEWS[S.view];
@@ -656,6 +862,8 @@ function render(){
   const mode = S.control?.mode || "dry_run";
   document.querySelectorAll("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
   const [hs, ht] = healthState(); $("#health").innerHTML = `<span class="dot ${hs}"></span><span>${esc(ht)}</span>`;
+  $("#mhealth").innerHTML = `<span class="dot ${hs}"></span><span>${hs === "ok" ? "Bot activo" : esc(ht)}</span>`;
+  document.querySelectorAll("#tabbar [data-view]").forEach(b => b.classList.toggle("on", b.dataset.view === S.view));
   renderSide();
   const v = $("#view");
   if(!S.cfgRow && !DEMO){
@@ -663,7 +871,8 @@ function render(){
     return;
   }
   RENDER()[S.view]();
-  paintIcons(v);
+  if(S.bizErr && ["home","trips","perf","fuel"].includes(S.view)) v.insertAdjacentHTML("afterbegin", `<div class="note" style="margin-bottom:16px">${icon("info")}<div>No se pudieron leer los viajes: ${esc(S.bizErr)}</div></div>`);
+  paintIcons(v); paintIcons($("#tabbar")); drawCharts();
 }
 
 /* ---------- shared helpers for v2 pages ---------- */
@@ -711,7 +920,7 @@ function renderOverview(){
   const rows = S.tab === "valid" ? dec.filter(isValid) : skipped, per = 12, pages = Math.max(1, Math.ceil(rows.length/per));
   S.page = Math.min(S.page, pages-1); const slice = rows.slice(S.page*per, S.page*per+per);
   $("#view").innerHTML = `
-  ${head("Lo que el bot <em>vio.</em>", "Ofertas que llegaron, cuáles pasan el filtro y cuáles se saltaron.", "Dashboard", rangeSel("range", S.range, [[7,"7 días"],[14,"14 días"],[30,"30 días"],[90,"3 meses"]]))}
+  ${head("Lo que el bot <em>vio.</em>", "Ofertas de Blacklane que llegaron, cuáles pasan el filtro y cuáles se saltaron.", "Bot Blacklane", rangeSel("range", S.range, [[7,"7 días"],[14,"14 días"],[30,"30 días"],[90,"3 meses"]]))}
   <div class="bigk">
     <div class="bk"><div class="k"><span>Ingreso total</span><span class="mini"><button data-rev="accepted" class="${live?"on":""}">Aceptadas</button><button data-rev="would" class="${!live?"on":""}">Aceptaría</button></span></div><div class="v">${money(revenue)}</div><div class="t">${live ? "De viajes aceptados" : "De ofertas que pasan el filtro"}</div><div class="s">Precio Blacklane, todo incluido</div></div>
     <div class="bk"><div class="k">Ofertas totales</div><div class="v">${offers}</div><div class="t">Vistas por el bot</div><div class="s">Todas las que llegaron a la cuenta</div></div>
@@ -1061,7 +1270,7 @@ function updateCalc(){
 document.addEventListener("click", e => {
   const tr = e.target.closest("tr[data-offer]"); if(tr){ openOffer(tr.dataset.offer); return; }
   const t = e.target.closest("button, [data-go]"); if(!t) return;
-  if(t.dataset.view){ S.view = t.dataset.view; render(); return; }
+  if(t.dataset.view){ S.view = t.dataset.view; render(); window.scrollTo(0,0); return; }
   if(t.dataset.go){ S.view = t.dataset.go; render(); return; }
   if(t.dataset.mode){ return askMode(t.dataset.mode); }
   if(t.dataset.sec != null){ S.section = +t.dataset.sec; render(); $("#secBody")?.scrollTo(0,0); return; }
@@ -1134,13 +1343,540 @@ function modal(html){ $("#modalRoot").innerHTML = `<div class="overlay"><div cla
 function closeModal(){ $("#modalRoot").innerHTML = ""; }
 let toastT; function toast(msg, bad){ document.querySelector(".toast")?.remove(); const d = document.createElement("div"); d.className = "toast" + (bad ? " bad" : ""); d.textContent = msg; document.body.append(d); clearTimeout(toastT); toastT = setTimeout(() => d.remove(), 4200); }
 
+/* ======================= v3: business (trips, fuel, performance) ======================= */
+Object.assign(ICONS, {
+  fuel:'<path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18M2 22h14M15 9h2a2 2 0 0 1 2 2v5a2 2 0 0 0 4 0V8l-4-4M6 7h6"/>',
+  more:'<circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+  edit:'<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+});
+
+/* Platforms: fixed colour per platform (validated dark palette, adjacent pairs pass CVD + normal-vision). */
+const PLAT = {
+  blacklane:{ n:"Blacklane",  c:"#3987e5" },
+  uber:     { n:"Uber Black", c:"#d95926" },
+  lyft:     { n:"Lyft Black", c:"#199e70" },
+  gnet:     { n:"GNet",       c:"#c98500" },
+  direct:   { n:"Directo",    c:"#d55181" },
+  other:    { n:"Otro",       c:"#9085e9" },
+};
+const platTag = k => `<span class="pt"><i style="background:${PLAT[k]?.c || "#888"}"></i>${esc(PLAT[k]?.n || k)}</span>`;
+/* Where each dollar goes (validated order). Profit is always aqua; costs never reuse it. */
+const COST = [
+  ["driver","Chofer","#c98500"], ["gas","Gasolina","#d55181"], ["maint","Mantenimiento","#9085e9"],
+  ["extra","Peajes y parqueo","#d95926"], ["profit","Ganancia","#199e70"],
+];
+const STATUS_TXT = { completed:"Completado", cancelled_paid:"Cancelado (pagado)", cancelled:"Cancelado" };
+
+/* ---------- Orlando time helpers ---------- */
+const ETF = new Intl.DateTimeFormat("en-US",{timeZone:TZ,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+const etParts = ms => { const p = {}; for(const { type, value } of ETF.formatToParts(new Date(ms))) p[type] = value; return p; };
+const toLocalInput = iso => { if(!iso) return ""; const p = etParts(Date.parse(iso)); return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`; };
+function etNaiveToISO(s){ // "YYYY-MM-DDTHH:MM" in Orlando -> ISO instant
+  const [d, t = "00:00"] = s.split("T"); const [y, m, dd] = d.split("-").map(Number); const [H, M] = t.split(":").map(Number);
+  const wall = Date.UTC(y, m-1, dd, H, M);
+  const off = ms => { const p = etParts(ms); return Date.UTC(+p.year, +p.month-1, +p.day, +p.hour, +p.minute, +p.second) - Math.floor(ms/1000)*1000; };
+  let g = wall - off(wall); g = wall - off(g); return new Date(g).toISOString();
+}
+const dayStartMs = key => Date.parse(etNaiveToISO(key + "T00:00"));
+const addDayKey = (key, n) => { const [y,m,d] = key.split("-").map(Number); const t = new Date(Date.UTC(y, m-1, d+n)); return t.toISOString().slice(0,10); };
+const mondayOf = key => addDayKey(key, -dayIdx(key));
+const fmtDay = key => new Date(key+"T12:00:00Z").toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"});
+const fmtDate = iso => new Date(iso).toLocaleDateString("es-US",{timeZone:TZ,weekday:"short",month:"short",day:"numeric"});
+const pctf = v => v == null || !isFinite(v) ? "—" : Math.round(v*100) + "%";
+const num1 = v => v == null || isNaN(v) ? "—" : (+v).toLocaleString("en-US",{maximumFractionDigits:1});
+
+/* ---------- assumptions (editable in Rendimiento; stored in bl_config) ---------- */
+const cfgv = () => S.cfg || DEFAULT_CFG;
+const A = () => ({
+  driverPct: cfgv().driver_pct ?? 0.25,
+  maint: cfgv().maint_per_mile ?? 0.10,          // ESTIMATED until there are real maintenance receipts
+  gasEst: cfgv().gas_per_mile_est ?? 0.24,       // $3.82/gal (AAA Orlando) / 16 mpg — used until fuel log has data
+  fixed: cfgv().fixed_monthly ?? 2686,           // GM Financial + insurance + prorated permits/CPA/subs/BTR
+});
+
+/* ---------- fuel ---------- */
+function fuelStats(){
+  const fills = [...S.fuel].sort((a,b) => Date.parse(a.filled_at) - Date.parse(b.filled_at));
+  const full = fills.filter(f => f.full_tank && f.odometer != null);
+  const intervals = [];
+  for(let i = 1; i < full.length; i++){
+    const a = full[i-1], b = full[i];
+    const between = fills.filter(f => Date.parse(f.filled_at) > Date.parse(a.filled_at) && Date.parse(f.filled_at) <= Date.parse(b.filled_at));
+    const gal = between.reduce((s,f) => s + +f.gallons, 0), cost = between.reduce((s,f) => s + +f.total_cost, 0), mi = b.odometer - a.odometer;
+    if(mi > 0 && gal > 0) intervals.push({ at: b.filled_at, mi, gal, cost, mpg: mi/gal, perMile: cost/mi });
+  }
+  const mi = intervals.reduce((s,x) => s + x.mi, 0), gal = intervals.reduce((s,x) => s + x.gal, 0), cost = intervals.reduce((s,x) => s + x.cost, 0);
+  return { fills, intervals, mpg: gal ? mi/gal : null, perMile: mi ? cost/mi : null, miles: mi,
+    spend: fills.reduce((s,f) => s + +f.total_cost, 0), gallons: fills.reduce((s,f) => s + +f.gallons, 0) };
+}
+const gasPerMile = () => { const f = fuelStats(); return f.perMile != null ? { v: f.perMile, real: true } : { v: A().gasEst, real: false }; };
+
+/* ---------- per-trip economics ---------- */
+function tripEcon(t, gpm = gasPerMile().v){
+  const a = A(), counted = t.status !== "cancelled";
+  const rev = counted ? +t.payout || 0 : 0;
+  const driver = !counted ? 0 : t.driver_pay != null ? +t.driver_pay : rev * a.driverPct;
+  const paxMi = t.miles != null ? +t.miles : null, deadMi = t.deadhead_miles != null ? +t.deadhead_miles : null;
+  const mi = (paxMi || 0) + (deadMi || 0);
+  const gas = mi * gpm, maint = mi * a.maint, extra = (+t.tolls || 0) + (+t.parking || 0);
+  const profit = rev - driver - gas - maint - extra;
+  const mins = t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : (t.duration_min != null ? +t.duration_min : null);
+  return { rev, driver, gas, maint, extra, profit, tip: +t.tip || 0, mi, paxMi, deadMi, mins: mins > 0 ? mins : null, counted };
+}
+function agg(trips){
+  const gpm = gasPerMile().v;
+  const o = { n:0, rev:0, driver:0, gas:0, maint:0, extra:0, profit:0, tips:0, mi:0, miKnown:0, revMi:0, minKnown:0, profitMin:0, revMin:0 };
+  for(const t of trips){ const e = tripEcon(t, gpm); if(!e.counted) continue;
+    o.n++; o.rev += e.rev; o.driver += e.driver; o.gas += e.gas; o.maint += e.maint; o.extra += e.extra; o.profit += e.profit; o.tips += e.tip; o.mi += e.mi;
+    if(e.mi > 0){ o.miKnown += e.mi; o.revMi += e.rev; }
+    if(e.mins){ o.minKnown += e.mins; o.profitMin += e.profit; o.revMin += e.rev; } }
+  o.margin = o.rev ? o.profit/o.rev : null;
+  o.perHour = o.minKnown ? o.profitMin/(o.minKnown/60) : null;
+  o.revPerHour = o.minKnown ? o.revMin/(o.minKnown/60) : null;
+  o.perMile = o.miKnown ? o.revMi/o.miKnown : null;
+  o.perTrip = o.n ? o.profit/o.n : null;
+  return o;
+}
+
+/* ---------- filters ---------- */
+function rangeBounds(){
+  const now = Date.now(), r = S.tr.range, todayKey = dayKey(now);
+  if(r === "all"){ const first = S.trips.length ? Math.min(...S.trips.map(t => Date.parse(t.started_at))) : now; return [dayStartMs(dayKey(first)), now]; }
+  if(r === "mtd"){ const p = etParts(now); return [dayStartMs(`${p.year}-${p.month}-01`), now]; }
+  return [dayStartMs(addDayKey(todayKey, -(+r - 1))), now];
+}
+const rangeLabel = () => ({ "7":"Últimos 7 días", "30":"Últimos 30 días", "90":"Últimos 90 días", mtd:"Este mes", all:"Desde el primer viaje" })[S.tr.range];
+function filteredTrips(){
+  const [a, b] = rangeBounds();
+  return S.trips.filter(t => { const s = Date.parse(t.started_at); return s >= a && s <= b && (S.tr.plat === "all" || t.platform === S.tr.plat); })
+    .sort((x,y) => Date.parse(y.started_at) - Date.parse(x.started_at));
+}
+const filterBar = (extra = "", noPlat = false) => `<div class="fbar">
+  <div class="rng">${[["7","7 días"],["30","30 días"],["mtd","Este mes"],["90","90 días"],["all","Todo"]].map(([v,l]) => `<button data-trange="${v}" class="${S.tr.range===v?"on":""}">${l}</button>`).join("")}</div>
+  ${noPlat ? "" : `<label class="selwrap"><span class="sr-only" style="position:absolute;left:-9999px">Plataforma</span><select data-tplat>
+    <option value="all">Todas las plataformas</option>${Object.entries(PLAT).map(([k,p]) => `<option value="${k}" ${S.tr.plat===k?"selected":""}>${p.n}</option>`).join("")}</select></label>`}
+  <span class="spacer"></span>${extra}</div>`;
+
+/* ---------- buckets for time charts ---------- */
+function buckets(){
+  const [a, b] = rangeBounds(), first = dayKey(a), last = dayKey(b);
+  let n = 0, k = first; while(k <= last && n < 800){ n++; k = addDayKey(k, 1); }
+  const weekly = n > 35, keys = [];
+  if(weekly){ let w = mondayOf(first); while(w <= last){ keys.push(w); w = addDayKey(w, 7); } }
+  else { let d = first; while(d <= last){ keys.push(d); d = addDayKey(d, 1); } }
+  const keyOf = iso => weekly ? mondayOf(dayKey(iso)) : dayKey(iso);
+  return { keys, weekly, keyOf, label: k => weekly ? "Sem. " + fmtDay(k) : fmtDay(k) };
+}
+
+/* ======================= charts (SVG, drawn at the container's real width) ======================= */
+const CHARTS = {};
+function niceStep(range, ticks = 4){ const raw = range / ticks || 1; const p = 10 ** Math.floor(Math.log10(raw)); const m = raw / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p; }
+const tipRow = (color, name, val) => `<div class="r"><span>${color ? `<i style="background:${color}"></i>` : ""}${esc(name)}</span><b>${val}</b></div>`;
+/* bar path with 4px rounded data end, square at the baseline */
+function barPath(x, w, y0, y1){
+  const h = Math.abs(y1 - y0); if(h < 0.5) return "";
+  const r = Math.min(4, w/2, h), up = y1 < y0;
+  return up ? `M${x},${y0}V${y1+r}Q${x},${y1} ${x+r},${y1}H${x+w-r}Q${x+w},${y1} ${x+w},${y1+r}V${y0}Z`
+            : `M${x},${y0}V${y1-r}Q${x},${y1} ${x+r},${y1}H${x+w-r}Q${x+w},${y1} ${x+w},${y1-r}V${y0}Z`;
+}
+function axisY(min, max, W, H, padL, padT, padB, fmt){
+  const step = niceStep(max - min || 1), lo = Math.floor(min/step)*step, hi = Math.ceil(max/step)*step || step;
+  const y = v => padT + (hi - v)/(hi - lo) * (H - padT - padB);
+  let g = "";
+  for(let v = lo; v <= hi + 1e-9; v += step){
+    g += `<line x1="${padL}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="${Math.abs(v) < 1e-9 ? "#3a3833" : "#22211e"}" stroke-width="1"/>`;
+    g += `<text x="${padL-8}" y="${y(v)+4}" fill="#8a8780" font-size="11" text-anchor="end" font-family="Geist,system-ui" style="font-variant-numeric:tabular-nums">${fmt(v)}</text>`;
+  }
+  return { y, g, lo, hi };
+}
+const kfmt = v => Math.abs(v) >= 1000 ? "$" + (v/1000).toFixed(Math.abs(v) >= 10000 ? 0 : 1) + "k" : "$" + Math.round(v);
+/* grouped columns: series [{name,color,values}], labels[]; tip(i) -> html */
+function colChart(W, { labels, series, tip, H = 250 }){
+  const padL = 46, padB = 26, padT = 10, n = labels.length, all = series.flatMap(s => s.values);
+  const ax = axisY(Math.min(0, ...all), Math.max(1, ...all), W, H, padL, padT, padB, kfmt);
+  const band = (W - padL)/n, groupW = Math.min(band*0.72, 64), gap = 2, bw = Math.max(2, (groupW - gap*(series.length-1))/series.length);
+  let g = ax.g, hit = "";
+  labels.forEach((l, i) => {
+    const x0 = padL + i*band + (band - groupW)/2;
+    series.forEach((s, j) => { const v = s.values[i]; if(!v) return; const x = x0 + j*(bw+gap);
+      g += `<path d="${barPath(x, bw, ax.y(0), ax.y(v))}" fill="${v < 0 ? "var(--c-neg)" : s.color}"/>`; });
+    hit += `<rect x="${padL + i*band}" y="${padT}" width="${band}" height="${H-padT-padB}" fill="transparent" data-tip="${esc(tip(i))}"/>`;
+    const every = Math.ceil(n / Math.max(1, Math.floor((W-padL)/64)));
+    if(i % every === 0) g += `<text x="${padL + (i+.5)*band}" y="${H-7}" fill="#8a8780" font-size="11" text-anchor="middle" font-family="Geist,system-ui">${esc(l)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">${g}${hit}</svg>`;
+}
+/* lines: series [{name,color,values,dash}] sharing one $ axis; crosshair hover */
+function lineChart(W, { labels, series, tip, H = 240, fmt = kfmt }){
+  const padL = 46, padB = 26, padT = 12, n = labels.length, all = series.flatMap(s => s.values.filter(v => v != null));
+  const ax = axisY(Math.min(0, ...all), Math.max(1, ...all), W, H, padL, padT, padB, fmt);
+  const x = i => n === 1 ? padL + (W-padL)/2 : padL + i*(W - padL - 8)/(n-1);
+  let g = ax.g, hit = "";
+  series.forEach(s => { const pts = s.values.map((v,i) => v == null ? null : `${x(i)},${ax.y(v)}`).filter(Boolean);
+    g += `<polyline points="${pts.join(" ")}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" ${s.dash ? 'stroke-dasharray="5 5"' : ""}/>`;
+    const li = s.values.length - 1; if(!s.dash && s.values[li] != null) g += `<circle cx="${x(li)}" cy="${ax.y(s.values[li])}" r="4" fill="${s.color}" stroke="var(--panel)" stroke-width="2"/>`; });
+  const every = Math.ceil(n / Math.max(1, Math.floor((W-padL)/70)));
+  labels.forEach((l, i) => {
+    const half = n === 1 ? (W-padL)/2 : (W-padL-8)/(n-1)/2;
+    hit += `<rect x="${x(i)-half}" y="${padT}" width="${half*2}" height="${H-padT-padB}" fill="transparent" data-tip="${esc(tip(i))}" data-cx="${x(i)}"/>`;
+    if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-7}" fill="#8a8780" font-size="11" text-anchor="${i === 0 ? "start" : i === n-1 ? "end" : "middle"}" font-family="Geist,system-ui">${esc(l)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img"><line class="xhair" x1="0" x2="0" y1="${padT}" y2="${H-padB}" stroke="#4a4740" stroke-width="1" style="display:none"/>${g}${hit}</svg>`;
+}
+function drawCharts(){
+  document.querySelectorAll("[data-chart]").forEach(el => { const f = CHARTS[el.dataset.chart]; if(f){ el.innerHTML = f(Math.max(280, Math.floor(el.clientWidth))); } });
+}
+let rsT; window.addEventListener("resize", () => { clearTimeout(rsT); rsT = setTimeout(drawCharts, 120); });
+
+/* tooltip: hover on desktop, tap on touch */
+const tipEl = () => document.getElementById("tip");
+function showTip(target, x, y){
+  const t = tipEl(); t.innerHTML = target.getAttribute("data-tip"); t.style.display = "block";
+  const r = t.getBoundingClientRect(), vw = innerWidth;
+  t.style.left = Math.min(vw - r.width - 8, Math.max(8, x + 14)) + "px"; t.style.top = Math.max(8, y - r.height - 12) + "px";
+  const svg = target.ownerSVGElement, xh = svg?.querySelector(".xhair");
+  svg?.querySelectorAll(".xhair").forEach(l => l.style.display = "none");
+  if(xh && target.dataset.cx){ xh.setAttribute("x1", target.dataset.cx); xh.setAttribute("x2", target.dataset.cx); xh.style.display = ""; }
+}
+function hideTip(){ const t = tipEl(); if(t) t.style.display = "none"; document.querySelectorAll(".xhair").forEach(l => l.style.display = "none"); }
+document.addEventListener("mousemove", e => { const h = e.target.closest?.("[data-tip]"); h ? showTip(h, e.clientX, e.clientY) : hideTip(); });
+document.addEventListener("touchstart", e => { const h = e.target.closest?.("[data-tip]"); if(h){ const p = e.touches[0]; showTip(h, p.clientX, p.clientY); } else hideTip(); }, { passive:true });
+document.addEventListener("scroll", hideTip, { passive:true, capture:true });
+
+/* ======================= pages ======================= */
+function onboarding(){
+  return `<div class="onb"><div><h2>Registra el <em>primer viaje.</em></h2>
+    <p>Cada viaje que entra aquí —Blacklane, Uber, Lyft o directo— alimenta los números del negocio: ingreso, lo que se lleva el chofer, gasolina, ganancia real y cuánto falta para cubrir los fijos del mes.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button><button class="btn" data-act="fuelnew">${icon("fuel",16)} Registrar tanqueo</button></div></div>
+    <ul><li>${icon("check")}Ganancia por viaje, por hora y por milla, por plataforma.</li><li>${icon("check")}Consumo real de la Suburban (mpg) con cada tanqueo.</li><li>${icon("check")}Cuánto falta para cubrir los $${A().fixed.toLocaleString("en-US")} de costos fijos del mes.</li><li>${icon("check")}Exportable a CSV para el CPA.</li></ul></div>`;
+}
+
+function renderHome(){
+  const trips = filteredTrips(), a = agg(trips), gpm = gasPerMile(), B = buckets();
+  const all = agg(S.trips);
+  const series = B.keys.map(k => { const g = agg(trips.filter(t => B.keyOf(t.started_at) === k)); return g; });
+  CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label),
+    series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#3987e5","Ingreso",money(series[i].rev))}${tipRow("#199e70","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}` });
+  /* month-to-date vs fixed costs (independent of the range filter) */
+  const p = etParts(Date.now()), mStart = dayStartMs(`${p.year}-${p.month}-01`);
+  const mtd = agg(S.trips.filter(t => Date.parse(t.started_at) >= mStart && (S.tr.plat === "all" || t.platform === S.tr.plat)));
+  const cover = A().fixed ? Math.max(0, mtd.profit) / A().fixed : null, left = Math.max(0, A().fixed - mtd.profit);
+  const tripsLeft = mtd.perTrip > 0 ? Math.ceil(left / mtd.perTrip) : all.perTrip > 0 ? Math.ceil(left / all.perTrip) : null;
+  const parts = COST.map(([k, n, c]) => [n, c, Math.max(0, a[k])]), tot = parts.reduce((s, x) => s + x[2], 0);
+  const recent = trips.slice(0, 6);
+  $("#view").innerHTML = `
+  ${head("Cómo va <em>el negocio.</em>", `${rangeLabel()}${S.tr.plat !== "all" ? " · " + PLAT[S.tr.plat].n : " · todas las plataformas"}.`, "Resumen")}
+  ${filterBar(`<button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}
+  ${!S.trips.length ? onboarding() : `
+  <div class="tiles">
+    <div class="tile hero"><div class="k">Ganancia neta</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">después de chofer y costos del viaje</div></div>
+    <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.n} viaje${a.n === 1 ? "" : "s"}</div></div>
+    <div class="tile"><div class="k">Margen</div><div class="v ${a.margin < 0 ? "neg" : ""}">${pctf(a.margin)}</div><div class="s">ganancia ÷ ingreso</div></div>
+    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">hora con pasajero</div></div>
+    <div class="tile"><div class="k">Ingreso / milla</div><div class="v">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</div><div class="s">millas totales, incl. vacías</div></div>
+  </div>
+  <div class="box" style="margin-bottom:16px"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
+    <div class="pad"><div class="chart" data-chart="revprofit"></div></div></div>
+  <div class="g2e">
+    <div class="box"><header><h3>A dónde va cada dólar</h3><span class="sub">${money0(a.rev)} de ingreso</span></header><div class="pad">
+      ${tot ? `<div class="split">${parts.filter(x => x[2] > 0).map(([n, c, v]) => `<div style="flex:${v};background:${c}" data-tip="${esc(`<b>${n}</b>${tipRow(c, money(v), pctf(v/tot))}`)}"></div>`).join("")}</div>
+      <div class="legrows">${parts.map(([n, c, v]) => `<div class="lr"><i style="background:${c}"></i><span>${n}</span><b>${money(v)}</b><small>${pctf(tot ? v/tot : null)}</small></div>`).join("")}</div>
+      <p class="dim" style="font-size:12px;margin:14px 0 0">Gasolina ${gpm.real ? `real del registro (${money(gpm.v)}/mi)` : `estimada a ${money(gpm.v)}/mi hasta registrar tanqueos`} · mantenimiento estimado ${money(A().maint)}/mi.${a.tips ? ` Propinas para el chofer: ${money(a.tips)} (no son ingreso de la empresa).` : ""}</p>` : `<div class="empty">Sin viajes en este rango.</div>`}
+    </div></div>
+    <div class="box"><header><h3>Costos fijos del mes</h3><span class="sub">${new Date().toLocaleDateString("es-US",{month:"long",timeZone:TZ})}</span></header><div class="pad">
+      <div class="big ${mtd.profit < 0 ? "neg" : ""}">${money0(mtd.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money0(A().fixed)}</span></div>
+      <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round((cover||0)*100)}"><div style="width:${Math.min(100, (cover||0)*100)}%"></div></div>
+      <div class="muted" style="font-size:13px">${cover >= 1 ? `<b class="pos">Cubiertos.</b> Todo lo que entre este mes es ganancia después de fijos.` : `Cubre <b style="color:var(--text)">${pctf(cover)}</b> de los fijos. Faltan <b style="color:var(--text)">${money0(left)}</b>${tripsLeft ? ` ≈ <b style="color:var(--text)">${tripsLeft} viaje${tripsLeft===1?"":"s"}</b> al ritmo actual` : ""}.`}</div>
+      <p class="dim" style="font-size:12px;margin:14px 0 0">Fijos: GM Financial, seguro y permisos/CPA/suscripciones prorrateados. Ajustable en Rendimiento → Supuestos.</p>
+    </div></div>
+  </div>
+  <div class="box"><header><h3>Últimos viajes</h3><button class="btn btn-sm" data-view="trips">Ver todos ${icon("arrow",14)}</button></header>${tripTable(recent)}</div>`}`;
+}
+
+function tripTable(rows){
+  if(!rows.length) return `<div class="empty">Sin viajes en este rango.</div>`;
+  const gpm = gasPerMile().v;
+  return `<div class="tablewrap tripstable"><table><thead><tr><th>Fecha</th><th>Plataforma</th><th>Ruta</th><th style="text-align:right">Millas</th><th style="text-align:right">Min</th><th style="text-align:right">Pago</th><th style="text-align:right">Chofer</th><th style="text-align:right">Costos</th><th style="text-align:right">Ganancia</th><th style="text-align:right">$/h</th></tr></thead><tbody>
+  ${rows.map(t => { const e = tripEcon(t, gpm); return `<tr data-trip="${t.id}">
+    <td class="num">${fmtDate(t.started_at)}<small class="dim" style="display:block">${fmtHM(t.started_at)}</small></td>
+    <td>${platTag(t.platform)}${t.status !== "completed" ? `<small class="dim" style="display:block">${STATUS_TXT[t.status]}</small>` : ""}</td>
+    <td><div class="route2" title="${esc((t.pickup||"") + " → " + (t.dropoff||""))}">${esc(shortAddr(t.pickup) || "—")}<small>→ ${esc(shortAddr(t.dropoff) || "—")}</small></div></td>
+    <td class="num" style="text-align:right">${e.paxMi == null ? "—" : num1(e.paxMi)}${e.deadMi ? `<small class="dim" style="display:block">+${num1(e.deadMi)} vacías</small>` : ""}</td>
+    <td class="num" style="text-align:right">${e.mins ? Math.round(e.mins) : "—"}</td>
+    <td class="num" style="text-align:right">${money(e.rev)}${e.tip ? `<small class="dim" style="display:block">+${money(e.tip)} propina</small>` : ""}</td>
+    <td class="num" style="text-align:right">${money(e.driver)}</td>
+    <td class="num" style="text-align:right">${money(e.gas + e.maint + e.extra)}</td>
+    <td class="num ${e.profit < 0 ? "neg" : ""}" style="text-align:right;font-weight:600">${money(e.profit)}</td>
+    <td class="num" style="text-align:right">${e.mins ? money0(e.profit/(e.mins/60)) : "—"}</td></tr>`; }).join("")}
+  </tbody></table></div>
+  <div class="tcardlist">${rows.map(t => { const e = tripEcon(t, gpm); return `<div class="tc" data-trip="${t.id}" role="button" tabindex="0">
+    <div class="a">${platTag(t.platform)} · ${fmtDate(t.started_at)} ${fmtHM(t.started_at)}</div><div class="m ${e.profit < 0 ? "neg" : ""}">${money(e.profit)}<small>ganancia</small></div>
+    <div class="b">${esc(shortAddr(t.pickup) || "—")} → ${esc(shortAddr(t.dropoff) || "—")}</div><div class="m">${money(e.rev)}<small>pago</small></div></div>`; }).join("")}</div>`;
+}
+
+function renderTrips(){
+  const rows = filteredTrips(), a = agg(rows);
+  $("#view").innerHTML = `
+  ${head("Registro de <em>viajes.</em>", "Cada viaje de todas las plataformas, con lo que pagó, lo que costó y lo que dejó.", "Viajes")}
+  ${filterBar(`<button class="btn btn-sm" data-act="csv" ${rows.length ? "" : "disabled"}>${icon("download",15)} CSV</button><button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}
+  ${!S.trips.length ? onboarding() : `
+  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="tile"><div class="k">Viajes</div><div class="v">${a.n}</div><div class="s">${rangeLabel().toLowerCase()}</div></div>
+    <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.tips ? "+" + money0(a.tips) + " en propinas al chofer" : "pago de las apps"}</div></div>
+    <div class="tile"><div class="k">Ganancia</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">${a.perTrip == null ? "—" : money0(a.perTrip) + " por viaje"}</div></div>
+    <div class="tile"><div class="k">Millas</div><div class="v">${num1(a.mi)}</div><div class="s">con pasajero + vacías</div></div>
+  </div>
+  <div class="box">${tripTable(rows)}</div>`}`;
+}
+
+function renderPerf(){
+  const trips = filteredTrips(), a = agg(trips);
+  const plats = Object.keys(PLAT).map(k => ({ k, ...agg(trips.filter(t => t.platform === k)) })).filter(p => p.n);
+  const maxH = Math.max(1, ...plats.map(p => Math.abs(p.perHour || 0))), maxT = Math.max(1, ...plats.map(p => Math.abs(p.perTrip || 0)));
+  /* cumulative profit vs prorated fixed costs (same $ axis) */
+  const B = buckets(), [r0] = rangeBounds(), dailyFixed = A().fixed * 12 / 365;
+  let cum = 0; const cumP = [], cumF = [];
+  B.keys.forEach((k, i) => { cum += agg(trips.filter(t => B.keyOf(t.started_at) === k)).profit; cumP.push(cum);
+    const end = B.weekly ? Math.min(Date.now(), dayStartMs(addDayKey(k, 7))) : Math.min(Date.now(), dayStartMs(addDayKey(k, 1)));
+    cumF.push(dailyFixed * Math.max(0, (end - r0) / 86400e3)); });
+  CHARTS.cum = W => lineChart(W, { labels: B.keys.map(B.label), series: [{ name:"Ganancia acumulada", color:"var(--c-profit)", values: cumP }, { name:"Costos fijos acumulados", color:"#8a8780", values: cumF, dash:true }],
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#199e70","Ganancia acumulada",money0(cumP[i]))}${tipRow("#8a8780","Fijos acumulados",money0(cumF[i]))}${tipRow("","Diferencia",money0(cumP[i]-cumF[i]))}` });
+  /* weekday profile */
+  const wd = DAYS.map((d, i) => { const ts = trips.filter(t => dayIdx(dayKey(t.started_at)) === i); return { d: d[1].slice(0,3), ...agg(ts) }; });
+  CHARTS.wd = W => colChart(W, { H: 210, labels: wd.map(x => x.d), series: [{ name:"Ganancia", color:"var(--c-profit)", values: wd.map(x => x.profit) }],
+    tip: i => `<b>${DAYS[i][1]}</b>${tipRow("#199e70","Ganancia",money(wd[i].profit))}${tipRow("","Viajes",wd[i].n)}${tipRow("","Por viaje",wd[i].perTrip == null ? "—" : money(wd[i].perTrip))}` });
+  const asum = A(), gpm = gasPerMile();
+  $("#view").innerHTML = `
+  ${head("Qué plataforma <em>rinde más.</em>", "Con un solo carro y un solo chofer, el recurso escaso es la hora de Marco: compara cuánto deja cada app por hora y por viaje.", "Rendimiento")}
+  ${filterBar()}
+  ${!S.trips.length ? onboarding() : `
+  <div class="box" style="margin-bottom:16px"><header><h3>Por plataforma</h3><span class="sub">${rangeLabel()}</span></header>
+    <div class="tablewrap"><table><thead><tr><th>Plataforma</th><th style="text-align:right">Viajes</th><th style="text-align:right">Ingreso</th><th style="text-align:right">Ganancia</th><th style="text-align:right">Margen</th><th style="text-align:right">Por viaje</th><th style="text-align:right">Por hora</th><th style="text-align:right">Ingreso/mi</th></tr></thead><tbody>
+    ${plats.map(p => `<tr><td>${platTag(p.k)}</td><td class="num" style="text-align:right">${p.n}</td><td class="num" style="text-align:right">${money(p.rev)}</td><td class="num ${p.profit < 0 ? "neg" : ""}" style="text-align:right;font-weight:600">${money(p.profit)}</td><td class="num" style="text-align:right">${pctf(p.margin)}</td><td class="num" style="text-align:right">${money(p.perTrip)}</td><td class="num" style="text-align:right">${p.perHour == null ? "—" : money0(p.perHour)}</td><td class="num" style="text-align:right">${p.perMile == null ? "—" : "$" + p.perMile.toFixed(2)}</td></tr>`).join("")}
+    <tr><td><b>Total</b></td><td class="num" style="text-align:right"><b>${a.n}</b></td><td class="num" style="text-align:right"><b>${money(a.rev)}</b></td><td class="num ${a.profit < 0 ? "neg" : ""}" style="text-align:right"><b>${money(a.profit)}</b></td><td class="num" style="text-align:right">${pctf(a.margin)}</td><td class="num" style="text-align:right">${money(a.perTrip)}</td><td class="num" style="text-align:right">${a.perHour == null ? "—" : money0(a.perHour)}</td><td class="num" style="text-align:right">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</td></tr>
+    </tbody></table></div></div>
+  <div class="g2e">
+    <div class="box"><header><h3>Ganancia por hora</h3><span class="sub">hora con pasajero</span></header><div class="pad"><div class="hbars">
+      ${[...plats].sort((x,y) => (y.perHour ?? -1e9) - (x.perHour ?? -1e9)).map(p => `<div class="hb" data-tip="${esc(`<b>${PLAT[p.k].n}</b>${tipRow(PLAT[p.k].c,"Por hora",p.perHour == null ? "—" : money(p.perHour))}${tipRow("","Viajes",p.n)}`)}"><div class="t"><span>${platTag(p.k)}</span><b class="${p.perHour < 0 ? "neg" : ""}">${p.perHour == null ? "sin duración" : money0(p.perHour) + "/h"}</b></div><div class="tr"><div class="f" style="width:${Math.abs(p.perHour||0)/maxH*100}%;background:${p.perHour < 0 ? "var(--c-neg)" : PLAT[p.k].c}"></div></div></div>`).join("")}
+    </div></div></div>
+    <div class="box"><header><h3>Ganancia por viaje</h3><span class="sub">promedio</span></header><div class="pad"><div class="hbars">
+      ${[...plats].sort((x,y) => (y.perTrip ?? -1e9) - (x.perTrip ?? -1e9)).map(p => `<div class="hb" data-tip="${esc(`<b>${PLAT[p.k].n}</b>${tipRow(PLAT[p.k].c,"Por viaje",money(p.perTrip))}${tipRow("","Ingreso promedio",money(p.rev/p.n))}`)}"><div class="t"><span>${platTag(p.k)}</span><b class="${p.perTrip < 0 ? "neg" : ""}">${money0(p.perTrip)}</b></div><div class="tr"><div class="f" style="width:${Math.abs(p.perTrip||0)/maxT*100}%;background:${p.perTrip < 0 ? "var(--c-neg)" : PLAT[p.k].c}"></div></div></div>`).join("")}
+    </div></div></div>
+  </div>
+  <div class="g2">
+    <div class="box"><header><h3>¿Ya se pagó la camioneta?</h3><div class="lg"><span><i style="background:var(--c-profit)"></i>Ganancia acumulada</span><span><i style="background:repeating-linear-gradient(90deg,#8a8780 0 4px,transparent 4px 7px)"></i>Costos fijos acumulados</span></div></header>
+      <div class="pad"><div class="chart" data-chart="cum"></div><p class="dim" style="font-size:12px;margin:10px 0 0">Cuando la línea verde pasa la punteada, el período cubrió sus fijos (${money0(asum.fixed)}/mes prorrateado por día).</p></div></div>
+    <div class="box"><header><h3>Por día de la semana</h3><span class="sub">ganancia</span></header><div class="pad"><div class="chart" data-chart="wd"></div></div></div>
+  </div>`}
+  <div class="box"><header><h3>Supuestos</h3><span class="sub">se guardan con el filtro del bot</span></header><div class="pad">
+    <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}${num("fixed_monthly","Costos fijos",{step:"1",suf:"$/mes",ph:"2686",hint:"GM Financial $1,634.87 + seguro $957 + prorrateos"})}</div>
+    <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.01",suf:"$/mi",ph:"0.24",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Se reemplaza solo con tanqueos registrados"})}</div>
+    <div class="note" style="margin-top:4px">${icon("info")}<div>El % del chofer también lo usa el bot para calcular el neto de las ofertas. Mantenimiento es un estimado hasta que haya facturas reales.</div></div>
+    ${saveBar()}</div></div>`;
+}
+
+function renderFuel(){
+  const f = fuelStats(), r0 = S.tr.range === "all" ? 0 : rangeBounds()[0], fills = f.fills.filter(x => Date.parse(x.filled_at) >= r0).reverse();
+  const spend = fills.reduce((s,x) => s + +x.total_cost, 0), gal = fills.reduce((s,x) => s + +x.gallons, 0);
+  CHARTS.mpg = W => lineChart(W, { H: 220, labels: f.intervals.map(x => fmtDay(dayKey(x.at))), fmt: v => v.toFixed(0),
+    series: [{ name:"mpg", color:"var(--c-rev)", values: f.intervals.map(x => x.mpg) }],
+    tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#3987e5","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
+  $("#view").innerHTML = `
+  ${head("Lo que se <em>consume.</em>", "Cada tanqueo con odómetro: así sale el consumo real de la Suburban y el costo de gasolina por milla.", "Gasolina")}
+  ${filterBar(`<button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("plus",15)} Registrar tanqueo</button>`, true)}
+  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div class="tile"><div class="k">Consumo real</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.mpg == null ? "necesita 2 tanques llenos con odómetro" : `en ${num1(f.miles)} mi medidas · estimado era 16`}</div></div>
+    <div class="tile"><div class="k">Gasolina por milla</div><div class="v">${f.perMile == null ? money(A().gasEst) : money(f.perMile)}</div><div class="s">${f.perMile == null ? "estimado (aún sin datos)" : "real · estimado era " + money(A().gasEst)}</div></div>
+    <div class="tile"><div class="k">Gasto en gasolina</div><div class="v">${money0(spend)}</div><div class="s">${rangeLabel().toLowerCase()} · ${fills.length} tanqueo${fills.length===1?"":"s"}</div></div>
+    <div class="tile"><div class="k">Precio promedio</div><div class="v">${gal ? money(spend/gal) : "—"}</div><div class="s">por galón</div></div>
+  </div>
+  ${f.intervals.length ? `<div class="box" style="margin-bottom:16px"><header><h3>Consumo entre tanques llenos</h3><span class="sub">millas por galón</span></header><div class="pad"><div class="chart" data-chart="mpg"></div></div></div>` : ""}
+  <div class="box"><header><h3>Tanqueos</h3><span class="sub">${f.fills.length} en total</span></header>
+  ${fills.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th style="text-align:right">Galones</th><th style="text-align:right">Total</th><th style="text-align:right">$/gal</th><th style="text-align:right">Odómetro</th><th>Lleno</th><th>Estación</th></tr></thead><tbody>
+    ${fills.map(x => `<tr data-fuel="${x.id}"><td class="num">${fmtDate(x.filled_at)} <span class="dim">${fmtHM(x.filled_at)}</span></td><td class="num" style="text-align:right">${(+x.gallons).toFixed(2)}</td><td class="num" style="text-align:right">${money(x.total_cost)}</td><td class="num" style="text-align:right">${money(x.total_cost/x.gallons)}</td><td class="num" style="text-align:right">${x.odometer == null ? "—" : (+x.odometer).toLocaleString("en-US")}</td><td>${x.full_tank ? "Sí" : "No"}</td><td class="cut muted">${esc(x.station || "")}</td></tr>`).join("")}
+  </tbody></table></div>` : `<div class="empty">Sin tanqueos en este rango. Registra cada tanqueo con el odómetro y marcando si llenó el tanque.</div>`}</div>`;
+}
+
+/* ======================= forms ======================= */
+let FORM = null; // { kind:'trip'|'fuel', id, data }
+function drawerShell(title, sub, body, acts){
+  $("#modalRoot").innerHTML = `<div class="drawer-bg" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <div class="dh"><div><div class="pagehead" style="margin:0"><div class="eyebrow" style="margin:0"><span class="no">${esc(sub)}</span><span class="dash"></span></div></div><div class="route">${title}</div></div>
+    <button class="btn btn-ghost btn-sm" data-close aria-label="Cerrar">${icon("x",16)}</button></div>
+    <div class="db">${body}</div><div class="formacts">${acts}</div></aside>`;
+  $("#modalRoot").querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
+}
+const fin = (id, label, val, o = {}) => `<div class="field"><label for="${id}">${label}${o.req ? ' <span class="req">*</span>' : ""}</label><div class="${o.suf ? "suffix" : ""}"><input class="input ${o.mono === false ? "" : "mono"}" id="${id}" type="${o.type || "number"}" ${o.type ? "" : 'inputmode="decimal" step="0.01" min="0"'} value="${val ?? ""}" placeholder="${esc(o.ph ?? "")}" ${o.req ? "required" : ""}>${o.suf ? `<i>${o.suf}</i>` : ""}</div>${o.hint ? `<div class="hint">${o.hint}</div>` : ""}</div>`;
+
+function openTrip(id){
+  const t = id ? S.trips.find(x => String(x.id) === String(id)) : null;
+  const d = t ? { ...t } : { platform: S.tr.plat !== "all" ? S.tr.plat : "uber", status:"completed", started_at: new Date().toISOString(), driver:"Marco Cardozo" };
+  FORM = { kind:"trip", id: t?.id ?? null, d };
+  drawerShell(t ? "Editar viaje" : "Nuevo viaje", t ? `Viaje #${t.id}` : "Registro", `
+    <form class="form" id="tripForm" novalidate>
+      <div class="field"><label>Plataforma <span class="req">*</span></label><div class="seg2" id="fPlat">${Object.entries(PLAT).map(([k,p]) => `<button type="button" data-fplat="${k}" class="${d.platform===k?"on":""}"><i style="background:${p.c}"></i>${p.n}</button>`).join("")}</div></div>
+      <div class="row"><div class="field"><label for="fStatus">Estado</label><select class="input" id="fStatus">${Object.entries(STATUS_TXT).map(([k,v]) => `<option value="${k}" ${d.status===k?"selected":""}>${v}</option>`).join("")}</select></div>
+        ${fin("fExt","ID del viaje en la app",d.external_id,{type:"text",ph:"opcional",mono:true})}</div>
+      <div class="row">${fin("fStart","Recogida (hora Orlando)",toLocalInput(d.started_at),{type:"datetime-local",req:true})}${fin("fEnd","Llegada al destino",toLocalInput(d.ended_at),{type:"datetime-local",hint:"Opcional; si no, usa los minutos"})}</div>
+      ${fin("fPick","Recogida",d.pickup,{type:"text",ph:"ej. MCO Terminal B",mono:false})}
+      ${fin("fDrop","Destino",d.dropoff,{type:"text",ph:"ej. Four Seasons Orlando",mono:false})}
+      <div class="row3">${fin("fMiles","Millas con pasajero",d.miles,{suf:"mi"})}${fin("fDead","Millas vacías",d.deadhead_miles,{suf:"mi",hint:"Ida al pickup + regreso"})}${fin("fMin","Minutos con pasajero",d.duration_min,{suf:"min"})}</div>
+      <div class="row3">${fin("fPayout","Pago de la app",d.payout,{suf:"USD",req:true,hint:"Lo que paga la plataforma a la empresa, sin propina"})}${fin("fTip","Propina",d.tip,{suf:"USD",hint:"100% para el chofer"})}${fin("fFare","Pagó el pasajero",d.fare,{suf:"USD",hint:"Opcional, si la app lo muestra"})}</div>
+      <div class="row3">${fin("fTolls","Peajes",d.tolls,{suf:"USD"})}${fin("fPark","Parqueo / aeropuerto",d.parking,{suf:"USD"})}${fin("fDriver","Pago al chofer",d.driver_pay,{suf:"USD",ph:"auto 25%"})}</div>
+      ${fin("fNotes","Notas",d.notes,{type:"text",mono:false})}
+      <div class="preview" id="fPrev"></div>
+      <div class="err" id="fErr"></div>
+    </form>`,
+    `${t ? `<button class="btn btn-ghost" data-act="tripdel">${icon("trash",15)} Borrar</button>` : "<span></span>"}<div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" data-act="tripsave">${icon("save",15)} Guardar</button></div>`);
+  $("#modalRoot [data-close].btn:not(.btn-ghost)")?.addEventListener("click", closeModal);
+  tripPreview();
+}
+const val = id => { const v = $("#"+id)?.value?.trim(); return v === "" || v == null ? null : v; };
+const nval = id => { const v = val(id); return v == null ? null : Number(v); };
+function readTrip(){
+  const d = FORM.d, payout = nval("fPayout");
+  return { platform: d.platform, status: val("fStatus"), external_id: val("fExt"),
+    started_at: val("fStart") ? etNaiveToISO(val("fStart")) : null, ended_at: val("fEnd") ? etNaiveToISO(val("fEnd")) : null,
+    pickup: val("fPick"), dropoff: val("fDrop"), miles: nval("fMiles"), deadhead_miles: nval("fDead"), duration_min: nval("fMin"),
+    payout, tip: nval("fTip") ?? 0, fare: nval("fFare"), tolls: nval("fTolls") ?? 0, parking: nval("fPark") ?? 0,
+    driver_pay: nval("fDriver") ?? (payout != null ? Math.round(payout * A().driverPct * 100)/100 : null), notes: val("fNotes") };
+}
+function tripPreview(){
+  const el = $("#fPrev"); if(!el) return; const r = readTrip();
+  if(r.payout == null){ el.innerHTML = `<span class="muted">Escribe el pago de la app para ver la ganancia.</span>`; return; }
+  const e = tripEcon(r), g = gasPerMile();
+  el.innerHTML = `<div class="kv"><span>Pago de la app</span><span class="mono">${money(e.rev)}</span>
+    <span>Chofer</span><span class="mono">−${money(e.driver)}</span>
+    <span>Gasolina (${num1(e.mi)} mi × ${money(g.v)}${g.real ? "" : " est."})</span><span class="mono">−${money(e.gas)}</span>
+    <span>Mantenimiento (est.)</span><span class="mono">−${money(e.maint)}</span>
+    <span>Peajes y parqueo</span><span class="mono">−${money(e.extra)}</span>
+    <span><b style="color:var(--text)">Ganancia empresa</b></span><span class="mono"><b class="${e.profit < 0 ? "neg" : ""}" style="color:var(--text)">${money(e.profit)}</b>${e.mins ? ` <span class="dim">· ${money0(e.profit/(e.mins/60))}/h</span>` : ""}</span></div>`;
+}
+async function saveTrip(){
+  const r = readTrip(), err = $("#fErr");
+  if(!r.platform) return err.textContent = "Elige la plataforma.";
+  if(!r.started_at) return err.textContent = "Falta la fecha y hora de recogida.";
+  if(r.payout == null || r.payout < 0) return err.textContent = "Falta el pago de la app.";
+  if(r.ended_at && Date.parse(r.ended_at) <= Date.parse(r.started_at)) return err.textContent = "La llegada debe ser después de la recogida.";
+  if(DEMO){ if(FORM.id){ Object.assign(S.trips.find(t => t.id === FORM.id), r); } else S.trips.push({ id: Date.now(), ...r }); closeModal(); render(); return toast("Viaje guardado (demo)"); }
+  const q = FORM.id ? S.sb.from("trip_log").update(r).eq("id", FORM.id).select() : S.sb.from("trip_log").insert({ ...r, source:"manual" }).select();
+  const { data, error } = await q;
+  if(error || !data?.length) return err.textContent = "No se guardó: " + (error?.message || "sin permiso");
+  if(FORM.id) S.trips = S.trips.map(t => t.id === FORM.id ? data[0] : t); else S.trips.push(data[0]);
+  closeModal(); render(); toast(FORM.id ? "Viaje actualizado." : "Viaje registrado.");
+}
+async function deleteTrip(){
+  const id = FORM.id;
+  modal(`<h3>Borrar este viaje</h3><p>Se elimina del registro y de todos los números. No se puede deshacer.</p><div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goDel">Borrar</button></div>`);
+  $("#goDel").onclick = async () => {
+    if(!DEMO){ const { error } = await S.sb.from("trip_log").delete().eq("id", id); if(error) return toast("No se borró: " + error.message, true); }
+    S.trips = S.trips.filter(t => t.id !== id); closeModal(); render(); toast("Viaje borrado.");
+  };
+}
+
+function openFuel(id){
+  const x = id ? S.fuel.find(f => String(f.id) === String(id)) : null;
+  const d = x ? { ...x } : { filled_at: new Date().toISOString(), full_tank: true };
+  FORM = { kind:"fuel", id: x?.id ?? null, d };
+  drawerShell(x ? "Editar tanqueo" : "Nuevo tanqueo", "Gasolina", `
+    <form class="form" id="fuelForm" novalidate>
+      ${fin("gAt","Fecha y hora",toLocalInput(d.filled_at),{type:"datetime-local",req:true})}
+      <div class="row3">${fin("gGal","Galones",d.gallons,{req:true,suf:"gal"})}${fin("gCost","Total pagado",d.total_cost,{req:true,suf:"USD"})}${fin("gOdo","Odómetro",d.odometer,{suf:"mi",hint:"Necesario para el mpg real"})}</div>
+      <label style="display:flex;gap:10px;align-items:center"><input type="checkbox" id="gFull" ${d.full_tank ? "checked" : ""} style="accent-color:var(--accent);width:16px;height:16px"> Llené el tanque completo</label>
+      <div class="row">${fin("gSta","Estación",d.station,{type:"text",mono:false,ph:"ej. Wawa Taft Vineland"})}${fin("gNotes","Notas",d.notes,{type:"text",mono:false})}</div>
+      <div class="err" id="gErr"></div></form>`,
+    `${x ? `<button class="btn btn-ghost" data-act="fueldel">${icon("trash",15)} Borrar</button>` : "<span></span>"}<div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" data-act="fuelsave">${icon("save",15)} Guardar</button></div>`);
+  $("#modalRoot [data-close].btn:not(.btn-ghost)")?.addEventListener("click", closeModal);
+}
+async function saveFuel(){
+  const r = { filled_at: val("gAt") ? etNaiveToISO(val("gAt")) : null, gallons: nval("gGal"), total_cost: nval("gCost"), odometer: nval("gOdo"),
+    full_tank: $("#gFull").checked, station: val("gSta"), notes: val("gNotes") }, err = $("#gErr");
+  if(!r.filled_at) return err.textContent = "Falta la fecha.";
+  if(!(r.gallons > 0)) return err.textContent = "Faltan los galones.";
+  if(r.total_cost == null) return err.textContent = "Falta el total pagado.";
+  if(DEMO){ if(FORM.id) Object.assign(S.fuel.find(f => f.id === FORM.id), r); else S.fuel.push({ id: Date.now(), ...r }); closeModal(); render(); return toast("Tanqueo guardado (demo)"); }
+  const q = FORM.id ? S.sb.from("fuel_log").update(r).eq("id", FORM.id).select() : S.sb.from("fuel_log").insert(r).select();
+  const { data, error } = await q;
+  if(error || !data?.length) return err.textContent = "No se guardó: " + (error?.message || "sin permiso");
+  if(FORM.id) S.fuel = S.fuel.map(f => f.id === FORM.id ? data[0] : f); else S.fuel.push(data[0]);
+  closeModal(); render(); toast("Tanqueo guardado.");
+}
+async function deleteFuel(){
+  const id = FORM.id;
+  modal(`<h3>Borrar este tanqueo</h3><p>No se puede deshacer.</p><div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goDel">Borrar</button></div>`);
+  $("#goDel").onclick = async () => {
+    if(!DEMO){ const { error } = await S.sb.from("fuel_log").delete().eq("id", id); if(error) return toast("No se borró: " + error.message, true); }
+    S.fuel = S.fuel.filter(f => f.id !== id); closeModal(); render(); toast("Tanqueo borrado.");
+  };
+}
+
+function exportCSV(){
+  const rows = filteredTrips(), gpm = gasPerMile().v;
+  const cols = ["fecha","plataforma","estado","id_app","recogida","destino","millas_pasajero","millas_vacias","minutos","pago_app","propina","pago_pasajero","peajes","parqueo","pago_chofer","gasolina_est","mantenimiento_est","ganancia"];
+  const q = v => v == null ? "" : /[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g,'""')}"` : String(v);
+  const lines = [cols.join(",")].concat(rows.map(t => { const e = tripEcon(t, gpm);
+    return [toLocalInput(t.started_at).replace("T"," "), PLAT[t.platform]?.n, STATUS_TXT[t.status], t.external_id, t.pickup, t.dropoff, t.miles, t.deadhead_miles, e.mins ? Math.round(e.mins) : "",
+      t.payout, t.tip, t.fare, t.tolls, t.parking, e.driver.toFixed(2), e.gas.toFixed(2), e.maint.toFixed(2), e.profit.toFixed(2)].map(q).join(","); }));
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type:"text/csv" }));
+  a.download = `viajes-connexxions-${dayKey(Date.now())}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+function openMore(){
+  const groups = [["Negocio", ["home","trips","perf","fuel","fleet"]], ["Bot Blacklane", ["overview","filter","routes","locations","agenda","visibility","decisions","offers","notifications"]], ["Sistema", ["health"]]];
+  const ic = { home:"gauge", trips:"car", perf:"trend", fuel:"fuel", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
+  const mode = S.control?.mode || "dry_run";
+  $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
+    ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
+    <div class="navgroup" style="padding-left:2px">Bot · ${modeName(mode)}</div>
+    <div class="seg" style="display:grid;grid-template-columns:repeat(3,1fr);width:100%">${["off","dry_run","live"].map(m => `<button data-mode="${m}" class="${mode===m?"on":""}">${modeName(m)}</button>`).join("")}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><span class="muted" style="font-size:12.5px">${esc(DEMO ? "demo" : S.user?.email || "")}</span><button class="btn btn-sm" data-act="logout2">${icon("logout",15)} Salir</button></div></div>`;
+  $("#modalRoot").querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
+}
+
+/* ---------- events for the business pages ---------- */
+document.addEventListener("click", e => {
+  const row = e.target.closest("[data-trip]"); if(row && !e.target.closest("button")){ openTrip(row.dataset.trip); return; }
+  const fr = e.target.closest("tr[data-fuel]"); if(fr){ openFuel(fr.dataset.fuel); return; }
+  const t = e.target.closest("button"); if(!t) return;
+  if(t.closest(".sheet") && (t.dataset.view || (t.dataset.mode && t.dataset.mode !== "live"))){ setTimeout(closeModal, 0); }
+  if(t.dataset.trange){ S.tr.range = t.dataset.trange; store.set("ce_range", S.tr.range); render(); return; }
+  if(t.dataset.fplat){ FORM.d.platform = t.dataset.fplat; document.querySelectorAll("[data-fplat]").forEach(b => b.classList.toggle("on", b === t)); tripPreview(); return; }
+  switch(t.dataset.act){
+    case "tripnew": return openTrip(null);
+    case "tripsave": return saveTrip();
+    case "tripdel": return deleteTrip();
+    case "fuelnew": return openFuel(null);
+    case "fuelsave": return saveFuel();
+    case "fueldel": return deleteFuel();
+    case "csv": return exportCSV();
+    case "more": return openMore();
+    case "logout2": return (async () => { if(!DEMO) await S.sb.auth.signOut(); location.reload(); })();
+  }
+});
+document.addEventListener("keydown", e => { if((e.key === "Enter" || e.key === " ") && e.target.matches?.(".tc[data-trip]")){ e.preventDefault(); openTrip(e.target.dataset.trip); } });
+document.addEventListener("change", e => { if(e.target.matches?.("[data-tplat]")){ S.tr.plat = e.target.value; render(); } });
+document.addEventListener("input", e => { if(e.target.closest?.("#tripForm")) tripPreview(); });
+
+/* demo trips (only with ?demo — never real data) */
+function demoTrips(){
+  const now = Date.now(), iso = ms => new Date(ms).toISOString();
+  const T = [["blacklane",4,"MCO Terminal B, Orlando, FL","Four Seasons Resort Orlando, Lake Buena Vista, FL",24,22,38,121.17,0],["uber",3,"Hyatt Regency, 9801 International Dr, Orlando","MCO Terminal C, Orlando, FL",11,9,22,48.6,8],
+    ["uber",3,"MCO Terminal A, Orlando","Universal Orlando Resort, Orlando",15,14,27,61.2,10],["uber",2,"Disney Springs, Lake Buena Vista","Hilton Orlando, Destination Pkwy",7,12,18,34.9,5],
+    ["blacklane",2,"Waldorf Astoria Orlando, Orlando","MCO Terminal B, Orlando",19,18,31,104,0],["uber",1,"MCO Terminal B, Orlando","Lake Nona Wave Hotel, Orlando",9,6,19,41.3,6],["uber",0,"Orlando Convention Center, Orlando","Winter Park, FL",21,17,35,72.8,12]];
+  S.trips = T.map((x,i) => ({ id:i+1, platform:x[0], status:"completed", started_at: iso(now - x[1]*86400e3 - (i*2+3)*3600e3), duration_min:x[6], pickup:x[2], dropoff:x[3], miles:x[4], deadhead_miles:x[5], payout:x[7], tip:x[8], tolls: x[0]==="blacklane" ? 0 : 1.5, parking:0, driver_pay: Math.round(x[7]*25)/100 }));
+  S.fuel = [{ id:1, filled_at: iso(now - 6*86400e3), gallons:21.4, total_cost:81.1, odometer:1180, full_tank:true, station:"Wawa Taft Vineland" },
+            { id:2, filled_at: iso(now - 1*86400e3), gallons:18.9, total_cost:72.4, odometer:1475, full_tank:true, station:"Wawa Taft Vineland" }];
+}
+
 /* ======================= boot ======================= */
 function show(id){ ["setup","login","app"].forEach(x => $("#"+x).classList.toggle("hidden", x !== id)); paintIcons(); }
 async function enterApp(){
   show("app"); $("#who").textContent = DEMO ? "demo" : (S.user?.email || "");
   try { await loadAll(); } catch(err){ toast("Error cargando datos: " + err.message, true); }
   render();
-  setInterval(async () => { if(S.view === "filter" && dirty()) return; try { await loadAll(); if(!document.querySelector("#view input:focus, #view select:focus")) render(); } catch {} }, 15000);
+  setInterval(async () => { if(dirty()) return; try { await loadAll(); if(!document.querySelector("#view input:focus, #view select:focus")) render(); } catch {} }, 15000);
 }
 $("#setupForm").addEventListener("submit", e => { e.preventDefault(); const u = $("#sbUrl").value.trim(), k = $("#sbKey").value.trim();
   if(/service_role/.test(atobSafe(k.split(".")[1] || "")) || k.startsWith("sb_secret_")){ $("#setupErr").textContent = "Esa es la clave secreta. Usa la anon / publishable."; return; }
