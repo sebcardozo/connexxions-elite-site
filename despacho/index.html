@@ -846,6 +846,9 @@ table.doct tbody tr,tr[data-file]{cursor:pointer}
   .kcalc b{font-size:18px}
   .docbar .input{max-width:none}
 }
+.botrule{display:flex;align-items:center;gap:14px;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px;background:var(--panel2)}
+.botrule b{font-size:13.5px} .botrule span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+@media (max-width:960px){ .botrule{flex-direction:column;align-items:flex-start} }
 </style>
 </head>
 <body>
@@ -1618,10 +1621,11 @@ const SECTION_HTML = {
     <div class="group" style="margin-top:22px"><h4>Días bloqueados</h4><p>Días completos sin aceptar nada: vacaciones, eventos de Connexxions Bus, mantenimiento.</p>
       <div class="addrow"><input class="input mono" type="date" id="bdIn" style="max-width:240px"><button class="btn" data-act="bdadd">Agregar día</button></div>
       ${(c.blackout_dates||[]).length ? `<div class="chips">${c.blackout_dates.map((d,k)=>`<span class="chip mono">${esc(d)}<button data-chipdel="blackout_dates" data-k="${k}" aria-label="Quitar ${esc(d)}">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">Sin días bloqueados.</div>`}</div>
-    <div class="group"><h4>Bloqueos por horas</h4><p>Un rango de horas en una fecha específica (cita, evento).</p>
+    <div class="group"><h4>Trabajos del bus y otros compromisos</h4><p>Pon el horario real del trabajo de Marco en el bus (o una cita). El bot no acepta nada que choque, y deja libre el descanso que indiques antes y después.</p>
+      <div class="row3">${num("bus_buffer_minutes","Descanso antes y después",{suf:"min",ph:"60",min:0,hint:"Se suma a cada trabajo que agregues."})}</div>
       <div class="row3"><div class="field"><label>Fecha</label><input class="input mono" type="date" id="bwDate"></div><div class="field"><label>Desde</label><input class="input mono" type="time" id="bwStart"></div><div class="field"><label>Hasta</label><input class="input mono" type="time" id="bwEnd"></div></div>
-      <div class="addrow"><input class="input" id="bwLabel" placeholder="Etiqueta (opcional)"><button class="btn" data-act="bwadd">Agregar bloqueo</button></div>
-      ${(c.blocked_windows||[]).length ? `<div class="chips">${c.blocked_windows.map((w,k)=>`<span class="chip">${esc((w.label ? w.label+" · " : "") + w.start.replace("T"," ") + " → " + w.end.slice(11))}<button data-bwdel="${k}" aria-label="Quitar bloqueo">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">Sin bloqueos por horas.</div>`}</div>`,
+      <div class="addrow"><input class="input" id="bwLabel" placeholder="Ej. Bus · OCCC → Universal"><button class="btn" data-act="bwadd">Agregar trabajo</button></div>
+      ${(c.blocked_windows||[]).length ? `<div class="chips">${c.blocked_windows.map((w,k)=>`<span class="chip">${esc((w.label ? w.label+" · " : "") + w.start.replace("T"," ") + " → " + (w.end.slice(0,10) === w.start.slice(0,10) ? w.end.slice(11) : w.end.replace("T"," ")))}<button data-bwdel="${k}" aria-label="Quitar bloqueo">${icon("x",13)}</button></span>`).join("")}</div>` : `<div class="dropzone">Sin bloqueos por horas.</div>`}</div>`,
   conflicts: c => `
     <div class="note" style="margin-bottom:22px">${icon("info")}<div>Antes de aceptar, el bot revisa la agenda de Blacklane (incluye los viajes que Marco aceptó a mano). Si no puede leerla, no acepta.</div></div>
     <div class="group"><h4>Tiempo ocupado por viaje</h4><p>Cuánto tiempo bloquea la camioneta cada viaje.</p>
@@ -1689,8 +1693,13 @@ document.addEventListener("click", e => {
   else if(t.dataset.act === "copymon"){ const m = c.work_hours?.mon || []; DAYS.forEach(([k]) => c.work_hours[k] = clone(m)); changed = true; }
   else if(t.dataset.act === "bdadd"){ const v = $("#bdIn").value; if(!v) return toast("Elige una fecha", true); c.blackout_dates = [...new Set([...(c.blackout_dates||[]), v])].sort(); changed = true; }
   else if(t.dataset.act === "bwadd"){ const d = $("#bwDate").value, a = $("#bwStart").value, b = $("#bwEnd").value;
-    if(!d || !a || !b) return toast("Completa fecha, desde y hasta", true); if(b <= a) return toast("La hora final debe ser después de la inicial", true);
-    (c.blocked_windows ||= []).push({ start:`${d}T${a}`, end:`${d}T${b}`, label: $("#bwLabel").value.trim() }); changed = true; }
+    if(!d || !a || !b) return toast("Completa fecha, desde y hasta", true);
+    // real times + rest buffer on both sides; an end time before the start means the job ends the next day
+    const buf = (+c.bus_buffer_minutes >= 0 && c.bus_buffer_minutes != null ? +c.bus_buffer_minutes : 60) * 60e3, t0 = Date.parse(`${d}T${a}:00Z`);
+    let t1 = Date.parse(`${d}T${b}:00Z`); if(t1 <= t0) t1 += 864e5;
+    const nv = ms => new Date(ms).toISOString().slice(0, 16);
+    (c.blocked_windows ||= []).push({ start: nv(t0 - buf), end: nv(t1 + buf), label: `${$("#bwLabel").value.trim() || "Bus"} (${a}–${b}${buf ? ` + ${buf / 60e3} min` : ""})` });
+    c.blocked_windows.sort((x, y) => x.start.localeCompare(y.start)); changed = true; }
   if(changed){ render(); }
 });
 function addChip(path, inp){
@@ -2223,7 +2232,9 @@ function renderPlan(){
         <div><span>Viaje de 1 h</span><b>${payH == null ? "—" : money0(payH)}</b></div>
         <div><span>Viaje de 2 h</span><b>${payH == null ? "—" : money0(payH * 2)}</b></div>
       </div>
-      <p class="hint">Por debajo de eso el viaje gasta horas de Marco sin acercar la meta.</p></div></div>
+      <p class="hint">Por debajo de eso el viaje gasta horas de Marco sin acercar la meta.</p>
+      <div class="botrule"><div><b>Bot de Blacklane</b><span>Hoy acepta desde ${cfgv().min_net_per_hour == null ? "cualquier" : money0(cfgv().min_net_per_hour)} neto por hora y ${cfgv().min_net == null ? "cualquier" : money0(cfgv().min_net)} neto por viaje. Recomendado: <b>${money0(Math.ceil(needH * 1.1 / 5) * 5)}/h</b> (la meta más 10% de colchón).</span></div>
+        <button class="btn btn-sm" data-act="botfloor" data-v="${Math.ceil(needH * 1.1 / 5) * 5}" ${cfgv().min_net_per_hour === Math.ceil(needH * 1.1 / 5) * 5 ? "disabled" : ""}>Usar en el bot</button></div></div></div>
   </div>
   <div class="g2e">
     <div class="box"><header><h3>Horas por semana</h3><span class="sub">tope ${cap} h</span></header>
@@ -2331,6 +2342,7 @@ document.addEventListener("click", e => {
   const fc = e.target.closest("[data-fcat]"); if(fc){ FORM.d.category = fc.dataset.fcat; fc.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === fc)); return; }
   const act = e.target.closest("[data-act]")?.dataset.act;
   if(act === "tollnew") return openExp(null, { category: "tolls", vendor: "E-PASS" });
+  if(act === "botfloor"){ S.cfg.min_net_per_hour = +e.target.closest("[data-act]").dataset.v; render(); return toast("Listo. Pulsa Guardar para que el bot lo use."); }
   if(act === "filesave") return saveFile();
   if(act === "filedel") return deleteFile();
   const fr = e.target.closest("tr[data-file]"); if(fr && !e.target.closest("[data-photo]")){ openFile(fr.dataset.file); return; }
