@@ -793,6 +793,59 @@ table.heat td.on{background:rgb(0 131 0 / var(--v));cursor:default}
   table.rt th:nth-child(3),table.rt td:nth-child(3),table.rt th:nth-child(5),table.rt td:nth-child(5){display:none}
   table.rt td,table.rt th{padding:9px 10px} table.rt tr.rx td{padding:8px}
 }
+/* v7: corporate hub Resumen + detail pages */
+.opshero{background:#12151A;color:#fff;border-radius:18px;padding:26px 28px 24px;margin-bottom:16px;box-shadow:0 10px 30px -18px rgba(15,17,21,.6)}
+.opshero .htop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.opshero .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:#8E97A3;margin-bottom:6px}
+.opshero h1{margin:0;font-family:var(--display);font-stretch:118%;font-variation-settings:"wdth" 118;font-size:32px;font-weight:800;letter-spacing:-.6px;line-height:1.05;color:#fff}
+.opshero .hk{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #2A2F37}
+.opshero .hk > div{padding:18px 20px 0 0;margin-right:20px;border-right:1px solid #2A2F37;display:flex;flex-direction:column;gap:4px;min-width:0}
+.opshero .hk > div:last-child{border-right:0;margin-right:0}
+.opshero .hk span{font-size:13px;color:#AEB5BE}
+.opshero .hk b{font-family:var(--display);font-stretch:112%;font-variation-settings:"wdth" 112;font-size:38px;font-weight:700;letter-spacing:-1px;line-height:1.1;font-variant-numeric:tabular-nums}
+.opshero .hk small{font-size:12.5px;color:#8E97A3}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.stat .big,.box .big{font-family:var(--display);font-stretch:112%;font-size:32px;font-weight:700;letter-spacing:-.7px;font-variant-numeric:tabular-nums}
+.stat .big span,.box .big span{font-family:var(--sans);font-size:15px;font-weight:400;color:var(--dim);letter-spacing:0}
+.stat .meter{height:8px;margin:12px 0 4px}
+.meter.over div{background:var(--c-neg)}
+.mini{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hub{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:8px}
+.hub button{display:flex;align-items:center;gap:12px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--text);box-shadow:var(--shadow);min-width:0}
+.hub button:hover{border-color:var(--ink2)}
+.hub button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hub button > div{flex:1;min-width:0}
+.hub b{display:block;font-size:14.5px;font-weight:600}
+.hub span{display:block;font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hub svg{flex:none;color:var(--muted)}
+.filters{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.filters .spacer{flex:1}
+.tag{font-style:normal;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--panel3);color:var(--muted);white-space:nowrap}
+.tag.ok{background:#E3F3E3;color:#0B6B0B} .tag.bad{background:#FBE5E4;color:#B3261E} .tag.warn{background:#FFF1D1;color:#8A5A00}
+.opm{font-size:44px!important}
+.tiles.t2{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:0}
+.kcalc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:16px}
+.kcalc div{padding:12px 14px;border-right:1px solid var(--line)} .kcalc div:last-child{border-right:0}
+.kcalc span{display:block;font-size:12.5px;color:var(--dim)} .kcalc b{font-family:var(--display);font-stretch:112%;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.wkbar{display:flex;align-items:center;gap:10px} .wkbar .tr{flex:1} .wkbar .meter{height:8px;margin:0} .wkbar span{font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.drop{display:flex;flex-direction:column;align-items:center;gap:4px;border:1.5px dashed var(--line2);border-radius:14px;padding:22px 16px;background:var(--panel);cursor:pointer;margin-bottom:14px;text-align:center;color:var(--muted)}
+.drop:hover,.drop.over{border-color:var(--ink2);background:var(--panel2)}
+.drop b{color:var(--text);font-size:14.5px} .drop span{font-size:12.5px;color:var(--dim)}
+.docbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.docbar .input{max-width:320px}
+table.doct tbody tr,tr[data-file]{cursor:pointer}
+.navgroup + button{margin-top:0}
+@media (max-width:1200px){ .hub{grid-template-columns:repeat(2,minmax(0,1fr))} .g3{grid-template-columns:1fr} }
+@media (max-width:960px){
+  .opshero{padding:20px 18px;border-radius:14px}
+  .opshero h1{font-size:25px}
+  .opshero .hk{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opshero .hk > div{border-right:0;margin-right:0;padding:14px 8px 0 0}
+  .opshero .hk b{font-size:28px}
+  .hub{grid-template-columns:1fr}
+  .kcalc b{font-size:18px}
+  .docbar .input{max-width:none}
+}
 </style>
 </head>
 <body>
@@ -838,9 +891,15 @@ table.heat td.on{background:rgb(0 131 0 / var(--v));cursor:default}
       <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
+      <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
+      <button data-view="plan"><span data-icon="target"></span>Metas</button>
+      <div class="navgroup">Finanzas</div>
+      <button data-view="costs"><span data-icon="fuel"></span>Gasolina y peajes</button>
+      <button data-view="fuel"><span data-icon="receipt"></span>Recibos</button>
       <button data-view="driver"><span data-icon="person"></span>Chofer y propinas</button>
-      <button data-view="fuel"><span data-icon="fuel"></span>Recibos</button>
       <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
+      <div class="navgroup">Empresa</div>
+      <button data-view="docs"><span data-icon="folder"></span>Documentos</button>
       <div class="navgroup">Bot Blacklane</div>
       <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
       <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
@@ -955,7 +1014,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], bizErr: null, day: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], files: [], filesErr: null, bizErr: null, day: null,
   tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -996,6 +1055,8 @@ async function loadAll(){
   ]);
   S.bizErr = tl.error?.message || fl.error?.message || el.error?.message || null;
   S.trips = tl.data || []; S.fuel = fl.data || []; S.exp = el.data || [];
+  const fr = await sb.from("file_log").select("*").order("created_at",{ascending:false}).limit(2000);
+  S.files = fr.data || []; S.filesErr = fr.error?.message || null;
   S.loaded = true;
 }
 
@@ -1147,8 +1208,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
-const RENDER = () => ({home:renderHome, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -1169,6 +1230,7 @@ function renderSide(){
   const n = S.trips.length; $("#tripCnt").textContent = n ? n : "";
 }
 function render(){
+  _toll = null;
   $("#viewTitle").textContent = VIEWS[S.view];
   document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.view === S.view || (b.dataset.also || "").split(" ").includes(S.view)));
   const mode = S.control?.mode || "dry_run";
@@ -1540,7 +1602,7 @@ const SECTION_HTML = {
       ${rule("min_net_per_hour","Neto mínimo por hora","Con un solo carro, el tiempo ocupado es el recurso escaso.",30, num("min_net_per_hour","USD por hora de carro ocupado",{suf:"$/h"}))}
       ${rule("max_pickup_miles_from_base","Radio máximo del pickup","Distancia en línea recta del yard al punto de recogida.",25, num("max_pickup_miles_from_base","Millas desde el yard",{suf:"mi",hint:"MCO y Disney quedan dentro de 15 mi; The Villages, a ~50"}))}</div>
     <div class="group"><h4>Calculadora</h4><p>Prueba una oferta antes de cambiar las reglas.</p>
-      <div class="calc"><div class="row3">
+      <div class="kcalc"><div class="row3">
         <div class="field"><label>Precio de la oferta</label><div class="suffix"><input class="input mono" type="number" id="cPrice" value="121"><i>USD</i></div></div>
         <div class="field"><label>Millas del viaje</label><div class="suffix"><input class="input mono" type="number" id="cTrip" value="45"><i>mi</i></div></div>
         <div class="field"><label>Yard → pickup (y regreso)</label><div class="suffix"><input class="input mono" type="number" id="cDead" value="60"><i>mi</i></div></div>
@@ -1671,6 +1733,10 @@ let toastT; function toast(msg, bad){ document.querySelector(".toast")?.remove()
 
 /* ======================= v3: business (trips, fuel, performance) ======================= */
 Object.assign(ICONS, {
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 3h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  receipt:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+  upload:'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>',
   chevl:'<path d="M15 18l-6-6 6-6"/>', chevr:'<path d="M9 18l6-6-6-6"/>',
   person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
   sliders:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
@@ -1764,6 +1830,15 @@ function fuelStats(){
 }
 const gasPerMile = () => { const f = fuelStats(); return f.perMile != null ? { v: f.perMile, real: true } : { v: A().gasEst, real: false }; };
 
+/* ---------- tolls: E-PASS charges live in expense_log (category 'tolls'); their average per mile is applied to trips
+   that have no toll of their own. Cached per render. ---------- */
+let _toll = null;
+function tollStats(){
+  if(_toll) return _toll;
+  const rows = S.exp.filter(x => x.category === "tolls"), total = rows.reduce((s, x) => s + (+x.amount || 0), 0);
+  const mi = S.trips.filter(t => t.status !== "cancelled").reduce((s, t) => s + (+t.miles || 0) + (+t.deadhead_miles || 0), 0);
+  return _toll = { rows, total, mi, perMile: total > 0 && mi > 0 ? total / mi : 0 };
+}
 /* ---------- per-trip economics ---------- */
 function tripEcon(t, gpm = gasPerMile().v){
   const a = A(), counted = t.status !== "cancelled";
@@ -1771,7 +1846,7 @@ function tripEcon(t, gpm = gasPerMile().v){
   const driver = !counted ? 0 : t.driver_pay != null ? +t.driver_pay : rev * a.driverPct;
   const paxMi = t.miles != null ? +t.miles : null, deadMi = t.deadhead_miles != null ? +t.deadhead_miles : null;
   const mi = (paxMi || 0) + (deadMi || 0);
-  const gas = mi * gpm, maint = mi * a.maint, extra = (+t.tolls || 0) + (+t.parking || 0);
+  const gas = mi * gpm, maint = mi * a.maint, extra = (+t.tolls > 0 ? +t.tolls : mi * tollStats().perMile) + (+t.parking || 0);
   const profit = rev - driver - gas - maint - extra;
   const mins = t.engaged_min != null ? +t.engaged_min : t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : (t.duration_min != null ? +t.duration_min : null);
   const paxMins = t.duration_min != null ? +t.duration_min : t.ended_at ? (Date.parse(t.ended_at) - Date.parse(t.started_at))/60000 : null;
@@ -1906,13 +1981,18 @@ function onboarding(){
     <ul><li>${icon("check")}Ganancia por viaje, por hora y por milla, por plataforma.</li><li>${icon("check")}Consumo real de la Suburban (mpg) con cada tanqueo.</li><li>${icon("check")}Cuánto falta para cubrir los $${A().fixed.toLocaleString("en-US")} de costos fijos del mes.</li><li>${icon("check")}Exportable a CSV para el CPA.</li></ul></div>`;
 }
 
-/* ---------- Resumen v6: dashboard — period KPIs, clickable days, return, routes & zones, best hours ---------- */
+/* ---------- v7 shared helpers ---------- */
 const durTxt = m => { m = Math.round(m || 0); const h = Math.floor(m / 60); return h ? `${h} h ${String(m % 60).padStart(2,"0")} min` : `${m} min`; };
 const cumul = v => { let t = 0; return v.map(x => t += x); };
 const WD = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
 const wdOf = iso => new Date(dayKey(iso) + "T12:00:00Z").getUTCDay();
 const hourOf = iso => +etParts(Date.parse(iso)).hour;
 const svcLabel = t => { const p = PLAT[t.platform]?.n || t.platform, s = (t.service || "").trim(); return s && !p.toLowerCase().includes(s.toLowerCase()) ? `${p} · ${s}` : p; };
+const live = () => S.trips.filter(t => t.status !== "cancelled");
+const weekOf = iso => mondayOf(dayKey(iso));
+const engMin = ts => ts.reduce((s, t) => s + (tripEcon(t).mins || 0), 0);
+const capH = () => +(cfgv().marco_week_hours ?? 20);
+const goalM = () => +(cfgv().target_month_profit ?? 0);
 
 /* Orlando zones: every pickup/drop-off address falls into one, so routes repeat even when the exact address doesn't */
 const ZONES = [
@@ -1942,13 +2022,6 @@ function groupBy(trips, keyFn){
     .sort((a, b) => b.n - a.n || b.rev - a.rev);
 }
 const topPlaces = ts => { const c = {}; ts.forEach(t => { const k = shortAddr(t.__addr); c[k] = (c[k] || 0) + 1; }); return Object.entries(c).sort((a, b) => b[1] - a[1]).slice(0, 4); };
-
-function sparkline(vals, color = "var(--ink)"){
-  vals = vals.filter(v => v != null && isFinite(v)); if(vals.length < 3) return "";
-  const W = 120, H = 30, mn = Math.min(0, ...vals), mx = Math.max(1, ...vals), y = v => H - 3 - (v - mn) / (mx - mn || 1) * (H - 6);
-  const pts = vals.map((v, i) => `${(i / (vals.length - 1) * W).toFixed(1)},${y(v).toFixed(1)}`);
-  return `<svg viewBox="0 0 ${W} ${H}" class="spark" aria-hidden="true"><polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${pts.at(-1).split(",")[0]}" cy="${pts.at(-1).split(",")[1]}" r="2.6" fill="${color}"/></svg>`;
-}
 function ticket(t){
   const e = tripEcon(t);
   return `<div class="ticket" data-trip="${t.id}" role="button" tabindex="0" style="--pc:${PLAT[t.platform]?.c}">
@@ -1956,66 +2029,51 @@ function ticket(t){
     <div class="tr2"><span>${esc(shortAddr(t.pickup) || "—")}</span><i></i><span>${esc(shortAddr(t.dropoff) || "—")}</span></div>
     <div class="tm"><span>${money(e.rev)}${e.tip ? ` <small>+${money(e.tip)} propina</small>` : ""}</span><b class="${e.profit < 0 ? "neg" : ""}">${money(e.profit)}</b></div></div>`;
 }
-
-function renderHome(){
-  if(!S.trips.length){ $("#view").innerHTML = `${head("", "El centro de operaciones de la camioneta.", "")}${onboarding()}`; return; }
-  const trips = filteredTrips(), a = agg(trips), gpm = gasPerMile(), B = buckets();
-  const byKey = B.keys.map(k => trips.filter(t => B.keyOf(t.started_at) === k)), series = byKey.map(agg);
-  const withTrips = B.keys.filter((k, i) => series[i].n);
-  if(!S.sel || !B.keys.includes(S.sel) || !series[B.keys.indexOf(S.sel)].n) S.sel = withTrips.at(-1) || B.keys.at(-1);
-  const si = B.keys.indexOf(S.sel), st = (byKey[si] || []).slice().sort((x, y) => Date.parse(x.started_at) - Date.parse(y.started_at)), sa = agg(st);
-  const sEng = st.reduce((s, t) => s + (tripEcon(t).mins || 0), 0);
-
-  CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label), sel: si, H: 320,
-    series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
-    pick: i => B.keys[i],
-    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}<div class="r dim" style="margin-top:4px">Toca para ver el detalle</div>` });
-
-  /* return since day 1: cumulative trip profit vs cumulative fixed costs (prorated per day) */
-  const days = []; for(let d = START(), today = dayKey(Date.now()); d <= today && days.length < 800; d = addDayKey(d, 1)) days.push(d);
-  const fixedDay = A().fixed * 12 / 365;
-  const dayProfit = days.map(d => agg(S.trips.filter(t => dayKey(t.started_at) === d)).profit);
-  const cumP = cumul(dayProfit), cumF = days.map((_, i) => fixedDay * (i + 1)), gap = (cumP.at(-1) || 0) - (cumF.at(-1) || 0);
-  CHARTS.ret = W => lineChart(W, { labels: days.map(fmtDay), H: 220,
-    series: [{ name:"Ganancia acumulada", color:"var(--c-profit)", values: cumP }, { name:"Costos fijos acumulados", color:"var(--ink2)", values: cumF, dash: true }],
-    tip: i => `<b>${fmtDay(days[i])} · día ${i + 1}</b>${tipRow("#008300","Ganancia acumulada",money(cumP[i]))}${tipRow("#2B3139","Fijos acumulados",money(cumF[i]))}${tipRow("","Diferencia",money(cumP[i] - cumF[i]))}` });
-
+/* operating cost per mile: gas (real or estimated) + tolls (E-PASS average) + maintenance (estimated) */
+function opCost(){
+  const g = gasPerMile(), t = tollStats(), m = A().maint;
+  return { gas: g.v, gasReal: g.real, toll: t.perMile, tollReal: t.total > 0, maint: m, total: g.v + t.perMile + m };
+}
+function payState(){
   const cyc = payCycle(), cy = agg(S.trips.filter(t => Date.parse(t.started_at) >= cyc.from));
   const due = +cyc.item.amount, cover = due ? Math.max(0, cy.profit) / due : 0, left = Math.max(0, due - cy.profit);
   const daysRun = Math.max(1, (Date.now() - cyc.from) / 864e5), pace = cy.profit / daysRun, need = left / Math.max(1, cyc.daysLeft);
   const totalDays = Math.max(1, Math.round((dayStartMs(cyc.dueKey) - cyc.from) / 864e5) + 1), elapsed = Math.min(totalDays, Math.max(0, totalDays - cyc.daysLeft));
+  return { cyc, cy, due, cover, left, pace, need, totalDays, elapsed, ok: pace >= need || cover >= 1 };
+}
+const meter = (frac, cls = "") => `<div class="meter ${cls}"><div style="width:${Math.max(0, Math.min(100, frac * 100))}%"></div></div>`;
 
-  /* routes & zones (respect the period and platform filter) */
-  const routes = groupBy(trips, t => `${zoneOf(t.pickup)} → ${zoneOf(t.dropoff)}`);
-  const zmode = S.zmode || "drop", zones = groupBy(trips.map(t => ({ ...t, __addr: zmode === "drop" ? t.dropoff : t.pickup })), t => zoneOf(t.__addr));
-  const zmax = Math.max(1, ...zones.map(z => z.n));
+/* ---------- Resumen v7: few big numbers, the day, three status cards, links to the detail pages ---------- */
+function renderHome(){
+  if(!S.trips.length){ $("#view").innerHTML = `${head("", "El centro de operaciones de la camioneta.", "")}${onboarding()}`; return; }
+  const trips = filteredTrips(), a = agg(trips), B = buckets();
+  const byKey = B.keys.map(k => trips.filter(t => B.keyOf(t.started_at) === k)), series = byKey.map(agg);
+  const withTrips = B.keys.filter((k, i) => series[i].n);
+  if(!S.sel || !B.keys.includes(S.sel) || !series[B.keys.indexOf(S.sel)].n) S.sel = withTrips.at(-1) || B.keys.at(-1);
+  const si = B.keys.indexOf(S.sel), st = (byKey[si] || []).slice().sort((x, y) => Date.parse(x.started_at) - Date.parse(y.started_at)), sa = agg(st);
+  CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label), sel: si, H: 300, pick: i => B.keys[i],
+    series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
+    tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}<div class="r dim" style="margin-top:4px">Toca para ver el detalle</div>` });
 
-  /* best hours: weekday × hour, value = profit */
-  const cell = {}; trips.forEach(t => { const k = wdOf(t.started_at) + "-" + hourOf(t.started_at); (cell[k] ||= []).push(t); });
-  const cellAgg = Object.fromEntries(Object.entries(cell).map(([k, ts]) => [k, agg(ts)])), cmax = Math.max(1, ...Object.values(cellAgg).map(c => c.profit));
-  const hourTot = Array.from({ length: 24 }, (_, h) => agg(trips.filter(t => hourOf(t.started_at) === h)));
-  const bestH = hourTot.map((x, h) => ({ h, ...x })).filter(x => x.n).sort((x, y) => y.profit - x.profit)[0];
-  const ROWS = [1,2,3,4,5,6,0];
-
-  const parts = COST.map(([k, n, c]) => [n, c, Math.max(0, a[k])]), tot = parts.reduce((s, x) => s + x[2], 0);
-  const mix = Object.keys(PLAT).map(k => ({ k, ...agg(trips.filter(t => t.platform === k)) })).filter(x => x.n).sort((x, y) => y.rev - x.rev);
-  const hrs = h => `${String(h).padStart(2,"0")}:00`;
+  const P = payState();
+  const wk = weekOf(new Date().toISOString()), wt = live().filter(t => weekOf(t.started_at) === wk), wh = engMin(wt) / 60, cap = capH();
+  const mStart = Math.max(dayStartMs(monthKey() + "-01"), startMs()), mo = agg(S.trips.filter(t => Date.parse(t.started_at) >= mStart)), fx = A().fixed;
+  const oc = opCost(), all = agg(S.trips), needH = (fx * 12 / 52 + goalM() * 12 / 52) / Math.max(1, cap);
+  const routes = groupBy(live(), t => `${zoneOf(t.pickup)} → ${zoneOf(t.dropoff)}`);
+  const docs = S.files.filter(f => f.area === "doc"), soon = docs.filter(f => f.expires_on && (dayStartMs(f.expires_on) - Date.now()) / 864e5 <= 30).length, inboxNew = S.files.filter(f => f.area === "inbox" && f.status === "new").length;
 
   $("#view").innerHTML = `
-  <div class="ophead">
-    <div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
-    <div class="paychip ${pace >= need || cover >= 1 ? "ok" : "late"}"><span class="l">Pago de la camioneta</span><b>${fmtDay(cyc.dueKey)}</b><span>en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></div>
-  </div>
-  <div class="sechead">${filterBar(`<button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}</div>
-
-  <div class="cluster c6">
-    <div><span>Ganancia neta</span><b class="${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</b>${sparkline(cumul(series.map(x => x.profit)), "var(--c-profit)")}<small>después de chofer, gasolina y mantenimiento</small></div>
-    <div><span>Ingreso</span><b>${money0(a.rev)}</b>${sparkline(cumul(series.map(x => x.rev)), "var(--c-rev)")}<small>lo que pagaron las apps</small></div>
-    <div><span>Viajes</span><b>${a.n}</b>${sparkline(series.map(x => x.n))}<small>${a.n ? money0(a.rev / a.n) + " de pago promedio" : "—"}</small></div>
-    <div><span>Ganancia por hora</span><b>${a.perHour == null ? "—" : money0(a.perHour)}</b>${sparkline(series.map(x => x.perHour))}<small>por hora ocupada</small></div>
-    <div><span>Ingreso por milla</span><b>${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</b>${sparkline(series.map(x => x.perMile))}<small>${num1(a.mi)} mi con ida vacía</small></div>
-    <div><span>Margen</span><b>${pctf(a.margin)}</b>${sparkline(series.map(x => x.n ? x.margin * 100 : null))}<small>de cada dólar queda</small></div>
-  </div>
+  <section class="opshero">
+    <div class="htop"><div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
+      <button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button></div>
+    <div class="hk">
+      <div><span>Ganancia neta</span><b>${money0(a.profit)}</b><small>${pctf(a.margin)} de margen</small></div>
+      <div><span>Ingreso</span><b>${money0(a.rev)}</b><small>${a.n} viaje${a.n===1?"":"s"}</small></div>
+      <div><span>Ganancia por hora</span><b>${a.perHour == null ? "—" : money0(a.perHour)}</b><small>meta ${money0(needH)}/h</small></div>
+      <div><span>Costo por milla</span><b>$${oc.total.toFixed(2)}</b><small>gasolina, peajes y mantenimiento</small></div>
+    </div>
+  </section>
+  ${filterBar("")}
 
   <div class="g-day">
     <div class="box"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
@@ -2023,67 +2081,267 @@ function renderHome(){
     <div class="box daybox"><header><h3>${B.weekly ? B.label(S.sel) : new Date(dayStartMs(S.sel) + 12*3600e3).toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</h3><span class="sub">${sa.n} viaje${sa.n===1?"":"s"}</span></header>
       <div class="pad">
         <div class="mini">
-          <div><span>Ingreso</span><b>${money(sa.rev)}</b></div><div><span>Ganancia</span><b class="${sa.profit < 0 ? "neg" : "pos"}">${money(sa.profit)}</b></div><div><span>Propinas</span><b>${money(sa.tips)}</b></div>
-          <div><span>Ocupado</span><b>${durTxt(sEng)}</b></div><div><span>Por hora</span><b>${sa.perHour == null ? "—" : money0(sa.perHour)}</b></div><div><span>Millas</span><b>${num1(sa.mi)}</b></div>
+          <div><span>Ingreso</span><b>${money(sa.rev)}</b></div><div><span>Ganancia</span><b class="${sa.profit < 0 ? "neg" : "pos"}">${money(sa.profit)}</b></div><div><span>Ocupado</span><b>${durTxt(engMin(st))}</b></div>
         </div>
         <div class="tickets">${st.length ? st.map(ticket).join("") : `<div class="empty">Sin viajes.</div>`}</div>
       </div></div>
   </div>
 
-  <div class="g2">
-    <div class="box"><header><h3>Retorno desde el día 1</h3><div class="lg"><span><i style="background:var(--c-profit)"></i>Ganancia acumulada</span><span><i style="background:var(--ink2);height:2px;width:14px;border-radius:0"></i>Costos fijos acumulados</span></div></header>
-      <div class="pad"><div class="retnums">
-        <div><span>Ganancia de viajes</span><b class="pos">${money0(cumP.at(-1) || 0)}</b></div>
-        <div><span>Fijos que corren (${money0(fixedDay)}/día)</span><b>${money0(cumF.at(-1) || 0)}</b></div>
-        <div><span>Diferencia</span><b class="${gap < 0 ? "neg" : "pos"}">${money0(gap)}</b></div>
-      </div><div class="chart" data-chart="ret"></div>
-      <p class="hint">Para cubrir los fijos (${money0(A().fixed)}/mes) la camioneta tiene que dejar <b>${money0(fixedDay)} de ganancia por día</b>. Promedio hasta ahora: <b class="${(cumP.at(-1) || 0) / days.length >= fixedDay ? "pos" : "neg"}">${money0((cumP.at(-1) || 0) / Math.max(1, days.length))}/día</b>.</p></div></div>
-    <div class="box paycard"><header><h3>Hacia el pago del ${fmtDay(cyc.dueKey)}</h3><span class="sub">${esc(cyc.item.name)}</span></header><div class="pad">
-      <div class="big">${money0(cy.profit)}<span> / ${money0(due)}</span></div>
-      <div class="cycdays" aria-label="Días del ciclo">${Array.from({ length: totalDays }, (_, i) => `<i class="${i < elapsed ? "past" : ""} ${i === elapsed - 1 ? "now" : ""}" title="${fmtDay(addDayKey(dayKey(cyc.from), i))}"></i>`).join("")}</div>
-      <div class="meter"><div style="width:${Math.min(100, cover * 100)}%"></div></div>
-      <div class="pr"><div><span>Hay que dejar</span><b>${cover >= 1 ? "—" : money0(need) + "/día"}</b></div><div><span>Ritmo actual</span><b class="${pace >= need || cover >= 1 ? "pos" : "neg"}">${money0(pace)}/día</b></div><div><span>Faltan</span><b>${money0(left)}</b></div></div>
-      <p class="hint">Cuenta la ganancia de los viajes desde el ${fmtDay(dayKey(cyc.from))}.</p>
-    </div></div>
+  <div class="g3">
+    <div class="box stat"><header><h3>Pago de la camioneta</h3><span class="sub">${fmtDay(P.cyc.dueKey)} · en ${P.cyc.daysLeft} día${P.cyc.daysLeft===1?"":"s"}</span></header><div class="pad">
+      <div class="big">${money0(P.cy.profit)}<span> de ${money0(P.due)}</span></div>${meter(P.cover)}
+      <p class="hint">Hay que dejar <b>${P.cover >= 1 ? "$0" : money0(P.need)}/día</b>. Ritmo actual: <b class="${P.ok ? "pos" : "neg"}">${money0(P.pace)}/día</b>.</p></div></div>
+    <div class="box stat"><header><h3>Semana de Marco</h3><button class="btn btn-sm" data-view="plan">Metas ${icon("arrow",14)}</button></header><div class="pad">
+      <div class="big">${durTxt(wh * 60)}<span> de ${cap} h</span></div>${meter(wh / cap, wh > cap ? "over" : "")}
+      <p class="hint">${wh > cap ? `<b class="neg">Pasó el tope por ${durTxt((wh - cap) * 60)}.</b> Conviene bajar el ritmo.` : `Le quedan <b>${durTxt((cap - wh) * 60)}</b> ocupadas esta semana.`} ${wt.length} viaje${wt.length===1?"":"s"}.</p></div></div>
+    <div class="box stat"><header><h3>Costos fijos del mes</h3><span class="sub">${money0(fx)}</span></header><div class="pad">
+      <div class="big">${pctf(fx ? Math.max(0, mo.profit) / fx : null)}<span> cubierto</span></div>${meter(fx ? mo.profit / fx : 0)}
+      <p class="hint">${mo.profit >= fx ? `Fijos cubiertos. Quedan <b class="pos">${money0(mo.profit - fx)}</b> libres.` : `Faltan <b>${money0(fx - mo.profit)}</b> de ganancia para cubrirlos.`}</p></div></div>
   </div>
 
+  <div class="hub">
+    <button data-view="geo">${icon("pin",20)}<div><b>Rutas y horas</b><span>${routes[0] ? `${esc(routes[0].k)} · ${routes[0].n} viaje${routes[0].n===1?"":"s"}` : "Sin rutas todavía"}</span></div>${icon("arrow",16)}</button>
+    <button data-view="costs">${icon("fuel",20)}<div><b>Gasolina y peajes</b><span>${oc.gasReal ? "Gasolina real" : "Gasolina estimada"} · ${oc.tollReal ? "peajes reales" : "sin cargos de E-PASS"}</span></div>${icon("arrow",16)}</button>
+    <button data-view="plan">${icon("target",20)}<div><b>Metas</b><span>${all.perHour == null ? "—" : `${money0(all.perHour)}/h actual · ${money0(needH)}/h necesario`}</span></div>${icon("arrow",16)}</button>
+    <button data-view="docs">${icon("folder",20)}<div><b>Documentos</b><span>${docs.length} guardado${docs.length===1?"":"s"}${soon ? ` · ${soon} por vencer` : ""}${inboxNew ? ` · ${inboxNew} en bandeja` : ""}</span></div>${icon("arrow",16)}</button>
+  </div>`;
+}
+
+/* ---------- Rutas y horas ---------- */
+function renderGeo(){
+  const trips = filteredTrips(), a = agg(trips);
+  const routes = groupBy(trips, t => `${zoneOf(t.pickup)} → ${zoneOf(t.dropoff)}`);
+  const zmode = S.zmode || "drop", zones = groupBy(trips.map(t => ({ ...t, __addr: zmode === "drop" ? t.dropoff : t.pickup })), t => zoneOf(t.__addr));
+  const zmax = Math.max(1, ...zones.map(z => z.n));
+  const cell = {}; trips.forEach(t => { const k = wdOf(t.started_at) + "-" + hourOf(t.started_at); (cell[k] ||= []).push(t); });
+  const cellAgg = Object.fromEntries(Object.entries(cell).map(([k, ts]) => [k, agg(ts)])), cmax = Math.max(1, ...Object.values(cellAgg).map(c => c.profit));
+  const bestH = Array.from({ length: 24 }, (_, h) => ({ h, ...agg(trips.filter(t => hourOf(t.started_at) === h)) })).filter(x => x.n).sort((x, y) => y.profit - x.profit)[0];
+  const hrs = h => `${String(h).padStart(2,"0")}:00`;
+  $("#view").innerHTML = `
+  ${head("", "De dónde salen los viajes, a dónde van y a qué hora dejan más. Se actualiza con cada viaje que se registra.", "")}
+  ${filterBar("")}
+  ${!trips.length ? `<div class="box"><div class="empty">Sin viajes en este rango.</div></div>` : `
   <div class="g2e">
     <div class="box"><header><h3>Rutas frecuentes</h3><span class="sub">${routes.length} ruta${routes.length===1?"":"s"} · por zona</span></header>
       <div class="tblwrap"><table class="rt"><thead><tr><th>Ruta</th><th class="n">Viajes</th><th class="n">Pago prom.</th><th class="n">Ganancia prom.</th><th class="n">$/mi</th></tr></thead><tbody>
-      ${routes.slice(0, 10).map(r => { const [o, d] = r.k.split(" → "), open = S.route === r.k; return `<tr class="rrow ${open ? "open" : ""}" data-route="${esc(r.k)}" tabindex="0"><td><div class="rz"><span>${esc(o)}</span><span class="to">→ ${esc(d)}</span></div><small>última ${fmtDay(dayKey(r.last))}${r.paxMi ? ` · ${num1(r.paxMi / r.n)} mi prom.` : ""}</small></td><td class="n"><b>${r.n}</b></td><td class="n">${money0(r.rev / r.n)}</td><td class="n ${r.profit < 0 ? "neg" : ""}">${money0(r.profit / r.n)}</td><td class="n">${r.perMile == null ? "—" : "$" + r.perMile.toFixed(2)}</td></tr>
+      ${routes.slice(0, 15).map(r => { const [o, d] = r.k.split(" → "), open = S.route === r.k; return `<tr class="rrow ${open ? "open" : ""}" data-route="${esc(r.k)}" tabindex="0"><td><div class="rz"><span>${esc(o)}</span><span class="to">→ ${esc(d)}</span></div><small>última ${fmtDay(dayKey(r.last))}${r.paxMi ? ` · ${num1(r.paxMi / r.n)} mi prom.` : ""}</small></td><td class="n"><b>${r.n}</b></td><td class="n">${money0(r.rev / r.n)}</td><td class="n ${r.profit < 0 ? "neg" : ""}">${money0(r.profit / r.n)}</td><td class="n">${r.perMile == null ? "—" : "$" + r.perMile.toFixed(2)}</td></tr>
         ${open ? `<tr class="rx"><td colspan="5"><div class="tickets">${r.ts.slice().sort((x, y) => Date.parse(y.started_at) - Date.parse(x.started_at)).map(ticket).join("")}</div></td></tr>` : ""}`; }).join("")}
       </tbody></table></div>
-      <p class="hint pad0">Las direcciones se agrupan por zona (MCO, I-Drive, Disney…) para que las rutas se repitan. Toca una ruta para ver sus viajes.</p></div>
+      <p class="hint pad0">Las direcciones se agrupan por zona para que las rutas se repitan. Toca una ruta para ver sus viajes.</p></div>
     <div class="box"><header><h3>Zonas frecuentes</h3><div class="seg sm"><button class="${zmode === "drop" ? "on" : ""}" data-zmode="drop">Destinos</button><button class="${zmode === "pick" ? "on" : ""}" data-zmode="pick">Recogidas</button></div></header>
       <div class="pad"><div class="zones">${zones.map(z => `<div class="zr" data-tip="${esc(`<b>${esc(z.k)}</b>${topPlaces(z.ts).map(([p, c]) => tipRow("", p, c + "×")).join("")}`)}">
         <div class="t"><span>${esc(z.k)}</span><b>${z.n} <small>· ${pctf(z.n / a.n)}</small></b></div>
         <div class="tr"><div class="f" style="width:${z.n / zmax * 100}%"></div></div>
         <div class="hbs">Pago prom. ${money0(z.rev / z.n)} · ganancia prom. ${money0(z.profit / z.n)}</div></div>`).join("")}</div></div></div>
   </div>
-
   <div class="box heatbox"><header><h3>Mejores horas</h3><span class="sub">${bestH ? `Mejor hora hasta ahora: <b>${hrs(bestH.h)}–${hrs((bestH.h + 1) % 24)}</b> · ${money0(bestH.profit)} en ${bestH.n} viaje${bestH.n===1?"":"s"}` : "—"}</span></header>
     <div class="pad"><div class="heatwrap"><table class="heat"><thead><tr><th></th>${Array.from({ length: 24 }, (_, h) => `<th>${h % 3 === 0 ? String(h).padStart(2,"0") : ""}</th>`).join("")}</tr></thead><tbody>
-      ${ROWS.map(d => `<tr><th>${WD[d]}</th>${Array.from({ length: 24 }, (_, h) => { const c = cellAgg[d + "-" + h]; if(!c) return `<td></td>`;
+      ${[1,2,3,4,5,6,0].map(d => `<tr><th>${WD[d]}</th>${Array.from({ length: 24 }, (_, h) => { const c = cellAgg[d + "-" + h]; if(!c) return `<td></td>`;
         const v = Math.max(0, c.profit) / cmax; return `<td class="on" style="--v:${(0.18 + 0.82 * v).toFixed(2)}" data-tip="${esc(`<b>${WD[d]} ${hrs(h)}–${hrs((h + 1) % 24)}</b>${tipRow("","Viajes",c.n)}${tipRow("#2a78d6","Ingreso",money(c.rev))}${tipRow("#008300","Ganancia",money(c.profit))}`)}">${c.n}</td>`; }).join("")}</tr>`).join("")}
     </tbody></table></div>
-    <div class="heatlg"><span>Menos ganancia</span><i style="--v:.18"></i><i style="--v:.45"></i><i style="--v:.72"></i><i style="--v:1"></i><span>Más ganancia</span><span class="dim">· el número es la cantidad de viajes que empezaron en esa hora</span></div></div></div>
-
-  <div class="g2e">
-    <div class="box"><header><h3>A dónde va cada dólar</h3><span class="sub">${money0(a.rev)} de ingreso</span></header><div class="pad">
-      ${tot ? `<div class="split">${parts.filter(x => x[2] > 0).map(([n, c, v]) => `<div style="flex:${v};background:${c}" data-tip="${esc(`<b>${n}</b>${tipRow(c, money(v), pctf(v/tot))}`)}"></div>`).join("")}</div>
-      <div class="legrows">${parts.map(([n, c, v]) => `<div class="lr"><i style="background:${c}"></i><span>${n}</span><b>${money(v)}</b><small>${pctf(tot ? v/tot : null)}</small></div>`).join("")}</div>
-      <p class="hint">Gasolina ${gpm.real ? `real (${money(gpm.v)}/mi)` : `estimada a ${money(gpm.v)}/mi`} · mantenimiento estimado ${money(A().maint)}/mi.</p>` : `<div class="empty">Sin viajes en este rango.</div>`}
-    </div></div>
-    <div class="box"><header><h3>Por plataforma</h3><button class="btn btn-sm" data-view="perf">Comparar ${icon("arrow",14)}</button></header><div class="pad"><div class="hbars">
-      ${mix.map(p => `<div class="hb"><div class="t"><span>${platTag(p.k)} <span class="dim" style="font-size:12px">${p.n} viaje${p.n===1?"":"s"}</span></span><b>${money(p.rev)} <span class="dim" style="font-weight:400">· ${pctf(a.rev ? p.rev / a.rev : null)}</span></b></div><div class="tr"><div class="f" style="width:${a.rev ? p.rev / a.rev * 100 : 0}%;background:${PLAT[p.k].c}"></div></div><div class="hbs">Ganancia ${money(p.profit)} · ${p.perHour == null ? "—" : money0(p.perHour) + "/h"} · ${money0(p.perTrip)} por viaje</div></div>`).join("")}
-    </div></div></div>
-  </div>`;
+    <div class="heatlg"><span>Menos ganancia</span><i style="--v:.18"></i><i style="--v:.45"></i><i style="--v:.72"></i><i style="--v:1"></i><span>Más ganancia</span><span class="dim">· el número es cuántos viajes empezaron en esa hora</span></div></div></div>`}`;
 }
+
+/* ---------- Gasolina y peajes: real operating cost per mile ---------- */
+function renderCosts(){
+  const f = fuelStats(), ts = tollStats(), oc = opCost(), all = agg(S.trips), n = all.n || 0;
+  const months = {}; const M = iso => monthKey(Date.parse(iso));
+  const row = k => (months[k] ||= { mi: 0, gas: 0, toll: 0, other: 0, trips: 0 });
+  live().forEach(t => { const r = row(M(t.started_at)); r.mi += (+t.miles || 0) + (+t.deadhead_miles || 0); r.trips++; });
+  S.fuel.forEach(x => row(M(x.filled_at)).gas += +x.total_cost || 0);
+  S.exp.forEach(x => { const r = row(M(x.spent_at)); x.category === "tolls" ? r.toll += +x.amount : r.other += +x.amount; });
+  const mk = Object.keys(months).sort().reverse();
+  const parts = COST.map(([k, nm, c]) => [nm, c, Math.max(0, all[k])]), tot = parts.reduce((s, x) => s + x[2], 0);
+  const bar = [["Gasolina", "#6250d6", oc.gas, oc.gasReal], ["Peajes", "#e87ba4", oc.toll, oc.tollReal], ["Mantenimiento", "#eda100", oc.maint, false]];
+  $("#view").innerHTML = `
+  ${head("", "Lo que cuesta mover la camioneta: gasolina de los recibos, peajes de E-PASS y mantenimiento. Estos promedios son los que usa el cálculo de ganancia de cada viaje.", "")}
+  <div class="filters"><span class="spacer"></span><button class="btn btn-sm" data-act="tollnew">${icon("plus",15)} Cargo de E-PASS</button><button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("fuel",15)} Gasolina</button></div>
+  <div class="g2">
+    <div class="box"><header><h3>Costo operativo por milla</h3><span class="sub">sin chofer ni costos fijos</span></header><div class="pad">
+      <div class="big opm">$${oc.total.toFixed(2)}<span> por milla</span></div>
+      <div class="split">${bar.filter(b => b[2] > 0).map(([nm, c, v]) => `<div style="flex:${v};background:${c}" data-tip="${esc(`<b>${nm}</b>${tipRow(c, "$" + v.toFixed(3) + "/mi", pctf(v / oc.total))}`)}"></div>`).join("")}</div>
+      <div class="legrows">${bar.map(([nm, c, v, real]) => `<div class="lr"><i style="background:${c}"></i><span>${nm} <em class="tag ${real ? "ok" : ""}">${real ? "real" : "estimado"}</em></span><b>$${v.toFixed(3)}</b><small>${pctf(oc.total ? v / oc.total : null)}</small></div>`).join("")}</div>
+      <p class="hint">Un viaje de 20 millas (con ida vacía) cuesta en promedio <b>${money(oc.total * 20)}</b> en operación, más el ${pctf(A().driverPct)} del chofer.</p></div></div>
+    <div class="stack" style="gap:16px">
+      <div class="tiles t2">
+        <div class="tile"><div class="k">Gasolina</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.fills.length ? `${money0(f.spend)} en ${f.fills.length} tanqueo${f.fills.length===1?"":"s"} · ${money(f.spend / (f.gallons || 1))}/gal` : "sin recibos todavía"}</div></div>
+        <div class="tile"><div class="k">Peajes E-PASS</div><div class="v">${money(ts.total)}</div><div class="s">${ts.rows.length ? `${ts.rows.length} cargo${ts.rows.length===1?"":"s"} · ${money(n ? ts.total / n : 0)} por viaje` : "sin cargos todavía"}</div></div>
+      </div>
+      ${f.mpg == null ? `<div class="note">${icon("info")}<div>El <b style="color:var(--text)">consumo real</b> sale con 2 tanques llenos con odómetro. Hasta entonces la gasolina se calcula a ${money(A().gasEst)}/mi.</div></div>` : ""}
+      ${!ts.rows.length ? `<div class="note">${icon("info")}<div>Para los <b style="color:var(--text)">peajes</b>: mándame el estado de cuenta de E-PASS (PDF o captura) o súbelo en Documentos → Bandeja, y cargo cada cobro. Registra los cobros de peaje, no las recargas de saldo.</div></div>` : ""}
+    </div>
+  </div>
+  <div class="g2e">
+    <div class="box"><header><h3>Por mes</h3><span class="sub">gasto real registrado</span></header>
+      ${mk.length ? `<div class="tablewrap"><table><thead><tr><th>Mes</th><th style="text-align:right">Millas</th><th style="text-align:right">Gasolina</th><th style="text-align:right">Peajes</th><th style="text-align:right">Otros</th><th style="text-align:right">$/milla</th></tr></thead><tbody>
+      ${mk.map(k => { const r = months[k], sum = r.gas + r.toll; return `<tr><td>${monthName(k)}</td><td class="num" style="text-align:right">${num1(r.mi)}</td><td class="num" style="text-align:right">${money(r.gas)}</td><td class="num" style="text-align:right">${money(r.toll)}</td><td class="num" style="text-align:right">${money(r.other)}</td><td class="num" style="text-align:right;font-weight:600">${r.mi && r.gas ? "$" + (sum / r.mi).toFixed(2) : "—"}</td></tr>`; }).join("")}
+      </tbody></table></div><p class="hint pad0">$/milla = gasolina + peajes del mes entre las millas de los viajes (con ida vacía). Sale cuando el mes tiene recibos de gasolina.</p>` : `<div class="empty">Sin datos.</div>`}</div>
+    <div class="box"><header><h3>A dónde va cada dólar</h3><span class="sub">${money0(all.rev)} de ingreso</span></header><div class="pad">
+      ${tot ? `<div class="split">${parts.filter(x => x[2] > 0).map(([nm, c, v]) => `<div style="flex:${v};background:${c}" data-tip="${esc(`<b>${nm}</b>${tipRow(c, money(v), pctf(v/tot))}`)}"></div>`).join("")}</div>
+      <div class="legrows">${parts.map(([nm, c, v]) => `<div class="lr"><i style="background:${c}"></i><span>${nm}</span><b>${money(v)}</b><small>${pctf(tot ? v/tot : null)}</small></div>`).join("")}</div>` : `<div class="empty">Sin viajes.</div>`}
+    </div></div>
+  </div>
+  <div class="box"><header><h3>Cargos de E-PASS</h3><span class="sub">${ts.rows.length} registrado${ts.rows.length===1?"":"s"}</span></header>
+    ${ts.rows.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Peaje / plaza</th><th>Notas</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody>
+    ${ts.rows.slice().sort((x, y) => Date.parse(y.spent_at) - Date.parse(x.spent_at)).map(x => `<tr data-rcpt="exp:${x.id}"><td class="num">${fmtDate(x.spent_at)}<small class="dim" style="display:block">${fmtHM(x.spent_at)}</small></td><td>${esc(x.vendor || x.address || "—")}</td><td class="muted cut">${esc(x.notes || "")}</td><td class="num" style="text-align:right;font-weight:600">${money(x.amount)}</td><td>${x.receipt_path ? `<button class="btn btn-ghost btn-sm" data-photo="${esc(x.receipt_path)}" aria-label="Ver comprobante">${icon("inbox",15)}</button>` : ""}</td></tr>`).join("")}
+    </tbody></table></div>` : `<div class="empty">Todavía no hay cargos de peaje. Los viajes usan $0.00/mi de peajes hasta que haya cobros reales.</div>`}</div>`;
+}
+
+/* ---------- Metas: what the truck must earn, without overworking the driver ---------- */
+function renderPlan(){
+  const all = agg(S.trips), fx = A().fixed, fixedW = fx * 12 / 52, cap = capH(), goal = goalM(), goalW = goal * 12 / 52, oc = opCost();
+  const needH = (fixedW + goalW) / Math.max(1, cap), beH = all.perHour ? fixedW / all.perHour : null, goalH = all.perHour ? (fixedW + goalW) / all.perHour : null;
+  const miH = all.minKnown ? all.miKnown / (all.minKnown / 60) : null, payH = miH == null ? null : (needH + miH * oc.total) / (1 - A().driverPct);
+  const wks = {}; live().forEach(t => (wks[weekOf(t.started_at)] ||= []).push(t));
+  const cur = weekOf(new Date().toISOString()); wks[cur] ||= [];
+  const wkKeys = Object.keys(wks).sort().reverse();
+  const plats = Object.keys(PLAT).map(k => { const ts = live().filter(t => t.platform === k), g = agg(ts); const dead = ts.reduce((s, t) => s + (+t.deadhead_miles || 0), 0); return { k, ...g, deadShare: g.mi ? dead / g.mi : null }; }).filter(p => p.n);
+  const days = []; for(let d = START(), today = dayKey(Date.now()); d <= today && days.length < 800; d = addDayKey(d, 1)) days.push(d);
+  const fixedDay = fx * 12 / 365, cumP = cumul(days.map(d => agg(S.trips.filter(t => dayKey(t.started_at) === d)).profit)), cumF = days.map((_, i) => fixedDay * (i + 1));
+  CHARTS.ret = W => lineChart(W, { labels: days.map(fmtDay), H: 220,
+    series: [{ name:"Ganancia acumulada", color:"var(--c-profit)", values: cumP }, { name:"Costos fijos acumulados", color:"var(--ink2)", values: cumF, dash: true }],
+    tip: i => `<b>${fmtDay(days[i])} · día ${i + 1}</b>${tipRow("#008300","Ganancia acumulada",money(cumP[i]))}${tipRow("#2B3139","Fijos acumulados",money(cumF[i]))}${tipRow("","Diferencia",money(cumP[i] - cumF[i]))}` });
+  const verdict = h => h == null ? "—" : h <= cap ? `<b class="pos">cabe en el tope</b>` : `<b class="neg">${num1(h - cap)} h más que el tope</b>`;
+  $("#view").innerHTML = `
+  ${head("", "Cuánto tiene que dejar la camioneta por hora para cubrir los costos sin pasar el tope de horas de Marco.", "")}
+  <div class="g2">
+    <div class="box"><header><h3>Parámetros</h3><span class="sub">tú los decides</span></header><div class="pad">
+      <div class="row3">${num("marco_week_hours","Tope de horas de Marco",{step:"1",min:1,suf:"h / semana",ph:"20",hint:"Horas ocupadas en viajes de la camioneta (desde que sale al pickup hasta quedar libre)."})}${num("target_month_profit","Ganancia libre que buscas",{step:"50",min:0,suf:"$ / mes",ph:"0",hint:"Lo que debe quedar después de cubrir los fijos."})}</div>
+      ${saveBar()}
+      <div class="kcalc">
+        <div><span>Fijos por semana</span><b>${money0(fixedW)}</b></div>
+        <div><span>Hay que ganar por hora</span><b>${money0(needH)}</b></div>
+        <div><span>Ganancia por hora hoy</span><b class="${all.perHour != null && all.perHour >= needH ? "pos" : "neg"}">${all.perHour == null ? "—" : money0(all.perHour)}</b></div>
+      </div>
+      <p class="hint">Con el ritmo de hoy, cubrir los fijos toma <b>${beH == null ? "—" : num1(beH) + " h"}</b> por semana: ${verdict(beH)}.${goal ? ` Con la ganancia libre de ${money0(goal)}/mes son <b>${num1(goalH)} h</b>: ${verdict(goalH)}.` : ""}</p>
+    </div></div>
+    <div class="box"><header><h3>Regla para aceptar un viaje</h3><span class="sub">calculada con tus números</span></header><div class="pad">
+      <div class="big">${payH == null ? "—" : money0(payH)}<span> de pago por hora ocupada</span></div>
+      <p class="hint" style="margin-top:6px">Es el pago mínimo de la app por cada hora que la camioneta queda ocupada, contando la ida vacía. Ya descuenta el ${pctf(A().driverPct)} de Marco y $${oc.total.toFixed(2)}/mi de operación${miH == null ? "" : ` a ${num1(miH)} mi por hora`}.</p>
+      <div class="kcalc">
+        <div><span>Viaje de 30 min</span><b>${payH == null ? "—" : money0(payH / 2)}</b></div>
+        <div><span>Viaje de 1 h</span><b>${payH == null ? "—" : money0(payH)}</b></div>
+        <div><span>Viaje de 2 h</span><b>${payH == null ? "—" : money0(payH * 2)}</b></div>
+      </div>
+      <p class="hint">Por debajo de eso el viaje gasta horas de Marco sin acercar la meta.</p></div></div>
+  </div>
+  <div class="g2e">
+    <div class="box"><header><h3>Horas por semana</h3><span class="sub">tope ${cap} h</span></header>
+      <div class="tablewrap"><table><thead><tr><th>Semana del</th><th style="text-align:right">Viajes</th><th style="text-align:right">Ganancia</th><th style="text-align:right">$/h</th><th style="width:38%">Horas ocupadas</th></tr></thead><tbody>
+      ${wkKeys.map(k => { const g = agg(wks[k]), h = engMin(wks[k]) / 60; return `<tr><td>${fmtDay(k)}${k === cur ? ` <em class="tag">esta semana</em>` : ""}</td><td class="num" style="text-align:right">${g.n}</td><td class="num" style="text-align:right">${money0(g.profit)}</td><td class="num" style="text-align:right">${g.perHour == null ? "—" : money0(g.perHour)}</td><td><div class="wkbar"><div class="tr">${meter(h / cap, h > cap ? "over" : "")}</div><span class="${h > cap ? "neg" : ""}">${durTxt(h * 60)}</span></div></td></tr>`; }).join("")}
+      </tbody></table></div></div>
+    <div class="box"><header><h3>Qué plataforma cumple la meta</h3><span class="sub">meta ${money0(needH)}/h</span></header>
+      ${plats.length ? `<div class="tablewrap"><table><thead><tr><th>Plataforma</th><th style="text-align:right">Viajes</th><th style="text-align:right">Ganancia/h</th><th style="text-align:right">Por viaje</th><th style="text-align:right">Millas vacías</th><th></th></tr></thead><tbody>
+      ${plats.map(p => `<tr><td>${platTag(p.k)}</td><td class="num" style="text-align:right">${p.n}</td><td class="num" style="text-align:right;font-weight:600">${p.perHour == null ? "—" : money0(p.perHour)}</td><td class="num" style="text-align:right">${money0(p.perTrip)}</td><td class="num" style="text-align:right">${pctf(p.deadShare)}</td><td>${p.perHour == null ? "" : `<em class="tag ${p.perHour >= needH ? "ok" : "bad"}">${p.perHour >= needH ? "cumple" : "por debajo"}</em>`}</td></tr>`).join("")}
+      </tbody></table></div><p class="hint pad0">Millas vacías = parte del recorrido sin pasajero. Mientras más alto, más gasolina y más tiempo de Marco sin cobrar.</p>` : `<div class="empty">Sin viajes.</div>`}</div>
+  </div>
+  <div class="box"><header><h3>Retorno desde el día 1</h3><div class="lg"><span><i style="background:var(--c-profit)"></i>Ganancia acumulada</span><span><i style="background:var(--ink2);height:2px;width:14px;border-radius:0"></i>Costos fijos acumulados</span></div></header>
+    <div class="pad"><div class="chart" data-chart="ret"></div>
+    <p class="hint">Los fijos corren a ${money0(fixedDay)} por día. Van ${money0(cumP.at(-1) || 0)} de ganancia contra ${money0(cumF.at(-1) || 0)} de fijos: <b class="${(cumP.at(-1) || 0) >= (cumF.at(-1) || 0) ? "pos" : "neg"}">${money0((cumP.at(-1) || 0) - (cumF.at(-1) || 0))}</b>.</p></div></div>`;
+}
+
+/* ---------- Documentos: company document library + inbox, files in the private bucket ---------- */
+const DOC_CAT = { empresa:"Empresa", vehiculo:"Vehículo", seguro:"Seguro", permisos:"Permisos y licencias", chofer:"Chofer", banco:"Banco", plataformas:"Plataformas", impuestos:"Impuestos", otro:"Otro" };
+const DOC_GUESS = [["seguro", /\bcoi\b|insurance|seguro|policy|poliza/i], ["vehiculo", /suburban|registration|title|vin|chevrolet|sticker/i], ["chofer", /\bcdl\b|\bdl\b|license|licencia|profile/i],
+  ["banco", /chase|bank|statement|account/i], ["impuestos", /\bein\b|2553|w-?9|fw9|tax return|1120/i], ["permisos", /tax receipt|btr|zoning|permit|vfh|fasttrack|mco airport/i], ["plataformas", /blacklane|uber|lyft|gnet|contract/i], ["empresa", /corp|articles|sunbiz|dba|registration|operating/i]];
+const guessCat = name => (DOC_GUESS.find(([, re]) => re.test(name)) || ["otro"])[0];
+const FILE_OK = /^(image\/(jpeg|png|webp|heic|heif)|application\/pdf)$/;
+const fsize = b => b == null ? "" : b > 1048576 ? (b / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1024)) + " KB";
+function expTag(d){
+  if(!d) return ""; const n = Math.round((dayStartMs(d) - dayStartMs(dayKey(Date.now()))) / 864e5);
+  return `<em class="tag ${n < 0 ? "bad" : n <= 30 ? "warn" : ""}">${n < 0 ? `venció hace ${-n} d` : n === 0 ? "vence hoy" : `vence en ${n} d`}</em>`;
+}
+function renderDocs(){
+  const tab = S.dtab || "doc", docs = S.files.filter(f => f.area === "doc"), inbox = S.files.filter(f => f.area === "inbox").sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
+  const cat = S.dcat || "all", shown = docs.filter(f => cat === "all" || f.category === cat).sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+  const cats = Object.keys(DOC_CAT).filter(k => docs.some(f => f.category === k));
+  const drop = (area, txt) => `<label class="drop" data-drop="${area}"><input type="file" multiple accept="image/*,application/pdf" data-up="${area}" hidden>${icon("upload",22)}<b>${txt}</b><span>o toca para elegir · PDF o foto, hasta 10 MB cada uno</span></label>`;
+  $("#view").innerHTML = `
+  ${head("", "Los documentos de la empresa en un solo lugar, privados: solo entran los usuarios autorizados del panel.", "")}
+  <div class="tabs" style="margin:-6px 0 18px"><button data-dtab="doc" class="${tab === "doc" ? "on" : ""}">Documentos <span class="dim">${docs.length}</span></button><button data-dtab="inbox" class="${tab === "inbox" ? "on" : ""}">Bandeja para Claude <span class="dim">${inbox.filter(f => f.status === "new").length}</span></button></div>
+  ${S.filesErr ? `<div class="note">${icon("info")}<div>No se pudo leer la lista de archivos: ${esc(S.filesErr)}</div></div>` : ""}
+  ${tab === "doc" ? `
+    ${drop("doc", "Suelta aquí los documentos")}
+    <div class="docbar"><input class="input" id="docq" type="search" placeholder="Buscar por nombre, categoría o nota" aria-label="Buscar documento">
+      <div class="seg2"><button data-dcat="all" class="${cat === "all" ? "on" : ""}">Todos</button>${cats.map(k => `<button data-dcat="${k}" class="${cat === k ? "on" : ""}">${DOC_CAT[k]}</button>`).join("")}</div></div>
+    <div class="box">${shown.length ? `<div class="tablewrap"><table class="doct"><thead><tr><th>Documento</th><th>Categoría</th><th>Fecha</th><th>Vencimiento</th><th></th></tr></thead><tbody>
+      ${shown.map(f => `<tr data-file="${f.id}" data-s="${esc(`${f.title} ${DOC_CAT[f.category] || ""} ${f.notes || ""} ${f.filename || ""}`.toLowerCase())}"><td><b>${esc(f.title)}</b><small class="dim" style="display:block">${esc(f.filename || "")}${f.size_bytes ? " · " + fsize(f.size_bytes) : ""}${f.notes ? " · " + esc(f.notes) : ""}</small></td><td>${esc(DOC_CAT[f.category] || "Otro")}</td><td class="num">${f.doc_date ? fmtDay(f.doc_date) + " " + f.doc_date.slice(0, 4) : "—"}</td><td>${f.expires_on ? `<span class="num">${fmtDay(f.expires_on)} ${f.expires_on.slice(0, 4)}</span> ${expTag(f.expires_on)}` : "—"}</td><td style="text-align:right"><button class="btn btn-sm" data-photo="${esc(f.path)}">Abrir</button></td></tr>`).join("")}
+      </tbody></table></div>` : `<div class="empty">${docs.length ? "Ningún documento en esta categoría." : "Todavía no hay documentos. Suelta arriba los PDF y fotos de la carpeta de la empresa; el panel propone la categoría por el nombre y la puedes corregir."}</div>`}</div>
+    <p class="hint">Toca un documento para cambiarle el nombre, la categoría o la fecha de vencimiento (seguro, permisos, licencia). Los que vencen en 30 días salen marcados.</p>`
+  : `
+    ${drop("inbox", "Suelta aquí capturas de viajes, recibos o estados de E-PASS")}
+    <div class="box">${inbox.length ? `<div class="tablewrap"><table><thead><tr><th>Archivo</th><th>Subido</th><th>Estado</th><th></th></tr></thead><tbody>
+      ${inbox.map(f => `<tr data-file="${f.id}"><td><b>${esc(f.title)}</b><small class="dim" style="display:block">${f.size_bytes ? fsize(f.size_bytes) : ""}${f.notes ? " · " + esc(f.notes) : ""}${f.processed_note ? " · " + esc(f.processed_note) : ""}</small></td><td class="num">${fmtDate(f.created_at)} ${fmtHM(f.created_at)}</td><td><em class="tag ${f.status === "processed" ? "ok" : "warn"}">${f.status === "processed" ? "cargado" : "pendiente"}</em></td><td style="text-align:right"><button class="btn btn-sm" data-photo="${esc(f.path)}">Abrir</button></td></tr>`).join("")}
+      </tbody></table></div>` : `<div class="empty">Bandeja vacía.</div>`}</div>
+    <p class="hint">Lo que subas aquí queda guardado y pendiente. Avísame en el chat ("revisa la bandeja") y lo paso a viajes, recibos o peajes; Claude no la revisa solo.</p>`}`;
+}
+async function uploadFiles(area, list){
+  const files = [...(list || [])]; if(!files.length) return;
+  const bad = files.filter(f => !FILE_OK.test(f.type) || f.size > 10485760);
+  const good = files.filter(f => !bad.includes(f));
+  if(bad.length) toast(`${bad.length} archivo${bad.length===1?"":"s"} no se subi${bad.length===1?"ó":"eron"}: solo PDF o foto de hasta 10 MB.`, true);
+  let done = 0;
+  for(const file of good){
+    const base = file.name.replace(/\.[^.]+$/, ""), ext = (file.name.split(".").pop() || "bin").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const rec = { area, title: base, filename: file.name, mime: file.type, size_bytes: file.size, category: area === "doc" ? guessCat(file.name) : null,
+      path: `${area === "doc" ? "docs" : "inbox/" + monthKey()}/${crypto.randomUUID()}.${ext}` };
+    if(DEMO){ S.files.push({ id: Date.now() + done, status: "new", created_at: new Date().toISOString(), ...rec }); done++; continue; }
+    const up = await S.sb.storage.from("receipts").upload(rec.path, file, { contentType: file.type, upsert: false });
+    if(up.error){ toast(`No se subió ${file.name}: ${up.error.message}`, true); continue; }
+    const { data, error } = await S.sb.from("file_log").insert(rec).select();
+    if(error || !data?.length){ await S.sb.storage.from("receipts").remove([rec.path]); toast(`No se guardó ${file.name}: ${error?.message || "sin permiso"}`, true); continue; }
+    S.files.push(data[0]); done++;
+  }
+  render(); if(done) toast(`${done} archivo${done===1?"":"s"} subido${done===1?"":"s"}.`);
+}
+function openFile(id){
+  const x = S.files.find(f => String(f.id) === String(id)); if(!x) return;
+  FORM = { kind:"file", id: x.id, d: { ...x } };
+  drawerShell(x.area === "doc" ? "Documento" : "Archivo de la bandeja", x.filename || "", `
+    <form class="form" id="fileForm" novalidate>
+      ${fin("fTitle","Nombre",x.title,{type:"text",mono:false,req:true})}
+      ${x.area === "doc" ? `<div class="field"><label>Categoría</label><div class="seg2">${Object.entries(DOC_CAT).map(([k, n]) => `<button type="button" data-fcat="${k}" class="${x.category === k ? "on" : ""}">${n}</button>`).join("")}</div></div>
+      <div class="row">${fin("fDate","Fecha del documento",x.doc_date,{type:"date"})}${fin("fExp","Vence",x.expires_on,{type:"date",hint:"Déjalo vacío si no vence."})}</div>` : ""}
+      ${fin("fNotes","Notas",x.notes,{type:"text",mono:false})}
+      <div class="err" id="fErr"></div></form>`,
+    `<button class="btn btn-ghost" data-act="filedel">${icon("trash",15)} Borrar</button><div style="display:flex;gap:10px"><button class="btn" data-photo="${esc(x.path)}">Abrir</button><button class="btn btn-primary" data-act="filesave">${icon("save",15)} Guardar</button></div>`);
+}
+async function saveFile(){
+  const x = S.files.find(f => f.id === FORM.id), r = { title: val("fTitle"), notes: val("fNotes") };
+  if(!r.title) return $("#fErr").textContent = "Falta el nombre.";
+  if(x.area === "doc") Object.assign(r, { category: FORM.d.category || "otro", doc_date: val("fDate"), expires_on: val("fExp") });
+  if(!DEMO){ const { data, error } = await S.sb.from("file_log").update(r).eq("id", x.id).select(); if(error || !data?.length) return $("#fErr").textContent = "No se guardó: " + (error?.message || "sin permiso"); Object.assign(x, data[0]); }
+  else Object.assign(x, r);
+  closeModal(); render(); toast("Guardado.");
+}
+function deleteFile(){
+  const x = S.files.find(f => f.id === FORM.id);
+  modal(`<h3>Borrar "${esc(x.title)}"</h3><p>Se borra el archivo del panel. No se puede deshacer.</p><div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goDel">Borrar</button></div>`);
+  $("#goDel").onclick = async () => {
+    if(!DEMO){ const { error } = await S.sb.from("file_log").delete().eq("id", x.id); if(error) return toast("No se borró: " + error.message, true); await S.sb.storage.from("receipts").remove([x.path]); }
+    S.files = S.files.filter(f => f.id !== x.id); closeModal(); render(); toast("Archivo borrado.");
+  };
+}
+
 document.addEventListener("click", e => {
   const pk = e.target.closest("[data-pick]"); if(pk){ S.sel = pk.dataset.pick; render(); return; }
   const z = e.target.closest("[data-zmode]"); if(z){ S.zmode = z.dataset.zmode; render(); return; }
+  const dt = e.target.closest("[data-dtab]"); if(dt){ S.dtab = dt.dataset.dtab; render(); return; }
+  const dc = e.target.closest("[data-dcat]"); if(dc){ S.dcat = dc.dataset.dcat; render(); return; }
+  const fc = e.target.closest("[data-fcat]"); if(fc){ FORM.d.category = fc.dataset.fcat; fc.parentElement.querySelectorAll("button").forEach(b => b.classList.toggle("on", b === fc)); return; }
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if(act === "tollnew") return openExp(null, { category: "tolls", vendor: "E-PASS" });
+  if(act === "filesave") return saveFile();
+  if(act === "filedel") return deleteFile();
+  const fr = e.target.closest("tr[data-file]"); if(fr && !e.target.closest("[data-photo]")){ openFile(fr.dataset.file); return; }
   const r = e.target.closest("tr[data-route]"); if(r && !e.target.closest(".ticket")){ S.route = S.route === r.dataset.route ? null : r.dataset.route; render(); }
 });
+document.addEventListener("change", e => { if(e.target.matches?.("[data-up]")) uploadFiles(e.target.dataset.up, e.target.files); });
+document.addEventListener("input", e => { if(e.target.id === "docq"){ const q = e.target.value.trim().toLowerCase(); document.querySelectorAll("table.doct tbody tr").forEach(tr => tr.style.display = !q || tr.dataset.s.includes(q) ? "" : "none"); } });
+["dragover","dragleave","drop"].forEach(ev => document.addEventListener(ev, e => {
+  const d = e.target.closest?.("[data-drop]"); if(!d) return; e.preventDefault();
+  d.classList.toggle("over", ev === "dragover"); if(ev === "drop") uploadFiles(d.dataset.drop, e.dataTransfer.files);
+}));
 document.addEventListener("keydown", e => {
   if(e.key !== "Enter" && e.key !== " ") return;
   if(e.target.matches?.(".ticket[data-trip]")){ e.preventDefault(); openTrip(e.target.dataset.trip); }
@@ -2305,7 +2563,7 @@ async function deleteTrip(){
 /* ---------- Recibos: fuel + other expenses, with receipt photos ---------- */
 const EXP_CAT = {
   wash:{ n:"Lavado" }, oil:{ n:"Cambio de aceite" }, tires:{ n:"Llantas" }, maintenance:{ n:"Mantenimiento" }, repair:{ n:"Reparación" },
-  tolls:{ n:"Peajes (SunPass)" }, parking:{ n:"Parqueo" }, supplies:{ n:"Suministros" }, phone:{ n:"Teléfono / datos" }, fees:{ n:"Cuotas y permisos" }, other:{ n:"Otro" },
+  tolls:{ n:"Peajes (E-PASS)" }, parking:{ n:"Parqueo" }, supplies:{ n:"Suministros" }, phone:{ n:"Teléfono / datos" }, fees:{ n:"Cuotas y permisos" }, other:{ n:"Otro" },
 };
 const MAINT_CATS = ["oil","tires","maintenance","repair"];          // covered by the $/mi maintenance estimate
 const PAY = ["Tarjeta empresa","Efectivo","Tarjeta personal","Otro"];
@@ -2416,9 +2674,9 @@ async function deleteFuel(){
 }
 
 /* ---------- other expense form ---------- */
-function openExp(id){
+function openExp(id, pre){
   const x = id ? S.exp.find(e => String(e.id) === String(id)) : null;
-  const d = x ? { ...x } : { spent_at: new Date().toISOString(), category: "wash", payment_method: PAY[0] };
+  const d = x ? { ...x } : { spent_at: new Date().toISOString(), category: "wash", payment_method: PAY[0], ...(pre || {}) };
   FORM = { kind:"exp", id: x?.id ?? null, d };
   drawerShell(x ? "Editar gasto" : "Otro gasto", "Recibos", `
     <form class="form" id="expForm" novalidate>
@@ -2474,8 +2732,8 @@ function exportCSV(){
 }
 
 function openMore(){
-  const groups = [["Operación", ["home","trips","driver","fuel","perf"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
-  const ic = { driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"fuel", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
+  const groups = [["Operación", ["home","trips","geo","plan"]], ["Finanzas", ["costs","fuel","driver","perf"]], ["Empresa", ["docs"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
+  const ic = { geo:"pin", plan:"target", costs:"fuel", docs:"folder", driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"receipt", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
   const mode = S.control?.mode || "dry_run";
   $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
     ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
