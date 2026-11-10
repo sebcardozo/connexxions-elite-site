@@ -6,7 +6,7 @@
 <title>Despacho · Connexxions Elite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0E0E0D">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="/img/connexxions-logo.png">
@@ -603,6 +603,127 @@ tbody tr:hover td{background:#FAF9F6}
 .today .d{background:var(--accent);color:#fff;border-radius:999px;padding:3px 10px;font-weight:600;font-size:12.5px}
 .today .sp{flex:1}
 @media (max-width:960px){ .today .sp{display:none} .today{gap:6px 12px} .fbar [data-act="tripnew"]{display:none} }
+/* ===================== v5: graphite workspace, Archivo + Plex, tachograph ===================== */
+:root{
+  --bg:#ECEEF1; --panel:#FFFFFF; --panel2:#F6F7F9; --panel3:#E9ECF0;
+  --line:#DFE3E8; --line2:#CDD3DA; --text:#0F1115; --ink:#0F1115; --ink2:#2B3139; --muted:#4A525C; --dim:#69727D;
+  --grid:#EEF1F4; --night:#F1F3F6;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --display:"Archivo","IBM Plex Sans",system-ui,sans-serif;
+  --shadow:0 1px 0 rgba(15,17,21,.04),0 1px 3px rgba(15,17,21,.05);
+}
+.side,.gate,.mtop{ --panel:#0F1115; --panel2:#171A1F; --panel3:#21252C; --line:#23272E; --line2:#323843; --text:#EEF0F3; --muted:#AEB5BE; --dim:#7F8893; }
+.app{background:linear-gradient(to right,#0F1115 252px,var(--bg) 252px)}
+.side{background:#0F1115}
+body{font-family:var(--sans);font-size:15px;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.pagehead h1,.ophead h1,.box > header h3,.jhead h2,.sechead h2{font-family:var(--display);font-stretch:118%;font-variation-settings:"wdth" 118}
+.pagehead h1{font-size:30px;font-weight:700;letter-spacing:-.4px}
+.box > header h3{font-size:15.5px;font-weight:650;letter-spacing:-.1px}
+th{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.2px}
+.tile .v,.bk .v,.kpi .v,.big,.gauges b,.cluster b,.paychip b{font-family:var(--display);font-stretch:112%;font-variation-settings:"wdth" 112;font-variant-numeric:tabular-nums}
+.tile.hero .v{font-family:var(--display)}
+.topbar{background:rgba(236,238,241,.92)}
+tbody tr:hover td{background:#F8F9FB}
+.b-skip{background:#EEF1F4;border-color:#DCE1E7}
+
+/* operations header */
+.ophead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:18px;flex-wrap:wrap}
+.ophead .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.ophead .kicker::first-letter{color:var(--accent)}
+.ophead h1{margin:0;font-size:34px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
+.paychip{display:grid;grid-template-columns:auto auto;gap:0 12px;align-items:baseline;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 16px;box-shadow:var(--shadow);border-left:4px solid var(--c-profit)}
+.paychip.late{border-left-color:var(--accent)}
+.paychip .l{grid-column:1 / -1;font-size:12px;color:var(--dim)}
+.paychip b{font-size:22px;font-weight:700}
+.paychip span:last-child{font-size:13px;color:var(--muted)}
+
+/* jornada: tachograph + day gauges + trip tickets */
+.jornada{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:22px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:26px}
+.jhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.jhead h2,.sechead h2{margin:0;font-size:18px;font-weight:700;letter-spacing:-.2px}
+.daynav{display:flex;align-items:center;gap:4px;font-weight:600;font-size:14px}
+.daynav span{min-width:120px;text-align:center}
+.tachowrap{max-width:400px;margin:0 auto}
+.tacho{display:block;width:100%;height:auto}
+.tacho .tk{font-family:var(--mono);font-size:11px;fill:var(--dim)}
+.tacho .cl{font-family:var(--sans);font-size:12px;fill:var(--dim)}
+.tacho .cv{font-family:var(--display);font-stretch:118%;font-variation-settings:"wdth" 118;font-size:34px;font-weight:700;fill:var(--ink)}
+.tacho .cs{font-family:var(--sans);font-size:12px;fill:var(--muted)}
+.jornada .lg{margin-top:10px;font-size:12px}
+.jr{display:flex;flex-direction:column;gap:16px;min-width:0}
+.gauges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.gauges div{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.gauges div:nth-child(3n){border-right:0} .gauges div:nth-last-child(-n+3){border-bottom:0}
+.gauges span{font-size:12.5px;color:var(--dim)}
+.gauges b{font-size:21px;font-weight:700;letter-spacing:-.3px}
+.tickets{display:flex;flex-direction:column;gap:7px;max-height:360px;overflow-y:auto;padding:0 2px 18px 0;-webkit-mask-image:linear-gradient(#000 calc(100% - 26px),transparent);mask-image:linear-gradient(#000 calc(100% - 26px),transparent)}
+.ticket{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;padding:9px 14px;border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:10px;cursor:pointer;background:var(--panel)}
+.ticket:hover{background:var(--panel2)}
+.ticket:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ticket .tt b{font-family:var(--mono);font-size:14px;font-weight:500;display:block}
+.ticket .tt span{font-size:12px;color:var(--muted)}
+.ticket .tr2{display:flex;align-items:center;gap:8px;min-width:0;font-size:13.5px}
+.ticket .tr2 span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ticket .tr2 i{flex:0 0 18px;height:1px;background:var(--line2);position:relative}
+.ticket .tr2 i::after{content:"";position:absolute;right:-1px;top:-3px;border:3.5px solid transparent;border-left:5px solid var(--line2)}
+.ticket .tm{text-align:right;font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted)}
+.ticket .tm small{color:var(--dim)} .ticket .tm b{display:block;font-size:15px;color:var(--text)}
+
+/* period */
+.sechead{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.sechead .fbar{margin:0;flex:1}
+.cluster{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden}
+.cluster > div{padding:16px 18px;border-right:1px solid var(--line);display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto auto;align-items:end;gap:2px 10px;min-width:0}
+.cluster > div:last-child{border-right:0}
+.cluster span{grid-column:1 / -1;font-size:13px;color:var(--muted)}
+.cluster b{font-size:28px;font-weight:700;letter-spacing:-.6px;line-height:1.15;white-space:nowrap}
+.cluster .spark{width:96px;height:30px;align-self:center}
+.cluster small{grid-column:1 / -1;font-size:12px;color:var(--dim)}
+.paycard .big{font-family:var(--display);font-stretch:112%;font-size:36px;font-weight:700;letter-spacing:-.8px}
+.paycard .big span{font-family:var(--sans);font-size:16px;font-weight:400;color:var(--dim);letter-spacing:0}
+.paycard .cycdays{display:flex;gap:3px;margin:14px 0 6px}
+.paycard .cycdays i{flex:1;height:14px;border-radius:3px;background:var(--panel3)}
+.paycard .cycdays i.past{background:var(--ink2)} .paycard .cycdays i.now{background:var(--accent)}
+.paycard .meter{height:6px;margin:6px 0 14px}
+.paycard .pr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.paycard .pr span{display:block;font-size:12px;color:var(--dim)} .paycard .pr b{font-family:var(--display);font-stretch:112%;font-size:19px;font-weight:700}
+.hbs{font-size:12px;color:var(--dim);margin-top:5px}
+
+@media (max-width:1200px){
+  .jornada{grid-template-columns:1fr} .tachowrap{max-width:360px}
+  .cluster{grid-template-columns:repeat(2,minmax(0,1fr))} .cluster > div:nth-child(2){border-right:0} .cluster > div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:960px){
+  .app{background:var(--bg)}
+  .mtop{background:#0F1115}
+  .ophead h1{font-size:26px}
+  .jornada{padding:16px;border-radius:14px}
+  .gauges{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gauges div:nth-child(3n){border-right:1px solid var(--line)} .gauges div:nth-child(2n){border-right:0}
+  .gauges div:nth-last-child(-n+3){border-bottom:1px solid var(--line)} .gauges div:nth-last-child(-n+2){border-bottom:0}
+  .ticket{grid-template-columns:1fr auto} .ticket .tr2{grid-column:1 / -1;grid-row:2}
+  .tickets{max-height:none}
+  .cluster b{font-size:22px} .cluster .spark{width:64px}
+  .paycard .pr{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important} }
+
+/* v5: every former serif heading/number moves to Archivo expanded, system-wide */
+:root{--serif:var(--display)}
+.gate h1,.brand .lockup,.kpi .v,.box > header h3,.sec-head h3,.drawer .route,.dgrid b,.pagehead h1,.bk .v,.stats .hero,.tile.hero .v,.onb h2{font-family:var(--display);font-weight:700;font-stretch:115%;font-variation-settings:"wdth" 115;font-style:normal}
+.box > header h3{font-size:15.5px;letter-spacing:-.1px}
+.pagehead h1{font-size:30px;letter-spacing:-.4px}
+.sec-head h3,.onb h2,.gate h1{font-size:28px;letter-spacing:-.5px}
+.drawer .route{font-size:26px;letter-spacing:-.4px}
+.dgrid b{font-size:21px;letter-spacing:-.3px}
+.bk .v,.tile.hero .v{font-size:36px;letter-spacing:-.8px}
+.kpi .v{font-size:30px;letter-spacing:-.6px}
+.stats .hero{font-size:56px;letter-spacing:-1.4px}
+.brand .lockup{font-size:19px;letter-spacing:-.2px}
+.brand .lockup em,.onb h2 em{font-style:normal}
+.topbar .geo{font-family:var(--mono);font-style:normal;font-size:12px;letter-spacing:.4px;text-transform:uppercase}
+.tile .v{font-weight:700;letter-spacing:-.4px}
 </style>
 </head>
 <body>
@@ -765,7 +886,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], bizErr: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], bizErr: null, day: null,
   tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -1481,6 +1602,7 @@ let toastT; function toast(msg, bad){ document.querySelector(".toast")?.remove()
 
 /* ======================= v3: business (trips, fuel, performance) ======================= */
 Object.assign(ICONS, {
+  chevl:'<path d="M15 18l-6-6 6-6"/>', chevr:'<path d="M9 18l6-6-6-6"/>',
   person:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
   sliders:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
   fuel:'<path d="M3 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18M2 22h14M15 9h2a2 2 0 0 1 2 2v5a2 2 0 0 0 4 0V8l-4-4M6 7h6"/>',
@@ -1714,51 +1836,157 @@ function onboarding(){
     <ul><li>${icon("check")}Ganancia por viaje, por hora y por milla, por plataforma.</li><li>${icon("check")}Consumo real de la Suburban (mpg) con cada tanqueo.</li><li>${icon("check")}Cuánto falta para cubrir los $${A().fixed.toLocaleString("en-US")} de costos fijos del mes.</li><li>${icon("check")}Exportable a CSV para el CPA.</li></ul></div>`;
 }
 
+/* ---------- Resumen v5: tachograph of the day + period instruments ---------- */
+const durTxt = m => { m = Math.round(m || 0); const h = Math.floor(m / 60); return h ? `${h} h ${String(m % 60).padStart(2,"0")} min` : `${m} min`; };
+function dayTrips(day){ return S.trips.filter(t => dayKey(t.started_at) === day && t.status !== "cancelled").sort((a, b) => Date.parse(a.started_at) - Date.parse(b.started_at)); }
+function defaultDay(){
+  const today = dayKey(Date.now());
+  if(dayTrips(today).length || !S.trips.length) return today;
+  return S.trips.map(t => dayKey(t.started_at)).sort().at(-1);
+}
+/* one trip on the clock: approach (empty, before pickup) + ride (with passenger) */
+function tripWindow(t){
+  const s = Date.parse(t.started_at), e = tripEcon(t);
+  const pax = e.paxMins || 0, eng = t.engaged_min != null ? +t.engaged_min : null;
+  const pre = eng != null ? Math.max(0, eng - pax) : 0;
+  return { s, pre, pax, e };
+}
+function tachoSVG(day){
+  const W = 360, c = W / 2, R = 166, r1 = 136, r0 = 100, t0 = dayStartMs(day), trips = dayTrips(day);
+  const ang = ms => ((ms - t0) / 864e5) * 2 * Math.PI - Math.PI / 2;
+  const P = (r, a) => [c + r * Math.cos(a), c + r * Math.sin(a)];
+  const seg = (a1, a2, ri, ro) => {
+    if(a2 - a1 < 0.006) a2 = a1 + 0.006;
+    const L = a2 - a1 > Math.PI ? 1 : 0, [x1, y1] = P(ro, a1), [x2, y2] = P(ro, a2), [x3, y3] = P(ri, a2), [x4, y4] = P(ri, a1);
+    return `M${x1.toFixed(2)},${y1.toFixed(2)}A${ro},${ro} 0 ${L} 1 ${x2.toFixed(2)},${y2.toFixed(2)}L${x3.toFixed(2)},${y3.toFixed(2)}A${ri},${ri} 0 ${L} 0 ${x4.toFixed(2)},${y4.toFixed(2)}Z`;
+  };
+  let g = `<circle cx="${c}" cy="${c}" r="${R}" fill="var(--panel)" stroke="var(--line2)"/>`;
+  // night band (20:00–06:00)
+  g += `<path d="${seg(ang(t0 + 20*3600e3), ang(t0 + 24*3600e3), r0, r1)}" fill="var(--night)"/><path d="${seg(ang(t0), ang(t0 + 6*3600e3), r0, r1)}" fill="var(--night)"/>`;
+  g += `<circle cx="${c}" cy="${c}" r="${r1}" fill="none" stroke="var(--line2)"/><circle cx="${c}" cy="${c}" r="${r0}" fill="none" stroke="var(--line2)"/>`;
+  for(let h = 0; h < 24; h++){
+    const a = ang(t0 + h * 3600e3), major = h % 3 === 0, [x1, y1] = P(r1, a), [x2, y2] = P(r1 + (major ? 9 : 5), a);
+    g += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${major ? "var(--ink2)" : "var(--line2)"}" stroke-width="${major ? 1.4 : 1}"/>`;
+    if(major){ const [tx, ty] = P(R - 9, a); g += `<text x="${tx}" y="${ty + 4}" text-anchor="middle" class="tk">${String(h).padStart(2,"0")}</text>`; }
+    const [gx1, gy1] = P(r0, a), [gx2, gy2] = P(r1, a); g += `<line x1="${gx1}" y1="${gy1}" x2="${gx2}" y2="${gy2}" stroke="var(--grid)" stroke-width="1"/>`;
+  }
+  let hit = "";
+  trips.forEach((t, i) => {
+    const w = tripWindow(t), col = PLAT[t.platform]?.c || "#888";
+    const tip = `<b>${esc(PLAT[t.platform]?.n || t.platform)} · ${fmtHM(t.started_at)}</b>${tipRow("", "Ruta", esc(shortAddr(t.pickup) || "—") + " → " + esc(shortAddr(t.dropoff) || "—"))}${tipRow(col, "Con pasajero", durTxt(w.pax))}${w.pre ? tipRow("", "Ida vacía / regreso (est.)", durTxt(w.pre)) : ""}${tipRow("", "Pago", money(w.e.rev))}${tipRow("", "Ganancia", money(w.e.profit))}`;
+    if(w.pre) g += `<path d="${seg(ang(w.s - w.pre * 60e3), ang(w.s), r0 + 4, r1 - 4)}" fill="${col}" opacity=".28"/>`;
+    g += `<path d="${seg(ang(w.s), ang(w.s + Math.max(w.pax, 3) * 60e3), r0 + 2, r1 - 2)}" fill="${col}" stroke="var(--panel)" stroke-width="1.5"/>`;
+    hit += `<path d="${seg(ang(w.s - w.pre * 60e3) - 0.02, ang(w.s + Math.max(w.pax, 3) * 60e3) + 0.02, r0 - 6, r1 + 6)}" fill="transparent" data-tip="${esc(tip)}"/>`;
+  });
+  if(day === dayKey(Date.now())){
+    const a = ang(Date.now()), [x1, y1] = P(r0 - 22, a), [x2, y2] = P(R + 2, a);
+    g += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="4" fill="var(--accent)"/>`;
+  }
+  const a = agg(trips), eng = trips.reduce((s, t) => s + tripWindow(t).pre + tripWindow(t).pax, 0);
+  g += `<text x="${c}" y="${c - 22}" text-anchor="middle" class="cl">${trips.length ? "Ganancia del día" : "Sin viajes"}</text>
+        <text x="${c}" y="${c + 12}" text-anchor="middle" class="cv">${trips.length ? money0(a.profit) : "—"}</text>
+        <text x="${c}" y="${c + 34}" text-anchor="middle" class="cs">${trips.length ? `${trips.length} viaje${trips.length===1?"":"s"} · ${durTxt(eng)} ocupado` : fmtDay(day)}</text>`;
+  return `<svg viewBox="0 0 ${W} ${W}" class="tacho" role="img" aria-label="Jornada del ${fmtDay(day)}">${g}${hit}</svg>`;
+}
+
+const cumul = v => { let t = 0; return v.map(x => t += x); };
+function sparkline(vals, color = "var(--ink)"){
+  vals = vals.filter(v => v != null && isFinite(v)); if(vals.length < 3) return "";
+  const W = 120, H = 30, mn = Math.min(0, ...vals), mx = Math.max(1, ...vals), y = v => H - 3 - (v - mn) / (mx - mn || 1) * (H - 6);
+  const pts = vals.map((v, i) => `${(i / (vals.length - 1) * W).toFixed(1)},${y(v).toFixed(1)}`);
+  return `<svg viewBox="0 0 ${W} ${H}" class="spark" aria-hidden="true">${mn < 0 ? `<line x1="0" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="var(--line2)" stroke-dasharray="2 3"/>` : ""}<polyline points="${pts.join(" ")}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${pts.at(-1).split(",")[0]}" cy="${pts.at(-1).split(",")[1]}" r="2.6" fill="${color}"/></svg>`;
+}
+
 function renderHome(){
+  if(!S.trips.length){ $("#view").innerHTML = `${head("", "El centro de operaciones de la camioneta.", "")}${onboarding()}`; return; }
+  const day = S.day && S.day >= START() ? S.day : defaultDay(); S.day = day;
+  const dt = dayTrips(day), da = agg(dt), wins = dt.map(tripWindow);
+  const engaged = wins.reduce((s, w) => s + w.pre + w.pax, 0);
+  const street = wins.length ? (Math.max(...wins.map(w => w.s + w.pax * 60e3)) - Math.min(...wins.map(w => w.s - w.pre * 60e3))) / 60e3 : 0;
+  const isFirst = day <= START(), isToday = day >= dayKey(Date.now());
+
   const trips = filteredTrips(), a = agg(trips), gpm = gasPerMile(), B = buckets();
-  const all = agg(S.trips);
-  const series = B.keys.map(k => { const g = agg(trips.filter(t => B.keyOf(t.started_at) === k)); return g; });
+  const series = B.keys.map(k => agg(trips.filter(t => B.keyOf(t.started_at) === k)));
   CHARTS.revprofit = W => colChart(W, { labels: B.keys.map(B.label),
     series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
     tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}` });
-  /* payment cycle (independent of the range filter) */
+
   const cyc = payCycle(), cy = agg(S.trips.filter(t => Date.parse(t.started_at) >= cyc.from && (S.tr.plat === "all" || t.platform === S.tr.plat)));
-  const due = +cyc.item.amount, cover = due ? Math.max(0, cy.profit) / due : null, left = Math.max(0, due - cy.profit);
+  const due = +cyc.item.amount, cover = due ? Math.max(0, cy.profit) / due : 0, left = Math.max(0, due - cy.profit);
   const daysRun = Math.max(1, (Date.now() - cyc.from) / 864e5), pace = cy.profit / daysRun, need = left / Math.max(1, cyc.daysLeft);
   const other = S.exp.filter(x => Date.parse(x.spent_at) >= cyc.from && !MAINT_CATS.includes(x.category)).reduce((t, x) => t + +x.amount, 0), res = cy.profit - A().fixed - other;
-  const td = S.trips.filter(t => dayKey(t.started_at) === dayKey(Date.now()) && t.status !== "cancelled"), tdA = agg(td);
+  const totalDays = Math.max(1, Math.round((dayStartMs(cyc.dueKey) - cyc.from) / 864e5) + 1), elapsed = Math.min(totalDays, Math.max(0, totalDays - cyc.daysLeft));
   const parts = COST.map(([k, n, c]) => [n, c, Math.max(0, a[k])]), tot = parts.reduce((s, x) => s + x[2], 0);
-  const recent = trips.slice(0, 6);
+  const mix = Object.keys(PLAT).map(k => ({ k, ...agg(trips.filter(t => t.platform === k)) })).filter(x => x.n).sort((x, y) => y.rev - x.rev);
+
   $("#view").innerHTML = `
-  ${head("Cómo va <em>el negocio.</em>", `${rangeLabel()}${S.tr.plat !== "all" ? " · " + PLAT[S.tr.plat].n : " · todas las plataformas"}.`, "Resumen")}
-  ${filterBar(`<button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}
-  ${!S.trips.length ? onboarding() : `
-  <div class="today"><span class="d">Día ${opDay()} de operación</span><span>Hoy: <b>${tdA.n} viaje${tdA.n===1?"":"s"}</b></span><span><b>${money(tdA.rev)}</b> ingreso</span><span><b class="${tdA.profit < 0 ? "neg" : ""}">${money(tdA.profit)}</b> ganancia</span><span><b>${money(tdA.tips)}</b> en propinas para Marco</span><span class="sp"></span><span>Pago de la camioneta: <b>${fmtDay(cyc.dueKey)}</b> · en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></div>
-  <div class="tiles">
-    <div class="tile hero"><div class="k">Ganancia neta</div><div class="v ${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</div><div class="s">después de chofer y costos del viaje</div></div>
-    <div class="tile"><div class="k">Ingreso</div><div class="v">${money0(a.rev)}</div><div class="s">${a.n} viaje${a.n === 1 ? "" : "s"}</div></div>
-    <div class="tile"><div class="k">Margen</div><div class="v ${a.margin < 0 ? "neg" : ""}">${pctf(a.margin)}</div><div class="s">ganancia ÷ ingreso</div></div>
-    <div class="tile"><div class="k">Ganancia / hora</div><div class="v">${a.perHour == null ? "—" : money0(a.perHour)}</div><div class="s">por hora ocupada</div></div>
-    <div class="tile"><div class="k">Ingreso / milla</div><div class="v">${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</div><div class="s">millas totales, incl. vacías</div></div>
+  <div class="ophead">
+    <div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
+    <div class="paychip ${pace >= need || cover >= 1 ? "ok" : "late"}"><span class="l">Pago de la camioneta</span><b>${fmtDay(cyc.dueKey)}</b><span>en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></div>
   </div>
-  <div class="box" style="margin-bottom:16px"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
-    <div class="pad"><div class="chart" data-chart="revprofit"></div></div></div>
+
+  <section class="jornada">
+    <div class="jl">
+      <div class="jhead"><h2>Jornada</h2>
+        <div class="daynav"><button class="btn btn-ghost btn-sm" data-day="prev" ${isFirst ? "disabled" : ""} aria-label="Día anterior">${icon("chevl",16)}</button><span>${isToday ? "Hoy" : fmtDate(new Date(dayStartMs(day) + 12*3600e3).toISOString())}</span><button class="btn btn-ghost btn-sm" data-day="next" ${isToday ? "disabled" : ""} aria-label="Día siguiente">${icon("chevr",16)}</button></div></div>
+      <div class="tachowrap">${tachoSVG(day)}</div>
+      <div class="lg" style="justify-content:center">${[...new Set(dt.map(t => t.platform))].map(k => `<span><i style="background:${PLAT[k].c}"></i>${PLAT[k].n}</span>`).join("")}<span><i style="background:${PLAT[dt[0]?.platform]?.c || "var(--ink2)"};opacity:.3"></i>Ida vacía / regreso (est.)</span>${isToday ? `<span><i style="background:var(--accent);height:2px;width:12px;border-radius:1px"></i>Ahora</span>` : ""}</div>
+    </div>
+    <div class="jr">
+      <div class="gauges">
+        <div><span>Ingreso</span><b>${money(da.rev)}</b></div>
+        <div><span>Ganancia</span><b class="${da.profit < 0 ? "neg" : ""}">${money(da.profit)}</b></div>
+        <div><span>Propinas de Marco</span><b>${money(da.tips)}</b></div>
+        <div><span>Ocupado</span><b>${durTxt(engaged)}</b></div>
+        <div><span>En la calle</span><b>${durTxt(street)}</b></div>
+        <div><span>Por hora ocupada</span><b>${engaged ? money0(da.profit / (engaged / 60)) : "—"}</b></div>
+      </div>
+      <div class="tickets">
+        ${dt.length ? dt.map(t => { const e = tripEcon(t); return `<div class="ticket" data-trip="${t.id}" role="button" tabindex="0" style="--pc:${PLAT[t.platform]?.c}">
+          <div class="tt"><b>${fmtHM(t.started_at)}</b><span>${esc(PLAT[t.platform]?.n || t.platform)}${t.service ? " · " + esc(t.service) : ""}</span></div>
+          <div class="tr2"><span>${esc(shortAddr(t.pickup) || "—")}</span><i></i><span>${esc(shortAddr(t.dropoff) || "—")}</span></div>
+          <div class="tm"><span>${money(e.rev)}${e.tip ? ` <small>+${money(e.tip)}</small>` : ""}</span><b class="${e.profit < 0 ? "neg" : ""}">${money(e.profit)}</b></div></div>`; }).join("")
+        : `<div class="empty">Sin viajes este día.</div>`}
+      </div>
+    </div>
+  </section>
+
+  <div class="sechead"><h2>Período</h2>${filterBar(`<button class="btn btn-primary btn-sm" data-act="tripnew">${icon("plus",15)} Registrar viaje</button>`)}</div>
+  <div class="cluster">
+    <div><span>Ganancia neta</span><b class="${a.profit < 0 ? "neg" : ""}">${money0(a.profit)}</b>${sparkline(cumul(series.map(x => x.profit)), "var(--c-profit)")}<small>${a.n} viajes · ${pctf(a.margin)} margen · línea = acumulado</small></div>
+    <div><span>Ingreso</span><b>${money0(a.rev)}</b>${sparkline(cumul(series.map(x => x.rev)), "var(--c-rev)")}<small>${a.perTrip == null ? "—" : money0(a.rev / a.n) + " por viaje"}</small></div>
+    <div><span>Ganancia por hora</span><b>${a.perHour == null ? "—" : money0(a.perHour)}</b>${sparkline(series.map(x => x.perHour))}<small>hora ocupada</small></div>
+    <div><span>Ingreso por milla</span><b>${a.perMile == null ? "—" : "$" + a.perMile.toFixed(2)}</b>${sparkline(series.map(x => x.perMile))}<small>${num1(a.mi)} mi totales</small></div>
+  </div>
+
+  <div class="g2">
+    <div class="box"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
+      <div class="pad"><div class="chart" data-chart="revprofit"></div></div></div>
+    <div class="box paycard"><header><h3>Hacia el pago del ${fmtDay(cyc.dueKey)}</h3><span class="sub">${esc(cyc.item.name)}</span></header><div class="pad">
+      <div class="big">${money0(cy.profit)}<span> / ${money0(due)}</span></div>
+      <div class="cycdays" aria-label="Días del ciclo">${Array.from({ length: totalDays }, (_, i) => `<i class="${i < elapsed ? "past" : ""} ${i === elapsed - 1 ? "now" : ""}" title="${fmtDay(addDayKey(dayKey(cyc.from), i))}"></i>`).join("")}</div>
+      <div class="meter"><div style="width:${Math.min(100, cover * 100)}%"></div></div>
+      <div class="pr"><div><span>Hay que dejar</span><b>${cover >= 1 ? "—" : money0(need) + "/día"}</b></div><div><span>Ritmo actual</span><b class="${pace >= need || cover >= 1 ? "pos" : "neg"}">${money0(pace)}/día</b></div><div><span>Resultado del ciclo</span><b class="${res < 0 ? "neg" : "pos"}">${money0(res)}</b></div></div>
+      <p class="dim" style="font-size:12.5px;margin:12px 0 0">Resultado = ganancia de viajes − fijos del mes (${money0(A().fixed)}) − otros gastos (${money0(other)}).</p>
+    </div></div>
+  </div>
+
   <div class="g2e">
     <div class="box"><header><h3>A dónde va cada dólar</h3><span class="sub">${money0(a.rev)} de ingreso</span></header><div class="pad">
       ${tot ? `<div class="split">${parts.filter(x => x[2] > 0).map(([n, c, v]) => `<div style="flex:${v};background:${c}" data-tip="${esc(`<b>${n}</b>${tipRow(c, money(v), pctf(v/tot))}`)}"></div>`).join("")}</div>
       <div class="legrows">${parts.map(([n, c, v]) => `<div class="lr"><i style="background:${c}"></i><span>${n}</span><b>${money(v)}</b><small>${pctf(tot ? v/tot : null)}</small></div>`).join("")}</div>
-      <p class="dim" style="font-size:12px;margin:14px 0 0">Gasolina ${gpm.real ? `real del registro (${money(gpm.v)}/mi)` : `estimada a ${money(gpm.v)}/mi hasta registrar tanqueos`} · mantenimiento estimado ${money(A().maint)}/mi.${a.tips ? ` Propinas para el chofer: ${money(a.tips)} (no son ingreso de la empresa).` : ""}</p>` : `<div class="empty">Sin viajes en este rango.</div>`}
+      <p class="dim" style="font-size:12px;margin:14px 0 0">Gasolina ${gpm.real ? `real (${money(gpm.v)}/mi)` : `estimada a ${money(gpm.v)}/mi`} · mantenimiento estimado ${money(A().maint)}/mi.</p>` : `<div class="empty">Sin viajes en este rango.</div>`}
     </div></div>
-    <div class="box"><header><h3>Próximo pago de la camioneta</h3><span class="sub">${fmtDate(new Date(dayStartMs(cyc.dueKey) + 12*3600e3).toISOString())} · en ${cyc.daysLeft} día${cyc.daysLeft===1?"":"s"}</span></header><div class="pad">
-      <div class="big ${cy.profit < 0 ? "neg" : ""}">${money0(cy.profit)} <span class="dim" style="font-size:16px;font-weight:400">de ${money(due)} · ${esc(cyc.item.name)}</span></div>
-      <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round((cover||0)*100)}"><div style="width:${Math.min(100, (cover||0)*100)}%"></div></div>
-      <div class="muted" style="font-size:13.5px">${cover >= 1 ? `<b class="pos">Pago cubierto.</b>` : `Faltan <b style="color:var(--text)">${money0(left)}</b> en ${cyc.daysLeft} días: hay que dejar <b style="color:var(--text)">${money0(need)}/día</b>. Ritmo actual <b class="${pace >= need ? "pos" : "neg"}">${money0(pace)}/día</b>.`}</div>
-      <div class="kv" style="margin-top:14px;font-size:13.5px"><span>Ganancia de viajes desde ${fmtDay(dayKey(cyc.from))}</span><span class="num" style="text-align:right">${money(cy.profit)}</span><span>Todos los costos fijos del mes</span><span class="num" style="text-align:right">−${money(A().fixed)}</span><span>Otros gastos (lavados, peajes, suministros…)</span><span class="num" style="text-align:right">${other ? "−" + money(other) : money(0)}</span><span><b style="color:var(--text)">Resultado del ciclo</b></span><span class="num ${res < 0 ? "neg" : "pos"}" style="text-align:right;font-weight:600">${money(res)}</span></div>
-      <p class="dim" style="font-size:12.5px;margin:14px 0 0">Fijos: ${fixedActive().items.length ? fixedActive().items.map(x => `${esc(x.name)} ${money(x.amount)}${+x.due_day ? ` (día ${x.due_day})` : ""}${x.until ? ` hasta ${monthName(x.until)}` : ""}`).join(" · ") : "sin partidas"}. Se editan en Ajustes.</p>
-    </div></div>
-  </div>
-  <div class="box"><header><h3>Últimos viajes</h3><button class="btn btn-sm" data-view="trips">Ver todos ${icon("arrow",14)}</button></header>${tripTable(recent)}</div>`}`;
+    <div class="box"><header><h3>Por plataforma</h3><button class="btn btn-sm" data-view="perf">Comparar ${icon("arrow",14)}</button></header><div class="pad"><div class="hbars">
+      ${mix.map(p => `<div class="hb"><div class="t"><span>${platTag(p.k)} <span class="dim" style="font-size:12px">${p.n} viaje${p.n===1?"":"s"}</span></span><b>${money(p.rev)} <span class="dim" style="font-weight:400">· ${pctf(a.rev ? p.rev / a.rev : null)}</span></b></div><div class="tr"><div class="f" style="width:${a.rev ? p.rev / a.rev * 100 : 0}%;background:${PLAT[p.k].c}"></div></div><div class="hbs">Ganancia ${money(p.profit)} · ${p.perHour == null ? "—" : money0(p.perHour) + "/h"} · ${money0(p.perTrip)} por viaje</div></div>`).join("")}
+    </div></div></div>
+  </div>`;
 }
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-day]"); if(!b || b.disabled) return;
+  S.day = addDayKey(S.day || defaultDay(), b.dataset.day === "prev" ? -1 : 1); render();
+});
+document.addEventListener("keydown", e => { if((e.key === "Enter" || e.key === " ") && e.target.matches?.(".ticket[data-trip]")){ e.preventDefault(); openTrip(e.target.dataset.trip); } });
 
 function renderDriver(){
   const pct = A().driverPct, trips = filteredTrips().filter(t => t.status !== "cancelled");
