@@ -810,7 +810,7 @@ table.heat td.on{background:rgb(0 131 0 / var(--v));cursor:default}
 .stat .meter{height:8px;margin:12px 0 4px}
 .meter.over div{background:var(--c-neg)}
 .mini{grid-template-columns:repeat(3,minmax(0,1fr))}
-.hub{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:8px}
+.hub{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:8px}
 .hub button{display:flex;align-items:center;gap:12px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--text);box-shadow:var(--shadow);min-width:0}
 .hub button:hover{border-color:var(--ink2)}
 .hub button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -835,6 +835,7 @@ table.heat td.on{background:rgb(0 131 0 / var(--v));cursor:default}
 .docbar .input{max-width:320px}
 table.doct tbody tr,tr[data-file]{cursor:pointer}
 .navgroup + button{margin-top:0}
+@media (max-width:1500px){ .hub{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (max-width:1200px){ .hub{grid-template-columns:repeat(2,minmax(0,1fr))} .g3{grid-template-columns:1fr} }
 @media (max-width:960px){
   .opshero{padding:20px 18px;border-radius:14px}
@@ -849,6 +850,27 @@ table.doct tbody tr,tr[data-file]{cursor:pointer}
 .botrule{display:flex;align-items:center;gap:14px;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px;background:var(--panel2)}
 .botrule b{font-size:13.5px} .botrule span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
 @media (max-width:960px){ .botrule{flex-direction:column;align-items:flex-start} }
+/* CFO report */
+.verdict{display:flex;gap:14px;align-items:flex-start;border-radius:14px;padding:16px 18px;margin-bottom:16px;border:1px solid var(--line);background:var(--panel);border-left:5px solid var(--ink2)}
+.verdict.bad{border-left-color:var(--c-neg);background:#FDF3F2} .verdict.warn{border-left-color:#C98A00;background:#FFF9EA} .verdict.ok{border-left-color:var(--c-profit);background:#F1F9F1}
+.verdict svg{flex:none;margin-top:2px}
+.verdict b{display:block;font-family:var(--display);font-stretch:110%;font-size:18px;font-weight:700;letter-spacing:-.2px;line-height:1.3}
+.verdict span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.tile .v.neg{color:var(--c-neg)} .tile .v.pos{color:var(--c-profit)}
+table.pl td{padding:9px 14px} table.pl tr.strong td{font-weight:600}
+table.pl tr.tot td{border-top:2px solid var(--ink2);font-weight:700;font-size:15px;background:var(--panel2)}
+table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:nth-child(2){color:var(--c-profit)}
+.alerts{display:flex;flex-direction:column}
+.alert{display:grid;grid-template-columns:10px 1fr auto;gap:14px;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line)}
+.alert:last-child{border-bottom:0}
+.alert i{width:10px;height:10px;border-radius:50%;background:var(--line2)}
+.alert.bad i{background:var(--c-neg)} .alert.warn i{background:#E0A100} .alert.info i{background:#2a78d6}
+.alert b{display:block;font-size:14.5px} .alert span{display:block;font-size:13px;color:var(--muted);margin-top:2px;line-height:1.45}
+.linkbtn{border:0;background:none;padding:0;font:inherit;color:var(--text);text-decoration:underline;cursor:pointer}
+@media (max-width:960px){ .alert{grid-template-columns:10px 1fr} .alert .btn{grid-column:2;justify-self:start} .verdict b{font-size:16px} }
+.tiles.t4{grid-template-columns:repeat(4,minmax(0,1fr))} .tiles.t4 .tile .s,.tiles.t4 .tile .k{white-space:normal;overflow:visible}
+.verdict b{color:var(--text)}
+@media (max-width:1200px){ .tiles.t4{grid-template-columns:repeat(2,minmax(0,1fr))} }
 </style>
 </head>
 <body>
@@ -893,6 +915,7 @@ table.doct tbody tr,tr[data-file]{cursor:pointer}
     <nav class="nav" id="nav">
       <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
+      <button data-view="cfo"><span data-icon="trend"></span>Informe del CFO</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
       <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
       <button data-view="plan"><span data-icon="target"></span>Metas</button>
@@ -1211,8 +1234,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
-const RENDER = () => ({home:renderHome, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Informe del CFO", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -2109,6 +2132,7 @@ function renderHome(){
   </div>
 
   <div class="hub">
+    <button data-view="cfo">${icon("trend",20)}<div><b>Informe del CFO</b><span>Resultado del mes, punto de equilibrio y qué atender</span></div>${icon("arrow",16)}</button>
     <button data-view="geo">${icon("pin",20)}<div><b>Rutas y horas</b><span>${routes[0] ? `${esc(routes[0].k)} · ${routes[0].n} viaje${routes[0].n===1?"":"s"}` : "Sin rutas todavía"}</span></div>${icon("arrow",16)}</button>
     <button data-view="costs">${icon("fuel",20)}<div><b>Gasolina y peajes</b><span>${oc.gasReal ? "Gasolina real" : "Gasolina estimada"} · ${oc.tollReal ? "peajes reales" : "sin cargos de E-PASS"}</span></div>${icon("arrow",16)}</button>
     <button data-view="plan">${icon("target",20)}<div><b>Metas</b><span>${all.perHour == null ? "—" : `${money0(all.perHour)}/h actual · ${money0(needH)}/h necesario`}</span></div>${icon("arrow",16)}</button>
@@ -2359,6 +2383,86 @@ document.addEventListener("keydown", e => {
   if(e.target.matches?.(".ticket[data-trip]")){ e.preventDefault(); openTrip(e.target.dataset.trip); }
   else if(e.target.matches?.("tr[data-route]")){ e.preventDefault(); S.route = S.route === e.target.dataset.route ? null : e.target.dataset.route; render(); }
 });
+
+/* ---------- Informe del CFO: verdict, month P&L, break-even, obligations, what is owed, alerts with an action ---------- */
+function renderCfo(){
+  const now = Date.now(), today = dayKey(now), mk = monthKey(), fa = fixedActive(), fx = fa.total, oc = opCost();
+  const mStart = Math.max(dayStartMs(mk + "-01"), startMs()), [Y, Mo] = mk.split("-").map(Number), dim = new Date(Date.UTC(Y, Mo, 0)).getUTCDate();
+  const mTrips = live().filter(t => Date.parse(t.started_at) >= mStart), m = agg(mTrips), all = agg(S.trips);
+  const dayNo = +today.slice(8), firstDay = +dayKey(mStart).slice(8), daysOp = Math.max(1, dayNo - firstDay + 1), daysLeftM = dim - dayNo;
+  const other = S.exp.filter(x => Date.parse(x.spent_at) >= mStart && !MAINT_CATS.includes(x.category) && x.category !== "tolls").reduce((s, x) => s + +x.amount, 0);
+  const pace = m.profit / daysOp, proj = m.profit + pace * daysLeftM, result = m.profit - fx - other, projResult = proj - fx - other;
+  const perTrip = all.perTrip || 0, beTrips = perTrip > 0 ? Math.ceil(fx / perTrip) : null, beDay = beTrips ? beTrips / dim : null, tripsDay = m.n / daysOp;
+  const P = payState(), cap = capH(), wk = weekOf(new Date().toISOString()), wh = engMin(live().filter(t => weekOf(t.started_at) === wk)) / 60;
+  const needH = (fx * 12 / 52 + goalM() * 12 / 52) / Math.max(1, cap);
+  const dead = live().reduce((s, t) => s + (+t.deadhead_miles || 0), 0), deadShare = all.mi ? dead / all.mi : 0;
+  const owed = { pay: all.driver, tips: all.tips };
+  /* obligations: every fixed cost with its next date (due_day when set, otherwise end of month) */
+  const obl = fa.items.map(x => { let d = +x.due_day || dim, y = Y, mo = Mo; if(d < dayNo){ mo++; if(mo > 12){ mo = 1; y++; } }
+    const key = `${y}-${String(mo).padStart(2,"0")}-${String(Math.min(d, 28)).padStart(2,"0")}`;
+    return { name: x.name, amount: +x.amount, key, days: Math.round((dayStartMs(key) - dayStartMs(today)) / 864e5), fixedDate: !!+x.due_day }; }).sort((a, b) => a.days - b.days);
+  const docs = S.files.filter(f => f.area === "doc"), exp = docs.filter(f => f.expires_on).map(f => ({ f, d: Math.round((dayStartMs(f.expires_on) - dayStartMs(today)) / 864e5) })).filter(x => x.d <= 30);
+  const plats = Object.keys(PLAT).map(k => ({ k, ...agg(live().filter(t => t.platform === k)) })).filter(p => p.n);
+
+  /* alerts: [level, title, detail, action label, view] */
+  const al = [];
+  if(P.cover < 1 && !P.ok) al.push(["bad", `El pago del ${fmtDay(P.cyc.dueKey)} no se cubre al ritmo actual`, `Van ${money0(P.cy.profit)} de ${money0(P.due)}. Hay que dejar ${money0(P.need)} por día y el ritmo es ${money0(P.pace)}. La diferencia equivale a ${perTrip > 0 ? Math.ceil((P.need - P.pace) / perTrip) : "—"} viaje(s) más por día al promedio de ${money0(perTrip)} por viaje.`, "Ver metas", "plan"]);
+  if(projResult < 0) al.push(["bad", `El mes cierra en ${money0(projResult)} si sigue este ritmo`, `Proyección: ${money0(proj)} de ganancia de viajes contra ${money0(fx)} de fijos${other ? ` y ${money0(other)} de otros gastos` : ""}. Para salir en cero hacen falta ${beDay == null ? "—" : num1(beDay)} viajes por día; van ${num1(tripsDay)}.`, "Ver metas", "plan"]);
+  if(wh > cap) al.push(["bad", `Marco pasó el tope de la semana`, `${durTxt(wh * 60)} ocupadas de ${cap} h.`, "Ver semana", "plan"]);
+  else if(wh > cap * 0.8) al.push(["warn", `Marco está cerca del tope de la semana`, `${durTxt(wh * 60)} ocupadas de ${cap} h.`, "Ver semana", "plan"]);
+  plats.filter(p => p.perHour != null && p.perHour < needH).forEach(p => al.push(["warn", `${PLAT[p.k].n} deja ${money0(p.perHour)} por hora, bajo la meta de ${money0(needH)}`, `${p.n} viaje${p.n===1?"":"s"}, ${money0(p.perTrip)} de ganancia por viaje. Conviene tomar solo los que pasen la regla de pago por hora.`, "Ver regla", "plan"]));
+  if(deadShare > 0.4) al.push(["warn", `${pctf(deadShare)} de las millas son sin pasajero`, `${num1(dead)} de ${num1(all.mi)} millas. Cada milla vacía cuesta $${oc.total.toFixed(2)} y tiempo de Marco. Conviene encadenar viajes en la misma zona.`, "Ver rutas", "geo"]);
+  exp.forEach(x => al.push([x.d < 0 ? "bad" : "warn", `${x.f.title}: ${x.d < 0 ? `venció hace ${-x.d} días` : `vence en ${x.d} días`}`, `Vencimiento ${fmtDay(x.f.expires_on)}.`, "Ver documento", "docs"]));
+  const noExp = docs.filter(f => ["seguro","permisos","chofer"].includes(f.category) && !f.expires_on).length;
+  if(noExp) al.push(["info", `${noExp} documento${noExp===1?"":"s"} sin fecha de vencimiento`, "Seguro, permisos y licencias vencen. Sin la fecha, el sistema no puede avisar.", "Poner fechas", "docs"]);
+  if(!oc.gasReal) al.push(["info", "La gasolina es estimada", `Se calcula a ${money(A().gasEst)} por milla. Con 2 tanques llenos con odómetro sale el consumo real de la Suburban.`, "Cargar recibo", "fuel"]);
+  if(!oc.tollReal) al.push(["info", "No hay cargos de E-PASS", "Los viajes se están calculando con $0 de peajes. Con el estado de cuenta se corrige.", "Ver peajes", "costs"]);
+  const inboxNew = S.files.filter(f => f.area === "inbox" && f.status === "new").length;
+  if(inboxNew) al.push(["info", `${inboxNew} archivo${inboxNew===1?"":"s"} sin procesar en la bandeja`, "Avisa en el chat para cargarlos.", "Ver bandeja", "docs"]);
+  const order = { bad: 0, warn: 1, info: 2 }; al.sort((a, b) => order[a[0]] - order[b[0]]);
+  const bad = al.filter(a => a[0] === "bad").length, verdict = !m.n ? ["info", "Sin viajes este mes todavía."]
+    : bad ? ["bad", `Hoy el negocio no cubre sus costos fijos. Faltan ${money0(Math.max(0, fx + other - m.profit))} de ganancia este mes y quedan ${daysLeftM} días.`]
+    : projResult >= 0 ? ["ok", `El mes va cubierto: la proyección deja ${money0(projResult)} después de fijos.`] : ["warn", "El mes está justo; revisa las alertas."];
+  const row = (label, v, cls = "", sub = "") => `<tr class="${cls}"><td>${label}${sub ? `<small class="dim" style="display:block">${sub}</small>` : ""}</td><td class="num" style="text-align:right">${v}</td><td class="num dim" style="text-align:right">${m.rev && typeof v === "string" && cls !== "tot" ? "" : ""}</td></tr>`;
+  const pl = (label, amt, cls = "", sub = "") => `<tr class="${cls}"><td>${label}${sub ? `<small class="dim" style="display:block">${sub}</small>` : ""}</td><td class="num" style="text-align:right">${money(amt)}</td><td class="num dim" style="text-align:right">${m.rev && !cls.includes("nopct") ? pctf(Math.abs(amt) / m.rev) : ""}</td></tr>`;
+
+  $("#view").innerHTML = `
+  ${head("", `Lectura financiera al ${new Date().toLocaleDateString("es-US",{day:"numeric",month:"long",timeZone:TZ})}. Todo sale de los viajes, recibos y costos cargados; lo estimado va marcado.`, "")}
+  <div class="verdict ${verdict[0]}">${icon(verdict[0] === "ok" ? "check" : "info", 20)}<div><b>${verdict[1]}</b><span>${al.length ? `${al.length} punto${al.length===1?"":"s"} por atender abajo.` : "Sin alertas."}</span></div></div>
+  <div class="tiles t4">
+    <div class="tile"><div class="k">Resultado del mes a hoy</div><div class="v ${result < 0 ? "neg" : "pos"}">${money0(result)}</div><div class="s">ganancia ${money0(m.profit)} − fijos ${money0(fx)}${other ? ` − otros ${money0(other)}` : ""}</div></div>
+    <div class="tile"><div class="k">Proyección al cierre</div><div class="v ${projResult < 0 ? "neg" : "pos"}">${money0(projResult)}</div><div class="s">a ${money0(pace)} de ganancia por día, ${daysLeftM} días restantes</div></div>
+    <div class="tile"><div class="k">Punto de equilibrio</div><div class="v">${beTrips == null ? "—" : beTrips + " viajes"}</div><div class="s">por mes, a ${money0(perTrip)} por viaje · ${beDay == null ? "—" : num1(beDay)} al día (van ${num1(tripsDay)})</div></div>
+    <div class="tile"><div class="k">Por pagar a Marco</div><div class="v">${money0(owed.pay + owed.tips)}</div><div class="s">${money(owed.pay)} de su ${pctf(A().driverPct)} + ${money(owed.tips)} en propinas, desde el día 1</div></div>
+  </div>
+  <div class="g2">
+    <div class="box"><header><h3>Estado de resultados · ${monthName(mk)}</h3><span class="sub">${m.n} viaje${m.n===1?"":"s"} · día ${daysOp} de operación en el mes</span></header>
+      <div class="tablewrap"><table class="pl"><thead><tr><th>Concepto</th><th style="text-align:right">Monto</th><th style="text-align:right">% del ingreso</th></tr></thead><tbody>
+        ${pl("Ingreso de las apps", m.rev, "strong")}
+        ${pl("Chofer", -m.driver, "", pctf(A().driverPct) + " del pago; las propinas no pasan por la empresa")}
+        ${pl("Gasolina", -m.gas, "", oc.gasReal ? "real, de los recibos" : "estimada")}
+        ${pl("Mantenimiento", -m.maint, "", "estimado por milla")}
+        ${pl("Peajes y parqueo", -m.extra, "", oc.tollReal ? "promedio real de E-PASS" : "sin cargos registrados")}
+        ${pl("Ganancia de los viajes", m.profit, "tot")}
+        ${pl("Costos fijos del mes", -fx, "nopct", fa.items.length + " partidas")}
+        ${other ? pl("Otros gastos", -other, "nopct", "de Recibos") : ""}
+        ${pl("Resultado", result, "tot nopct " + (result < 0 ? "neg" : "pos"))}
+      </tbody></table></div>
+      <p class="hint pad0">Los fijos se cuentan completos aunque el mes no haya terminado; por eso el resultado mejora con cada viaje. Operación empezó el ${fmtDay(START())}.</p></div>
+    <div class="stack" style="gap:16px">
+      <div class="box"><header><h3>Pagos que vienen</h3><span class="sub">${money0(obl.filter(o => o.days <= 30).reduce((s, o) => s + o.amount, 0))} en 30 días</span></header>
+        <div class="tablewrap"><table><tbody>
+        ${obl.map(o => `<tr><td><b>${esc(o.name)}</b><small class="dim" style="display:block">${o.fixedDate ? fmtDay(o.key) : "sin día de pago cargado"}</small></td><td>${o.fixedDate ? `<em class="tag ${o.days <= 7 ? "warn" : ""}">${o.days === 0 ? "hoy" : `en ${o.days} d`}</em>` : ""}</td><td class="num" style="text-align:right;font-weight:600">${money(o.amount)}</td></tr>`).join("") || `<tr><td class="dim">Sin costos fijos cargados.</td></tr>`}
+        </tbody></table></div>
+        <p class="hint pad0">Los días de pago se editan en Ajustes. <button class="linkbtn" data-view="settings">Abrir ajustes</button></p></div>
+      <div class="box"><header><h3>Por viaje, en promedio</h3><span class="sub">${all.n} viajes desde el día 1</span></header><div class="pad">
+        <div class="kcalc"><div><span>Cobra</span><b>${all.n ? money(all.rev / all.n) : "—"}</b></div><div><span>Cuesta</span><b>${all.n ? money((all.rev - all.profit) / all.n) : "—"}</b></div><div><span>Deja</span><b class="pos">${all.n ? money(all.profit / all.n) : "—"}</b></div></div>
+        <p class="hint">${plats.map(p => `${PLAT[p.k].n}: ${money0(p.perTrip)} por viaje, ${Math.ceil(fx / Math.max(0.01, p.perTrip))} viajes al mes para cubrir fijos`).join(" · ")}.</p></div></div>
+    </div>
+  </div>
+  <div class="box"><header><h3>Qué atender</h3><span class="sub">${al.length} punto${al.length===1?"":"s"}, lo más urgente arriba</span></header>
+    ${al.length ? `<div class="alerts">${al.map(([lv, t, d, a, v]) => `<div class="alert ${lv}"><i></i><div><b>${esc(t)}</b><span>${esc(d)}</span></div><button class="btn btn-sm" data-view="${v}">${a}</button></div>`).join("")}</div>` : `<div class="empty">Nada pendiente.</div>`}</div>`;
+}
 
 function renderDriver(){
   const pct = A().driverPct, trips = filteredTrips().filter(t => t.status !== "cancelled");
@@ -2744,8 +2848,8 @@ function exportCSV(){
 }
 
 function openMore(){
-  const groups = [["Operación", ["home","trips","geo","plan"]], ["Finanzas", ["costs","fuel","driver","perf"]], ["Empresa", ["docs"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
-  const ic = { geo:"pin", plan:"target", costs:"fuel", docs:"folder", driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"receipt", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
+  const groups = [["Operación", ["home","cfo","trips","geo","plan"]], ["Finanzas", ["costs","fuel","driver","perf"]], ["Empresa", ["docs"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
+  const ic = { cfo:"trend", geo:"pin", plan:"target", costs:"fuel", docs:"folder", driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"receipt", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
   const mode = S.control?.mode || "dry_run";
   $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
     ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
