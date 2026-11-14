@@ -2973,7 +2973,7 @@ $("#logout").addEventListener("click", async () => { if(!DEMO) await S.sb.auth.s
 /* Hosted copy (connexxionselite.com/despacho) ships the project URL and PUBLIC key, so
    there is no setup screen. Safe: the public key only works through Row Level Security,
    and the bl_* tables are readable only by emails in bl_admins. */
-const EMBED_URL = "", EMBED_KEY = "";
+const EMBED_URL = "https://lqeulxlxcbvkvkjozujf.supabase.co", EMBED_KEY = "sb_publishable_vvjypcxf4-rvnWco3zDKIQ_Knb9z8_S";
 async function boot(){
   if(DEMO) return enterApp();
   const url = EMBED_URL || store.get("bl_sb_url"), key = EMBED_KEY || store.get("bl_sb_key");
