@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <meta name="theme-color" content="#0E0E0D">
-<meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="/img/connexxions-logo.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <style>
 :root{
@@ -372,6 +370,16 @@ tbody tr:hover td{background:rgba(255,255,255,.015)}
 #tip{position:fixed;z-index:80;pointer-events:none;background:#201f1c;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;font-size:12.5px;line-height:1.55;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:260px;display:none}
 #tip b{font-weight:600} #tip .r{display:flex;justify-content:space-between;gap:18px} #tip .r span:first-child{color:var(--muted);display:inline-flex;align-items:center;gap:6px}
 #tip i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.avgs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.avgcol{min-width:0}
+.avgh{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);font-weight:500;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:4px}
+.avgh svg{opacity:.75}
+.avg{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2)}
+.avg:last-child{border-bottom:0}
+.avg .k{font-size:13px;color:var(--text)}
+.avg b{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.avg small{grid-column:1/-1;font-size:11.5px;color:var(--dim);margin-top:-2px}
+@media (max-width:880px){.avgs{grid-template-columns:1fr;gap:18px}}
 .hbars{display:flex;flex-direction:column;gap:12px}
 .hb .t{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .hb .t b{font-weight:500;font-variant-numeric:tabular-nums}
@@ -868,6 +876,9 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
 .alert b{display:block;font-size:14.5px} .alert span{display:block;font-size:13px;color:var(--muted);margin-top:2px;line-height:1.45}
 .linkbtn{border:0;background:none;padding:0;font:inherit;color:var(--text);text-decoration:underline;cursor:pointer}
 @media (max-width:960px){ .alert{grid-template-columns:10px 1fr} .alert .btn{grid-column:2;justify-self:start} .verdict b{font-size:16px} }
+.tiles.t5{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (max-width:1100px){ .tiles.t5{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:700px){ .tiles.t5{grid-template-columns:repeat(2,minmax(0,1fr))} }
 .tiles.t4{grid-template-columns:repeat(4,minmax(0,1fr))} .tiles.t4 .tile .s,.tiles.t4 .tile .k{white-space:normal;overflow:visible}
 .verdict b{color:var(--text)}
 @media (max-width:1200px){ .tiles.t4{grid-template-columns:repeat(2,minmax(0,1fr))} }
@@ -878,7 +889,7 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
 <!-- Setup: Supabase public key (stored only in this browser) -->
 <section id="setup" class="gate hidden">
   <div class="card">
-    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
+    <div class="brand"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <h1>Conectar con <em>Supabase</em></h1>
     <p>Solo la primera vez en este navegador. Usa la clave <b>anon public</b> (o la <b>publishable</b>), nunca la service_role.</p>
     <form id="setupForm">
@@ -893,7 +904,7 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
 <!-- Login -->
 <section id="login" class="gate hidden">
   <div class="card">
-    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
+    <div class="brand"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <h1>Despacho, <em>en automático.</em></h1>
     <p>Bot Blacklane · solo personal autorizado.</p>
     <form id="loginForm">
@@ -910,7 +921,7 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
 <!-- App -->
 <div id="app" class="app hidden">
   <aside class="side">
-    <div class="brand"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
+    <div class="brand"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <div class="conn" id="conn"></div>
     <nav class="nav" id="nav">
       <div class="navgroup">Operación</div>
@@ -943,7 +954,7 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
     <div class="foot"><span id="who"></span><button class="btn btn-ghost btn-sm" id="logout" title="Salir"><span data-icon="logout"></span></button></div>
   </aside>
   <main class="main">
-    <div class="mtop"><img src="/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--serif);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
+    <div class="mtop"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--serif);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
     <div class="topbar">
       <h2 id="viewTitle">Resumen</h2>
       <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
@@ -2693,6 +2704,17 @@ function receiptRows(){
   return [...fuel, ...exp].sort((a,b) => Date.parse(b.at) - Date.parse(a.at));
 }
 
+function tollSummary(){
+  const [a,b] = rangeBounds();
+  const rows = S.exp.filter(x => x.category === "tolls" && Date.parse(x.spent_at) >= a && Date.parse(x.spent_at) <= b);
+  const total = rows.reduce((s,x) => s + (+x.amount || 0), 0);
+  const trips = filteredTrips(), mi = trips.reduce((s,t) => s + tripEcon(t).mi, 0);
+  const own = trips.filter(t => +t.tolls > 0), ownTotal = own.reduce((s,t) => s + +t.tolls, 0);
+  return { rows, total, mi, perMile: mi ? total/mi : 0, perTrip: trips.length ? total/trips.length : 0,
+           trips: trips.length, own: own.length, ownTotal, days: Math.max(1, Math.round((b-a)/864e5)) };
+}
+const avgRow = (k, v, s = "") => `<div class="avg"><span class="k">${k}</span><b class="mono">${v}</b>${s ? `<small>${s}</small>` : ""}</div>`;
+
 function renderFuel(){
   const f = fuelStats(), rows = receiptRows();
   const fuelRows = rows.filter(r => r.kind === "fuel"), expRows = rows.filter(r => r.kind === "exp");
@@ -2700,18 +2722,50 @@ function renderFuel(){
   const maintReal = expRows.filter(r => MAINT_CATS.includes(r.cat)).reduce((t,r) => t + r.amount, 0);
   const byCat = {}; rows.forEach(r => { byCat[r.label] = (byCat[r.label] || 0) + r.amount; });
   const cats = Object.entries(byCat).sort((a,b) => b[1]-a[1]), maxC = cats[0]?.[1] || 1;
+  const tl = tollSummary(), g = gasPerMile(), a = A();
+  const weeks = Math.max(1, tl.days/7);
+  const gasMi = g.v, opMi = gasMi + tl.perMile + a.maint;
   CHARTS.mpg = W => lineChart(W, { H: 210, labels: f.intervals.map(x => fmtDay(dayKey(x.at))), fmt: v => v.toFixed(0),
     series: [{ name:"mpg", color:"var(--c-rev)", values: f.intervals.map(x => x.mpg) }],
     tip: i => { const x = f.intervals[i]; return `<b>${fmtDate(x.at)}</b>${tipRow("#2a78d6","mpg",x.mpg.toFixed(1))}${tipRow("","Millas",num1(x.mi))}${tipRow("","Galones",x.gal.toFixed(2))}${tipRow("","$/milla",money(x.perMile))}`; } });
   $("#view").innerHTML = `
   ${head("", "Cada recibo de la camioneta: gasolina, lavados, aceite, peajes y más. Mándame la foto en el chat y lo cargo, o súbelo aquí.", "")}
   ${filterBar(`<button class="btn btn-sm" data-act="expnew">${icon("plus",15)} Otro gasto</button><button class="btn btn-primary btn-sm" data-act="fuelnew">${icon("fuel",15)} Gasolina</button>`, true)}
-  <div class="tiles" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+  <div class="tiles t5">
     <div class="tile"><div class="k">Gastado</div><div class="v">${money0(spend)}</div><div class="s">${rows.length} recibo${rows.length===1?"":"s"} · ${rangeLabel().toLowerCase()}</div></div>
     <div class="tile"><div class="k">Gasolina</div><div class="v">${money0(gasSpend)}</div><div class="s">${gal ? `${num1(gal)} gal · ${money(gasSpend/gal)}/gal` : "sin tanqueos"}</div></div>
-    <div class="tile"><div class="k">Consumo real</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.mpg == null ? "faltan 2 tanques llenos con odómetro" : `gasolina ${money(f.perMile)}/mi (estimado ${money(A().gasEst)})`}</div></div>
+    <div class="tile"><div class="k">Consumo real</div><div class="v">${f.mpg == null ? "—" : f.mpg.toFixed(1) + " mpg"}</div><div class="s">${f.mpg == null ? "faltan 2 tanques llenos con odómetro" : `gasolina ${money(f.perMile)}/mi (estimado ${money(a.gasEst)})`}</div></div>
+    <div class="tile"><div class="k">Peajes E-PASS</div><div class="v">${money0(tl.total)}</div><div class="s">${tl.total ? `${money(tl.perMile)}/mi · ${tl.rows.length} cargo${tl.rows.length===1?"":"s"}` : "sin cargos cargados"}</div></div>
     <div class="tile"><div class="k">Mantenimiento real</div><div class="v">${money0(maintReal)}</div><div class="s">aceite, llantas y reparaciones</div></div>
   </div>
+
+  <div class="box" style="margin-bottom:16px"><header><h3>Promedios</h3><span class="sub">${rangeLabel()} · ${tl.trips} viaje${tl.trips===1?"":"s"} · ${num1(tl.mi)} mi</span></header>
+    <div class="pad"><div class="avgs">
+      <div class="avgcol"><div class="avgh">${icon("fuel",14)} Gasolina</div>
+        ${avgRow("Por galón", gal ? money(gasSpend/gal) : "—", gal ? `${num1(gal)} gal en ${fuelRows.length} tanqueo${fuelRows.length===1?"":"s"}` : "sin tanqueos")}
+        ${avgRow("Por milla", money(gasMi), g.real ? "medido entre tanques llenos" : `estimado · ${f.mpg==null?"falta odómetro":""}`)}
+        ${avgRow("Por viaje", tl.trips ? money(gasMi * tl.mi / tl.trips) : "—", "millas del viaje × $/mi")}
+        ${avgRow("Por tanqueo", fuelRows.length ? money(gasSpend/fuelRows.length) : "—", fuelRows.length ? `cada ${(tl.days/fuelRows.length).toFixed(1)} días` : "")}
+        ${avgRow("Por semana", money(gasSpend/weeks), `${tl.days} día${tl.days===1?"":"s"} en el rango`)}
+      </div>
+      <div class="avgcol"><div class="avgh">${icon("pin",14)} Peajes (E-PASS)</div>
+        ${avgRow("Total del período", money(tl.total), `${tl.rows.length} cargo${tl.rows.length===1?"":"s"} de E-PASS`)}
+        ${avgRow("Por milla", money(tl.perMile), tl.total ? "cargos ÷ millas de viajes" : "se aplica a los viajes sin peaje propio")}
+        ${avgRow("Por viaje", money(tl.perTrip), `${tl.trips} viaje${tl.trips===1?"":"s"} en el rango`)}
+        ${avgRow("Por semana", money(tl.total/weeks), "")}
+        ${avgRow("Con peaje propio", `${tl.own} de ${tl.trips}`, tl.ownTotal ? `${money(tl.ownTotal)} anotados en el viaje` : "ninguno anotado viaje por viaje")}
+      </div>
+      <div class="avgcol"><div class="avgh">${icon("dollar",14)} Costo operativo</div>
+        ${avgRow("Gasolina", money(gasMi) + "/mi", g.real ? "real" : "estimado")}
+        ${avgRow("Peajes", money(tl.perMile) + "/mi", tl.total ? "real" : "sin datos")}
+        ${avgRow("Mantenimiento", money(a.maint) + "/mi", "estimado, editable en Ajustes")}
+        ${avgRow("Total por milla", money(opMi) + "/mi", "sin contar el pago al chofer")}
+        ${avgRow("Por viaje", tl.trips ? money(opMi * tl.mi / tl.trips) : "—", `promedio de ${num1(tl.trips ? tl.mi/tl.trips : 0)} mi por viaje`)}
+      </div>
+    </div>
+    ${tl.total ? "" : `<div class="note" style="margin-top:14px">${icon("info")}<div>Para que el costo de <b style="color:var(--text)">peajes</b> sea real, carga el estado de cuenta de E-PASS como gasto de categoría <b style="color:var(--text)">Peajes</b>. Mientras no haya cargos, los viajes sin peaje propio se calculan sin peaje.</div></div>`}
+    </div></div>
+
   <div class="g2">
     <div class="box"><header><h3>Recibos</h3><span class="sub">toca uno para verlo o editarlo</span></header>
     ${rows.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Tipo</th><th>Lugar</th><th style="text-align:right">Galones</th><th style="text-align:right">$/gal</th><th style="text-align:right">Monto</th><th>Pago</th><th></th></tr></thead><tbody>
@@ -2919,7 +2973,7 @@ $("#logout").addEventListener("click", async () => { if(!DEMO) await S.sb.auth.s
 /* Hosted copy (connexxionselite.com/despacho) ships the project URL and PUBLIC key, so
    there is no setup screen. Safe: the public key only works through Row Level Security,
    and the bl_* tables are readable only by emails in bl_admins. */
-const EMBED_URL = "https://lqeulxlxcbvkvkjozujf.supabase.co", EMBED_KEY = "sb_publishable_vvjypcxf4-rvnWco3zDKIQ_Knb9z8_S";
+const EMBED_URL = "", EMBED_KEY = "";
 async function boot(){
   if(DEMO) return enterApp();
   const url = EMBED_URL || store.get("bl_sb_url"), key = EMBED_KEY || store.get("bl_sb_key");
