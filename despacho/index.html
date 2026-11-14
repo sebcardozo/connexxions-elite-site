@@ -380,6 +380,67 @@ tbody tr:hover td{background:rgba(255,255,255,.015)}
 .avg b{font-size:15px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
 .avg small{grid-column:1/-1;font-size:11.5px;color:var(--dim);margin-top:-2px}
 @media (max-width:880px){.avgs{grid-template-columns:1fr;gap:18px}}
+
+/* ---- Itinerario ---- */
+.weekstrip{display:flex;align-items:stretch;gap:8px;margin-bottom:14px}
+.wnav{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:12px;width:38px;display:grid;place-items:center;flex:0 0 38px}
+.wnav:hover{color:var(--text);border-color:var(--line2)}
+.wdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;flex:1;min-width:0}
+.wd{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:9px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;transition:border-color .12s,background .12s}
+.wd small{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim)}
+.wd b{font-size:19px;font-weight:500;letter-spacing:-.5px;line-height:1.15}
+.wd i{font-size:10.5px;font-style:normal;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.wd:hover{border-color:var(--line2)}
+.wd.istoday b{color:var(--accent)}
+.wd.on{background:var(--text);border-color:var(--text)}
+.wd.on small,.wd.on i{color:rgba(255,255,255,.62)} .wd.on b{color:#fff}
+.itinbar{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.dtitle{font-size:22px;font-weight:500;letter-spacing:-.6px}
+.dsub{font-size:13px;color:var(--dim);margin-top:3px}
+.dacts{display:flex;gap:8px}
+.tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;font-size:11px;letter-spacing:.4px;text-transform:uppercase;font-weight:600;border:1px solid var(--line2);color:var(--muted);background:var(--panel3)}
+.tag.ok{color:var(--c-rev);border-color:color-mix(in srgb,var(--c-rev) 40%,transparent)}
+.tag.go{color:#00a3b7;border-color:rgba(0,163,183,.4)}
+.tag.warn{color:#eda100;border-color:rgba(237,161,0,.4)}
+.tag.now{color:#fff;background:var(--accent);border-color:var(--accent);margin-left:8px;vertical-align:middle}
+.track2.tall{height:46px}
+.blk.done{background:var(--c-rev);color:#fff;font-weight:600}
+.blk.sched{background:#008a9b;color:#fff;font-weight:600}
+.nowline{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);z-index:3}
+.nowline::before{content:"";position:absolute;top:-1px;left:-3px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.icard{display:grid;grid-template-columns:76px 1fr;gap:14px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel2);padding:14px 16px;margin-bottom:10px;text-align:left;width:100%;cursor:pointer}
+.icard:hover{border-color:var(--line2)}
+.icard.done{border-left:3px solid var(--c-rev)}
+.icard.sched{border-left:3px solid #008a9b}
+.icard.ride{border-left:3px solid var(--accent);cursor:default}
+.itime{text-align:right;padding-top:1px}
+.itime b{display:block;font-size:17px;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.itime small{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
+.ibody{min-width:0}
+.ihead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:7px}
+.conf{font-size:11px;color:var(--dim)}
+.iroute{font-size:14px;line-height:1.45}
+.iroute .ar{color:var(--dim);padding:0 4px}
+.ipax{font-size:12.5px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:5px}
+.imoney{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.imoney b{color:var(--text);font-weight:600} .imoney b.proj{color:#00a3b7}
+.inote{font-size:12.5px;color:var(--dim);margin-top:7px;line-height:1.5}
+.iacts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.gap{display:grid;grid-template-columns:76px 1fr;gap:14px;padding:4px 16px 14px;align-items:center}
+.gap .gl{height:100%;min-height:26px;border-left:2px dashed var(--line2);margin-left:auto;margin-right:6px;width:0}
+.gap b{display:block;font-size:12.5px;font-weight:500;color:var(--muted)}
+.gap small{display:block;font-size:11.5px;color:var(--dim);margin-top:1px}
+.gap.clash b{color:var(--accent)}
+.uplist{display:flex;flex-direction:column}
+.up{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;padding:11px 18px;border:0;border-top:1px solid var(--line2);background:transparent;text-align:left;width:100%;font-variant-numeric:tabular-nums}
+.up:first-child{border-top:0} .up:hover{background:var(--panel3)}
+.up .ud b{display:block;font-size:12.5px} .up .ud small{display:block;font-size:11px;color:var(--dim)}
+.up .ut{min-width:0} .up .ut b{display:block;font-size:13px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.up .ut small{display:block;font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:700px){
+  .wdays{gap:5px} .wd{padding:7px 2px} .wd b{font-size:16px} .wd i{display:none}
+  .icard,.gap{grid-template-columns:58px 1fr;gap:10px} .itime b{font-size:15px}
+}
 .hbars{display:flex;flex-direction:column;gap:12px}
 .hb .t{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .hb .t b{font-weight:500;font-variant-numeric:tabular-nums}
@@ -926,6 +987,7 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
     <nav class="nav" id="nav">
       <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
+      <button data-view="itin"><span data-icon="calendar"></span>Itinerario</button>
       <button data-view="cfo"><span data-icon="trend"></span>Informe del CFO</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
       <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
@@ -1051,7 +1113,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], files: [], filesErr: null, bizErr: null, day: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], sched: [], schedErr: null, itinDay: null, files: [], filesErr: null, bizErr: null, day: null,
   tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -1094,6 +1156,8 @@ async function loadAll(){
   S.trips = tl.data || []; S.fuel = fl.data || []; S.exp = el.data || [];
   const fr = await sb.from("file_log").select("*").order("created_at",{ascending:false}).limit(2000);
   S.files = fr.data || []; S.filesErr = fr.error?.message || null;
+  const sj = await sb.from("scheduled_jobs").select("*").order("starts_at",{ascending:true}).limit(2000);
+  S.sched = sj.data || []; S.schedErr = sj.error?.message || null;
   S.loaded = true;
 }
 
@@ -1245,8 +1309,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Informe del CFO", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
-const RENDER = () => ({home:renderHome, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Informe del CFO", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -1445,6 +1509,255 @@ function renderFleet(){
 }
 
 /* ---------- Agenda (dispatcher) ---------- */
+/* ======================= Itinerario ======================= */
+const SRC = {
+  farmout:{ n:"Farm-out", c:"#008a9b" }, direct:{ n:"Directo", c:"#e87ba4" }, blacklane:{ n:"Blacklane", c:"#2a78d6" },
+  uber:{ n:"Uber Black", c:"#eb6834" }, lyft:{ n:"Lyft Black", c:"#1baf7a" }, gnet:{ n:"GNet", c:"#eda100" },
+  bus:{ n:"Connexxions Bus", c:"#8a857c" }, other:{ n:"Otro", c:"#6250d6" },
+};
+const SCHED_TXT = { confirmed:"Confirmado", tentative:"Tentativo", cancelled:"Cancelado", done:"Hecho" };
+const itinDay = () => S.itinDay || dayKey(Date.now());
+const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+const hm2 = t => { const [h,m] = t.split(":").map(Number); return h*60 + m; };
+/* Projected economics for a job that has not happened yet. Same formula as a real trip. */
+function schedEcon(j){
+  return tripEcon({ payout: +j.pay || 0, tip: 0, tolls: 0, parking: 0, miles: j.est_miles,
+    deadhead_miles: j.est_deadhead_miles, duration_min: j.est_duration_min, engaged_min: j.est_duration_min });
+}
+const schedEnd = j => j.ends_at ? Date.parse(j.ends_at) : Date.parse(j.starts_at) + (+j.est_duration_min || 120)*60000;
+
+/* Everything that happens on one day, in order: done trips, confirmed jobs, bus blocks, Blacklane rides. */
+function dayItems(k){
+  const out = [];
+  S.trips.filter(t => dayKey(t.started_at) === k).forEach(t => {
+    const mins = +t.engaged_min || +t.duration_min || 60;
+    out.push({ kind:"trip", id:t.id, a: minutesET(t.started_at), b: minutesET(t.started_at) + mins, raw:t });
+  });
+  S.sched.filter(j => dayKey(j.starts_at) === k && j.status !== "cancelled" && !j.trip_id).forEach(j => {
+    out.push({ kind:"sched", id:j.id, a: minutesET(j.starts_at), b: minutesET(j.starts_at) + Math.round((schedEnd(j) - Date.parse(j.starts_at))/60000), raw:j });
+  });
+  (S.cfg?.blocked_windows || []).forEach((w, i) => {
+    const [ds, ts] = (w.start||"").split("T"), [de, te] = (w.end||"").split("T");
+    const a = ds === k ? hm2(ts) : (ds < k && de >= k ? 0 : null);
+    const b = de === k ? hm2(te) : (de > k && ds <= k ? 1440 : null);
+    if(a != null && b != null && b > a) out.push({ kind:"block", id:"b"+i, a, b, raw:w });
+  });
+  (S.planned || []).filter(r => dayKey(r.start_at) === k).forEach(r => {
+    out.push({ kind:"ride", id:"p"+r.id, a: minutesET(r.start_at), b: minutesET(r.start_at) + (+r.duration_min || 120), raw:r });
+  });
+  return out.sort((x,y) => x.a - y.a);
+}
+const hhmm = m => `${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(Math.round(m)%60).padStart(2,"0")}`;
+const durm = m => m >= 60 ? `${Math.floor(m/60)} h${m%60 ? " " + Math.round(m%60) + " min" : ""}` : `${Math.round(m)} min`;
+
+function renderItin(){
+  const k = itinDay(), today = dayKey(Date.now());
+  const start = addDayKey(k, -3), week = Array.from({length:7}, (_,i) => addDayKey(start, i));
+  const items = dayItems(k), work = items.filter(x => x.kind !== "block");
+  const real = items.filter(x => x.kind === "trip").reduce((s,x) => s + tripEcon(x.raw).profit, 0);
+  const realRev = items.filter(x => x.kind === "trip").reduce((s,x) => s + (+x.raw.payout||0), 0);
+  const proj = items.filter(x => x.kind === "sched").reduce((s,x) => s + schedEcon(x.raw).profit, 0);
+  const projRev = items.filter(x => x.kind === "sched").reduce((s,x) => s + (+x.raw.pay||0), 0);
+  const busy = work.reduce((s,x) => s + (x.b - x.a), 0);
+  const pos = m => `${(Math.max(0,Math.min(1440,m))/1440*100).toFixed(2)}%`;
+  const span = (a,b) => `left:${pos(a)};width:${((Math.min(1440,b)-Math.max(0,a))/1440*100).toFixed(2)}%`;
+  const dayCount = key => dayItems(key).filter(x => x.kind !== "block").length;
+
+  /* cards, with the idle gap between one job and the next */
+  const cards = []; let prev = null;
+  work.forEach(x => {
+    if(prev && x.a - prev.b >= 20) cards.push(`<div class="gap"><span class="gl"></span><div><b>${durm(x.a - prev.b)} libre</b><small>${hhmm(prev.b)} → ${hhmm(x.a)}${prev.end ? ` · queda en ${esc(prev.end)}` : ""}</small></div></div>`);
+    if(prev && x.a < prev.b) cards.push(`<div class="gap clash"><span class="gl"></span><div><b>Se montan ${durm(prev.b - x.a)}</b><small>el anterior termina ${hhmm(prev.b)} y este arranca ${hhmm(x.a)}</small></div></div>`);
+    cards.push(itinCard(x));
+    prev = { b: x.b, end: x.kind === "trip" ? x.raw.dropoff : x.kind === "sched" ? x.raw.dropoff : null };
+  });
+
+  $("#view").innerHTML = `
+  ${head("", "Todo lo del día en una sola línea de tiempo: lo que ya se hizo, lo que está confirmado y los bloqueos del bus.", "")}
+  <div class="weekstrip">
+    <button class="wnav" data-itinday="${addDayKey(k,-7)}" aria-label="Semana anterior">${icon("chevl",16)}</button>
+    <div class="wdays">${week.map(d => { const n = dayCount(d), dt = new Date(d+"T12:00:00Z");
+      return `<button class="wd ${d===k?"on":""} ${d===today?"istoday":""}" data-itinday="${d}">
+        <small>${dt.toLocaleDateString("es-US",{weekday:"short",timeZone:"UTC"})}</small>
+        <b>${dt.toLocaleDateString("es-US",{day:"numeric",timeZone:"UTC"})}</b>
+        <i>${n ? n + (n===1?" servicio":" servicios") : "—"}</i></button>`; }).join("")}</div>
+    <button class="wnav" data-itinday="${addDayKey(k,7)}" aria-label="Semana siguiente">${icon("chevr",16)}</button>
+  </div>
+
+  <div class="itinbar">
+    <div><div class="dtitle">${cap(new Date(k+"T12:00:00Z").toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}))}${k===today?' <span class="tag now">Hoy</span>':""}</div>
+      <div class="dsub">${work.length ? `${work.length} servicio${work.length===1?"":"s"} · ${durm(busy)} ocupado` : "Sin nada agendado"}</div></div>
+    <div class="dacts">${k===today?"":`<button class="btn btn-sm" data-itinday="${today}">Hoy</button>`}<button class="btn btn-primary btn-sm" data-act="schednew">${icon("plus",15)} Agendar trabajo</button></div>
+  </div>
+
+  <div class="box" style="padding:16px 18px;margin-bottom:16px">
+    <div class="hours"><span></span><div class="hs">${[0,6,12,18,24].map(h => `<span style="left:${h/24*100}%">${h===24?"":h+":00"}</span>`).join("")}</div></div>
+    <div class="track2 tall">
+      ${items.map(x => x.kind === "block"
+        ? `<div class="blk bus" style="${span(x.a,x.b)}" title="${esc(x.raw.label || "Bloqueo")}">${esc((x.raw.label||"Bloqueo").split("(")[0].trim())}</div>`
+        : x.kind === "trip"
+        ? `<div class="blk done" style="${span(x.a,x.b)}" title="${esc(fmtHM(x.raw.started_at) + " · " + (x.raw.pickup||""))}">${money0(tripEcon(x.raw).profit)}</div>`
+        : x.kind === "sched"
+        ? `<div class="blk sched" style="${span(x.a,x.b)}" title="${esc(hhmm(x.a) + " · " + (x.raw.pickup||""))}">${money0(schedEcon(x.raw).profit)}</div>`
+        : `<div class="blk ride" style="${span(x.a,x.b)}">${hhmm(x.a)}</div>`).join("")}
+      ${k===today ? `<div class="nowline" style="left:${pos(minutesET(Date.now()))}"></div>` : ""}
+    </div>
+    <div class="legend" style="margin-top:12px"><span><i style="background:var(--c-rev)"></i>Hecho y cobrado</span><span><i style="background:#008a9b"></i>Confirmado, por hacer</span><span><i style="background:var(--accent)"></i>Blacklane aceptado</span><span><i style="background:#ebe8e2;border:1px solid var(--line2)"></i>Bus / bloqueo</span></div>
+  </div>
+
+  <div class="g2">
+    <div class="stack" style="gap:0">${cards.length ? cards.join("") : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un farm-out o un viaje directo que ya esté confirmado.</div>`}</div>
+    <div class="stack" style="gap:16px">
+      <div class="box"><header><h3>El día en números</h3></header><div class="pad"><div class="kv">
+        <span>Cobrado (hecho)</span><span class="mono">${money(realRev)}</span>
+        <span><b style="color:var(--text)">Ganancia real</b></span><span class="mono"><b style="color:var(--text)">${money(real)}</b></span>
+        <span>Por cobrar (confirmado)</span><span class="mono">${money(projRev)}</span>
+        <span>Ganancia proyectada</span><span class="mono">${money(proj)}</span>
+        <span>Tiempo ocupado</span><span class="mono">${busy ? durm(busy) : "—"}</span>
+      </div>${proj ? `<div class="note" style="margin-top:14px">${icon("info")}<div>Lo proyectado <b style="color:var(--text)">no</b> entra al ingreso, a la ganancia ni a lo que se le debe a Marco. Eso pasa cuando marcas el trabajo como hecho y se guarda como viaje.</div></div>` : ""}</div></div>
+      ${upcomingBox()}
+    </div>
+  </div>`;
+}
+
+function itinCard(x){
+  if(x.kind === "trip"){ const t = x.raw, e = tripEcon(t), p = PLAT[t.platform] || {};
+    return `<article class="icard done" data-trip="${t.id}">
+      <div class="itime"><b>${hhmm(x.a)}</b><small>${durm(x.b-x.a)}</small></div>
+      <div class="ibody"><div class="ihead"><span class="pt"><i style="background:${p.c||"#888"}"></i>${esc(p.n||t.platform)}</span><span class="tag ok">Hecho</span></div>
+        <div class="iroute">${esc(t.pickup || "—")} <span class="ar">→</span> ${esc(t.dropoff || "—")}</div>
+        <div class="imoney"><span>${money(t.payout)} cobrado</span><b>${money(e.profit)} de ganancia</b></div></div></article>`;
+  }
+  if(x.kind === "sched"){ const j = x.raw, e = schedEcon(j), src = SRC[j.source] || {};
+    return `<article class="icard sched" data-sched="${j.id}">
+      <div class="itime"><b>${hhmm(x.a)}</b><small>${durm(x.b-x.a)}</small></div>
+      <div class="ibody"><div class="ihead"><span class="pt"><i style="background:${src.c||"#888"}"></i>${esc(src.n||j.source)}</span>
+        <span class="tag ${j.status==="confirmed"?"go":"warn"}">${SCHED_TXT[j.status]||j.status}</span>${j.confirmation?`<span class="conf mono">${esc(j.confirmation)}</span>`:""}</div>
+        <div class="iroute">${esc(j.pickup || "—")} <span class="ar">→</span> ${esc(j.dropoff || "—")}</div>
+        ${j.passenger ? `<div class="ipax">${icon("person",13)} ${esc(j.passenger)}${j.pax?` · ${j.pax} pax`:""}</div>` : ""}
+        <div class="imoney"><span>${money(j.pay)} acordado</span><b class="proj">${money(e.profit)} proyectado</b></div>
+        ${j.notes ? `<div class="inote">${esc(j.notes)}</div>` : ""}
+        <div class="iacts"><button class="btn btn-sm" data-act="schededit" data-id="${j.id}">${icon("edit",14)} Editar</button><button class="btn btn-primary btn-sm" data-act="schedok" data-id="${j.id}">${icon("check",14)} Marcar hecho</button></div>
+      </div></article>`;
+  }
+  if(x.kind === "ride"){ const r = x.raw, pl = r.payload || {};
+    return `<article class="icard ride"><div class="itime"><b>${hhmm(x.a)}</b><small>${durm(x.b-x.a)}</small></div>
+      <div class="ibody"><div class="ihead"><span class="pt"><i style="background:${PLAT.blacklane.c}"></i>Blacklane</span><span class="tag go">Aceptado</span></div>
+      <div class="iroute">${esc(placeText(findKey(pl,"pickup_location","pickUpLocation","pickup")) || "—")} <span class="ar">→</span> ${esc(placeText(findKey(pl,"dropoff_location","dropOffLocation","dropoff")) || "—")}</div></div></article>`;
+  }
+  return "";
+}
+
+/* next 14 days, so a job on Thursday is not a surprise on Thursday */
+function upcomingBox(){
+  const now = Date.now(), soon = S.sched.filter(j => j.status !== "cancelled" && !j.trip_id && Date.parse(j.starts_at) > now)
+    .sort((a,b) => Date.parse(a.starts_at) - Date.parse(b.starts_at)).slice(0, 8);
+  const total = soon.reduce((s,j) => s + (+j.pay||0), 0);
+  return `<div class="box"><header><h3>Lo que viene</h3><span class="sub">${soon.length ? money0(total) + " por cobrar" : "nada confirmado"}</span></header>
+  ${soon.length ? `<div class="uplist">${soon.map(j => `<button class="up" data-itinday="${dayKey(j.starts_at)}">
+    <span class="ud"><b>${fmtDay(dayKey(j.starts_at))}</b><small>${fmtHM(j.starts_at)}</small></span>
+    <span class="ut"><b>${esc(j.pickup || "—")}</b><small>${esc(j.dropoff || "")}</small></span>
+    <span class="mono">${money0(j.pay)}</span></button>`).join("")}</div>` : `<div class="empty" style="padding:14px 18px">Sin trabajos confirmados a futuro.</div>`}</div>`;
+}
+
+/* ---------- form: trabajo programado ---------- */
+function openSched(id){
+  const j = id ? S.sched.find(x => String(x.id) === String(id)) : null;
+  const base = itinDay() + "T08:00";
+  const d = j ? { ...j } : { source:"farmout", status:"confirmed", account:"Connexxions", driver:"Marco Cardozo", starts_at: etNaiveToISO(base) };
+  FORM = { kind:"sched", id: j?.id ?? null, d };
+  drawerShell(j ? "Editar trabajo" : "Agendar trabajo", j ? `Trabajo #${j.id}` : "Itinerario", `
+    <form class="form" id="schedForm" novalidate>
+      <div class="field"><label>De dónde viene <span class="req">*</span></label><div class="seg2" id="jSrc">${Object.entries(SRC).map(([k2,v]) => `<button type="button" data-jsrc="${k2}" class="${d.source===k2?"on":""}"><i style="background:${v.c}"></i>${v.n}</button>`).join("")}</div></div>
+      <div class="row"><div class="field"><label for="jStatus">Estado</label><select class="input" id="jStatus">${["confirmed","tentative"].map(k2 => `<option value="${k2}" ${d.status===k2?"selected":""}>${SCHED_TXT[k2]}</option>`).join("")}</select></div>
+        ${fin("jConf","# de confirmación",d.confirmation,{type:"text",ph:"ej. 28977-147141",mono:true})}</div>
+      ${fin("jAcct","Cuenta / quién lo consiguió",d.account,{type:"text",ph:"ej. Connexxions",mono:false})}
+      <div class="row">${fin("jStart","Hora de recogida",toLocalInput(d.starts_at),{type:"datetime-local",req:true})}${fin("jEnd","Hora estimada de llegada",toLocalInput(d.ends_at),{type:"datetime-local",hint:"Opcional; si no, usa los minutos"})}</div>
+      ${fin("jPick","Recogida",d.pickup,{type:"text",ph:"ej. 1500 Sand Lake Rd, Orlando",mono:false})}
+      ${fin("jDrop","Destino",d.dropoff,{type:"text",ph:"ej. MCO Terminal B",mono:false})}
+      <div class="row">${fin("jPax","Pasajero",d.passenger,{type:"text",ph:"nombre",mono:false})}${fin("jN","Personas",d.pax,{suf:"pax"})}</div>
+      <div class="row3">${fin("jMiles","Millas con pasajero",d.est_miles,{suf:"mi",hint:"Estimado"})}${fin("jDead","Millas vacías",d.est_deadhead_miles,{suf:"mi",hint:"Ida + regreso"})}${fin("jMin","Minutos ocupado",d.est_duration_min,{suf:"min"})}</div>
+      ${fin("jPay","Pago acordado",d.pay,{suf:"USD",req:true,hint:"Todavía no cobrado: no entra al ingreso hasta marcarlo como hecho"})}
+      ${fin("jService","Servicio",d.service,{type:"text",ph:"ej. Van · traslado",mono:false})}
+      ${fin("jNotes","Notas",d.notes,{type:"text",mono:false})}
+      <div class="preview" id="jPrev"></div>
+      <div class="err" id="jErr"></div>
+    </form>`,
+    `${j ? `<button class="btn btn-ghost" data-act="scheddel">${icon("trash",15)} Borrar</button>` : "<span></span>"}<div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" data-act="schedsave">${icon("save",15)} Guardar</button></div>`);
+  $("#modalRoot [data-close].btn:not(.btn-ghost)")?.addEventListener("click", closeModal);
+  schedPreview();
+}
+function readSched(){
+  return { source: FORM.d.source, status: val("jStatus"), confirmation: val("jConf"), account: val("jAcct"),
+    starts_at: val("jStart") ? etNaiveToISO(val("jStart")) : null, ends_at: val("jEnd") ? etNaiveToISO(val("jEnd")) : null,
+    pickup: val("jPick"), dropoff: val("jDrop"), passenger: val("jPax"), pax: nval("jN"),
+    est_miles: nval("jMiles"), est_deadhead_miles: nval("jDead"), est_duration_min: nval("jMin"),
+    pay: nval("jPay"), service: val("jService"), notes: val("jNotes"), driver: FORM.d.driver || "Marco Cardozo" };
+}
+function schedPreview(){
+  const el = $("#jPrev"); if(!el) return; const r = readSched();
+  if(r.pay == null){ el.innerHTML = `<span class="muted">Escribe el pago acordado para ver la ganancia proyectada.</span>`; return; }
+  const e = schedEcon(r), g = gasPerMile();
+  el.innerHTML = `<div class="kv"><span>Pago acordado</span><span class="mono">${money(e.rev)}</span>
+    <span>Chofer</span><span class="mono">−${money(e.driver)}</span>
+    <span>Gasolina (${num1(e.mi)} mi × ${money(g.v)}${g.real ? "" : " est."})</span><span class="mono">−${money(e.gas)}</span>
+    <span>Mantenimiento (est.)</span><span class="mono">−${money(e.maint)}</span>
+    <span>Peajes (est.)</span><span class="mono">−${money(e.extra)}</span>
+    <span><b style="color:var(--text)">Ganancia proyectada</b></span><span class="mono"><b class="${e.profit < 0 ? "neg" : ""}" style="color:var(--text)">${money(e.profit)}</b>${e.mins ? ` <span class="dim">· ${money0(e.profit/(e.mins/60))}/h</span>` : ""}</span></div>`;
+}
+async function saveSched(){
+  const r = readSched(), err = $("#jErr");
+  if(!r.starts_at) return err.textContent = "Falta la fecha y hora de recogida.";
+  if(r.pay == null || r.pay < 0) return err.textContent = "Falta el pago acordado.";
+  if(r.ends_at && Date.parse(r.ends_at) <= Date.parse(r.starts_at)) return err.textContent = "La llegada debe ser después de la recogida.";
+  if(DEMO){ if(FORM.id) Object.assign(S.sched.find(x => x.id === FORM.id), r); else S.sched.push({ id: Date.now(), ...r }); S.itinDay = dayKey(r.starts_at); closeModal(); render(); return toast("Trabajo agendado (demo)"); }
+  const { data, error } = await (FORM.id ? S.sb.from("scheduled_jobs").update(r).eq("id", FORM.id).select() : S.sb.from("scheduled_jobs").insert(r).select());
+  if(error || !data?.length) return err.textContent = "No se guardó: " + (error?.message || "sin permiso");
+  if(FORM.id) S.sched = S.sched.map(x => x.id === FORM.id ? data[0] : x); else S.sched.push(data[0]);
+  S.itinDay = dayKey(r.starts_at); closeModal(); render(); toast(FORM.id ? "Trabajo actualizado." : "Trabajo agendado.");
+}
+async function deleteSched(){
+  const id = FORM.id;
+  modal(`<h3>Borrar este trabajo</h3><p>Se quita del itinerario. No afecta ningún viaje ya registrado.</p><div class="acts"><button class="btn" data-close>Cancelar</button><button class="btn btn-primary" id="goDelJ">Borrar</button></div>`);
+  $("#goDelJ").onclick = async () => {
+    if(!DEMO){ const { error } = await S.sb.from("scheduled_jobs").delete().eq("id", id); if(error) return toast("No se borró: " + error.message, true); }
+    S.sched = S.sched.filter(x => x.id !== id); closeModal(); render(); toast("Trabajo borrado.");
+  };
+}
+/* Marcar hecho: abre el formulario de viaje ya lleno con lo agendado. Al guardar, el
+   trabajo queda enlazado al viaje y sale del itinerario de pendientes. */
+function completeSched(id){
+  const j = S.sched.find(x => String(x.id) === String(id)); if(!j) return;
+  const plat = ["blacklane","uber","lyft","gnet"].includes(j.source) ? j.source : "direct";
+  openTrip(null);
+  FORM.d.platform = plat; FORM.schedId = j.id;
+  document.querySelectorAll("[data-fplat]").forEach(b => b.classList.toggle("on", b.dataset.fplat === plat));
+  const set = (k2, v) => { const el = $("#"+k2); if(el && v != null && v !== "") el.value = v; };
+  set("fStart", toLocalInput(j.starts_at)); set("fEnd", toLocalInput(j.ends_at));
+  set("fPick", j.pickup); set("fDrop", j.dropoff); set("fMiles", j.est_miles); set("fDead", j.est_deadhead_miles);
+  set("fEng", j.est_duration_min); set("fPayout", j.pay); set("fExt", j.confirmation);
+  set("fNotes", [j.account ? "Farm-out " + j.account : "", j.passenger || "", j.notes || ""].filter(Boolean).join(" · "));
+  tripPreview();
+  toast("Revisa las cifras reales antes de guardar.");
+}
+
+document.addEventListener("click", e => {
+  const d = e.target.closest("[data-itinday]");
+  if(d){ S.itinDay = d.dataset.itinday; if(S.view !== "itin") S.view = "itin"; render(); return; }
+  const card = e.target.closest(".icard[data-sched]");
+  if(card && !e.target.closest("[data-act]")) { openSched(card.dataset.sched); return; }
+  const tc = e.target.closest(".icard[data-trip]");
+  if(tc) { openTrip(tc.dataset.trip); return; }
+  const t = e.target.closest("button"); if(!t) return;
+  if(t.dataset.jsrc){ FORM.d.source = t.dataset.jsrc; document.querySelectorAll("[data-jsrc]").forEach(b => b.classList.toggle("on", b === t)); schedPreview(); return; }
+  if(t.dataset.act === "schednew") return openSched(null);
+  if(t.dataset.act === "schededit") return openSched(t.dataset.id);
+  if(t.dataset.act === "schedok") return completeSched(t.dataset.id);
+  if(t.dataset.act === "schedsave") return saveSched();
+  if(t.dataset.act === "scheddel") return deleteSched();
+}, true);
+document.addEventListener("input", e => { if(e.target.closest("#schedForm")) schedPreview(); });
+
 function renderAgenda(){
   const c = S.cfg, days = Array.from({length:7}, (_,k) => dayKey(Date.now() + k*86400e3));
   const pos = m => `${(m/1440*100).toFixed(2)}%`;
@@ -2903,7 +3216,7 @@ function exportCSV(){
 
 function openMore(){
   const groups = [["Operación", ["home","cfo","trips","geo","plan"]], ["Finanzas", ["costs","fuel","driver","perf"]], ["Empresa", ["docs"]], ["Bot Blacklane", ["overview","agenda","filter"]], ["Sistema", ["settings"]]];
-  const ic = { cfo:"trend", geo:"pin", plan:"target", costs:"fuel", docs:"folder", driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"receipt", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
+  const ic = { itin:"calendar", cfo:"trend", geo:"pin", plan:"target", costs:"fuel", docs:"folder", driver:"person", settings:"sliders", home:"gauge", trips:"car", perf:"trend", fuel:"receipt", fleet:"truck", overview:"inbox", filter:"filter", routes:"zap", locations:"pin", agenda:"calendar", visibility:"activity", decisions:"list", offers:"inbox", notifications:"bell", health:"heart" };
   const mode = S.control?.mode || "dry_run";
   $("#modalRoot").innerHTML = `<div class="sheet-bg" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Más"><div class="grab"></div>
     ${groups.map(([g, vs]) => `<div class="navgroup" style="padding-left:2px">${g}</div><div class="sg">${vs.map(v => `<button data-view="${v}" class="${S.view===v?"on":""}">${icon(ic[v],20)}${VIEWS[v]}</button>`).join("")}</div>`).join("")}
