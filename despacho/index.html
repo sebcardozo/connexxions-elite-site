@@ -2192,8 +2192,12 @@ let _toll = null;
 function tollStats(){
   if(_toll) return _toll;
   const rows = S.exp.filter(x => x.category === "tolls"), total = rows.reduce((s, x) => s + (+x.amount || 0), 0);
-  const mi = S.trips.filter(t => t.status !== "cancelled").reduce((s, t) => s + (+t.miles || 0) + (+t.deadhead_miles || 0), 0);
-  return _toll = { rows, total, mi, perMile: total > 0 && mi > 0 ? total / mi : 0 };
+  const ok = S.trips.filter(t => t.status !== "cancelled");
+  /* Lo que ya está anotado viaje por viaje no se vuelve a repartir: solo el resto
+     de los cargos de E-PASS se prorratea, y solo entre los viajes sin peaje propio. */
+  const own = ok.reduce((s, t) => s + (+t.tolls || 0), 0), rest = Math.max(0, total - own);
+  const mi = ok.filter(t => !(+t.tolls > 0)).reduce((s, t) => s + (+t.miles || 0) + (+t.deadhead_miles || 0), 0);
+  return _toll = { rows, total, own, rest, mi, perMile: rest > 0 && mi > 0 ? rest / mi : 0 };
 }
 /* ---------- per-trip economics ---------- */
 function tripEcon(t, gpm = gasPerMile().v){
