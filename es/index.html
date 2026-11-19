@@ -1918,8 +1918,27 @@ html.is-night .hx-gl{opacity:.4}
   }
 }
 @media (max-width:760px){
-  .bst{--bx:.25}
-  .bst-car{--cx:-6%;--cy:-12%;--cs:.74}
+  /* phone: the whole car, framed wide, headline below on the asphalt */
+  .band{height:560px}
+  .bst{--sw:138cqw;left:calc(50cqw - var(--sw) * .485);top:calc(100cqh - 196px - var(--sw) * .5)}
+  .bst::before,.bst::after{content:"";position:absolute;left:0;right:0;height:420px;pointer-events:none}
+  .bst::before{bottom:calc(100% - 1px);background:linear-gradient(0deg,#629FE8 0%,#4A86D6 55%,#2F5E9E 100%)}
+  .bst::after{top:calc(100% - 1px);background:linear-gradient(180deg,#8D878F 0%,#3A383C 22%,#0A0A0A 52%)}
+  .bst-car{--cx:0%;--cy:0%;--cs:1}
+  .band::after{background:linear-gradient(0deg,rgba(10,10,10,.9) 0%,rgba(10,10,10,.6) 26%,rgba(10,10,10,0) 40%),linear-gradient(180deg,rgba(10,10,10,.35) 0%,rgba(10,10,10,0) 22%)}
+  .band-cap{bottom:30px}
+  /* destinations: one wide photo per row so the whole car shows */
+  .burst-field{grid-template-columns:minmax(0,1fr);gap:14px}
+  .bin,.bcard:first-of-type .bin{aspect-ratio:16/10}
+  .bin img{object-position:50% 55%!important}
+  .btag{top:12px;left:12px}
+  .bbody{left:16px;right:16px;bottom:14px;gap:5px}
+  .btitle{font-size:24px;line-height:1.08}
+  .bmeta{font-size:12.5px}
+  /* vehicle photo: landscape frame instead of a square crop */
+  .vx{padding-top:62%}
+  .vx .vx-img,.vx .vshade{height:auto;aspect-ratio:100/62;bottom:auto}
+  .vx .vx-img{object-position:52% 58%}
 }
 @media (prefers-reduced-motion: reduce){.band-img .bst img.bst-p,.bst-bob,.bst-gl i,.band.is-lit .band-img .bst img.bst-fl{animation:none}}
 </style>
