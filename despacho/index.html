@@ -449,6 +449,41 @@ tbody tr:hover td{background:rgba(255,255,255,.015)}
   .wdays{gap:5px} .wd{padding:7px 2px} .wd b{font-size:16px} .wd i{display:none}
   .icard,.gap{grid-template-columns:58px 1fr;gap:10px} .itime b{font-size:15px}
 }
+
+/* ---- tablero de despacho ---- */
+.daynav{display:flex;align-items:center;gap:10px}
+.wnav.sm{width:30px;height:30px;border-radius:9px;flex:0 0 30px}
+.seg3{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel2)}
+.seg3 button{border:0;background:transparent;color:var(--muted);font-size:12.5px;font-weight:500;padding:7px 13px}
+.seg3 button.on{background:var(--text);color:var(--bg)}
+.seg3 button:not(.on):hover{color:var(--text)}
+.dchips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.dchip{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:9px 14px;min-width:96px}
+.dchip b{display:block;font-size:19px;font-weight:500;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+.dchip span{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:1px}
+.dchip.warn b{color:var(--accent)}
+.dtbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.dtbl th{text-align:left;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:600;
+  padding:12px 12px 10px;border-bottom:1px solid var(--line2);white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+.dtbl td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+.dtbl tr:last-child td{border-bottom:0}
+.dtbl .t1{font-weight:600;font-size:14.5px;white-space:nowrap}
+.dtbl .dim{color:var(--dim)}
+.dtbl .cut{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dtbl td.cut{white-space:normal}
+.dtbl td.cut>small,.dtbl td.cut{white-space:nowrap}
+.g2.even{grid-template-columns:1fr}
+tr.drow{cursor:pointer}
+tr.drow:hover td{background:var(--panel3)}
+.miss{color:var(--accent);font-size:12.5px}
+.pill{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  font-weight:600;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.pill.ok{color:var(--c-rev);border-color:color-mix(in srgb,var(--c-rev) 40%,transparent)}
+.pill.go{color:#00a3b7;border-color:rgba(0,163,183,.4)}
+.pill.warn{color:#eda100;border-color:rgba(237,161,0,.4)}
+.blockrow{display:flex;gap:14px;align-items:baseline;font-size:13.5px;color:var(--muted)}
+.blockrow .num{color:var(--text);font-weight:500;white-space:nowrap}
+@media (max-width:900px){ .dtbl .cut{max-width:150px} .dchip{min-width:84px;padding:8px 11px} }
 .hbars{display:flex;flex-direction:column;gap:12px}
 .hb .t{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .hb .t b{font-weight:500;font-variant-numeric:tabular-nums}
@@ -1123,7 +1158,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], sched: [], schedErr: null, itinDay: null, files: [], filesErr: null, bizErr: null, day: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], sched: [], schedErr: null, itinDay: null, itinMode: "table", files: [], filesErr: null, bizErr: null, day: null,
   tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -1560,6 +1595,58 @@ function dayItems(k){
 const hhmm = m => `${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(Math.round(m)%60).padStart(2,"0")}`;
 const durm = m => m >= 60 ? `${Math.floor(m/60)} h${m%60 ? " " + Math.round(m%60) + " min" : ""}` : `${Math.round(m)} min`;
 
+
+/* Tablero de despacho: el día como lo ve un despachador — una fila por servicio,
+   en orden, con quién maneja y en qué. Varios servicios el mismo día. */
+const FLEET = "Suburban 2026";
+function dispatchTable(k, items){
+  const rows = items.filter(x => x.kind !== "block").sort((a,b) => a.a - b.a);
+  const blocks = items.filter(x => x.kind === "block");
+  const sinChofer = rows.filter(x => !(x.raw.driver || "").trim()).length;
+  const porCobrar = rows.filter(x => x.kind === "sched").reduce((s,x) => s + (+x.raw.pay||0), 0);
+  const cobrado = rows.filter(x => x.kind === "trip").reduce((s,x) => s + (+x.raw.payout||0), 0);
+  const cell = (x) => {
+    const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
+    const pay = done ? +r.payout||0 : sched ? +r.pay||0 : null;
+    const prof = done ? tripEcon(r).profit : sched ? schedEcon(r).profit : null;
+    const who = done ? (PLAT[r.platform]?.n || r.platform) : sched ? (r.account || SRC[r.source]?.n || "—") : "Blacklane";
+    const estado = done ? `<span class="pill ok">Hecho</span>`
+      : sched ? `<span class="pill ${r.status==="confirmed"?"go":"warn"}">${SCHED_TXT[r.status]||r.status}</span>`
+      : `<span class="pill go">Aceptado</span>`;
+    const edit = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
+    return `<tr class="drow" ${edit}>
+      <td class="num t1">${hhmm(x.a)}</td>
+      <td class="num dim">${hhmm(x.b)}</td>
+      <td class="cut">${esc(r.pickup || "—")}</td>
+      <td class="cut">${esc(r.dropoff || "—")}</td>
+      <td>${r.driver ? esc(r.driver) : `<span class="miss">Sin asignar</span>`}</td>
+      <td class="dim">${FLEET}</td>
+      <td class="cut">${esc(who)}${r.passenger ? `<small class="dim" style="display:block">${esc(r.passenger)}</small>` : ""}<div style="margin-top:5px">${estado}</div></td>
+      <td class="num">${r.pax || "—"}</td>
+      <td class="num" style="text-align:right">${pay != null ? money(pay) : "—"}</td>
+      <td class="num" style="text-align:right;font-weight:600">${prof != null ? money(prof) : "—"}</td></tr>`;
+  };
+  return `
+  <div class="dchips">
+    <div class="dchip"><b>${rows.length}</b><span>servicio${rows.length===1?"":"s"}</span></div>
+    <div class="dchip ${sinChofer?"warn":""}"><b>${sinChofer}</b><span>sin chofer</span></div>
+    <div class="dchip"><b>${money0(cobrado)}</b><span>cobrado</span></div>
+    <div class="dchip"><b>${money0(porCobrar)}</b><span>por cobrar</span></div>
+    ${blocks.length ? `<div class="dchip"><b>${blocks.length}</b><span>bloqueo${blocks.length===1?"":"s"} de bus</span></div>` : ""}
+  </div>
+  <div class="box" style="margin-bottom:16px">
+    ${rows.length ? `<div class="tablewrap"><table class="dtbl"><thead><tr>
+      <th>Recogida</th><th>Termina</th><th>Desde</th><th>Hasta</th><th>Chofer</th><th>Vehículo</th>
+      <th>Cliente</th><th style="text-align:right">Pax</th><th style="text-align:right">Pago</th>
+      <th style="text-align:right">Ganancia</th></tr></thead>
+      <tbody>${rows.map(cell).join("")}</tbody></table></div>`
+      : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}
+  </div>
+  ${blocks.length ? `<div class="box" style="margin-bottom:16px"><header><h3>Bloqueado</h3><span class="sub">Marco no está disponible</span></header>
+    <div class="pad"><div class="stack" style="gap:8px">${blocks.map(b2 =>
+      `<div class="blockrow"><span class="num">${hhmm(b2.a)} – ${hhmm(b2.b)}</span><span>${esc(b2.raw.label || "Bloqueo")}</span></div>`).join("")}</div></div></div>` : ""}`;
+}
+
 function renderItin(){
   const k = itinDay(), today = dayKey(Date.now());
   const start = addDayKey(k, -3), week = Array.from({length:7}, (_,i) => addDayKey(start, i));
@@ -1583,8 +1670,8 @@ function renderItin(){
   });
 
   $("#view").innerHTML = `
-  ${head("", "Todo lo del día en una sola línea de tiempo: lo que ya se hizo, lo que está confirmado y los bloqueos del bus.", "")}
-  <div class="weekstrip">
+  ${head("", "El día servicio por servicio: a qué hora, de dónde a dónde, quién maneja y en qué. Lo hecho, lo confirmado y los bloqueos del bus.", "")}
+  ${S.itinMode==="time" ? `<div class="weekstrip">
     <button class="wnav" data-itinday="${addDayKey(k,-7)}" aria-label="Semana anterior">${icon("chevl",16)}</button>
     <div class="wdays">${week.map(d => { const n = dayCount(d), dt = new Date(d+"T12:00:00Z");
       return `<button class="wd ${d===k?"on":""} ${d===today?"istoday":""}" data-itinday="${d}">
@@ -1592,14 +1679,20 @@ function renderItin(){
         <b>${dt.toLocaleDateString("es-US",{day:"numeric",timeZone:"UTC"})}</b>
         <i>${n ? n + (n===1?" servicio":" servicios") : "—"}</i></button>`; }).join("")}</div>
     <button class="wnav" data-itinday="${addDayKey(k,7)}" aria-label="Semana siguiente">${icon("chevr",16)}</button>
-  </div>
+  </div>` : ""}
 
   <div class="itinbar">
+    <div class="daynav">
+      <button class="wnav sm" data-itinday="${addDayKey(k,-1)}" aria-label="Día anterior">${icon("chevl",15)}</button>
+      <button class="wnav sm" data-itinday="${addDayKey(k,1)}" aria-label="Día siguiente">${icon("chevr",15)}</button>
     <div><div class="dtitle">${cap(new Date(k+"T12:00:00Z").toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}))}${k===today?' <span class="tag now">Hoy</span>':""}</div>
-      <div class="dsub">${work.length ? `${work.length} servicio${work.length===1?"":"s"} · ${durm(busy)} ocupado` : "Sin nada agendado"}</div></div>
-    <div class="dacts">${k===today?"":`<button class="btn btn-sm" data-itinday="${today}">Hoy</button>`}<button class="btn btn-primary btn-sm" data-act="schednew">${icon("plus",15)} Agendar trabajo</button></div>
+      <div class="dsub">${work.length ? `${work.length} servicio${work.length===1?"":"s"} · ${durm(busy)} ocupado` : "Sin nada agendado"}</div></div></div>
+    <div class="dacts">
+      <div class="seg3"><button data-itinmode="table" class="${S.itinMode==="table"?"on":""}">Tabla</button><button data-itinmode="time" class="${S.itinMode==="time"?"on":""}">Línea de tiempo</button></div>
+      ${k===today?"":`<button class="btn btn-sm" data-itinday="${today}">Hoy</button>`}<button class="btn btn-primary btn-sm" data-act="schednew">${icon("plus",15)} Agendar trabajo</button></div>
   </div>
 
+  ${S.itinMode==="table" ? dispatchTable(k, items) : `
   <div class="box" style="padding:16px 18px;margin-bottom:16px">
     <div class="hours"><span></span><div class="hs">${[0,6,12,18,24].map(h => `<span style="left:${h/24*100}%">${h===24?"":h+":00"}</span>`).join("")}</div></div>
     <div class="track2 tall">
@@ -1613,11 +1706,11 @@ function renderItin(){
       ${k===today ? `<div class="nowline" style="left:${pos(minutesET(Date.now()))}"></div>` : ""}
     </div>
     <div class="legend" style="margin-top:12px"><span><i style="background:var(--c-rev)"></i>Hecho y cobrado</span><span><i style="background:#008a9b"></i>Confirmado, por hacer</span><span><i style="background:var(--accent)"></i>Blacklane aceptado</span><span><i style="background:#ebe8e2;border:1px solid var(--line2)"></i>Bus / bloqueo</span></div>
-  </div>
+  </div>`}
 
-  <div class="g2">
-    <div class="stack" style="gap:0">${cards.length ? cards.join("") : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un farm-out o un viaje directo que ya esté confirmado.</div>`}</div>
-    <div class="stack" style="gap:16px">
+  <div class="${S.itinMode==="table" ? "g2 even" : "g2"}">
+    ${S.itinMode==="time" ? `<div class="stack" style="gap:0">${cards.length ? cards.join("") : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un farm-out o un viaje directo que ya esté confirmado.</div>`}</div>` : ""}
+    <div class="stack" style="gap:16px;${S.itinMode==="table"?"grid-column:span 2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start":""}">
       <div class="box"><header><h3>El día en números</h3></header><div class="pad"><div class="kv">
         <span>Cobrado (hecho)</span><span class="mono">${money(realRev)}</span>
         <span><b style="color:var(--text)">Ganancia real</b></span><span class="mono"><b style="color:var(--text)">${money(real)}</b></span>
@@ -1754,12 +1847,15 @@ function completeSched(id){
 document.addEventListener("click", e => {
   const d = e.target.closest("[data-itinday]");
   if(d){ S.itinDay = d.dataset.itinday; if(S.view !== "itin") S.view = "itin"; render(); return; }
+  const dr = e.target.closest("tr.drow");
+  if(dr){ if(dr.dataset.trip) openTrip(dr.dataset.trip); else if(dr.dataset.sched) openSched(dr.dataset.sched); return; }
   const card = e.target.closest(".icard[data-sched]");
   if(card && !e.target.closest("[data-act]")) { openSched(card.dataset.sched); return; }
   const tc = e.target.closest(".icard[data-trip]");
   if(tc) { openTrip(tc.dataset.trip); return; }
   const t = e.target.closest("button"); if(!t) return;
   if(t.dataset.jsrc){ FORM.d.source = t.dataset.jsrc; document.querySelectorAll("[data-jsrc]").forEach(b => b.classList.toggle("on", b === t)); schedPreview(); return; }
+  if(t.dataset.itinmode){ S.itinMode = t.dataset.itinmode; render(); return; }
   if(t.dataset.act === "schednew") return openSched(null);
   if(t.dataset.act === "schededit") return openSched(t.dataset.id);
   if(t.dataset.act === "schedok") return completeSched(t.dataset.id);
