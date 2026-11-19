@@ -1,6 +1,8 @@
 /* Connexxions Elite · Spanish copy (neutral Latin American). Keys are the English text exactly as shown. */
 window.CE_ES = {
   exact: {
+    'Team access': 'Acceso equipo',
+    'Black 2026 Chevrolet Suburban Premier with the Connexxions Elite plate, by the water': 'Chevrolet Suburban Premier 2026 negra con placa de Connexxions Elite, junto al agua',
     'Quote no.': 'Cotización n.º',
     'Gratuity for your chauffeur': 'Propina para tu chofer',
     'Optional and never required. Add it now to see it on your quote, or decide on the day.': 'Opcional y nunca obligatoria. Agrégala ahora para verla en tu cotización, o decide el día del viaje.',

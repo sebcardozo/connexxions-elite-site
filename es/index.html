@@ -1843,6 +1843,83 @@ h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
 .hl-d{color:#FFFFFF;background-image:linear-gradient(transparent 58%,rgba(238,74,67,.55) 58%,rgba(238,74,67,.55) 94%,transparent 94%);animation:hlin 1.3s cubic-bezier(.65,0,.25,1) 1.6s both}
 @keyframes hlin{from{background-size:0% 100%}to{background-size:100% 100%}}
 @media (prefers-reduced-motion:reduce){.hl{transition:none;background-size:100% 100%}.hl-d{animation:none}}
+
+/* v6 · hero = sunset road photo, band = coastal car */
+.hx-amb{display:none}
+.hx-bg{position:absolute;inset:0;z-index:0;container-type:size;overflow:hidden;-webkit-mask-image:none;mask-image:none;filter:none}
+.hx-pan{position:absolute;inset:0;transform:scale(1.04);animation:hxpan 22s ease-in-out infinite alternate;will-change:transform}
+@keyframes hxpan{from{transform:scale(1.04) translate3d(.7%,0,0)}to{transform:scale(1.04) translate3d(-.7%,0,0)}}
+.hx-st{position:absolute;--sw:max(100cqw,177.872cqh);width:var(--sw);height:calc(var(--sw) * .5622);left:calc((100cqw - var(--sw)) * var(--px,.5));top:calc((100cqh - var(--sw) * .5622) * var(--py,.5));transform-origin:62% 62%}
+.hx-pw,.hx-st>img,.hx-gl,.hx-sk{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hx-ph{position:absolute;inset:0;display:block;width:100%;height:100%;animation:hxph 2.6s cubic-bezier(.16,1,.3,1) 1.05s both}
+@keyframes hxph{from{filter:brightness(.5) saturate(.75) blur(6px)}to{filter:none}}
+.hx-wh{position:absolute;aspect-ratio:1;transform:scaleX(var(--k))}
+.hx-wh img{display:block;width:100%;height:100%;animation:hxwh .9s linear infinite;will-change:transform}
+@keyframes hxwh{to{transform:rotate(360deg)}}
+.hx-wh-r{left:25.5682%;top:58.8298%;width:8.1938%;--k:.8905}
+.hx-wh-f{left:68.75%;top:60%;width:9.4498%;--k:.96835}
+.hx-sun{position:absolute;left:-21%;top:-6%;width:46%;aspect-ratio:1;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,216,160,.6),rgba(255,184,120,.2) 46%,rgba(255,160,90,0) 74%);mix-blend-mode:screen;animation:hxsun 6.5s ease-in-out infinite alternate}
+@keyframes hxsun{from{opacity:.5;transform:scale(.95)}to{opacity:1;transform:scale(1.05)}}
+.hx-sk{overflow:hidden;-webkit-mask:url(/img/hero-road-inv.webp) 0 0/100% 100% no-repeat;mask:url(/img/hero-road-inv.webp) 0 0/100% 100% no-repeat}
+.hx-sk i{position:absolute;left:0;top:var(--y);width:100%;height:var(--h,1px);background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,var(--o,.5)) 22%,rgba(255,255,255,0)) 0 0/var(--w) 100% no-repeat;transform:translate3d(100%,0,0);animation:hxsk var(--d) linear var(--dl) infinite;will-change:transform}
+@keyframes hxsk{to{transform:translate3d(calc(var(--w) * -1),0,0)}}
+.hx-gl{overflow:hidden;mix-blend-mode:screen;-webkit-mask:url(/img/hero-road-glint.webp) 0 0/100% 100% no-repeat;mask:url(/img/hero-road-glint.webp) 0 0/100% 100% no-repeat}
+.hx-gl i{position:absolute;top:0;bottom:0;left:0;width:26%;background:linear-gradient(78deg,rgba(255,255,255,0) 30%,rgba(255,232,200,.34) 47%,rgba(255,255,255,.07) 55%,rgba(255,255,255,0) 70%);transform:translate3d(400%,0,0);animation:hxgl 8s cubic-bezier(.45,0,.2,1) 3.4s infinite;will-change:transform}
+@keyframes hxgl{0%{transform:translate3d(400%,0,0)}26%,100%{transform:translate3d(-110%,0,0)}}
+.hx-lt{opacity:.4;animation:hxlt 8s ease-in-out 3.9s both infinite}
+@keyframes hxlt{0%,6%{opacity:.4}9%{opacity:1}16%{opacity:.55}100%{opacity:.4}}
+.hx-bm{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease;background:radial-gradient(18% 9% at 97% 73%,rgba(225,235,255,.24),rgba(225,235,255,0) 70%)}
+.hx-shade{background:linear-gradient(180deg,rgba(10,10,10,.42) 0%,rgba(10,10,10,.08) 22%,rgba(10,10,10,0) 40%,rgba(10,10,10,0) 70%,rgba(10,10,10,.6) 100%)}
+.hx-word::before{background:radial-gradient(closest-side,rgba(6,12,24,.26),rgba(6,12,24,0))}
+.hx-frame{background:#0E0F12}
+html.pl-skip .hx-ph{animation-delay:.05s}
+html.pl-skip .hx-gl i{animation-delay:1.8s}
+html.pl-skip .hx-lt{animation-delay:2.2s}
+.hx.off .hx-pan,.hx.off .hx-wh img,.hx.off .hx-sun,.hx.off .hx-lt{animation-play-state:paused}
+html.is-night .hx-bg{filter:none}
+html.is-night .hx-frame{background:#06080E}
+html.is-night .hx-pw{filter:brightness(.42) saturate(.7) hue-rotate(12deg) contrast(1.08)}
+html.is-night .hx-sun{opacity:0;animation:none}
+html.is-night .hx-lt{animation:none;opacity:1}
+html.is-night .hx-bm{opacity:1}
+html.is-night .hx-gl{opacity:.4}
+@media (max-width:760px){
+  .hx-amb{display:block;position:absolute;inset:-12%;z-index:0;pointer-events:none;inset:0;background:radial-gradient(80% 34% at 6% 70%,rgba(244,182,118,.6),rgba(244,182,118,0) 72%),radial-gradient(60% 26% at 96% 66%,rgba(214,206,214,.35),rgba(214,206,214,0) 70%),linear-gradient(180deg,#0E1219 0%,#1E2533 24%,#4B5873 52%,#8E9DB6 74%,#B7C2D3 100%)}
+  .hx-bg{top:auto;bottom:34px;height:min(66cqw,262px);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 86%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 86%,transparent 100%)}
+  .hx-st{--px:.66;--py:.5}
+  .hx-pan{animation-duration:16s}
+  .hx-shade{background:linear-gradient(180deg,rgba(10,10,10,.25) 0%,rgba(10,10,10,0) 18%,rgba(10,10,10,0) 70%,rgba(10,10,10,.5) 100%)}
+}
+@media (prefers-reduced-motion: reduce){
+  .hx-pan,.hx-wh img,.hx-sk i,.hx-gl i,.hx-sun,.hx-lt,.hx-ph{animation:none}
+  .hx-sk{display:none}
+  .hx-lt{opacity:.55}
+}
+/* band: the coastal shot, car placed right so the headline breathes */
+.band-img{container-type:size;overflow:hidden}
+.bst{position:absolute;--sw:calc(max(100cqw,200cqh) * 1.1);width:var(--sw);height:calc(var(--sw) * .5);left:calc((100cqw - var(--sw)) * var(--bx,.5));top:calc((100cqh - var(--sw) * .5) * .5)}
+.band-img .bst img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill;display:block;animation:none}
+.band-img .bst img.bst-p{animation:drift 11s ease-in-out infinite alternate}
+.bst-car{position:absolute;inset:0;transform:translate(var(--cx,12%),var(--cy,0%)) scale(var(--cs,.72));transform-origin:50% 79%}
+.bst-bob{position:absolute;inset:0;animation:bob 3.6s ease-in-out infinite;transform-origin:50% 85%}
+.bst-gl{position:absolute;inset:0;overflow:hidden;pointer-events:none;-webkit-mask:url(/img/hero-car.webp) 0 0/100% 100% no-repeat;mask:url(/img/hero-car.webp) 0 0/100% 100% no-repeat}
+.bst-gl i{position:absolute;top:0;bottom:0;left:0;width:34%;background:linear-gradient(100deg,rgba(255,255,255,0) 28%,rgba(255,255,255,.3) 47%,rgba(255,255,255,.08) 55%,rgba(255,255,255,0) 70%);transform:translate3d(-130%,0,0)}
+.band.is-lit .bst-gl i{animation:hxglint 7.5s cubic-bezier(.45,0,.2,1) 1.2s infinite}
+.band-img .bst img.bst-fl{opacity:.14}
+.band.is-lit .band-img .bst img.bst-fl{animation:hxflare 7.5s ease-in-out .6s infinite}
+.band::after{background:linear-gradient(90deg,rgba(10,10,10,.78) 0%,rgba(10,10,10,.42) 30%,rgba(10,10,10,0) 58%),linear-gradient(0deg,rgba(10,10,10,.6),rgba(10,10,10,0) 42%)}
+.band.off .bst *{animation-play-state:paused!important}
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .bst{animation:bstpx linear both;animation-timeline:view()}
+    @keyframes bstpx{from{transform:translate3d(0,-3.5%,0)}to{transform:translate3d(0,3.5%,0)}}
+  }
+}
+@media (max-width:760px){
+  .bst{--bx:.25}
+  .bst-car{--cx:-6%;--cy:-12%;--cs:.74}
+}
+@media (prefers-reduced-motion: reduce){.band-img .bst img.bst-p,.bst-bob,.bst-gl i,.band.is-lit .band-img .bst img.bst-fl{animation:none}}
 </style>
 </helmet>
 
@@ -1906,19 +1983,32 @@ h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
     <div class="hx-sc">
     <div class="hx-frame">
       
-      <div class="hx-bg" aria-hidden="true">
-        <div class="bg-drift" style="position: absolute; inset: 0">
-          <img class="scene hx-in" src="/img/hero-plate-blur.webp" alt="" fetchpriority="high" decoding="async">
+      <i class="hx-amb" aria-hidden="true"></i>
+      <div class="hx-bg">
+        <div class="hx-pan">
+          <div class="hx-st hx-in">
+            <span class="hx-pw">
+              <img class="hx-ph" src="/img/hero-road.webp" alt="Black 2026 Suburban Premier driving past palm trees at sunset" fetchpriority="high" decoding="async">
+              <span class="hx-wh hx-wh-r" aria-hidden="true"><img src="/img/hero-wheel-r.webp" alt="" decoding="async"></span>
+              <span class="hx-wh hx-wh-f" aria-hidden="true"><img src="/img/hero-wheel-f.webp" alt="" decoding="async"></span>
+            </span>
+            <i class="hx-sun" aria-hidden="true"></i>
+            <span class="hx-sk" aria-hidden="true">
+              <i style="--y: 51.5%; --w: 16%; --d: 2.4s; --dl: -0.5s; --o: .26"></i>
+              <i style="--y: 57%; --w: 24%; --d: 1.9s; --dl: -1.3s; --o: .32"></i>
+              <i style="--y: 69.5%; --w: 20%; --d: 1.25s; --dl: -0.7s; --o: .42; --h: 2px"></i>
+              <i style="--y: 78.5%; --w: 30%; --d: 0.95s; --dl: -0.25s; --o: .5; --h: 2px"></i>
+              <i style="--y: 87.5%; --w: 24%; --d: 0.72s; --dl: -0.5s; --o: .4; --h: 2px"></i>
+              <i style="--y: 94%; --w: 34%; --d: 0.6s; --dl: -0.1s; --o: .3; --h: 2px"></i>
+            </span>
+            <span class="hx-gl" aria-hidden="true"><i></i></span>
+            <img class="hx-lt" src="/img/road-lights.webp" alt="" aria-hidden="true" decoding="async">
+            <i class="hx-bm" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
       <div class="hx-night" aria-hidden="true"><i class="hn-stars"></i><i class="hn-moon"></i><i class="hn-glow"></i></div>
       <div class="hx-shade" aria-hidden="true"></div>
-      <div class="streaks" aria-hidden="true">
-        <i style="--y: 47%; --w: 22%; --d: 1.7s; --dl: -0.9s; --o: .4"></i>
-        <i style="--y: 58%; --w: 34%; --d: 1.4s; --dl: -0.2s; --o: .45"></i>
-        <i style="--y: 66%; --w: 20%; --d: 1.2s; --dl: -0.7s; --o: .5; --h: 2px"></i>
-        <i style="--y: 74%; --w: 38%; --d: 0.95s; --dl: -0.35s; --o: .55; --h: 2px"></i>
-      </div>
       <div class="hx-meta">
         <span class="hm"><i class="hx-dot" aria-hidden="true"></i><b>{{ greet }}</b></span>
         <span class="hm hx-geo"><em>Orlando, Florida</em><b>28.54° N · 81.38° W</b></span>
@@ -1930,21 +2020,6 @@ h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
         <span class="sp-r"><b>2026</b><b>Black on black</b><b>Up to 6</b></span>
       </div>
       <i class="hx-crop" aria-hidden="true"></i>
-      <div class="hx-carw">
-        <div class="hx-drive">
-          <img class="scene" src="/img/hero-shadow.webp" alt="" aria-hidden="true">
-          <div class="bob" style="position: absolute; inset: 0">
-            <img class="scene" src="/img/hero-car.webp" alt="Black 2026 Chevrolet Suburban Premier with Connexxions Elite plate, in motion">
-            <span class="hx-glint" aria-hidden="true"><i></i></span>
-            <img class="scene hx-flare" src="/img/hero-flare.webp" alt="" aria-hidden="true" decoding="async">
-            <i class="hx-beam" aria-hidden="true"></i>
-          </div>
-        </div>
-      </div>
-      <div class="streaks" aria-hidden="true" style="z-index: 3">
-        <i style="--y: 86%; --w: 24%; --d: 0.7s; --dl: -0.1s; --o: .35; --h: 2px"></i>
-        <i style="--y: 91%; --w: 32%; --d: 0.6s; --dl: -0.45s; --o: .3; --h: 2px"></i>
-      </div>
       <div class="hx-word">
         <div class="hx-wi">
           <div class="lgm hx-logo" role="img" aria-label="Connexxions Elite"><span class="lgm-w"><i></i></span><span class="lgm-r"><i></i></span></div>
@@ -2131,7 +2206,15 @@ h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
 
   <!-- PHOTO BAND -->
   <section class="band" aria-labelledby="band-h">
-    <div class="band-img"><img src="/img/v-road.webp" alt="Black 2026 Suburban Premier driving past palm trees at sunset" loading="lazy" decoding="async"><img class="blit" src="/img/road-lights.webp" alt="" aria-hidden="true" loading="lazy" decoding="async"></div>
+    <div class="band-img"><div class="bst">
+      <img class="bst-p" src="/img/hero-plate.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      <div class="bst-car"><div class="bst-bob">
+        <img src="/img/hero-shadow.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <img src="/img/hero-car.webp" alt="Black 2026 Chevrolet Suburban Premier with the Connexxions Elite plate, by the water" loading="lazy" decoding="async">
+        <span class="bst-gl" aria-hidden="true"><i></i></span>
+        <img class="bst-fl" src="/img/hero-flare.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
+      </div></div>
+    </div></div>
     <div class="band-cap">
       <p class="eyebrow" style="color: #F2F0EB">On the road</p>
       <h2 id="band-h" class="disp h2">Smooth on <span class="it">every mile.</span></h2>
@@ -2504,7 +2587,7 @@ h1.disp .it,h2.disp .it,.stats4 .it{color:var(--red)}
       <div class="lgm" role="img" aria-label="Connexxions Elite"><span class="lgm-w"><i></i></span><span class="lgm-r"><i></i></span></div>
     </div>
     <div class="ft-bar">
-      <span>© 2026 MTC Cargo Corp. All rights reserved. <a href="/despacho/" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);margin-left:10px;white-space:nowrap">Acceso equipo</a></span>
+      <span>© 2026 MTC Cargo Corp. All rights reserved. <a href="/despacho/" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);margin-left:10px;white-space:nowrap">Team access</a></span>
       <span>Orlando, FL · 28.54° N 81.38° W</span>
       <a class="ftl ft-top" href="#top"><span>Back to top</span><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"><path d="M12 19V5"></path><path d="m6 11 6-6 6 6"></path></svg></a>
     </div>
