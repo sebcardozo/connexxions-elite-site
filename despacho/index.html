@@ -3244,7 +3244,7 @@ function finDrill(kind){
   const ts = monthTrips().map(t => ({ t, e: tripEcon(t) })).sort((a,b) => Date.parse(b.t.started_at) - Date.parse(a.t.started_at));
   const m = agg(monthTrips()), fa = fixedActive(), oc = opCost();
   const head = kind === "result"
-    ? `<div class="dsum"><div><span>Ganancia de viajes</span><b>${money(m.profit)}</b></div><div><span>Costos fijos</span><b class="neg">−${money(fa.total).slice(1)}</b></div><div><span>Resultado</span><b class="${m.profit-fa.total<0?"neg":"pos"}">${money(m.profit - fa.total)}</b></div></div>
+    ? `<div class="dsum"><div><span>Ganancia de viajes</span><b>${money(m.profit)}</b></div><div><span>Costos fijos</span><b class="neg">${money(-fa.total)}</b></div><div><span>Resultado</span><b class="${m.profit-fa.total<0?"neg":"pos"}">${money(m.profit - fa.total)}</b></div></div>
        <p class="hint">Los fijos se cuentan completos aunque el mes no haya cerrado. Son ${fa.items.length} partidas: ${fa.items.map(i => `${esc(i.name)} ${money0(i.amount)}`).join(" · ")}.</p>`
     : `<div class="dsum"><div><span>${esc(d.t)}</span><b>${money(kind==="rev"?m.rev:m.profit)}</b></div><div><span>Viajes</span><b>${m.n}</b></div><div><span>Por viaje</span><b>${money((kind==="rev"?m.rev:m.profit)/(m.n||1))}</b></div></div>
        ${kind==="profit" ? `<p class="hint">Ingreso menos el ${pctf(A().driverPct)} de Marco, gasolina a ${money(oc.gas)}/mi (${oc.gasReal?"real":"estimada"}), mantenimiento a ${money(oc.maint)}/mi (estimado) y peajes.</p>` : ""}`;
