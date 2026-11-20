@@ -1077,6 +1077,7 @@ function issue() {
 $('#q-pdf').addEventListener('click', function () { window.print(); });
 $('#heatKey').addEventListener('click', function () { var on = this.getAttribute('aria-pressed') !== 'true'; this.setAttribute('aria-pressed', String(on)); if (map && map.getLayer('hot')) map.setLayoutProperty('hot', 'visibility', on ? 'visible' : 'none'); });
 /* quote requests go straight to Marco's inbox through FormSubmit (no app or login needed on the client side) */
+function gcEvent(p, title) { try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: p, title: title, event: true }); } catch (e) {} }
 var FORM = String(window.CE_FORM_ENDPOINT || ('https://formsubmit.co/ajax/' + EMAIL));
 $('#q-send').addEventListener('click', function () {
   var btn = this, st = $('#q-stat'), P2 = S.payload;
@@ -1096,13 +1097,13 @@ $('#q-send').addEventListener('click', function () {
   fetch(FORM, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
     .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || String(j.success) === 'false') throw new Error(j.message || r.status); return j; }); })
     .then(function () {
-      S.sent = true; btn.textContent = 'Sent ✓';
+      S.sent = true; btn.textContent = 'Sent ✓'; gcEvent('quote-sent', 'Quote sent');
       st.className = 'qstat on ok'; st.textContent = 'Sent. Our team has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
     })
     .catch(function (err) {
       try { console.warn('[CE] quick send failed, trying the form route:', err && err.message); } catch (e) {}
       postForm(data).then(function () {
-        S.sent = true; btn.textContent = 'Sent ✓';
+        S.sent = true; btn.textContent = 'Sent ✓'; gcEvent('quote-sent', 'Quote sent');
         st.className = 'qstat on ok'; st.textContent = 'Sent. Our team has your quote ' + P2.no + ' and will confirm by email at ' + val('in-email') + '. No payment until then.';
       }, function () {
         btn.disabled = false; btn.textContent = 'Try again';
@@ -1186,5 +1187,6 @@ function render() {
 </script>
 <script src="../i18n-es.js"></script>
 <script src="../site.js"></script>
+<script data-goatcounter="https://connexxionselite.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
