@@ -1122,6 +1122,64 @@ td{padding-top:11px;padding-bottom:11px}
 .seg3 button.on{background:var(--text);color:var(--bg);font-weight:600}
 .dchip b{letter-spacing:-.03em}
 .dtbl th{font-size:9.5px;letter-spacing:.17em}
+
+/* ===== v5: Finanzas — cifras clicables, reservas pendientes, detalle del día ===== */
+.fintiles .tile.fin{appearance:none;text-align:left;width:100%;cursor:pointer;background:var(--panel);
+  border:1px solid var(--line);transition:border-color .13s,transform .13s,box-shadow .13s;position:relative}
+.fintiles .tile.fin:hover{border-color:var(--line2);transform:translateY(-1px);box-shadow:0 6px 18px -12px rgba(0,0,0,.5)}
+.fintiles .tile.fin:focus-visible{outline:2px solid var(--brandc);outline-offset:2px}
+.tile.fin .k{display:flex;align-items:center;gap:6px;justify-content:space-between}
+.fini{display:inline-flex;opacity:0;transition:opacity .13s,transform .13s;color:var(--muted);transform:translateX(-3px)}
+.tile.fin:hover .fini{opacity:1;transform:none}
+.dsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;margin-bottom:14px}
+.dsum > div{background:var(--panel2);padding:11px 13px;min-width:0}
+.dsum span{display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.dsum b{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.drows{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r-sm);overflow:hidden}
+button.drow{appearance:none;background:var(--panel);border:0;width:100%;display:flex;align-items:center;gap:12px;
+  justify-content:space-between;padding:10px 13px;cursor:pointer;text-align:left;transition:background .1s}
+button.drow:hover{background:var(--panel3)}
+button.drow:focus-visible{outline:2px solid var(--brandc);outline-offset:-2px}
+.drow .dl{min-width:0;flex:1}
+.drow .dl b{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .dl span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .dr{text-align:right;flex:none}
+.drow .dr b{display:block;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.drow .dr span{display:block;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+/* reservas por cobrar */
+.pend{display:flex;flex-direction:column}
+.pday + .pday{border-top:1px solid var(--line)}
+.pdh{display:flex;align-items:baseline;gap:10px;justify-content:space-between;padding:9px 16px;background:var(--panel2)}
+.pdh b{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.pdh span{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+button.prow{appearance:none;background:var(--panel);border:0;border-top:1px solid var(--line);width:100%;
+  display:grid;grid-template-columns:52px 1fr auto auto;align-items:center;gap:12px;padding:11px 16px;
+  cursor:pointer;text-align:left;transition:background .1s}
+button.prow:hover{background:var(--panel3)}
+button.prow:focus-visible{outline:2px solid var(--brandc);outline-offset:-2px}
+.prow time{font-family:var(--mono);font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--text)}
+.prow .pi{min-width:0}
+.prow .pi b{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .pi span{display:block;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pfl{font-family:var(--mono);font-size:11px;padding:2px 7px;border:1px solid var(--line2);border-radius:5px;
+  color:var(--text);white-space:nowrap}
+.pfl.dim{color:var(--muted);border-style:dashed}
+.prow .pm{text-align:right}
+.prow .pm b{display:block;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.prow .pm span{display:block;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+/* detalle del día bajo la gráfica */
+.daysel{border-top:1px solid var(--line);padding:13px 16px 16px}
+.dsh{display:flex;align-items:baseline;gap:10px;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap}
+.dsh b{font-size:13px;font-weight:600}
+.dsh span{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.g-day .chart [data-pick]{cursor:pointer}
+@media (max-width:620px){
+  button.prow{grid-template-columns:46px 1fr auto;gap:9px;padding:10px 14px}
+  .prow .pfl{display:none}
+  .dsum b{font-size:17px}
+}
 </style>
 </head>
 <body>
@@ -1167,7 +1225,7 @@ td{padding-top:11px;padding-bottom:11px}
       <div class="navgroup">Operación</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="itin"><span data-icon="calendar"></span>Itinerario</button>
-      <button data-view="cfo"><span data-icon="trend"></span>Informe del CFO</button>
+      <button data-view="cfo"><span data-icon="trend"></span>Finanzas</button>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
       <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
       <button data-view="plan"><span data-icon="target"></span>Metas</button>
@@ -1488,7 +1546,7 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Informe del CFO", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Finanzas", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
 const RENDER = () => ({home:renderHome, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
@@ -2023,6 +2081,10 @@ document.addEventListener("click", e => {
   if(card && !e.target.closest("[data-act]")) { openSched(card.dataset.sched); return; }
   const tc = e.target.closest(".icard[data-trip]");
   if(tc) { openTrip(tc.dataset.trip); return; }
+  const fb = e.target.closest("[data-fin]");
+  if(fb){ finDrill(fb.dataset.fin); return; }
+  const br = e.target.closest("button.drow, button.prow");
+  if(br){ if(br.dataset.trip) openTrip(br.dataset.trip); else if(br.dataset.sched) openSched(br.dataset.sched); return; }
   const t = e.target.closest("button"); if(!t) return;
   if(t.dataset.jsrc){ FORM.d.source = t.dataset.jsrc; document.querySelectorAll("[data-jsrc]").forEach(b => b.classList.toggle("on", b === t)); schedPreview(); return; }
   if(t.dataset.itinmode){ S.itinMode = t.dataset.itinmode; render(); return; }
@@ -2418,7 +2480,7 @@ const cfgv = () => S.cfg || DEFAULT_CFG;
 const A = () => ({
   driverPct: cfgv().driver_pct ?? 0.25,
   maint: cfgv().maint_per_mile ?? 0.10,          // ESTIMATED until there are real maintenance receipts
-  gasEst: cfgv().gas_per_mile_est ?? 0.24,       // $3.82/gal (AAA Orlando) / 16 mpg — used until fuel log has data
+  gasEst: cfgv().gas_per_mile_est ?? 0.2523,     // $4.036/gal real de los recibos / 16 mpg supuesto — hasta que haya odómetro
   fixed: fixedActive().total,                    // sum of active fixed-cost items this month
 });
 /* Fixed monthly costs as items with optional start/end month ("YYYY-MM"), stored in bl_config.fixed_costs. */
@@ -2736,7 +2798,7 @@ function renderHome(){
   </div>
 
   <div class="hub">
-    <button data-view="cfo">${icon("trend",20)}<div><b>Informe del CFO</b><span>Resultado del mes, punto de equilibrio y qué atender</span></div>${icon("arrow",16)}</button>
+    <button data-view="cfo">${icon("trend",20)}<div><b>Finanzas</b><span>Resultado del mes, proyección, reservas por cobrar</span></div>${icon("arrow",16)}</button>
     <button data-view="geo">${icon("pin",20)}<div><b>Rutas y horas</b><span>${routes[0] ? `${esc(routes[0].k)} · ${routes[0].n} viaje${routes[0].n===1?"":"s"}` : "Sin rutas todavía"}</span></div>${icon("arrow",16)}</button>
     <button data-view="costs">${icon("fuel",20)}<div><b>Gasolina y peajes</b><span>${oc.gasReal ? "Gasolina real" : "Gasolina estimada"} · ${oc.tollReal ? "peajes reales" : "sin cargos de E-PASS"}</span></div>${icon("arrow",16)}</button>
     <button data-view="plan">${icon("target",20)}<div><b>Metas</b><span>${all.perHour == null ? "—" : `${money0(all.perHour)}/h actual · ${money0(needH)}/h necesario`}</span></div>${icon("arrow",16)}</button>
@@ -3085,17 +3147,27 @@ function renderCfo(){
   const bad = al.filter(a => a[0] === "bad").length, verdict = !m.n ? ["info", "Sin viajes este mes todavía."]
     : bad ? ["bad", `Hoy el negocio no cubre sus costos fijos. Faltan ${money0(Math.max(0, fx + other - m.profit))} de ganancia este mes y quedan ${daysLeftM} días.`]
     : projResult >= 0 ? ["ok", `El mes va cubierto: la proyección deja ${money0(projResult)} después de fijos.`] : ["warn", "El mes está justo; revisa las alertas."];
+  const _pj = pendingJobs(), pend = { n:_pj.length, tot:_pj.reduce((a,j)=>a+(+j.pay||0),0), prof:_pj.reduce((a,j)=>a+schedEcon(j).profit,0) };
+  const finI = `<i class="fini">${icon("arrow",13)}</i>`;
+  /* ingreso y ganancia por día del mes, clicable: la barra abre el día */
+  const _dk = []; for(let t = mStart; t <= Date.now(); t += 864e5) _dk.push(dayKey(t));
+  const _byDay = _dk.map(k => agg(mTrips.filter(t => dayKey(t.started_at) === k)));
+  if(!S.sel || !_dk.includes(S.sel)) S.sel = [..._dk].reverse().find((k,i) => _byDay[_dk.indexOf(k)].n) || _dk.at(-1);
+  const _si = _dk.indexOf(S.sel), _sd = mTrips.filter(t => dayKey(t.started_at) === S.sel), _sa = agg(_sd);
+  CHARTS.finday = W => colChart(W, { labels: _dk.map(fmtDay), sel: _si, H: 240, pick: i => _dk[i],
+    series: [{ name:"Ingreso", color:"var(--c-rev)", values: _byDay.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: _byDay.map(g => g.profit) }],
+    tip: i => `<b>${fmtDay(_dk[i])}</b>${tipRow("#2a78d6","Ingreso",money(_byDay[i].rev))}${tipRow("#008300","Ganancia",money(_byDay[i].profit))}${tipRow("","Viajes",_byDay[i].n)}<div class="r dim" style="margin-top:4px">Toca para ver el día</div>` });
   const row = (label, v, cls = "", sub = "") => `<tr class="${cls}"><td>${label}${sub ? `<small class="dim" style="display:block">${sub}</small>` : ""}</td><td class="num" style="text-align:right">${v}</td><td class="num dim" style="text-align:right">${m.rev && typeof v === "string" && cls !== "tot" ? "" : ""}</td></tr>`;
   const pl = (label, amt, cls = "", sub = "") => `<tr class="${cls}"><td>${label}${sub ? `<small class="dim" style="display:block">${sub}</small>` : ""}</td><td class="num" style="text-align:right">${money(amt)}</td><td class="num dim" style="text-align:right">${m.rev && !cls.includes("nopct") ? pctf(Math.abs(amt) / m.rev) : ""}</td></tr>`;
 
   $("#view").innerHTML = `
   ${head("", `Lectura financiera al ${new Date().toLocaleDateString("es-US",{day:"numeric",month:"long",timeZone:TZ})}. Todo sale de los viajes, recibos y costos cargados; lo estimado va marcado.`, "")}
   <div class="verdict ${verdict[0]}">${icon(verdict[0] === "ok" ? "check" : "info", 20)}<div><b>${verdict[1]}</b><span>${al.length ? `${al.length} punto${al.length===1?"":"s"} por atender abajo.` : "Sin alertas."}</span></div></div>
-  <div class="tiles t4">
-    <div class="tile"><div class="k">Resultado del mes a hoy</div><div class="v ${result < 0 ? "neg" : "pos"}">${money0(result)}</div><div class="s">ganancia ${money0(m.profit)} − fijos ${money0(fx)}${other ? ` − otros ${money0(other)}` : ""}</div></div>
-    <div class="tile"><div class="k">Proyección al cierre</div><div class="v ${projResult < 0 ? "neg" : "pos"}">${money0(projResult)}</div><div class="s">a ${money0(pace)} de ganancia por día, ${daysLeftM} días restantes</div></div>
-    <div class="tile"><div class="k">Punto de equilibrio</div><div class="v">${beTrips == null ? "—" : beTrips + " viajes"}</div><div class="s">por mes, a ${money0(perTrip)} por viaje · ${beDay == null ? "—" : num1(beDay)} al día (van ${num1(tripsDay)})</div></div>
-    <div class="tile"><div class="k">Por pagar a Marco</div><div class="v">${money0(owed.pay + owed.tips)}</div><div class="s">${money(owed.pay)} de su ${pctf(A().driverPct)} + ${money(owed.tips)} en propinas, desde el día 1</div></div>
+  <div class="tiles t4 fintiles">
+    <button class="tile fin" data-fin="rev"><div class="k">Ingreso cobrado${finI}</div><div class="v">${money0(m.rev)}</div><div class="s">${m.n} viaje${m.n===1?"":"s"} este mes · ${money0(m.n?m.rev/m.n:0)} cada uno</div></button>
+    <button class="tile fin" data-fin="profit"><div class="k">Ganancia de los viajes${finI}</div><div class="v pos">${money0(m.profit)}</div><div class="s">${pctf(m.margin)} del ingreso · ${money0(m.perHour)} por hora ocupada</div></button>
+    <button class="tile fin" data-fin="result"><div class="k">Resultado del mes${finI}</div><div class="v ${result < 0 ? "neg" : "pos"}">${money0(result)}</div><div class="s">después de ${money0(fx)} de fijos${other ? ` y ${money0(other)} de gastos` : ""}</div></button>
+    <button class="tile fin" data-fin="pending"><div class="k">Por cobrar${finI}</div><div class="v">${money0(pend.tot)}</div><div class="s">${pend.n} reserva${pend.n===1?"":"s"} confirmada${pend.n===1?"":"s"} · ${money0(pend.prof)} de ganancia</div></button>
   </div>
   <div class="g2">
     ${projBox()}
@@ -3123,8 +3195,85 @@ function renderCfo(){
         <p class="hint">${plats.map(p => `${PLAT[p.k].n}: ${money0(p.perTrip)} por viaje, ${Math.ceil(fx / Math.max(0.01, p.perTrip))} viajes al mes para cubrir fijos`).join(" · ")}.</p></div></div>
     </div>
   </div>
+  <div class="box g-day"><header><h3>El mes día por día</h3><span class="sub">Toca una barra para ver los viajes de ese día</span></header>
+    <div class="chart" data-chart="finday"></div>
+    <div class="daysel"><div class="dsh"><b>${fmtDate(S.sel + "T12:00:00Z")}</b><span>${_sa.n} viaje${_sa.n===1?"":"s"} · ${money(_sa.rev)} de ingreso · ${money(_sa.profit)} de ganancia</span></div>
+      ${_sd.length ? `<div class="drows">${_sd.sort((a,b)=>Date.parse(a.started_at)-Date.parse(b.started_at)).map(t => { const e = tripEcon(t); return `
+        <button class="drow" data-trip="${t.id}"><div class="dl"><b>${hhmm(t.started_at)} · ${esc(svcLabel(t))}</b><span>${esc(short(t.pickup))} → ${esc(short(t.dropoff))}</span></div>
+        <div class="dr"><b>${money(e.profit)}</b><span>de ${money(e.rev)}</span></div></button>`; }).join("")}</div>` : `<p class="hint pad0">Sin viajes ese día.</p>`}</div></div>
+  ${pendBox()}
   <div class="box"><header><h3>Qué atender</h3><span class="sub">${al.length} punto${al.length===1?"":"s"}, lo más urgente arriba</span></header>
     ${al.length ? `<div class="alerts">${al.map(([lv, t, d, a, v]) => `<div class="alert ${lv}"><i></i><div><b>${esc(t)}</b><span>${esc(d)}</span></div><button class="btn btn-sm" data-view="${v}">${a}</button></div>`).join("")}</div>` : `<div class="empty">Nada pendiente.</div>`}</div>`;
+}
+
+
+/* ======================= Finanzas v5: cifras clicables, reservas pendientes, proyección =======================
+   Cada cifra grande abre el detalle de los viajes que la componen. Nada de cifras sin trazabilidad. */
+
+/* Las reservas confirmadas que todavía no son viaje, en orden de fecha. */
+function pendingJobs(){
+  return S.sched.filter(j => j.status !== "cancelled" && !j.trip_id && Date.parse(j.starts_at) >= dayStartMs(dayKey(Date.now())))
+    .sort((a,b) => Date.parse(a.starts_at) - Date.parse(b.starts_at));
+}
+/* Los viajes del mes en curso, ya cobrados. */
+function monthTrips(){
+  const mk = monthKey(), mStart = Math.max(dayStartMs(mk + "-01"), startMs());
+  return live().filter(t => Date.parse(t.started_at) >= mStart);
+}
+
+/* ---------- drill-down: de una cifra a los viajes que la forman ---------- */
+const FIN_DRILL = {
+  rev:    { t:"Ingreso cobrado",      s:"Lo que ya entró",         k:"rev"    },
+  profit: { t:"Ganancia de los viajes", s:"Después de costos variables", k:"profit" },
+  result: { t:"Resultado del mes",    s:"Ganancia menos los fijos", k:"result" },
+};
+function finDrill(kind){
+  if(kind === "pending"){
+    const ps = pendingJobs();
+    const tot = ps.reduce((s,j) => s + (+j.pay||0), 0), prof = ps.reduce((s,j) => s + schedEcon(j).profit, 0);
+    return drawerShell("Reservas por cobrar", `${ps.length} confirmada${ps.length===1?"":"s"}`, `
+      <div class="dsum"><div><span>Por cobrar</span><b>${money(tot)}</b></div><div><span>Ganancia proyectada</span><b>${money(prof)}</b></div></div>
+      <p class="hint">Nada de esto entra al ingreso ni a lo que se le debe a Marco hasta que el servicio se marca como hecho.</p>
+      <div class="drows">${ps.map(j => { const e = schedEcon(j); return `
+        <button class="drow" data-sched="${j.id}">
+          <div class="dl"><b>${esc(j.passenger || j.account || "—")}</b><span>${fmtDate(j.starts_at)} · ${hhmm(j.starts_at)} · ${esc(short(j.pickup))} → ${esc(short(j.dropoff))}</span></div>
+          <div class="dr"><b>${money(j.pay)}</b><span>${money(e.profit)} proy.</span></div></button>`; }).join("") || `<p class="hint">Sin reservas pendientes.</p>`}</div>`,
+      `<button class="btn" data-close>Cerrar</button><button class="btn btn-primary" data-act="schednew">${icon("plus",16)} Agendar</button>`);
+  }
+  const d = FIN_DRILL[kind]; if(!d) return;
+  const ts = monthTrips().map(t => ({ t, e: tripEcon(t) })).sort((a,b) => Date.parse(b.t.started_at) - Date.parse(a.t.started_at));
+  const m = agg(monthTrips()), fa = fixedActive(), oc = opCost();
+  const head = kind === "result"
+    ? `<div class="dsum"><div><span>Ganancia de viajes</span><b>${money(m.profit)}</b></div><div><span>Costos fijos</span><b class="neg">−${money(fa.total).slice(1)}</b></div><div><span>Resultado</span><b class="${m.profit-fa.total<0?"neg":"pos"}">${money(m.profit - fa.total)}</b></div></div>
+       <p class="hint">Los fijos se cuentan completos aunque el mes no haya cerrado. Son ${fa.items.length} partidas: ${fa.items.map(i => `${esc(i.name)} ${money0(i.amount)}`).join(" · ")}.</p>`
+    : `<div class="dsum"><div><span>${esc(d.t)}</span><b>${money(kind==="rev"?m.rev:m.profit)}</b></div><div><span>Viajes</span><b>${m.n}</b></div><div><span>Por viaje</span><b>${money((kind==="rev"?m.rev:m.profit)/(m.n||1))}</b></div></div>
+       ${kind==="profit" ? `<p class="hint">Ingreso menos el ${pctf(A().driverPct)} de Marco, gasolina a ${money(oc.gas)}/mi (${oc.gasReal?"real":"estimada"}), mantenimiento a ${money(oc.maint)}/mi (estimado) y peajes.</p>` : ""}`;
+  return drawerShell(d.t, d.s, head + `
+    <div class="drows">${ts.map(({t,e}) => `
+      <button class="drow" data-trip="${t.id}">
+        <div class="dl"><b>${esc(svcLabel(t))}</b><span>${fmtDate(t.started_at)} · ${esc(short(t.pickup))} → ${esc(short(t.dropoff))}</span></div>
+        <div class="dr"><b>${money(kind==="rev"?e.rev:e.profit)}</b><span>${kind==="rev"?`${num1(e.mi)} mi`:`${money(e.rev)} bruto`}</span></div></button>`).join("") || `<p class="hint">Sin viajes este mes.</p>`}</div>`,
+    `<button class="btn" data-close>Cerrar</button><button class="btn btn-ghost" data-view="trips">Ver todos los viajes</button>`);
+}
+const short = s => { s = (s || "").trim(); if(!s) return "—"; const first = s.split(",")[0];
+  return first.length > 34 ? first.slice(0,33) + "…" : first; };
+
+/* ---------- reservas pendientes, en la página ---------- */
+function pendBox(){
+  const ps = pendingJobs(), tot = ps.reduce((s,j) => s + (+j.pay||0), 0), prof = ps.reduce((s,j) => s + schedEcon(j).profit, 0);
+  const byDay = {}; ps.forEach(j => { const k = dayKey(j.starts_at); (byDay[k] = byDay[k] || []).push(j); });
+  return `<div class="box"><header><h3>Reservas por cobrar</h3><span class="sub">${money(tot)} en ${ps.length} servicio${ps.length===1?"":"s"} · ${money(prof)} de ganancia proyectada</span></header>
+    ${!ps.length ? `<div class="pad"><p class="hint pad0">No hay servicios confirmados a futuro. Agenda uno desde Itinerario.</p></div>` : `
+    <div class="pend">${Object.entries(byDay).map(([k, js]) => `
+      <div class="pday"><div class="pdh"><b>${fmtDay(k)}</b><span>${js.length} servicio${js.length===1?"":"s"} · ${money(js.reduce((s,j)=>s+(+j.pay||0),0))}</span></div>
+      ${js.map(j => { const e = schedEcon(j), fl = flightOf(j.notes), tm = termOf(j.notes); return `
+        <button class="prow" data-sched="${j.id}">
+          <time>${hhmm(j.starts_at)}</time>
+          <div class="pi"><b>${esc(j.passenger || j.account || "—")}</b>
+            <span>${esc(short(j.pickup))} → ${esc(short(j.dropoff))}${j.pax ? ` · ${j.pax} pax` : ""}</span></div>
+          ${fl ? `<span class="pfl">${esc(fl)}${tm ? ` · ${esc(tm)}` : ""}</span>` : `<span class="pfl dim">sin vuelo</span>`}
+          <div class="pm"><b>${money(j.pay)}</b><span>${money(e.profit)} proy.</span></div>
+        </button>`; }).join("")}</div>`).join("")}</div>`}</div>`;
 }
 
 function renderDriver(){
@@ -3204,7 +3353,7 @@ function renderSettings(){
   </div></div>
     <div class="box"><header><h3>Costos y supuestos</h3><span class="sub">se guardan con el filtro del bot</span></header><div class="pad">
     <div class="row3">${num("driver_pct","Pago al chofer",{step:"0.01",suf:"× pago",hint:"0.25 = 25% del pago de la app; propinas aparte"})}${num("maint_per_mile","Mantenimiento",{step:"0.01",suf:"$/mi",ph:"0.10",hint:"Estimado: llantas, aceite, frenos"})}</div>
-    <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.01",suf:"$/mi",ph:"0.24",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Se reemplaza solo con tanqueos registrados"})}</div>
+    <div class="row3">${num("gas_per_mile_est","Gasolina estimada",{step:"0.0001",suf:"$/mi",ph:"0.2523",hint:gpm.real ? `En uso: real ${money(gpm.v)}/mi del registro` : "Supuesto: $4.036/gal real de los recibos ÷ 16 mpg. Se reemplaza solo con dos tanqueos llenos con odómetro."})}</div>
     <div class="group" style="margin:6px 0 18px"><h4>Costos fijos mensuales <span class="dim" style="font-weight:400;font-size:13px">· este mes ${money(asum.fixed)}</span></h4><p>Cada partida con su mes de fin si tiene; al terminar sale sola de la cuenta.</p>
       <div class="tablewrap"><table><thead><tr><th>Partida</th><th style="width:180px">Monto / mes</th><th style="width:110px">Día de pago</th><th style="width:150px">Desde</th><th style="width:150px">Hasta</th><th style="width:48px"></th></tr></thead><tbody>
       ${(S.cfg?.fixed_costs || []).map((x, i) => `<tr><td><input class="input" data-path="fixed_costs.${i}.name" data-kind="text" value="${esc(x.name)}" aria-label="Partida"></td>
