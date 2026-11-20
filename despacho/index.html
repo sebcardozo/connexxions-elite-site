@@ -484,6 +484,92 @@ tr.drow:hover td{background:var(--panel3)}
 .blockrow{display:flex;gap:14px;align-items:baseline;font-size:13.5px;color:var(--muted)}
 .blockrow .num{color:var(--text);font-weight:500;white-space:nowrap}
 @media (max-width:900px){ .dtbl .cut{max-width:150px} .dchip{min-width:84px;padding:8px 11px} }
+
+/* ---- proyección del mes ---- */
+.projbox{margin-bottom:16px}
+.ptbl{width:100%;border-collapse:collapse;font-size:14px}
+.ptbl th{text-align:left;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);
+  font-weight:700;padding:0 18px 10px;border-bottom:1px solid var(--line2)}
+.ptbl th.r,.ptbl td.r{text-align:right}
+.ptbl th:last-child,.ptbl td:last-child{padding-right:18px}
+.ptbl td{padding:13px 18px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.ptbl td:first-child{font-variant-numeric:normal}
+.ptbl td b{font-weight:500}
+.ptbl tr.lead td{font-size:15px}
+.ptbl tr.strong td{border-top:1px solid var(--line2)}
+.ptbl tr.strong td b,.ptbl tr.strong td.r{font-weight:600;color:var(--text)}
+.ptbl tr.marco td.tot{color:var(--c-rev);font-weight:600}
+.ptbl td.proj{color:#00a3b7}
+.ptbl td.tot{font-weight:600}
+.ptbl tfoot td{padding:13px 18px;border-bottom:1px solid var(--line)}
+.ptbl tr.res td{border-bottom:0;font-size:15px}
+.ptbl tr.res td.tot{font-size:19px;letter-spacing:-.02em}
+.ptbl .pos{color:var(--c-profit)} .ptbl .neg{color:var(--c-neg)}
+.roirow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);
+  border-top:1px solid var(--line)}
+.roi{background:var(--panel);padding:16px 18px}
+.roi span{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.roi b{display:block;font-size:26px;font-weight:600;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.roi b.pos{color:var(--c-profit)} .roi b.neg{color:var(--c-neg)}
+.roi small{display:block;font-size:11.5px;color:var(--dim);margin-top:5px;line-height:1.45}
+@media (max-width:760px){ .roirow{grid-template-columns:1fr} }
+
+/* ---- riel del día ---- */
+.daybar{position:relative;height:8px;border-radius:999px;background:var(--panel2);
+  border:1px solid var(--line);margin:0 0 20px;overflow:hidden}
+.daybar i{position:absolute;top:0;bottom:0;border-radius:999px}
+.daybar i.done{background:var(--c-rev)} .daybar i.sched{background:#00a3b7}
+.daybar i.ride{background:var(--accent)} .daybar i.bus{background:var(--line2)}
+.daybar u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--accent);z-index:2}
+.daybar s{position:absolute;top:0;bottom:0;width:1px;background:var(--line2);text-indent:-999px;overflow:hidden}
+.daybar s:nth-of-type(1){left:25%} .daybar s:nth-of-type(2){left:50%} .daybar s:nth-of-type(3){left:75%}
+
+.svclist{display:flex;flex-direction:column}
+.svc{display:grid;grid-template-columns:72px 1fr auto;gap:0 16px;align-items:stretch;
+  border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:16px 18px;cursor:pointer;
+  transition:border-color .12s,background .12s}
+.svc:hover{border-color:var(--line2);background:var(--panel2)}
+.svc.is-done{border-left:3px solid var(--c-rev)}
+.svc.is-sched{border-left:3px solid #00a3b7}
+.svc.is-ride{border-left:3px solid var(--accent)}
+.svc.past{opacity:.62}
+.svc.live{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-soft)}
+.srail{display:flex;flex-direction:column;align-items:flex-end;padding-top:1px;position:relative}
+.srail b{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.srail .dot{width:7px;height:7px;border-radius:50%;background:currentColor;margin:7px 0 0;opacity:.5}
+.srail .line{flex:1;width:1px;background:var(--line2);margin:4px 3px}
+.srail small{font-size:12px;color:var(--dim);margin-top:4px}
+.sbody{min-width:0;display:flex;flex-direction:column;gap:6px}
+.shead{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.shead .acct{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.shead .pax{font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.shead .conf{font-size:11px;color:var(--dim)}
+.sroute{display:flex;align-items:center;gap:9px;min-width:0;font-size:14px;color:var(--muted)}
+.sroute .cut{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:36ch}
+.sroute em{font-style:normal;color:var(--dim);flex:none}
+.smeta{display:flex;gap:7px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--dim)}
+.smeta .fl{color:var(--text);font-weight:600;letter-spacing:.02em}
+.smoney{text-align:right;display:flex;flex-direction:column;justify-content:center;gap:3px;white-space:nowrap}
+.smoney b{font-size:18px;font-weight:600;letter-spacing:-.025em}
+.smoney span{font-size:13px;color:var(--c-profit);font-weight:600}
+.smoney span.neg{color:var(--c-neg)}
+.smoney small{font-size:11.5px;color:var(--dim)}
+
+.joint{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;padding:9px 18px;
+  position:relative}
+.joint::before{content:"";position:absolute;left:calc(18px + 71px);top:0;bottom:0;width:1px;
+  border-left:1px dashed var(--line2)}
+.joint b{grid-column:2;font-size:12.5px;font-weight:600;color:var(--muted)}
+.joint span{grid-column:2;font-size:11.5px;color:var(--dim)}
+.joint.clash b{color:var(--accent)} .joint.clash::before{border-left-color:var(--accent)}
+.joint.tight b{color:var(--warn)}
+@media (max-width:700px){
+  .svc{grid-template-columns:58px 1fr;gap:0 12px;padding:14px 15px}
+  .smoney{grid-column:2;text-align:left;flex-direction:row;align-items:baseline;gap:10px;margin-top:8px}
+  .joint{grid-template-columns:58px 1fr;gap:12px;padding-left:15px}
+  .joint::before{left:calc(15px + 57px)}
+  .sroute .cut{max-width:22ch}
+}
 .hbars{display:flex;flex-direction:column;gap:12px}
 .hb .t{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 .hb .t b{font-weight:500;font-variant-numeric:tabular-nums}
@@ -1644,53 +1730,89 @@ const hhmm = m => `${String(Math.floor(m/60)%24).padStart(2,"0")}:${String(Math.
 const durm = m => m >= 60 ? `${Math.floor(m/60)} h${m%60 ? " " + Math.round(m%60) + " min" : ""}` : `${Math.round(m)} min`;
 
 
-/* Tablero de despacho: el día como lo ve un despachador — una fila por servicio,
-   en orden, con quién maneja y en qué. Varios servicios el mismo día. */
+/* El día de la camioneta: un riel de servicios en orden, con el hueco entre uno y
+   otro, el vuelo de cada pasajero y lo que deja cada carrera. */
 const FLEET = "Suburban 2026";
+const flightOf = n => { const m = /Vuelo\s+([A-Z]{2}\d{2,4})/i.exec(n||""); return m ? m[1].toUpperCase() : null; };
+const termOf = n => { const m = /Terminal\s+([A-Z0-9]+)(?:,?\s*puerta\s+([A-Z0-9]+))?/i.exec(n||"");
+  return m ? "T" + m[1] + (m[2] ? " · " + m[2] : "") : null; };
+
+function svcCard(x, state){
+  const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
+  const pay = done ? +r.payout||0 : sched ? +r.pay||0 : 0;
+  const e = done ? tripEcon(r) : sched ? schedEcon(r) : null;
+  const hrs = (x.b - x.a)/60, perH = e && hrs ? e.profit/hrs : null;
+  const who = done ? (PLAT[r.platform]?.n || r.platform) : sched ? (r.account || SRC[r.source]?.n || "—") : "Blacklane";
+  const tag = done ? `<span class="pill ok">Hecho</span>`
+    : sched ? `<span class="pill ${r.status==="confirmed"?"go":"warn"}">${SCHED_TXT[r.status]||r.status}</span>`
+    : `<span class="pill go">Aceptado</span>`;
+  const fl = flightOf(r.notes), tm = termOf(r.notes);
+  const sel = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
+  const meta = [ r.driver || `<span class="miss">Sin chofer</span>`, FLEET, r.pax ? r.pax + " pax" : null ].filter(Boolean);
+  return `<article class="svc ${done?"is-done":sched?"is-sched":"is-ride"} ${state}" ${sel}>
+    <div class="srail">
+      <b class="num">${hhmm(x.a)}</b><span class="dot"></span><i class="line"></i><small class="num">${hhmm(x.b)}</small>
+    </div>
+    <div class="sbody">
+      <div class="shead">
+        <span class="acct">${esc(who)}</span>
+        ${r.passenger ? `<span class="pax">${esc(r.passenger)}</span>` : ""}
+        ${tag}
+        ${r.confirmation ? `<span class="conf mono">#${esc(r.confirmation)}</span>` : ""}
+      </div>
+      <div class="sroute"><span class="cut">${esc(r.pickup || "—")}</span><em>→</em><span class="cut">${esc(r.dropoff || "—")}</span></div>
+      <div class="smeta">
+        ${fl ? `<span class="fl">${icon("plane",13)||""}${fl}${tm ? " · " + tm : ""}</span>` : ""}
+        ${meta.map(v => `<span>${v}</span>`).join("")}
+        <span>${durm(x.b - x.a)} ocupado</span>
+      </div>
+    </div>
+    <div class="smoney">
+      <b class="num">${money(pay)}</b>
+      ${e ? `<span class="num ${e.profit<0?"neg":""}">${money(e.profit)} ${done?"de ganancia":"proyectado"}</span>` : ""}
+      ${perH != null ? `<small class="num">${money0(perH)}/h</small>` : ""}
+    </div>
+  </article>`;
+}
+
 function dispatchTable(k, items){
   const rows = items.filter(x => x.kind !== "block").sort((a,b) => a.a - b.a);
   const blocks = items.filter(x => x.kind === "block");
   const sinChofer = rows.filter(x => !(x.raw.driver || "").trim()).length;
   const porCobrar = rows.filter(x => x.kind === "sched").reduce((s,x) => s + (+x.raw.pay||0), 0);
   const cobrado = rows.filter(x => x.kind === "trip").reduce((s,x) => s + (+x.raw.payout||0), 0);
-  const cell = (x) => {
-    const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
-    const pay = done ? +r.payout||0 : sched ? +r.pay||0 : null;
-    const prof = done ? tripEcon(r).profit : sched ? schedEcon(r).profit : null;
-    const who = done ? (PLAT[r.platform]?.n || r.platform) : sched ? (r.account || SRC[r.source]?.n || "—") : "Blacklane";
-    const estado = done ? `<span class="pill ok">Hecho</span>`
-      : sched ? `<span class="pill ${r.status==="confirmed"?"go":"warn"}">${SCHED_TXT[r.status]||r.status}</span>`
-      : `<span class="pill go">Aceptado</span>`;
-    const edit = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
-    return `<tr class="drow" ${edit}>
-      <td class="num t1">${hhmm(x.a)}</td>
-      <td class="num dim">${hhmm(x.b)}</td>
-      <td class="cut">${esc(r.pickup || "—")}</td>
-      <td class="cut">${esc(r.dropoff || "—")}</td>
-      <td>${r.driver ? esc(r.driver) : `<span class="miss">Sin asignar</span>`}</td>
-      <td class="dim">${FLEET}</td>
-      <td class="cut">${esc(who)}${r.passenger ? `<small class="dim" style="display:block">${esc(r.passenger)}</small>` : ""}<div style="margin-top:5px">${estado}</div></td>
-      <td class="num">${r.pax || "—"}</td>
-      <td class="num" style="text-align:right">${pay != null ? money(pay) : "—"}</td>
-      <td class="num" style="text-align:right;font-weight:600">${prof != null ? money(prof) : "—"}</td></tr>`;
-  };
+  const busy = rows.reduce((s,x) => s + (x.b - x.a), 0);
+  const nowM = k === dayKey(Date.now()) ? minutesET(Date.now()) : null;
+
+  const out = []; let prev = null;
+  rows.forEach(x => {
+    if(prev){
+      const d = x.a - prev.b;
+      if(d < 0) out.push(`<div class="joint clash">${icon("alert",14)||""}<b>Se montan ${durm(-d)}</b><span>el anterior termina ${hhmm(prev.b)} y este arranca ${hhmm(x.a)}</span></div>`);
+      else if(d >= 20) out.push(`<div class="joint"><b>${durm(d)} libre</b><span>${hhmm(prev.b)} → ${hhmm(x.a)}${prev.end ? ` · queda en ${esc(prev.end.split(",")[0])}` : ""}</span></div>`);
+      else out.push(`<div class="joint tight"><b>${durm(d)} entre uno y otro</b><span>sin margen para imprevistos</span></div>`);
+    }
+    const state = nowM == null ? "" : (x.b < nowM ? "past" : x.a <= nowM ? "live" : "next");
+    out.push(svcCard(x, state));
+    prev = { b: x.b, end: x.raw.dropoff };
+  });
+
+  const pos = m => `${(Math.max(0,Math.min(1440,m))/1440*100).toFixed(2)}%`;
   return `
   <div class="dchips">
     <div class="dchip"><b>${rows.length}</b><span>servicio${rows.length===1?"":"s"}</span></div>
+    <div class="dchip"><b>${durm(busy)}</b><span>ocupado</span></div>
     <div class="dchip ${sinChofer?"warn":""}"><b>${sinChofer}</b><span>sin chofer</span></div>
     <div class="dchip"><b>${money0(cobrado)}</b><span>cobrado</span></div>
     <div class="dchip"><b>${money0(porCobrar)}</b><span>por cobrar</span></div>
-    ${blocks.length ? `<div class="dchip"><b>${blocks.length}</b><span>bloqueo${blocks.length===1?"":"s"} de bus</span></div>` : ""}
   </div>
-  <div class="box" style="margin-bottom:16px">
-    ${rows.length ? `<div class="tablewrap"><table class="dtbl"><thead><tr>
-      <th>Recogida</th><th>Termina</th><th>Desde</th><th>Hasta</th><th>Chofer</th><th>Vehículo</th>
-      <th>Cliente</th><th style="text-align:right">Pax</th><th style="text-align:right">Pago</th>
-      <th style="text-align:right">Ganancia</th></tr></thead>
-      <tbody>${rows.map(cell).join("")}</tbody></table></div>`
-      : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}
-  </div>
-  ${blocks.length ? `<div class="box" style="margin-bottom:16px"><header><h3>Bloqueado</h3><span class="sub">Marco no está disponible</span></header>
+  ${rows.length ? `<div class="daybar">${rows.map(x =>
+      `<i class="${x.kind==="trip"?"done":x.kind==="sched"?"sched":"ride"}" style="left:${pos(x.a)};width:${((Math.min(1440,x.b)-Math.max(0,x.a))/1440*100).toFixed(2)}%"></i>`).join("")}
+    ${blocks.map(b2 => `<i class="bus" style="left:${pos(b2.a)};width:${((Math.min(1440,b2.b)-Math.max(0,b2.a))/1440*100).toFixed(2)}%"></i>`).join("")}
+    ${nowM != null ? `<u style="left:${pos(nowM)}"></u>` : ""}
+    <s>6</s><s>12</s><s>18</s></div>` : ""}
+  <div class="svclist">${out.length ? out.join("") : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}</div>
+  ${blocks.length ? `<div class="box" style="margin:16px 0"><header><h3>Bloqueado</h3><span class="sub">Marco no está disponible</span></header>
     <div class="pad"><div class="stack" style="gap:8px">${blocks.map(b2 =>
       `<div class="blockrow"><span class="num">${hhmm(b2.a)} – ${hhmm(b2.b)}</span><span>${esc(b2.raw.label || "Bloqueo")}</span></div>`).join("")}</div></div></div>` : ""}`;
 }
@@ -2867,6 +2989,64 @@ document.addEventListener("keydown", e => {
 });
 
 /* ---------- Informe del CFO: verdict, month P&L, break-even, obligations, what is owed, alerts with an action ---------- */
+
+/* ---------- proyección del mes: revenue, lo de Marco y ROI ---------- */
+function monthProjection(){
+  const mk = monthKey(), mStart = Math.max(dayStartMs(mk + "-01"), startMs());
+  const [Y,Mo] = mk.split("-").map(Number), dim = new Date(Date.UTC(Y,Mo,0)).getUTCDate();
+  const mEnd = dayStartMs(`${Y}-${String(Mo).padStart(2,"0")}-${dim}`) + 864e5;
+  const m = agg(live().filter(t => Date.parse(t.started_at) >= mStart));
+  const pend = S.sched.filter(j => j.status !== "cancelled" && !j.trip_id
+    && Date.parse(j.starts_at) >= Date.now() && Date.parse(j.starts_at) < mEnd);
+  const pe = pend.map(schedEcon);
+  const sum = (arr,k) => arr.reduce((t,x) => t + (x[k]||0), 0);
+  const R = { n:m.n, rev:m.rev, driver:m.driver, tips:m.tips, varc:m.gas + m.maint + m.extra, profit:m.profit };
+  const C = { n:pend.length, rev:sum(pe,"rev"), driver:sum(pe,"driver"), tips:0,
+              varc:sum(pe,"gas")+sum(pe,"maint")+sum(pe,"extra"), profit:sum(pe,"profit") };
+  const T = { n:R.n+C.n, rev:R.rev+C.rev, driver:R.driver+C.driver, tips:R.tips,
+              varc:R.varc+C.varc, profit:R.profit+C.profit };
+  const fx = fixedActive().total;
+  const other = S.exp.filter(x => Date.parse(x.spent_at) >= mStart && !MAINT_CATS.includes(x.category) && x.category !== "tolls")
+    .reduce((t,x) => t + +x.amount, 0);
+  const spentOp = T.driver + T.varc, spentAll = spentOp + fx + other;
+  return { mk, R, C, T, fx, other, pend,
+    result: T.profit - fx - other,
+    roiOp: spentOp > 0 ? T.profit / spentOp : null,
+    roiAll: spentAll > 0 ? (T.profit - fx - other) / spentAll : null,
+    marco: T.driver + R.tips };
+}
+function projBox(){
+  const P = monthProjection();
+  const col = (v, cls="") => `<td class="num r ${cls}">${money(v)}</td>`;
+  const row = (lab, sub, r, c, t, cls="") => `<tr class="${cls}">
+    <td><b>${lab}</b>${sub ? `<small class="dim" style="display:block">${sub}</small>` : ""}</td>
+    ${col(r)}${col(c,"proj")}${col(t,"tot")}</tr>`;
+  const pct = v => v == null ? "—" : (v*100).toFixed(0) + "%";
+  return `
+  <div class="box projbox">
+    <header><h3>Revenue estimado · ${monthName(P.mk)}</h3><span class="sub">${P.R.n} hecho${P.R.n===1?"":"s"} + ${P.C.n} confirmado${P.C.n===1?"":"s"}</span></header>
+    <div class="tablewrap"><table class="ptbl">
+      <thead><tr><th></th><th class="r">Cobrado</th><th class="r proj">Confirmado</th><th class="r tot">Estimado</th></tr></thead>
+      <tbody>
+        ${row("Revenue","lo que pagan las apps y las cuentas",P.R.rev,P.C.rev,P.T.rev,"lead")}
+        ${row("Marco","25% del pago" + (P.R.tips ? ` + ${money(P.R.tips)} en propinas` : ""),P.R.driver,P.C.driver,P.T.driver+P.R.tips,"marco")}
+        ${row("Costos de rodar","gasolina, mantenimiento y peajes",-P.R.varc,-P.C.varc,-P.T.varc)}
+        ${row("Ganancia de los viajes","antes de los costos fijos",P.R.profit,P.C.profit,P.T.profit,"strong")}
+      </tbody>
+      <tfoot>
+        <tr><td><b>Costos fijos del mes</b><small class="dim" style="display:block">se pagan haya o no viajes</small></td><td class="num r dim">—</td><td class="num r dim">—</td><td class="num r tot">${money(-P.fx - P.other)}</td></tr>
+        <tr class="res"><td><b>Resultado estimado</b></td><td class="num r dim">—</td><td class="num r dim">—</td><td class="num r tot ${P.result<0?"neg":"pos"}">${money(P.result)}</td></tr>
+      </tfoot>
+    </table></div>
+    <div class="roirow">
+      <div class="roi"><span>Income de Marco</span><b>${money(P.marco)}</b><small>25% de ${money(P.T.rev)}${P.R.tips?` + ${money(P.R.tips)} en propinas`:""}</small></div>
+      <div class="roi"><span>ROI operativo</span><b class="${P.roiOp!=null&&P.roiOp<0?"neg":"pos"}">${pct(P.roiOp)}</b><small>ganancia de los viajes ÷ lo que cuesta hacerlos (Marco + rodar)</small></div>
+      <div class="roi"><span>ROI del negocio</span><b class="${P.roiAll!=null&&P.roiAll<0?"neg":"pos"}">${pct(P.roiAll)}</b><small>resultado ÷ todo lo gastado, fijos incluidos</small></div>
+    </div>
+    ${P.C.n ? `<div class="note" style="margin:0 18px 16px">${icon("info")}<div>La columna <b style="color:var(--text)">Confirmado</b> son ${P.C.n} servicio${P.C.n===1?"":"s"} ya aceptado${P.C.n===1?"":"s"} que todavía no se han hecho. No entran al ingreso real hasta que los marques como hechos.</div></div>` : ""}
+  </div>`;
+}
+
 function renderCfo(){
   const now = Date.now(), today = dayKey(now), mk = monthKey(), fa = fixedActive(), fx = fa.total, oc = opCost();
   const mStart = Math.max(dayStartMs(mk + "-01"), startMs()), [Y, Mo] = mk.split("-").map(Number), dim = new Date(Date.UTC(Y, Mo, 0)).getUTCDate();
@@ -2918,6 +3098,7 @@ function renderCfo(){
     <div class="tile"><div class="k">Por pagar a Marco</div><div class="v">${money0(owed.pay + owed.tips)}</div><div class="s">${money(owed.pay)} de su ${pctf(A().driverPct)} + ${money(owed.tips)} en propinas, desde el día 1</div></div>
   </div>
   <div class="g2">
+    ${projBox()}
     <div class="box"><header><h3>Estado de resultados · ${monthName(mk)}</h3><span class="sub">${m.n} viaje${m.n===1?"":"s"} · día ${daysOp} de operación en el mes</span></header>
       <div class="tablewrap"><table class="pl"><thead><tr><th>Concepto</th><th style="text-align:right">Monto</th><th style="text-align:right">% del ingreso</th></tr></thead><tbody>
         ${pl("Ingreso de las apps", m.rev, "strong")}
