@@ -1272,6 +1272,26 @@ tr.lgr.plan td{background:color-mix(in srgb,var(--s-plan) 5%,transparent)}
 tr.lgr.plan:hover td{background:color-mix(in srgb,var(--s-plan) 11%,transparent)}
 .pill.plan{background:color-mix(in srgb,var(--s-plan) 17%,transparent);color:var(--s-plan)}
 @media (max-width:760px){ .scols{grid-template-columns:1fr} .stot b{font-size:32px} }
+
+/* ===== v8: Afiliados ===== */
+table.afft{width:100%;border-collapse:collapse;font-size:13px}
+table.afft th{text-align:left;padding:8px 18px;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+table.afft th.n,table.afft td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.afft td{padding:10px 18px;border-bottom:1px solid var(--line);vertical-align:top}
+table.afft tr:last-child td{border-bottom:0}
+tr.affr{cursor:pointer}
+tr.affr:hover td{background:var(--panel3)}
+table.afft td b{display:block;font-weight:600}
+table.afft td small{display:block;font-size:11px;color:var(--muted)}
+table.afft td.dim{color:var(--muted)}
+table.afft td.nx{color:var(--muted);max-width:280px}
+table.afft td.due{color:var(--s-due);font-weight:600}
+.warnbox{border-color:color-mix(in srgb,var(--s-due) 45%,var(--line))}
+@media (max-width:760px){
+  table.afft th:nth-child(3),table.afft td:nth-child(3),
+  table.afft th:nth-child(4),table.afft td:nth-child(4){display:none}
+  table.afft td.nx{max-width:160px}
+}
 </style>
 </head>
 <body>
@@ -1328,6 +1348,7 @@ tr.lgr.plan:hover td{background:color-mix(in srgb,var(--s-plan) 11%,transparent)
       <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
       <div class="navgroup">Empresa</div>
       <button data-view="docs"><span data-icon="folder"></span>Documentos</button>
+      <button data-view="aff"><span data-icon="inbox"></span>Afiliados<span class="cnt" id="affCnt"></span></button>
       <div class="navgroup">Bot Blacklane</div>
       <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
       <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
@@ -1638,8 +1659,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Finanzas", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
-const RENDER = () => ({home:renderHome, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Finanzas", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", aff:"Afiliados", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, aff:renderAff, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -2175,6 +2196,10 @@ document.addEventListener("click", e => {
   if(tc) { openTrip(tc.dataset.trip); return; }
   const la = e.target.closest('[data-act="logall"]');
   if(la){ S.logAll = !S.logAll; render(); return; }
+  const an = e.target.closest('[data-act="affnew"]');  if(an){ openAff("new"); return; }
+  const as2 = e.target.closest('[data-act="affsave"]'); if(as2){ saveAff(as2.dataset.i === "new" ? "new" : +as2.dataset.i); return; }
+  const ad = e.target.closest('[data-act="affdel"]');  if(ad){ delAff(+ad.dataset.i); return; }
+  const ar = e.target.closest("tr.affr");              if(ar){ openAff(+ar.dataset.aff); return; }
   const sb2 = e.target.closest("[data-st]");
   if(sb2){ stateDrill(sb2.dataset.st); return; }
   const fb = e.target.closest("[data-fin]");
@@ -3244,6 +3269,101 @@ function expTag(d){
   if(!d) return ""; const n = Math.round((dayStartMs(d) - dayStartMs(dayKey(Date.now()))) / 864e5);
   return `<em class="tag ${n < 0 ? "bad" : n <= 30 ? "warn" : ""}">${n < 0 ? `venció hace ${-n} d` : n === 0 ? "vence hoy" : `vence en ${n} d`}</em>`;
 }
+
+/* ======================= Afiliados: plataformas y cuentas ======================= */
+const AFF_ST = {
+  activa:   { t:"Trabajando",     c:"var(--s-paid)" },
+  enviada:  { t:"Solicitud enviada", c:"var(--s-plan)" },
+  espera:   { t:"Lista de espera",   c:"var(--s-due)" },
+  silencio: { t:"Sin respuesta",     c:"var(--s-due)" },
+  porver:   { t:"Por evaluar",       c:"var(--muted)" },
+  no:       { t:"Descartada",        c:"var(--muted)" },
+};
+const affiliates = () => (S.cfg?.affiliates || []);
+function affDays(d){ if(!d) return null; return Math.floor((Date.now() - dayStartMs(d)) / 864e5); }
+
+function renderAff(){
+  const list = affiliates().slice().sort((a,b) => {
+    const o = k => ["activa","enviada","espera","silencio","porver","no"].indexOf(k);
+    return o(a.status) - o(b.status) || (a.name||"").localeCompare(b.name||"");
+  });
+  const act = list.filter(a => a.status === "activa");
+  const open = list.filter(a => ["enviada","espera","silencio"].includes(a.status));
+  const due = open.filter(a => a.next_on && dayStartMs(a.next_on) <= Date.now());
+  /* lo que cada plataforma activa ha generado, de los viajes reales */
+  const earned = {}; live().forEach(t => { const p = payerOf(t); earned[p] = (earned[p]||0) + (+t.payout||0); });
+
+  $("#view").innerHTML = `
+  ${head("", "Dónde estamos con cada plataforma y cliente: qué está activo, qué se pidió y qué toca hacer.", "")}
+  <div class="tiles t4">
+    <div class="tile"><div class="k">Trabajando</div><div class="v">${act.length}</div><div class="s">${act.map(a=>esc(a.name)).join(" · ")||"—"}</div></div>
+    <div class="tile"><div class="k">En trámite</div><div class="v">${open.length}</div><div class="s">solicitudes enviadas o esperando respuesta</div></div>
+    <div class="tile"><div class="k">Toca hacer algo</div><div class="v ${due.length?"neg":""}">${due.length}</div><div class="s">${due.length?due.map(a=>esc(a.name)).join(" · "):"nada vencido hoy"}</div></div>
+    <div class="tile"><div class="k">Generado</div><div class="v">${money0(Object.values(earned).reduce((s,v)=>s+v,0))}</div><div class="s">por las que ya producen</div></div>
+  </div>
+
+  ${due.length ? `<div class="box warnbox"><header><h3>Seguimiento vencido</h3></header><div class="pad">
+    ${due.map(a=>`<p class="hint pad0"><b>${esc(a.name)}</b> — ${esc(a.next_step||"dar seguimiento")} ${a.next_on?`<em>(tocaba el ${fmtDay(a.next_on)})</em>`:""}</p>`).join("")}
+  </div></div>` : ""}
+
+  <div class="box"><header><h3>Plataformas y cuentas</h3>
+    <button class="btn btn-sm btn-primary" data-act="affnew">${icon("plus",14)} Agregar</button></header>
+    <table class="afft"><thead><tr><th>Plataforma</th><th>Estado</th><th>Solicitada</th>
+      <th>Generado</th><th>Siguiente paso</th><th class="n">Toca</th></tr></thead>
+    <tbody>${list.map((a,i) => { const s = AFF_ST[a.status] || AFF_ST.porver, d = affDays(a.applied_on);
+      const vencido = a.next_on && dayStartMs(a.next_on) <= Date.now();
+      return `<tr data-aff="${i}" class="affr">
+        <td><b>${esc(a.name)}</b>${a.kind?`<small>${esc(a.kind)}</small>`:""}</td>
+        <td><span class="pill" style="background:color-mix(in srgb,${s.c} 16%,transparent);color:${s.c}">${esc(s.t)}</span></td>
+        <td class="dim">${a.applied_on?`${fmtDay(a.applied_on)}${d>0?` · hace ${d} día${d===1?"":"s"}`:""}`:"—"}</td>
+        <td class="n">${earned[a.name]?money(earned[a.name]):"—"}</td>
+        <td class="nx">${esc(a.next_step||"—")}</td>
+        <td class="n ${vencido?"due":"dim"}">${a.next_on?fmtDay(a.next_on):"—"}</td>
+      </tr>`; }).join("") || `<tr><td colspan="6" class="dim" style="padding:14px 18px">Sin plataformas cargadas.</td></tr>`}</tbody></table>
+  </div>`;
+}
+
+function openAff(i){
+  const list = affiliates(), a = (i === "new" ? {status:"porver"} : list[i]) || {};
+  drawerShell(i === "new" ? "Agregar plataforma" : (a.name || "Plataforma"),
+    i === "new" ? "Afiliados" : (AFF_ST[a.status]||AFF_ST.porver).t, `
+    <form class="form" id="affForm" novalidate>
+      ${fin("afName","Nombre",a.name,{type:"text",ph:"ej. ROLZO",mono:false,req:true})}
+      ${fin("afKind","Qué es",a.kind,{type:"text",ph:"red de chofer · cliente directo · app",mono:false})}
+      <div class="field"><label for="afStatus">Estado</label><select class="input" id="afStatus">
+        ${Object.entries(AFF_ST).map(([k,v])=>`<option value="${k}" ${a.status===k?"selected":""}>${v.t}</option>`).join("")}</select></div>
+      <div class="row">${fin("afApplied","Solicitada el",a.applied_on,{type:"date"})}${fin("afNextOn","Siguiente seguimiento",a.next_on,{type:"date",hint:"Si pasa la fecha, sale como vencido"})}</div>
+      ${fin("afNext","Siguiente paso",a.next_step,{type:"text",ph:"ej. Esperar la llamada de verificación",mono:false})}
+      ${fin("afContact","Contacto",a.contact,{type:"text",ph:"correo, teléfono o portal",mono:false})}
+      ${fin("afNotes","Notas",a.notes,{type:"text",mono:false})}
+      <div class="err" id="afErr"></div>
+    </form>`,
+    `${i==="new" ? "<span></span>" : `<button class="btn btn-ghost" data-act="affdel" data-i="${i}">${icon("trash",15)} Borrar</button>`}
+     <div style="display:flex;gap:10px"><button class="btn" data-close>Cancelar</button>
+     <button class="btn btn-primary" data-act="affsave" data-i="${i}">${icon("save",15)} Guardar</button></div>`);
+}
+async function saveAff(i){
+  const v = id => ($("#"+id)?.value || "").trim();
+  const row = { name:v("afName"), kind:v("afKind"), status:v("afStatus")||"porver",
+    applied_on:v("afApplied")||null, next_on:v("afNextOn")||null,
+    next_step:v("afNext"), contact:v("afContact"), notes:v("afNotes") };
+  if(!row.name){ $("#afErr").textContent = "Ponle nombre a la plataforma."; return; }
+  const list = affiliates().slice();
+  if(i === "new") list.push(row); else list[i] = { ...list[i], ...row };
+  await saveAffList(list);
+}
+async function delAff(i){
+  const list = affiliates().slice(); list.splice(i,1); await saveAffList(list);
+}
+async function saveAffList(list){
+  const cur = await S.sb.from("bl_config").select("config").eq("id",1).single();
+  if(cur.error){ toast("No se pudo leer la configuración", true); return; }
+  const cfg = { ...cur.data.config, affiliates:list };
+  const up = await S.sb.from("bl_config").update({ config:cfg, updated_at:new Date().toISOString() }).eq("id",1);
+  if(up.error){ toast("No se pudo guardar: " + up.error.message, true); return; }
+  closeModal(); await loadAll(); render(); toast("Guardado");
+}
+
 function renderDocs(){
   const tab = S.dtab || "doc", docs = S.files.filter(f => f.area === "doc"), inbox = S.files.filter(f => f.area === "inbox").sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at));
   const cat = S.dcat || "all", shown = docs.filter(f => cat === "all" || f.category === cat).sort((a, b) => (a.title || "").localeCompare(b.title || ""));
