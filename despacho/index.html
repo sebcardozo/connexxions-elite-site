@@ -1243,6 +1243,35 @@ td.pz{width:1%}
   table.lgt td.pz,table.lgt th:last-child{display:none}
   .artop{grid-template-columns:1fr}
 }
+
+/* ===== v7: los tres estados del dinero ===== */
+:root{ --s-paid:#1f8a4c; --s-due:#c9811f; --s-plan:#2a78d6 }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --s-paid:#3fb876; --s-due:#e0a33f; --s-plan:#5b9ce8 } }
+:root[data-theme="dark"]{ --s-paid:#3fb876; --s-due:#e0a33f; --s-plan:#5b9ce8 }
+.sbtop{padding:16px 18px 14px;border-bottom:1px solid var(--line)}
+.stot span{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stot b{display:block;font-size:40px;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.05;margin:2px 0 3px}
+.stot small{display:block;font-size:11.5px;color:var(--muted)}
+.sbar{display:flex;height:13px;border-radius:7px;overflow:hidden;margin-top:13px;gap:2px;background:var(--line)}
+.sbar i{display:block;min-width:4px}
+.sbar i.agendado{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.34) 0 4px,transparent 4px 8px)}
+.scols{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+button.scol{appearance:none;border:0;background:var(--panel);text-align:left;padding:13px 16px;cursor:pointer;transition:background .1s}
+button.scol:hover{background:var(--panel3)}
+button.scol:focus-visible{outline:2px solid var(--brandc);outline-offset:-2px}
+.scol i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:7px;vertical-align:1px}
+.scol span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.scol b{display:block;font-size:23px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:4px 0 2px}
+.scol em{display:block;font-style:normal;font-size:11px;color:var(--muted);line-height:1.35}
+.hk em.plan{font-style:normal;color:var(--s-plan)}
+/* bitácora: lo agendado */
+.lg2.planned{border-bottom:1px solid var(--line)}
+.ldh.plan b{color:var(--s-plan)}
+tr.lgr.plan td{background:color-mix(in srgb,var(--s-plan) 5%,transparent)}
+tr.lgr.plan:hover td{background:color-mix(in srgb,var(--s-plan) 11%,transparent)}
+.pill.plan{background:color-mix(in srgb,var(--s-plan) 17%,transparent);color:var(--s-plan)}
+@media (max-width:760px){ .scols{grid-template-columns:1fr} .stot b{font-size:32px} }
 </style>
 </head>
 <body>
@@ -2146,6 +2175,8 @@ document.addEventListener("click", e => {
   if(tc) { openTrip(tc.dataset.trip); return; }
   const la = e.target.closest('[data-act="logall"]');
   if(la){ S.logAll = !S.logAll; render(); return; }
+  const sb2 = e.target.closest("[data-st]");
+  if(sb2){ stateDrill(sb2.dataset.st); return; }
   const fb = e.target.closest("[data-fin]");
   if(fb){ finDrill(fb.dataset.fin); return; }
   const br = e.target.closest("button.drow, button.prow");
@@ -2844,7 +2875,7 @@ function moneyFlow(trips){
 function flowBox(){
   const f = moneyFlow(), fx = fixedActive(), res = f.kept - fx.total;
   const seg = [...f.rows, { k:"Queda del viaje", v:Math.max(0,f.kept), c:"var(--c-profit)" }];
-  return `<div class="box flowbox"><header><h3>A dónde va cada dólar</h3><span class="sub">${f.n} servicio${f.n===1?"":"s"} desde el día 1</span></header>
+  return `<div class="box flowbox"><header><h3>A dónde va cada dólar</h3><span class="sub">sobre los ${f.n} servicio${f.n===1?"":"s"} que ya se hicieron · lo agendado no entra aquí</span></header>
     <div class="flowtop">
       <div class="fgross"><span>Ingreso bruto generado</span><b>${money(f.rev)}</b><small>el total completo, antes de repartir nada</small></div>
       <div class="fbar">${seg.filter(s=>s.v>0).map(s=>`<i style="flex:${s.v};background:${s.c}" title="${esc(s.k)} ${money(s.v)}"></i>`).join("")}</div>
@@ -2892,6 +2923,23 @@ function logbook(){
   const lim = S.logAll ? days.length : Math.min(days.length, 8);
   return `<div class="box"><header><h3>Todos los servicios</h3>
       <span class="sub">${ts.length} servicio${ts.length===1?"":"s"} en ${days.length} día${days.length===1?"":"s"} de operación</span></header>
+    ${(() => { const js = incomeStates().futuros.slice().sort((a,b)=>Date.parse(a.starts_at)-Date.parse(b.starts_at));
+      if(!js.length) return "";
+      const byd = {}; js.forEach(j => { const k = dayKey(j.starts_at); (byd[k]=byd[k]||[]).push(j); });
+      return `<div class="lg2 planned">${Object.entries(byd).map(([k,ds]) => `
+        <div class="lday"><div class="ldh plan"><b>${fmtDate(k+"T12:00:00Z")} · agendado</b>
+          <span>${ds.length} servicio${ds.length===1?"":"s"} · ${money(ds.reduce((s,j)=>s+(+j.pay||0),0))} por delante</span></div>
+        <table class="lgt"><tbody>${ds.map((j,i) => { const e = schedEcon(j); return `
+          <tr data-sched="${j.id}" class="lgr plan">
+            <td class="idx">${i+1}</td><td class="hr">${hhmm(minutesET(j.starts_at))}</td>
+            <td>${esc(j.account||j.source||"—")}</td>
+            <td class="rt">${esc(short(j.pickup))} <i>→</i> ${esc(short(j.dropoff))}</td>
+            <td class="n">${num1((+j.est_miles||0)+(+j.est_deadhead_miles||0))}</td>
+            <td class="n">${j.pay==null?"—":money(j.pay)}</td>
+            <td class="n dim">—</td>
+            <td class="n">${money(e.profit)}<small>proyectado</small></td>
+            <td class="pz"><span class="pill plan">sin hacer</span></td>
+          </tr>`; }).join("")}</tbody></table></div>`).join("")}</div>`; })()}
     <div class="lg2">${days.slice(0,lim).map(k => {
       const ds = seen[k].slice().sort((a,b) => Date.parse(a.started_at) - Date.parse(b.started_at));
       const da = agg(ds);
@@ -2915,6 +2963,77 @@ function logbook(){
   </div>`;
 }
 
+
+/* ---------- Los tres estados de la plata: cobrada, ganada sin cobrar, y agendada ---------- */
+function incomeStates(){
+  const ts = live();
+  let cobrado = 0, porCobrar = 0;
+  ts.forEach(t => { (paidInfo(t).paid ? (cobrado += +t.payout||0) : (porCobrar += +t.payout||0)); });
+  const futuros = S.sched.filter(j => j.status !== "cancelled" && !j.trip_id);
+  const agendado = futuros.reduce((s,j) => s + (+j.pay||0), 0);
+  const hoyK = dayKey(Date.now());
+  const deHoy = futuros.filter(j => dayKey(j.starts_at) === hoyK);
+  return { cobrado, porCobrar, agendado, hecho: cobrado + porCobrar,
+           total: cobrado + porCobrar + agendado, futuros, deHoy,
+           agendadoHoy: deHoy.reduce((s,j) => s + (+j.pay||0), 0) };
+}
+function stateBar(){
+  const s = incomeStates(), T = s.total || 1;
+  const parts = [
+    { k:"cobrado",   t:"Ya cobrado",      v:s.cobrado,   c:"var(--s-paid)",  d:"el dinero ya entró" },
+    { k:"porcobrar", t:"Hecho, por cobrar", v:s.porCobrar, c:"var(--s-due)",  d:"el servicio se hizo, falta que paguen" },
+    { k:"agendado",  t:"Agendado",        v:s.agendado,  c:"var(--s-plan)",  d:`${s.futuros.length} servicio${s.futuros.length===1?"":"s"} confirmado${s.futuros.length===1?"":"s"} sin hacer` },
+  ];
+  return `<div class="box statebox"><header><h3>El dinero, por estado</h3>
+      <span class="sub">${s.agendadoHoy ? `${money(s.agendadoHoy)} de hoy todavía sin hacer` : "nada agendado para hoy"}</span></header>
+    <div class="sbtop">
+      <div class="stot"><span>Ingreso total con lo agendado</span><b>${money(s.total)}</b>
+        <small>${money(s.hecho)} de servicios hechos + ${money(s.agendado)} confirmados por delante</small></div>
+      <div class="sbar">${parts.filter(p=>p.v>0).map(p=>
+        `<i class="${p.k}" style="flex:${p.v};background:${p.c}" title="${esc(p.t)} ${money(p.v)}"></i>`).join("")}</div>
+    </div>
+    <div class="scols">${parts.map(p=>`
+      <button class="scol" data-st="${p.k}">
+        <i style="background:${p.c}"></i>
+        <span>${esc(p.t)}</span>
+        <b>${money(p.v)}</b>
+        <em>${pctf(p.v/T)} del total · ${esc(p.d)}</em>
+      </button>`).join("")}</div>
+  </div>`;
+}
+/* detalle de cada estado */
+function stateDrill(k){
+  if(k === "agendado"){
+    const s = incomeStates(), js = s.futuros.slice().sort((a,b)=>Date.parse(a.starts_at)-Date.parse(b.starts_at));
+    return drawerShell("Agendado, sin hacer", `${js.length} servicio${js.length===1?"":"s"} confirmado${js.length===1?"":"s"}`, `
+      <div class="dsum"><div><span>Por delante</span><b>${money(s.agendado)}</b></div>
+        <div><span>De hoy</span><b>${money(s.agendadoHoy)}</b></div></div>
+      <p class="hint">Esta plata todavía no es ingreso: no entra a la ganancia ni a lo que se le debe a Marco hasta que marques el servicio como hecho.</p>
+      <div class="drows">${js.map(j => { const e = schedEcon(j); return `
+        <button class="drow" data-sched="${j.id}"><div class="dl"><b>${esc(j.passenger||j.account||"—")}</b>
+          <span>${fmtDate(j.starts_at)} · ${hhmm(minutesET(j.starts_at))} · ${esc(short(j.pickup))} → ${esc(short(j.dropoff))}</span></div>
+        <div class="dr"><b>${money(j.pay)}</b><span>${money(e.profit)} proy.</span></div></button>`; }).join("")}</div>`,
+      `<button class="btn" data-close>Cerrar</button><button class="btn btn-ghost" data-view="itin">Ver el itinerario</button>`);
+  }
+  const quiero = k === "cobrado";
+  const ts = live().filter(t => paidInfo(t).paid === quiero)
+    .sort((a,b)=>Date.parse(b.started_at)-Date.parse(a.started_at));
+  const tot = ts.reduce((s,t)=>s+(+t.payout||0),0);
+  const by = {}; ts.forEach(t=>{ const p=payerOf(t); by[p]=(by[p]||0)+(+t.payout||0); });
+  return drawerShell(quiero ? "Ya cobrado" : "Hecho, por cobrar",
+    `${ts.length} servicio${ts.length===1?"":"s"}`, `
+    <div class="dsum">${Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([p,v])=>
+      `<div><span>${esc(p)}</span><b>${money(v)}</b></div>`).join("")}
+      <div><span>Total</span><b>${money(tot)}</b></div></div>
+    ${quiero ? `<p class="hint">La fecha guardada es la del viaje, no la del depósito.</p>`
+             : `<p class="hint">Estos servicios ya se hicieron y cuentan como ingreso y como ganancia. Lo único que falta es que el cliente pague.</p>`}
+    <div class="drows">${ts.map(t => { const e = tripEcon(t); return `
+      <button class="drow" data-trip="${t.id}"><div class="dl"><b>${esc(payerOf(t))} · ${esc(svcLabel(t))}</b>
+        <span>${fmtDate(t.started_at)} · ${esc(short(t.pickup))} → ${esc(short(t.dropoff))}</span></div>
+      <div class="dr"><b>${money(t.payout)}</b><span>${money(e.profit)} de ganancia</span></div></button>`; }).join("")}</div>`,
+    `<button class="btn" data-close>Cerrar</button>`);
+}
+
 function renderHome(){
   if(!S.trips.length){ $("#view").innerHTML = `${head("", "El centro de operaciones de la camioneta.", "")}${onboarding()}`; return; }
   const trips = filteredTrips(), a = agg(trips), B = buckets();
@@ -2926,6 +3045,7 @@ function renderHome(){
     series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
     tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}<div class="r dim" style="margin-top:4px">Toca para ver el detalle</div>` });
 
+  const inc = incomeStates();
   const _f = moneyFlow(), _fx = fixedActive(), resAll = _f.kept - _fx.total;
   const debeTot = live().reduce((n,t) => n + (paidInfo(t).paid ? 0 : (+t.payout||0)), 0);
   const _fg = S.fuel.reduce((n,f)=>n+(+f.gallons||0),0), fuelAvg = _fg ? S.fuel.reduce((n,f)=>n+(+f.total_cost||0),0)/_fg : 0;
@@ -2941,15 +3061,15 @@ function renderHome(){
     <div class="htop"><div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
       <button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button></div>
     <div class="hk">
-      <div><span>Ingreso bruto</span><b>${money0(all.rev)}</b><small>${all.n} servicio${all.n===1?"":"s"} desde el día 1</small></div>
+      <div><span>Ingreso total</span><b>${money0(inc.total)}</b><small>${money0(inc.hecho)} hecho + <em class="plan">${money0(inc.agendado)} agendado</em></small></div>
       <div><span>Queda del viaje</span><b>${money0(all.profit)}</b><small>${pctf(all.margin)} de lo generado</small></div>
       <div><span>Resultado</span><b class="${resAll<0?"neg":"pos"}">${money0(resAll)}</b><small>después de ${money0(fx)} de fijos</small></div>
       <div><span>Te deben</span><b>${money0(debeTot)}</b><small>de ${money0(all.rev)} generados</small></div>
     </div>
   </section>
 
+  ${stateBar()}
   ${flowBox()}
-  ${arBox()}
 
   <div class="box"><header><h3>Ingreso y ganancia por día</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
     <div class="pad"><div class="chart" data-chart="revprofit"></div></div></div>
