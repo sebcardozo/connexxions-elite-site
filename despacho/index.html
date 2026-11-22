@@ -1292,6 +1292,70 @@ table.afft td.due{color:var(--s-due);font-weight:600}
   table.afft th:nth-child(4),table.afft td:nth-child(4){display:none}
   table.afft td.nx{max-width:160px}
 }
+
+/* ================= v9: pase de diseño correctivo =================
+   Tres defectos que venían de parchar CSS encima de CSS:
+   1. tabular-nums le da a la coma el ancho de un dígito -> "$2 , 339"
+   2. diez tonos saturados distintos repartidos en cinco bloques
+   3. el encabezado repetía lo que ya decía el bloque de estados     */
+
+/* --- 1. cifras: tabular SOLO donde hay que alinear columnas --- */
+.hk b, .stot b, .scol b, .fgross b, .dsum b, .artop b, .big, .tile .v,
+.drow .dr b, .prow .pm b, table.flow tr.tot td, .ldh span, .dsh span{
+  font-variant-numeric:proportional-nums lining-nums;
+  font-feature-settings:"tnum" 0}
+.hk b, .stot b, .fgross b, .tile .v{letter-spacing:-.032em}
+.scol b, .dsum b, .artop b{letter-spacing:-.022em}
+
+/* --- 2. una sola familia de color, desaturada --- */
+:root{
+  --c-profit:#2f6a4f; --c-rev:#3d5473; --c-neg:#a83a3a;
+  --c-driver:#7d6750; --c-gas:#3d5473; --c-maint:#655d72; --c-toll:#855a67;
+  --s-paid:#2f6a4f;   --s-due:#8c6422;  --s-plan:#3d5473;
+  --warnc:#8c6422}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --c-profit:#5fae87; --c-rev:#8fa8c9; --c-neg:#e07a7a;
+  --c-driver:#c3a383; --c-gas:#8fa8c9; --c-maint:#a79cbb; --c-toll:#c895a4;
+  --s-paid:#5fae87;   --s-due:#d4a24f;  --s-plan:#8fa8c9;
+  --warnc:#d4a24f} }
+:root[data-theme="dark"]{
+  --c-profit:#5fae87; --c-rev:#8fa8c9; --c-neg:#e07a7a;
+  --c-driver:#c3a383; --c-gas:#8fa8c9; --c-maint:#a79cbb; --c-toll:#c895a4;
+  --s-paid:#5fae87;   --s-due:#d4a24f;  --s-plan:#8fa8c9;
+  --warnc:#d4a24f}
+
+/* --- 3. encabezado: tres cifras, no cuatro, y sin repetir el bloque de abajo --- */
+.hk.hk2{grid-template-columns:repeat(3,1fr)}
+@media (max-width:860px){ .hk.hk2{grid-template-columns:1fr} }
+
+/* --- la cascada: el porcentaje junto al concepto, no al otro extremo --- */
+table.flow{table-layout:auto}
+table.flow td{padding:7px 18px}
+table.flow td:first-child{gap:10px}
+table.flow td.n:nth-child(2){width:1%;padding-left:0;padding-right:22px;
+  font-variant-numeric:tabular-nums;opacity:.75}
+table.flow td:first-child{width:auto}
+table.flow td.n:last-child{width:1%;font-size:13.5px}
+table.flow tr.tot td{font-size:15px;padding-top:11px;padding-bottom:11px}
+table.flow td i{width:7px;height:7px;border-radius:2px}
+/* el total y "queda del viaje" sin fondo gris: que resalte el número, no la banda */
+table.flow tr.sum td,table.flow tr.tot td{background:transparent}
+table.flow tr.sum td{border-top:1px solid var(--line2)}
+table.flow tr.tot td{border-top:2px solid var(--text);font-weight:700}
+
+/* --- los tres estados: menos circo, más registro --- */
+.sbar{height:8px;border-radius:4px;gap:1px}
+.sbar i.agendado{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.22) 0 3px,transparent 3px 7px)}
+.scol i{width:7px;height:7px;border-radius:2px}
+.scol b{font-size:21px}
+.stot b{font-size:36px}
+.fgross b{font-size:34px}
+
+/* --- tablas: menos aire muerto --- */
+table.lgt td{padding:7px 10px}
+table.ar td,table.afft td{padding:8px 18px}
+.ldh{padding:8px 18px}
+.pill{font-size:9.5px;padding:2px 6px;letter-spacing:.05em}
 </style>
 </head>
 <body>
@@ -3085,11 +3149,10 @@ function renderHome(){
   <section class="opshero">
     <div class="htop"><div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
       <button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button></div>
-    <div class="hk">
-      <div><span>Ingreso total</span><b>${money0(inc.total)}</b><small>${money0(inc.hecho)} hecho + <em class="plan">${money0(inc.agendado)} agendado</em></small></div>
-      <div><span>Queda del viaje</span><b>${money0(all.profit)}</b><small>${pctf(all.margin)} de lo generado</small></div>
-      <div><span>Resultado</span><b class="${resAll<0?"neg":"pos"}">${money0(resAll)}</b><small>después de ${money0(fx)} de fijos</small></div>
-      <div><span>Te deben</span><b>${money0(debeTot)}</b><small>de ${money0(all.rev)} generados</small></div>
+    <div class="hk hk2">
+      <div><span>Queda del viaje</span><b>${money0(all.profit)}</b><small>${pctf(all.margin)} de lo que generaste</small></div>
+      <div><span>Resultado del mes</span><b class="${resAll<0?"neg":"pos"}">${money0(resAll)}</b><small>después de ${money0(fx)} de costos fijos</small></div>
+      <div><span>Costo por milla</span><b>$${oc.total.toFixed(3)}</b><small>gasolina, peajes y mantenimiento</small></div>
     </div>
   </section>
 
