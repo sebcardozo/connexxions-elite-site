@@ -2830,7 +2830,8 @@ function payerOf(t){
 /* ---------- La cascada: de cada dólar generado, a dónde va ---------- */
 function moneyFlow(trips){
   const ts = (trips || live()), a = agg(ts);
-  const tolls = ts.reduce((s,t) => s + (+t.tolls||0) + (+t.parking||0), 0);
+  /* mismo peaje que usa el resto del panel: el propio del viaje más la parte prorrateada de E-PASS */
+  const tolls = ts.reduce((s,t) => s + (tripEcon(t).extra||0), 0);
   const rows = [
     { k:"Marco (su 25%)",   v:a.driver, c:"var(--c-driver)" },
     { k:"Gasolina",         v:a.gas,    c:"var(--c-gas)" },
