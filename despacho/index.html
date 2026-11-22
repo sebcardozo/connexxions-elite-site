@@ -1180,6 +1180,69 @@ button.prow:focus-visible{outline:2px solid var(--brandc);outline-offset:-2px}
   .prow .pfl{display:none}
   .dsum b{font-size:17px}
 }
+
+/* ===== v6: Centro de operaciones — cascada, cobros y bitácora ===== */
+:root{ --c-driver:#b2762e; --c-gas:#2a78d6; --c-maint:#7b6cc4; --c-toll:#c04f8a }
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --c-driver:#d79b4e; --c-gas:#5b9ce8; --c-maint:#9d8fe0; --c-toll:#e07ab0 } }
+:root[data-theme="dark"]{ --c-driver:#d79b4e; --c-gas:#5b9ce8; --c-maint:#9d8fe0; --c-toll:#e07ab0 }
+/* cascada */
+.flowtop{padding:16px 18px 14px;border-bottom:1px solid var(--line)}
+.fgross span{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.fgross b{display:block;font-size:40px;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.05;margin:2px 0 3px}
+.fgross small{display:block;font-size:11.5px;color:var(--muted)}
+.fbar{display:flex;height:11px;border-radius:6px;overflow:hidden;margin-top:13px;gap:2px;background:var(--line)}
+.fbar i{display:block;min-width:3px}
+table.flow{width:100%;border-collapse:collapse;font-size:13.5px}
+table.flow td{padding:9px 18px;border-bottom:1px solid var(--line)}
+table.flow td:first-child{display:flex;align-items:center;gap:9px}
+table.flow td i{width:9px;height:9px;border-radius:3px;flex:none}
+table.flow td small{color:var(--muted);font-size:11px}
+table.flow td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;width:1%}
+table.flow td.n:nth-child(2){color:var(--muted);font-size:12px;padding-right:0}
+table.flow tr.sum td{font-weight:600;background:var(--panel2)}
+table.flow tr.tot td{font-weight:700;font-size:16px;border-bottom:0;background:var(--panel2)}
+/* cobrado / por cobrar */
+.artop{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.artop > div{background:var(--panel2);padding:13px 18px}
+.artop span{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.artop b{font-size:25px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.artop .due b{color:var(--warnc,#c9811f)}
+table.ar{width:100%;border-collapse:collapse;font-size:13px}
+table.ar th{text-align:left;padding:8px 18px;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+table.ar th.n,table.ar td.n{text-align:right;font-variant-numeric:tabular-nums}
+table.ar td{padding:9px 18px;border-bottom:1px solid var(--line)}
+table.ar tr:last-child td{border-bottom:0}
+table.ar td.due{color:var(--warnc,#c9811f);font-weight:600}
+/* bitácora */
+.lg2{display:flex;flex-direction:column}
+.lday+.lday{border-top:1px solid var(--line)}
+.ldh{display:flex;align-items:baseline;gap:10px;justify-content:space-between;padding:10px 18px;background:var(--panel2);flex-wrap:wrap}
+.ldh b{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase}
+.ldh span{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+table.lgt{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:auto}
+table.lgt th{text-align:left;padding:6px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+table.lgt th:first-child,table.lgt td:first-child{padding-left:18px}
+table.lgt th:last-child,table.lgt td:last-child{padding-right:18px}
+table.lgt th.n,table.lgt td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+table.lgt td{padding:8px 10px;border-top:1px solid var(--line)}
+tr.lgr{cursor:pointer}
+tr.lgr:hover td{background:var(--panel3)}
+td.idx{color:var(--muted);font-variant-numeric:tabular-nums;width:1%}
+td.hr{font-family:var(--mono);font-size:12px;white-space:nowrap;width:1%}
+td.rt{color:var(--muted);max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.rt i{font-style:normal;opacity:.5;padding:0 2px}
+table.lgt td.n small{display:block;font-size:10px;color:var(--muted)}
+td.pz{width:1%}
+.pill{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:color-mix(in srgb,var(--c-profit) 15%,transparent);color:var(--c-profit)}
+.pill.due{background:color-mix(in srgb,#c9811f 17%,transparent);color:var(--warnc,#c9811f)}
+@media (max-width:760px){
+  .fgross b{font-size:32px}
+  table.lgt td.rt,table.lgt th:nth-child(4),table.lgt td:nth-child(5),table.lgt th:nth-child(5){display:none}
+  table.lgt td.pz,table.lgt th:last-child{display:none}
+  .artop{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -2081,6 +2144,8 @@ document.addEventListener("click", e => {
   if(card && !e.target.closest("[data-act]")) { openSched(card.dataset.sched); return; }
   const tc = e.target.closest(".icard[data-trip]");
   if(tc) { openTrip(tc.dataset.trip); return; }
+  const la = e.target.closest('[data-act="logall"]');
+  if(la){ S.logAll = !S.logAll; render(); return; }
   const fb = e.target.closest("[data-fin]");
   if(fb){ finDrill(fb.dataset.fin); return; }
   const br = e.target.closest("button.drow, button.prow");
@@ -2742,6 +2807,113 @@ function payState(){
 const meter = (frac, cls = "") => `<div class="meter ${cls}"><div style="width:${Math.max(0, Math.min(100, frac * 100))}%"></div></div>`;
 
 /* ---------- Resumen v7: few big numbers, the day, three status cards, links to the detail pages ---------- */
+
+/* ====== v6: Centro de operaciones — a dónde va el dinero, qué falta cobrar, y la bitácora completa ====== */
+
+/* ¿Este viaje ya se cobró? Usa paid_at si la columna existe; si no, lo deduce de la plataforma. */
+const AUTO_PAY = ["uber","lyft","blacklane"];   // estas pagan solas
+function paidInfo(t){
+  if("paid_at" in t) return { paid: !!t.paid_at, at: t.paid_at, sure: true };
+  return { paid: AUTO_PAY.includes(t.platform), at: null, sure: false };
+}
+/* Quién nos paga este viaje. */
+function payerOf(t){
+  const x = t.external_id || "";
+  if(/^limoflow/i.test(x)) return "LimoFlow Drivers";
+  if(t.platform === "blacklane") return "Blacklane";
+  if(t.platform === "uber") return "Uber Black";
+  if(t.platform === "lyft") return "Lyft";
+  if(/^28977/.test(x)) return "Connexxions Bus";
+  return t.platform === "direct" ? "Directo" : (t.platform || "Otro");
+}
+
+/* ---------- La cascada: de cada dólar generado, a dónde va ---------- */
+function moneyFlow(trips){
+  const ts = (trips || live()), a = agg(ts);
+  const tolls = ts.reduce((s,t) => s + (+t.tolls||0) + (+t.parking||0), 0);
+  const rows = [
+    { k:"Marco (su 25%)",   v:a.driver, c:"var(--c-driver)" },
+    { k:"Gasolina",         v:a.gas,    c:"var(--c-gas)" },
+    { k:"Mantenimiento",    v:a.maint,  c:"var(--c-maint)" },
+    { k:"Peajes y parqueo", v:tolls,    c:"var(--c-toll)" },
+  ];
+  const kept = a.rev - rows.reduce((s,r)=>s+r.v,0);
+  return { rev:a.rev, n:a.n, rows, kept, tips:a.tips, pct: v => a.rev ? v/a.rev : 0 };
+}
+function flowBox(){
+  const f = moneyFlow(), fx = fixedActive(), res = f.kept - fx.total;
+  const seg = [...f.rows, { k:"Queda del viaje", v:Math.max(0,f.kept), c:"var(--c-profit)" }];
+  return `<div class="box flowbox"><header><h3>A dónde va cada dólar</h3><span class="sub">${f.n} servicio${f.n===1?"":"s"} desde el día 1</span></header>
+    <div class="flowtop">
+      <div class="fgross"><span>Ingreso bruto generado</span><b>${money(f.rev)}</b><small>el total completo, antes de repartir nada</small></div>
+      <div class="fbar">${seg.filter(s=>s.v>0).map(s=>`<i style="flex:${s.v};background:${s.c}" title="${esc(s.k)} ${money(s.v)}"></i>`).join("")}</div>
+    </div>
+    <table class="flow"><tbody>
+      ${f.rows.map(r=>`<tr><td><i style="background:${r.c}"></i>${esc(r.k)}</td>
+        <td class="n">${pctf(f.pct(r.v))}</td><td class="n neg">−${money(r.v).slice(1)}</td></tr>`).join("")}
+      <tr class="sum"><td><i style="background:var(--c-profit)"></i>Queda del viaje</td>
+        <td class="n">${pctf(f.pct(f.kept))}</td><td class="n pos">${money(f.kept)}</td></tr>
+      <tr><td><i style="background:var(--line2)"></i>Costos fijos${fx.items.length?` <small>(${fx.items.length} partidas)</small>`:""}</td>
+        <td class="n">${pctf(f.pct(fx.total))}</td><td class="n neg">−${money(fx.total).slice(1)}</td></tr>
+      <tr class="tot"><td>Resultado</td><td class="n"></td>
+        <td class="n ${res<0?"neg":"pos"}">${money(res)}</td></tr>
+    </tbody></table>
+    ${f.tips>0?`<p class="hint">Aparte, ${money(f.tips)} de propinas que van completas para Marco y no entran en el bruto.</p>`:""}
+    ${res<0?`<p class="hint">Para llegar a cero hacen falta <b>${money(-res / Math.max(0.01, f.pct(f.kept)))}</b> más de ingreso bruto al ritmo actual de ${pctf(f.pct(f.kept))}.</p>`:""}
+  </div>`;
+}
+
+/* ---------- Cobrado y por cobrar ---------- */
+function arBox(){
+  const ts = live(), by = {};
+  ts.forEach(t => { const p = payerOf(t), i = paidInfo(t);
+    (by[p] = by[p] || { n:0, cobrado:0, debe:0, sure:i.sure })[i.paid ? "cobrado" : "debe"] += (+t.payout||0);
+    by[p].n++; if(!i.sure) by[p].sure = false; });
+  const list = Object.entries(by).sort((a,b) => b[1].debe - a[1].debe);
+  const cob = list.reduce((s,[,v])=>s+v.cobrado,0), debe = list.reduce((s,[,v])=>s+v.debe,0);
+  const inferido = list.some(([,v])=>!v.sure);
+  return `<div class="box"><header><h3>Cobrado y por cobrar</h3><span class="sub">${money(cob+debe)} generado en total</span></header>
+    <div class="artop"><div class="ok"><span>Ya entró</span><b>${money(cob)}</b></div>
+      <div class="${debe>0?"due":""}"><span>Te deben</span><b>${money(debe)}</b></div></div>
+    <table class="ar"><thead><tr><th>Quién paga</th><th class="n">Servicios</th><th class="n">Cobrado</th><th class="n">Te debe</th></tr></thead>
+      <tbody>${list.map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v.n}</td>
+        <td class="n">${v.cobrado?money(v.cobrado):"—"}</td>
+        <td class="n ${v.debe?"due":""}">${v.debe?money(v.debe):"—"}</td></tr>`).join("")}</tbody></table>
+    ${inferido?`<p class="hint">Uber, Lyft y Blacklane se cuentan como cobrados porque pagan solos; el resto como pendiente. Para marcar pago por pago faltan dos columnas en la base — hay que entrar a Supabase.</p>`:""}
+  </div>`;
+}
+
+/* ---------- Bitácora: todos los servicios, día por día ---------- */
+function logbook(){
+  const ts = live().slice().sort((a,b) => Date.parse(b.started_at) - Date.parse(a.started_at));
+  const days = []; const seen = {};
+  ts.forEach(t => { const k = dayKey(t.started_at); if(!seen[k]){ seen[k] = []; days.push(k); } seen[k].push(t); });
+  const lim = S.logAll ? days.length : Math.min(days.length, 8);
+  return `<div class="box"><header><h3>Todos los servicios</h3>
+      <span class="sub">${ts.length} servicio${ts.length===1?"":"s"} en ${days.length} día${days.length===1?"":"s"} de operación</span></header>
+    <div class="lg2">${days.slice(0,lim).map(k => {
+      const ds = seen[k].slice().sort((a,b) => Date.parse(a.started_at) - Date.parse(b.started_at));
+      const da = agg(ds);
+      return `<div class="lday"><div class="ldh"><b>${fmtDate(k + "T12:00:00Z")}</b>
+        <span>${ds.length} servicio${ds.length===1?"":"s"} · ${money(da.rev)} · ${money(da.profit)} de ganancia</span></div>
+      <table class="lgt"><thead><tr><th>#</th><th>Hora</th><th>Quién paga</th><th>Ruta</th>
+        <th class="n">Millas</th><th class="n">Pago</th><th class="n">Costos</th><th class="n">Ganancia</th><th></th></tr></thead>
+      <tbody>${ds.map((t,i) => { const e = tripEcon(t), cost = e.driver + e.gas + e.maint + (e.extra||0), pi = paidInfo(t);
+        return `<tr data-trip="${t.id}" class="lgr">
+          <td class="idx">${i+1}</td>
+          <td class="hr">${hhmm(minutesET(t.started_at))}</td>
+          <td>${esc(payerOf(t))}</td>
+          <td class="rt">${esc(short(t.pickup))} <i>→</i> ${esc(short(t.dropoff))}</td>
+          <td class="n">${num1((+t.miles||0)+(+t.deadhead_miles||0))}</td>
+          <td class="n">${money(t.payout)}${+t.tip?`<small>+${money(t.tip)} prop.</small>`:""}</td>
+          <td class="n dim">−${money(cost).slice(1)}</td>
+          <td class="n ${e.profit<0?"neg":"pos"}">${money(e.profit)}</td>
+          <td class="pz">${pi.paid?`<span class="pill ok">cobrado</span>`:`<span class="pill due">por cobrar</span>`}</td>
+        </tr>`; }).join("")}</tbody></table></div>`; }).join("")}</div>
+    ${days.length > 8 ? `<div class="pad"><button class="btn btn-sm" data-act="logall">${S.logAll?"Ver solo los últimos 8 días":`Ver los ${days.length} días`}</button></div>` : ""}
+  </div>`;
+}
+
 function renderHome(){
   if(!S.trips.length){ $("#view").innerHTML = `${head("", "El centro de operaciones de la camioneta.", "")}${onboarding()}`; return; }
   const trips = filteredTrips(), a = agg(trips), B = buckets();
@@ -2753,6 +2925,9 @@ function renderHome(){
     series: [{ name:"Ingreso", color:"var(--c-rev)", values: series.map(g => g.rev) }, { name:"Ganancia", color:"var(--c-profit)", values: series.map(g => g.profit) }],
     tip: i => `<b>${B.label(B.keys[i])}</b>${tipRow("#2a78d6","Ingreso",money(series[i].rev))}${tipRow("#008300","Ganancia",money(series[i].profit))}${tipRow("","Viajes",series[i].n)}<div class="r dim" style="margin-top:4px">Toca para ver el detalle</div>` });
 
+  const _f = moneyFlow(), _fx = fixedActive(), resAll = _f.kept - _fx.total;
+  const debeTot = live().reduce((n,t) => n + (paidInfo(t).paid ? 0 : (+t.payout||0)), 0);
+  const _fg = S.fuel.reduce((n,f)=>n+(+f.gallons||0),0), fuelAvg = _fg ? S.fuel.reduce((n,f)=>n+(+f.total_cost||0),0)/_fg : 0;
   const P = payState();
   const wk = weekOf(new Date().toISOString()), wt = live().filter(t => weekOf(t.started_at) === wk), wh = engMin(wt) / 60, cap = capH();
   const mStart = Math.max(dayStartMs(monthKey() + "-01"), startMs()), mo = agg(S.trips.filter(t => Date.parse(t.started_at) >= mStart)), fx = A().fixed;
@@ -2765,25 +2940,20 @@ function renderHome(){
     <div class="htop"><div><div class="kicker">Día ${opDay()} de operación · ${new Date().toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</div><h1>Centro de operaciones</h1></div>
       <button class="btn btn-primary" data-act="tripnew">${icon("plus",16)} Registrar viaje</button></div>
     <div class="hk">
-      <div><span>Ganancia neta</span><b>${money0(a.profit)}</b><small>${pctf(a.margin)} de margen</small></div>
-      <div><span>Ingreso</span><b>${money0(a.rev)}</b><small>${a.n} viaje${a.n===1?"":"s"}</small></div>
-      <div><span>Ganancia por hora</span><b>${a.perHour == null ? "—" : money0(a.perHour)}</b><small>meta ${money0(needH)}/h</small></div>
-      <div><span>Costo por milla</span><b>$${oc.total.toFixed(2)}</b><small>gasolina, peajes y mantenimiento</small></div>
+      <div><span>Ingreso bruto</span><b>${money0(all.rev)}</b><small>${all.n} servicio${all.n===1?"":"s"} desde el día 1</small></div>
+      <div><span>Queda del viaje</span><b>${money0(all.profit)}</b><small>${pctf(all.margin)} de lo generado</small></div>
+      <div><span>Resultado</span><b class="${resAll<0?"neg":"pos"}">${money0(resAll)}</b><small>después de ${money0(fx)} de fijos</small></div>
+      <div><span>Te deben</span><b>${money0(debeTot)}</b><small>de ${money0(all.rev)} generados</small></div>
     </div>
   </section>
-  ${filterBar("")}
 
-  <div class="g-day">
-    <div class="box"><header><h3>Ingreso y ganancia ${B.weekly ? "por semana" : "por día"}</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
-      <div class="pad"><div class="chart" data-chart="revprofit"></div><p class="hint">Toca una barra para ver ese ${B.weekly ? "período" : "día"} a la derecha.</p></div></div>
-    <div class="box daybox"><header><h3>${B.weekly ? B.label(S.sel) : new Date(dayStartMs(S.sel) + 12*3600e3).toLocaleDateString("es-US",{weekday:"long",day:"numeric",month:"long",timeZone:TZ})}</h3><span class="sub">${sa.n} viaje${sa.n===1?"":"s"}</span></header>
-      <div class="pad">
-        <div class="mini">
-          <div><span>Ingreso</span><b>${money(sa.rev)}</b></div><div><span>Ganancia</span><b class="${sa.profit < 0 ? "neg" : "pos"}">${money(sa.profit)}</b></div><div><span>Ocupado</span><b>${durTxt(engMin(st))}</b></div>
-        </div>
-        <div class="tickets">${st.length ? st.map(ticket).join("") : `<div class="empty">Sin viajes.</div>`}</div>
-      </div></div>
-  </div>
+  ${flowBox()}
+  ${arBox()}
+
+  <div class="box"><header><h3>Ingreso y ganancia por día</h3><div class="lg"><span><i style="background:var(--c-rev)"></i>Ingreso</span><span><i style="background:var(--c-profit)"></i>Ganancia</span></div></header>
+    <div class="pad"><div class="chart" data-chart="revprofit"></div></div></div>
+
+  ${logbook()}
 
   <div class="g3">
     <div class="box stat"><header><h3>Pago de la camioneta</h3><span class="sub">${fmtDay(P.cyc.dueKey)} · en ${P.cyc.daysLeft} día${P.cyc.daysLeft===1?"":"s"}</span></header><div class="pad">
@@ -2791,17 +2961,18 @@ function renderHome(){
       <p class="hint">Hay que dejar <b>${P.cover >= 1 ? "$0" : money0(P.need)}/día</b>. Ritmo actual: <b class="${P.ok ? "pos" : "neg"}">${money0(P.pace)}/día</b>.</p></div></div>
     <div class="box stat"><header><h3>Semana de Marco</h3><button class="btn btn-sm" data-view="plan">Metas ${icon("arrow",14)}</button></header><div class="pad">
       <div class="big">${durTxt(wh * 60)}<span> de ${cap} h</span></div>${meter(wh / cap, wh > cap ? "over" : "")}
-      <p class="hint">${wh > cap ? `<b class="neg">Pasó el tope por ${durTxt((wh - cap) * 60)}.</b> Conviene bajar el ritmo.` : `Le quedan <b>${durTxt((cap - wh) * 60)}</b> ocupadas esta semana.`} ${wt.length} viaje${wt.length===1?"":"s"}.</p></div></div>
-    <div class="box stat"><header><h3>Costos fijos del mes</h3><span class="sub">${money0(fx)}</span></header><div class="pad">
-      <div class="big">${pctf(fx ? Math.max(0, mo.profit) / fx : null)}<span> cubierto</span></div>${meter(fx ? mo.profit / fx : 0)}
-      <p class="hint">${mo.profit >= fx ? `Fijos cubiertos. Quedan <b class="pos">${money0(mo.profit - fx)}</b> libres.` : `Faltan <b>${money0(fx - mo.profit)}</b> de ganancia para cubrirlos.`}</p></div></div>
+      <p class="hint">${wh > cap ? `<b class="neg">Pasó el tope por ${durTxt((wh - cap) * 60)}.</b>` : `Le quedan <b>${durTxt((cap - wh) * 60)}</b> ocupadas esta semana.`} ${wt.length} viaje${wt.length===1?"":"s"}.</p></div></div>
+    <div class="box stat"><header><h3>Costo por milla</h3><span class="sub">todo incluido</span></header><div class="pad">
+      <div class="big">$${oc.total.toFixed(3)}<span> /milla</span></div>
+      <p class="hint">Gasolina ${money(oc.gas)} ${oc.gasReal?"<b>real</b>":"estimada"} · peajes ${money(oc.toll)} · mantenimiento ${money(oc.maint)} estimado.
+      Cada milla vacía cuesta lo mismo que una con pasajero.</p></div></div>
   </div>
 
   <div class="hub">
     <button data-view="cfo">${icon("trend",20)}<div><b>Finanzas</b><span>Resultado del mes, proyección, reservas por cobrar</span></div>${icon("arrow",16)}</button>
+    <button data-view="itin">${icon("cal",20)}<div><b>Itinerario</b><span>El día servicio por servicio</span></div>${icon("arrow",16)}</button>
+    <button data-view="fuel">${icon("fuel",20)}<div><b>Recibos</b><span>${S.fuel.length} de gasolina · promedio ${money(fuelAvg)}/galón</span></div>${icon("arrow",16)}</button>
     <button data-view="geo">${icon("pin",20)}<div><b>Rutas y horas</b><span>${routes[0] ? `${esc(routes[0].k)} · ${routes[0].n} viaje${routes[0].n===1?"":"s"}` : "Sin rutas todavía"}</span></div>${icon("arrow",16)}</button>
-    <button data-view="costs">${icon("fuel",20)}<div><b>Gasolina y peajes</b><span>${oc.gasReal ? "Gasolina real" : "Gasolina estimada"} · ${oc.tollReal ? "peajes reales" : "sin cargos de E-PASS"}</span></div>${icon("arrow",16)}</button>
-    <button data-view="plan">${icon("target",20)}<div><b>Metas</b><span>${all.perHour == null ? "—" : `${money0(all.perHour)}/h actual · ${money0(needH)}/h necesario`}</span></div>${icon("arrow",16)}</button>
     <button data-view="docs">${icon("folder",20)}<div><b>Documentos</b><span>${docs.length} guardado${docs.length===1?"":"s"}${soon ? ` · ${soon} por vencer` : ""}${inboxNew ? ` · ${inboxNew} en bandeja` : ""}</span></div>${icon("arrow",16)}</button>
   </div>`;
 }
