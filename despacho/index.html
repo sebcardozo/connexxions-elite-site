@@ -2880,7 +2880,7 @@ function arBox(){
       <tbody>${list.map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v.n}</td>
         <td class="n">${v.cobrado?money(v.cobrado):"—"}</td>
         <td class="n ${v.debe?"due":""}">${v.debe?money(v.debe):"—"}</td></tr>`).join("")}</tbody></table>
-    ${inferido?`<p class="hint">Uber, Lyft y Blacklane se cuentan como cobrados porque pagan solos; el resto como pendiente. Para marcar pago por pago faltan dos columnas en la base — hay que entrar a Supabase.</p>`:""}
+    ${inferido?`<p class="hint">Uber, Lyft y Blacklane se cuentan como cobrados porque pagan solos; el resto como pendiente. Para marcar pago por pago faltan dos columnas en la base.</p>`:`<p class="hint">En los cobrados, la fecha guardada es la <b>del viaje</b>, no la del depósito: Uber y Blacklane pagan por ciclo y el día real en que entró la plata no está registrado. Lo que sí es firme es que entró. Las fechas exactas salen del estado de cuenta del banco.</p>`}
   </div>`;
 }
 
