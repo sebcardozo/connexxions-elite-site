@@ -1356,6 +1356,55 @@ table.lgt td{padding:7px 10px}
 table.ar td,table.afft td{padding:8px 18px}
 .ldh{padding:8px 18px}
 .pill{font-size:9.5px;padding:2px 6px;letter-spacing:.05em}
+
+/* ===== v9 · secciones tipo centro de trabajo ===================================
+   Cada sección es un hub: franja de indicadores con su línea de contexto, y
+   tarjetas que dicen qué hace cada herramienta y cuánto hay esperando. */
+.hubhead{text-align:center;padding:26px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.hubhead h1{font-family:var(--serif);font-size:40px;font-weight:400;letter-spacing:4px;text-transform:uppercase;margin:0;line-height:1}
+.hubhead .meta{color:var(--dim);font-size:13px;margin-top:10px}
+.hubhead .meta b{color:var(--text);font-weight:600}
+.hubkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden;margin-bottom:22px;box-shadow:var(--shadow)}
+.hubkpis > div{padding:16px 18px;border-left:1px solid var(--line)}
+.hubkpis > div:first-child{border-left:0}
+.hubkpis .k{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px}
+.hubkpis .v{font-size:30px;font-weight:500;letter-spacing:-.8px;margin-top:7px;line-height:1;font-variant-numeric:lining-nums proportional-nums;font-feature-settings:"tnum" 0}
+.hubkpis .s{font-size:11.5px;color:var(--dim);margin-top:5px;line-height:1.35}
+.hubgrp{border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:var(--shadow);padding:20px;margin-bottom:20px}
+.hubgrp > .gh{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+.hubgrp > .gh .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;color:#fff}
+.hubgrp > .gh h2{margin:0;font-size:17px;font-weight:650;letter-spacing:-.2px}
+.hubgrp > .gh p{margin:2px 0 0;font-size:12.5px;color:var(--dim)}
+.hubgrp > .gh .gtag{margin-left:auto;font-size:12.5px;color:var(--dim);border-left:3px solid var(--accent);padding-left:12px;text-align:right;max-width:280px}
+.hubsub{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:600;margin:20px 0 10px}
+.hubcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
+.hubcard{position:relative;display:flex;align-items:flex-start;gap:12px;text-align:left;width:100%;padding:14px 30px 14px 14px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--panel);cursor:pointer;transition:border-color .13s,transform .13s}
+.hubcard:hover{transform:translateY(-1px)}
+.hubcard .ci{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;flex:none;color:#fff}
+.hubcard .ct{display:block;font-size:13.5px;font-weight:650;letter-spacing:-.1px;line-height:1.25}
+.hubcard .cd{display:block;font-size:12px;color:var(--dim);margin-top:4px;line-height:1.4}
+.hubcard .chev{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;line-height:1}
+.hubcard .bdg{display:inline-block;margin-top:8px;font-size:11px;font-weight:650;padding:2px 8px;border-radius:999px;letter-spacing:.2px}
+.bdg.due{background:color-mix(in srgb,var(--s-due) 20%,transparent);color:var(--s-due)}
+.bdg.bad{background:color-mix(in srgb,var(--c-neg) 18%,transparent);color:var(--c-neg)}
+.bdg.ok{background:color-mix(in srgb,var(--s-paid) 20%,transparent);color:var(--s-paid)}
+.bdg.info{background:color-mix(in srgb,var(--s-plan) 20%,transparent);color:var(--s-plan)}
+.hubnext{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--line);border-radius:14px;background:var(--panel);box-shadow:var(--shadow);padding:13px 16px;margin-bottom:20px}
+.hubnext .lab{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.hubnext .big{font-size:17px;font-weight:650;letter-spacing:-.2px}
+.hubnext .rt{font-size:12.5px;color:var(--dim)}
+.hubnext .cd{margin-left:auto;font-size:13px;font-weight:650;color:var(--accent);font-variant-numeric:tabular-nums}
+@media(max-width:720px){
+  .hubhead{padding:18px 0 16px;margin-bottom:16px}
+  .hubhead h1{font-size:27px;letter-spacing:2.5px}
+  .hubkpis{grid-template-columns:repeat(2,1fr)}
+  .hubkpis > div{border-left:1px solid var(--line);border-top:1px solid var(--line)}
+  .hubkpis > div:nth-child(2n+1){border-left:0}
+  .hubkpis > div:nth-child(-n+2){border-top:0}
+  .hubgrp{padding:14px}
+  .hubcards{grid-template-columns:1fr}
+  .hubgrp > .gh .gtag{display:none}
+}
 </style>
 </head>
 <body>
@@ -1398,19 +1447,21 @@ table.ar td,table.afft td{padding:8px 18px}
     <div class="brand"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
     <div class="conn" id="conn"></div>
     <nav class="nav" id="nav">
-      <div class="navgroup">Operación</div>
+      <div class="navgroup">Secciones</div>
       <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
       <button data-view="itin"><span data-icon="calendar"></span>Itinerario</button>
-      <button data-view="cfo"><span data-icon="trend"></span>Finanzas</button>
+      <button data-view="res"><span data-icon="plane"></span>Reservas</button>
+      <button data-view="ops"><span data-icon="sliders"></span>Operación</button>
+      <button data-view="fin"><span data-icon="dollar"></span>Finanzas</button>
+      <div class="navgroup">Páginas</div>
       <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
+      <button data-view="cfo"><span data-icon="trend"></span>Cobros y resultado</button>
       <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
       <button data-view="plan"><span data-icon="target"></span>Metas</button>
-      <div class="navgroup">Finanzas</div>
       <button data-view="costs"><span data-icon="fuel"></span>Gasolina y peajes</button>
       <button data-view="fuel"><span data-icon="receipt"></span>Recibos</button>
       <button data-view="driver"><span data-icon="person"></span>Chofer y propinas</button>
       <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
-      <div class="navgroup">Empresa</div>
       <button data-view="docs"><span data-icon="folder"></span>Documentos</button>
       <button data-view="aff"><span data-icon="inbox"></span>Afiliados<span class="cnt" id="affCnt"></span></button>
       <div class="navgroup">Bot Blacklane</div>
@@ -1441,10 +1492,10 @@ table.ar td,table.afft td{padding:8px 18px}
     <div class="content" id="view"></div>
   </main>
   <nav class="tabbar" id="tabbar" aria-label="Navegación">
-    <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
-    <button data-view="trips"><span data-icon="car"></span>Viajes</button>
+    <button data-view="itin"><span data-icon="calendar"></span>Hoy</button>
+    <button data-view="res"><span data-icon="plane"></span>Reservas</button>
     <button class="add" data-act="tripnew" aria-label="Registrar viaje"><span data-icon="plus"></span></button>
-    <button data-view="driver"><span data-icon="person"></span>Chofer</button>
+    <button data-view="fin"><span data-icon="dollar"></span>Finanzas</button>
     <button data-act="more"><span data-icon="more"></span>Más</button>
   </nav>
 </div>
@@ -1492,6 +1543,11 @@ const placeText = v => !v ? "" : typeof v === "string" ? v : (findKey(v,"address
 
 /* ======================= icons ======================= */
 const ICONS = {
+  receipt:'<path d="M5 2v20l2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1Z"/><path d="M9 7h6M9 11h6M9 15h4"/>',
+  fuel:'<path d="M3 22h11V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2Z"/><path d="M14 9h3a2 2 0 0 1 2 2v6a2 2 0 0 0 2 2"/><path d="M6 7h5"/>',
+  person:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  folder:'<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2Z"/>',
+  target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
   zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>',
   home:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
   sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
@@ -1723,8 +1779,8 @@ function econ(cfg, price, tripMi, deadMi, backMi, durMin){
 }
 
 /* ======================= render: shell ======================= */
-const VIEWS = { home:"Resumen", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Finanzas", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", aff:"Afiliados", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
-const RENDER = () => ({home:renderHome, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, aff:renderAff, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
+const VIEWS = { home:"Resumen", res:"Reservas", ops:"Operación", fin:"Finanzas", itin:"Itinerario", trips:"Viajes", driver:"Chofer y propinas", fuel:"Recibos", perf:"Rendimiento", cfo:"Finanzas", geo:"Rutas y horas", costs:"Gasolina y peajes", plan:"Metas", docs:"Documentos", aff:"Afiliados", overview:"Ofertas de Blacklane", agenda:"Agenda de Marco", filter:"Reglas del bot", routes:"Reglas del bot", locations:"Reglas del bot", settings:"Ajustes", fleet:"Ajustes", notifications:"Ajustes", health:"Ajustes" };
+const RENDER = () => ({home:renderHome, res:renderRes, ops:renderOps, fin:renderFin, itin:renderItin, cfo:renderCfo, geo:renderGeo, costs:renderCosts, plan:renderPlan, docs:renderDocs, aff:renderAff, trips:renderTrips, driver:renderDriver, settings:renderSettings, perf:renderPerf, fuel:renderFuel, overview:renderOverview, filter:renderFilter, routes:renderRoutes, visibility:renderVisibility, locations:renderLocations, fleet:renderFleet, agenda:renderAgenda, notifications:renderNotifications, decisions:renderDecisions, offers:renderOffers, health:renderHealth});
 function renderSide(){
   const [hs, ht] = healthState(), info = S.status?.info || {}, lastOk = S.polls.find(p => p.ok);
   const host = info.host === "supabase-edge" ? "Supabase · 24/7" : S.status ? "Mac de Sebastián" : "—";
@@ -1793,6 +1849,168 @@ function barChart(days, series, W = 1000){ // series: [{color,values[]}], stacke
   days.forEach((d,i) => { let acc = 0; series.forEach(s => { const v = s.values[i]; if(v){ g += `<rect x="${x(i)-bw/2}" y="${y(acc+v)}" width="${bw}" height="${y(acc)-y(acc+v)}" rx="2" fill="${s.color}"><title>${d}: ${v}</title></rect>`; } acc += v; });
     const every = Math.ceil(n/12); if(i % every === 0 || i === n-1) g += `<text x="${x(i)}" y="${H-6}" fill="#69727D" font-size="11" text-anchor="middle">${new Date(d+"T12:00:00Z").toLocaleDateString("es-US",{month:"short",day:"numeric",timeZone:"UTC"})}</text>`; });
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Ofertas por día">${g}</svg>`;
+}
+
+
+/* ===== v9 · Secciones tipo centro de trabajo =================================
+   Tres hubs (Reservas, Operación, Finanzas) con el mismo patrón: franja de
+   indicadores con línea de contexto y tarjetas que dicen qué hace cada
+   herramienta y, sobre todo, CUANTO HAY ESPERANDO. La insignia es lo que
+   convierte el panel de "aquí están los datos" a "aquí está el trabajo". */
+
+const hubHead = (title, extra = "") => {
+  const now = new Date();
+  const f = new Intl.DateTimeFormat("es-US",{timeZone:TZ,weekday:"long",month:"long",day:"numeric"}).format(now);
+  const hora = now.toLocaleTimeString("en-US",{timeZone:TZ,hour:"numeric",minute:"2-digit"});
+  return `<div class="hubhead"><h1>${esc(title)}</h1>
+    <div class="meta">${cap(f)} · Orlando ${hora} · <b>Día ${opDay()}</b> de operación${extra ? " · " + extra : ""}</div></div>`;
+};
+const hubKpi = (k, v, s, tone = "") =>
+  `<div><div class="k">${tone ? `<span class="dot ${tone}"></span>` : ""}${esc(k)}</div><div class="v">${v}</div><div class="s">${s || ""}</div></div>`;
+const hubKpis = cells => `<div class="hubkpis">${cells.join("")}</div>`;
+const hubCard = c => `<button class="hubcard" data-view="${c.view}" style="border-left-color:${c.c}">
+  <span class="ci" style="background:${c.c}">${icon(c.i,18)}</span>
+  <span style="min-width:0"><span class="ct">${esc(c.t)}</span><span class="cd">${esc(c.d)}</span>${c.b ? `<span class="bdg ${c.bt||"info"}">${esc(c.b)}</span>` : ""}</span>
+  <span class="chev">›</span></button>`;
+const hubGroup = (ic, c, title, sub, tag, blocks) => `<div class="hubgrp">
+  <div class="gh"><span class="ic" style="background:${c}">${icon(ic,20)}</span>
+    <div><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>${tag ? `<div class="gtag">${esc(tag)}</div>` : ""}</div>
+  ${blocks.map(([sh, cards]) => `${sh ? `<div class="hubsub">${esc(sh)}</div>` : ""}<div class="hubcards">${cards.map(hubCard).join("")}</div>`).join("")}</div>`;
+
+/* Lo único que Marco necesita ver sin tocar nada: qué sigue y en cuánto. */
+function hubNext(){
+  const now = Date.now();
+  const next = S.sched.filter(j => j.status !== "cancelled" && !j.trip_id && Date.parse(j.starts_at) > now)
+    .sort((a,b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))[0];
+  if(!next) return `<div class="hubnext"><div><div class="lab">Siguiente servicio</div><div class="big" style="color:var(--dim)">Nada agendado</div></div>
+    <div class="cd" style="color:var(--dim)">agenda libre</div></div>`;
+  const mins = Math.round((Date.parse(next.starts_at) - now)/60000), h = Math.floor(mins/60);
+  const falta = mins < 60 ? `en ${mins} min` : `en ${h} h ${mins%60} min`;
+  const ruta = `${esc(zoneOf(next.pickup) || next.pickup || "—")} → ${esc(zoneOf(next.dropoff) || next.dropoff || "—")}`;
+  return `<button class="hubnext" data-sched="${next.id}" style="cursor:pointer;text-align:left">
+    <div><div class="lab">Siguiente servicio</div><div class="big">${fmtHM(next.starts_at)} · ${ruta}</div>
+      <div class="rt">${esc(next.account || SRC[next.source]?.n || "—")}${next.passenger ? " · " + esc(next.passenger) : ""}${next.flight ? " · " + esc(next.flight) : ""} · ${money0(next.pay)}</div></div>
+    <div class="cd">${falta}</div></button>`;
+}
+
+/* --- cifras compartidas por los hubs ------------------------------------- */
+function hubStats(){
+  const inc = incomeStates(), ts = live(), a = agg(ts);
+  const due = ts.filter(t => !paidInfo(t).paid);
+  const byPayer = {};
+  due.forEach(t => { const p = payerOf(t); byPayer[p] = (byPayer[p]||0) + (+t.payout||0); });
+  const topPayer = Object.entries(byPayer).sort((x,y) => y[1]-x[1])[0];
+  const oldest = due.map(t => Math.floor((Date.now() - Date.parse(t.started_at))/864e5)).sort((x,y)=>y-x)[0] ?? null;
+  const fx = fixedActive(), mk = monthKey();
+  const fxPend = fx.items.filter(it => !(it.payments||[]).some(p => String(p.date||"").slice(0,7) === mk));
+  const fxPendAmt = fxPend.reduce((s,it) => s + (+it.amount||0), 0);
+  const hoyK = dayKey(Date.now());
+  const hechoHoy = ts.filter(t => dayKey(t.started_at) === hoyK);
+  const affs = Array.isArray(cfgv().affiliates) ? cfgv().affiliates : [];
+  const affDue = affs.filter(x => x.followup && x.followup <= hoyK && !["working","dropped"].includes(x.status));
+  const sinOdo = S.fuel.filter(f => f.odometer == null).length;
+  return { inc, ts, a, due, byPayer, topPayer, oldest, fx, fxPend, fxPendAmt, hoyK, hechoHoy, affs, affDue, sinOdo };
+}
+
+/* ---------- RESERVAS ---------- */
+function renderRes(){
+  const H = hubStats(), fut = H.inc.futuros;
+  const semana = fut.filter(j => { const d = Date.parse(j.starts_at); return d > Date.now() && d < Date.now() + 7*864e5; });
+  const sinPago = fut.filter(j => j.pay == null || +j.pay === 0);
+  const sinVuelo = fut.filter(j => !j.flight && /airport|mco|sfb/i.test((j.pickup||"") + (j.dropoff||"")));
+  const hechoSinCerrar = S.sched.filter(j => j.status === "confirmed" && !j.trip_id && Date.parse(j.starts_at) < Date.now());
+  $("#view").innerHTML = hubHead("Reservas") + hubNext() + hubKpis([
+    hubKpi("Servicios hoy", H.inc.deHoy.length + H.hechoHoy.length, `${H.hechoHoy.length} hecho${H.hechoHoy.length===1?"":"s"} · ${H.inc.deHoy.length} por hacer`, H.inc.deHoy.length ? "warn" : "ok"),
+    hubKpi("Próximos 7 días", semana.length, `${money0(semana.reduce((s,j)=>s+(+j.pay||0),0))} agendado`),
+    hubKpi("Agendado total", money0(H.inc.agendado), `${fut.length} confirmado${fut.length===1?"":"s"} sin hacer`),
+    hubKpi("Sin cerrar", hechoSinCerrar.length, hechoSinCerrar.length ? "ya pasaron y siguen agendados" : "todo al día", hechoSinCerrar.length ? "bad" : "ok"),
+    hubKpi("Sin pago cargado", sinPago.length, sinPago.length ? "el payout contamina el P&L" : "todos con su monto", sinPago.length ? "warn" : "ok"),
+  ]) + hubGroup("calendar", "var(--s-plan)", "Agenda", "Agendar, despachar y cerrar el día", "Crear, buscar y procesar reservas", [
+    ["El día de hoy", [
+      { view:"itin", i:"calendar", c:"#2f6a4f", t:"Itinerario", d:"El día servicio por servicio, con los huecos y los choques entre uno y otro.",
+        b: hechoSinCerrar.length ? `${hechoSinCerrar.length} por cerrar` : null, bt:"bad" },
+      { view:"trips", i:"car", c:"#3d5473", t:"Todos los servicios", d:"La bitácora completa desde el día 1, con su economía viaje por viaje.", b:`${H.ts.length} cargados` },
+      { view:"geo", i:"pin", c:"#7d6750", t:"Rutas y horas", d:"Qué zonas y qué horas del día dejan más, para saber dónde conviene estar." },
+    ]],
+    ["Lo que falta completar", [
+      { view:"itin", i:"info", c:"#855a67", t:"Datos que faltan", d:"Reservas de aeropuerto sin número de vuelo cargado en su columna.",
+        b: sinVuelo.length ? `${sinVuelo.length} sin vuelo` : null, bt:"due" },
+      { view:"aff", i:"inbox", c:"#8c6422", t:"Afiliados", d:"Plataformas activas, solicitudes enviadas y a quién hay que darle seguimiento.",
+        b: H.affDue.length ? `${H.affDue.length} vencido${H.affDue.length===1?"":"s"}` : null, bt:"bad" },
+    ]],
+  ]);
+}
+
+/* ---------- OPERACIÓN ---------- */
+function renderOps(){
+  const H = hubStats(), fleet = cfgv().fleet || [];
+  const mpg = S.fuel.some(f => f.odometer != null);
+  const docs = S.files.filter(f => f.area === "doc").length;
+  const inbox = S.files.filter(f => f.area === "inbox" && f.status === "new").length;
+  const mode = S.control?.mode || "dry_run";
+  $("#view").innerHTML = hubHead("Operación") + hubKpis([
+    hubKpi("Horas ocupadas", (H.a.minKnown/60).toFixed(1), `${H.a.n} servicios · ${money(H.a.perHour)}/h de ganancia`),
+    hubKpi("Millas recorridas", Math.round(H.a.mi).toLocaleString("en-US"), `${money(gasPerMile().v + A().maint + tollStats().perMile)}/mi de costo de rodar`),
+    hubKpi("Flota lista", `${fleet.filter(v=>v.active!==false).length}/${fleet.length}`, fleet.length ? esc(fleet[0].name) : "sin vehículos cargados", "ok"),
+    hubKpi("Recibos del mes", S.fuel.length + S.exp.length, `${S.fuel.length} gasolina · ${S.exp.length} otros gastos`),
+    hubKpi("Bot de Blacklane", modeName(mode), mode === "off" ? "apagado por orden del dueño" : "evalúa y avisa, no acepta", mode === "off" ? "bad" : "warn"),
+  ]) + hubGroup("gauge", "var(--accent)", "Taller", "Lo que se hace y lo que cuesta hacerlo", "Medir, cargar y controlar la operación", [
+    ["Costos y comprobantes", [
+      { view:"fuel", i:"receipt", c:"#2f6a4f", t:"Recibos", d:"Cargar gasolina, peajes, lavados y cualquier gasto con su comprobante.",
+        b: inbox ? `${inbox} sin procesar` : null, bt:"due" },
+      { view:"costs", i:"fuel", c:"#3d5473", t:"Gasolina y peajes", d:"El costo real por milla y los promedios de cada tanqueo.",
+        b: !mpg ? "mpg sin medir" : null, bt:"due" },
+      { view:"driver", i:"person", c:"#7d6750", t:"Chofer y propinas", d:"El 25% de Marco, las propinas y lo que se le ha liquidado.",
+        b: money0(H.a.driver), bt:"info" },
+    ]],
+    ["Control y respaldo", [
+      { view:"perf", i:"trend", c:"#655d72", t:"Rendimiento", d:"Cómo rinde cada plataforma y dónde se va el dinero por milla." },
+      { view:"docs", i:"folder", c:"#855a67", t:"Documentos", d:"Permisos, seguros, registro y licencias, guardados en privado.", b:`${docs} archivos` },
+      { view:"settings", i:"sliders", c:"#8c6422", t:"Ajustes", d:"Costos fijos, supuestos, flota, avisos y estado del sistema." },
+    ]],
+    ["Bot de Blacklane", [
+      { view:"overview", i:"inbox", c:"#3d5473", t:"Ofertas", d:"Lo que Blacklane ha ofrecido y qué decidió el bot con cada oferta." },
+      { view:"agenda", i:"calendar", c:"#655d72", t:"Agenda de Marco", d:"Los turnos del bus y los bloqueos que el bot tiene que respetar." },
+      { view:"filter", i:"filter", c:"#8c6422", t:"Reglas del bot", d:"Precio mínimo, distancia, horarios y rutas con prioridad." },
+    ]],
+  ]);
+}
+
+/* ---------- FINANZAS ---------- */
+function renderFin(){
+  const H = hubStats(), fx = H.fx, a = H.a;
+  const resultado = a.profit - fx.total;
+  const pctDue = H.inc.hecho ? H.inc.porCobrar / H.inc.hecho : 0;
+  const cyc = payCycle();
+  const diasPago = Math.round((dayStartMs(cyc.dueKey) - dayStartMs(H.hoyK)) / 864e5);
+  $("#view").innerHTML = hubHead("Finanzas") + hubKpis([
+    hubKpi("Generado", money0(H.inc.hecho), `${a.n} servicios hechos`),
+    hubKpi("Cobrado", money0(H.inc.cobrado), `el dinero que ya entró`, "ok"),
+    hubKpi("Por cobrar", money0(H.inc.porCobrar),
+      `${(pctDue*100).toFixed(0)}% de lo generado${H.oldest != null ? ` · el más viejo, ${H.oldest} días` : ""}`,
+      pctDue > 0.5 ? "bad" : pctDue > 0.2 ? "warn" : "ok"),
+    hubKpi("Fijos sin pagar", money0(H.fxPendAmt),
+      H.fxPend.length ? `${H.fxPend.length} de ${fx.items.length} partidas este mes` : "todo pagado este mes",
+      H.fxPend.length ? "warn" : "ok"),
+    hubKpi("Resultado del mes", money0(resultado), `viajes ${money0(a.profit)} − fijos ${money0(fx.total)}`, resultado < 0 ? "bad" : "ok"),
+  ]) + hubGroup("dollar", "var(--s-paid)", "Caja", "Cobrar, pagar y medir el resultado", "Ejecutar y procesar lo financiero", [
+    ["Cobros", [
+      { view:"cfo", i:"trend", c:"#2f6a4f", t:"Cobros y resultado", d:"Qué se cobró, qué falta por cobrar y quién debe cada dólar.",
+        b: H.inc.porCobrar ? `${money0(H.inc.porCobrar)} por cobrar` : null, bt:"due" },
+      { view:"trips", i:"car", c:"#3d5473", t:"Servicios por pagador", d:"Cada viaje con su pagador y si el depósito ya apareció.",
+        b: H.topPayer ? `${H.topPayer[0]}: ${money0(H.topPayer[1])}` : null, bt:"due" },
+    ]],
+    ["Pagos que salen", [
+      { view:"settings", i:"sliders", c:"#7d6750", t:"Costos fijos", d:"GM Financial, seguro, permisos y el iPad, con su día de pago.",
+        b: diasPago >= 0 ? `camioneta en ${diasPago} día${diasPago===1?"":"s"}` : null, bt: diasPago <= 5 ? "bad" : "info" },
+      { view:"driver", i:"person", c:"#655d72", t:"Liquidaciones a Marco", d:"Lo devengado contra lo que ya se le pagó, con su saldo real.",
+        b: money0(a.driver + a.tips), bt:"info" },
+    ]],
+    ["Medición", [
+      { view:"plan", i:"target", c:"#855a67", t:"Metas y equilibrio", d:"Cuántas horas ocupadas al mes hacen falta para no perder plata." },
+      { view:"perf", i:"trend", c:"#8c6422", t:"Rendimiento por plataforma", d:"Cuál deja más por hora ocupada y cuál solo llena huecos." },
+    ]],
+  ]);
 }
 
 /* ---------- Dashboard ---------- */
