@@ -1474,6 +1474,61 @@ table.ar td,table.afft td{padding:8px 18px}
 .botrow .lab{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:650}
 .botrow .txt{font-size:12px;color:var(--dim);margin-top:3px}
 .botrow .seg{margin-left:auto;flex:none}
+
+/* ===== v11 · tabla de despacho ================================================
+   El modo "Tabla" del Itinerario dibujaba tarjetas, no una tabla — por eso no se
+   parecia al despacho de CORES. Ahora es una tabla densa: encabezado negro,
+   acentos en rojo, numero de unidad y chofer a la vista, y entre servicios una
+   linea fina con el hueco. Negro y rojo, que es la marca. */
+.dispatch{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);box-shadow:var(--shadow);margin-top:16px}
+.dispatch table{width:100%;border-collapse:collapse;font-size:13px}
+.dispatch thead th{background:#0B0B0A;color:rgba(252,252,252,.72);font-size:10px;letter-spacing:1.3px;
+  text-transform:uppercase;font-weight:650;text-align:left;padding:10px 12px;white-space:nowrap;border:0}
+.dispatch thead th.num{text-align:right}
+.dispatch tbody td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:middle;line-height:1.3}
+.dispatch tbody td small{display:block;font-size:11px;color:var(--dim);margin-top:1px;font-weight:400}
+.dispatch td.num{text-align:right;font-variant-numeric:tabular-nums}
+.dispatch td.t{font-weight:700;font-size:14px}
+.dispatch td.dim{color:var(--dim)}
+.dispatch td.pay{font-weight:650}
+.dispatch td.pos{font-weight:700;color:var(--c-profit)}
+.dispatch td.neg{font-weight:700;color:var(--c-neg)}
+.dispatch .miss{color:var(--c-neg);font-weight:650}
+.dispatch tr.dsvc{cursor:pointer}
+.dispatch tr.dsvc:hover td{background:var(--panel2)}
+/* El que esta en curso: filo rojo a la izquierda, que es la marca */
+.dispatch tr.dsvc.live td{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.dispatch tr.dsvc.live td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.dispatch tr.dsvc.past td{opacity:.55}
+/* El numero de unidad */
+.dispatch .unit{display:inline-block;background:var(--accent);color:#fff;font-weight:800;font-size:11.5px;
+  letter-spacing:.5px;padding:2px 7px;border-radius:5px;font-variant-numeric:tabular-nums}
+/* Estado */
+.dispatch .st{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;
+  padding:3px 8px;border-radius:5px;white-space:nowrap}
+.dispatch .st.ok{background:color-mix(in srgb,var(--s-paid) 16%,transparent);color:var(--s-paid)}
+.dispatch .st.go{background:color-mix(in srgb,var(--s-plan) 16%,transparent);color:var(--s-plan)}
+.dispatch .st.warn{background:color-mix(in srgb,var(--s-due) 18%,transparent);color:var(--s-due)}
+/* El hueco entre un servicio y otro */
+.dispatch tr.dgap td{padding:5px 12px 5px 14px;font-size:11.5px;color:var(--dim);background:var(--panel3);
+  border-top:1px solid var(--line);letter-spacing:.1px}
+.dispatch tr.dgap.tight td{color:var(--s-due);box-shadow:inset 3px 0 0 var(--s-due)}
+.dispatch tr.dgap.clash td{color:var(--c-neg);font-weight:650;box-shadow:inset 3px 0 0 var(--c-neg)}
+
+@media(max-width:1100px){
+  .dispatch{overflow-x:auto}
+  .dispatch table{min-width:900px}
+}
+
+@media(max-width:720px){
+  .dispatch table{min-width:0;font-size:12.5px}
+  .dispatch thead th:nth-child(3),.dispatch tbody td:nth-child(3),
+  .dispatch thead th:nth-child(7),.dispatch tbody td:nth-child(7),
+  .dispatch thead th:nth-child(9),.dispatch tbody td:nth-child(9),
+  .dispatch thead th:nth-child(11),.dispatch tbody td:nth-child(11){display:none}
+  .dispatch tbody td{padding:8px 9px}
+  .dispatch tr.dgap td,.dispatch tbody tr.dgap td{padding:5px 9px}
+}
 </style>
 </head>
 <body>
@@ -1628,7 +1683,7 @@ function paintIcons(root = document){ root.querySelectorAll("[data-icon]").forEa
 
 /* ======================= state ======================= */
 const S = {
-  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], sched: [], schedErr: null, itinDay: null, itinMode: "table", files: [], filesErr: null, bizErr: null, day: null,
+  sb: null, user: null, view: "home", section: 0, trips: [], fuel: [], exp: [], sched: [], schedErr: null, itinDay: null, itinMode: (typeof window !== "undefined" && window.innerWidth < 720) ? "time" : "table", files: [], filesErr: null, bizErr: null, day: null,
   tr: { range: ["all","mtd","30","7"].includes(store.get("ce_range")) ? store.get("ce_range") : "all", plat: "all" },
   control: null, cfgRow: null, cfg: null, saved: null,
   decisions: [], offers: [], polls: [], planned: [], status: null, loaded: false,
@@ -2255,6 +2310,7 @@ const durm = m => m >= 60 ? `${Math.floor(m/60)} h${m%60 ? " " + Math.round(m%60
 /* El día de la camioneta: un riel de servicios en orden, con el hueco entre uno y
    otro, el vuelo de cada pasajero y lo que deja cada carrera. */
 const FLEET = "Suburban 2026";
+const UNIT = "01";   // el numero de unidad que lleva la camioneta en el parabrisas
 /* El vuelo y la terminal ahora son columnas propias (flight, flight_terminal,
    flight_gate). Leer las notas con regex queda solo de respaldo para filas
    viejas sin migrar: fue lo que rompio el B6283 de JetBlue el 19 nov. */
@@ -2313,27 +2369,58 @@ function dispatchTable(k, items){
   const cobrado = rows.filter(x => x.kind === "trip").reduce((s,x) => s + (+x.raw.payout||0), 0);
   const busy = rows.reduce((s,x) => s + (x.b - x.a), 0);
   const nowM = k === dayKey(Date.now()) ? minutesET(Date.now()) : null;
+  const pos = m => `${(Math.max(0,Math.min(1440,m))/1440*100).toFixed(2)}%`;
+  const short = a => { const z = zoneOf(a); return z || String(a || "—").split(",")[0]; };
 
-  const out = []; let prev = null;
+  /* Una fila por servicio, apretada, al estilo del despacho de CORES. Entre
+     servicios va una linea fina con el hueco — con un solo vehiculo eso es
+     informacion operativa, no adorno: el 22 nov detecto un choque real. */
+  const tr = []; let prev = null;
   rows.forEach(x => {
     if(prev){
       const d = x.a - prev.b;
-      if(d < 0) out.push(`<div class="joint clash">${icon("alert",14)||""}<b>Se montan ${durm(-d)}</b><span>el anterior termina ${hhmm(prev.b)} y este arranca ${hhmm(x.a)}</span></div>`);
-      else if(d >= 20) out.push(`<div class="joint"><b>${durm(d)} libre</b><span>${hhmm(prev.b)} → ${hhmm(x.a)}${prev.end ? ` · queda en ${esc(prev.end.split(",")[0])}` : ""}</span></div>`);
-      else out.push(`<div class="joint tight"><b>${durm(d)} entre uno y otro</b><span>sin margen para imprevistos</span></div>`);
+      /* Solo tiene sentido hablar de "espera" cuando el hueco es operativo. Por
+         encima de 4 h no es una espera, es otra parte del dia: se muestra plano
+         y sin decir donde espera. */
+      const cls = d < 0 ? "clash" : d < 20 ? "tight" : "";
+      const txt = d < 0 ? `Se montan ${durm(-d)} · el anterior termina ${hhmm(prev.b)} y este arranca ${hhmm(x.a)}`
+        : d < 20 ? `${durm(d)} entre uno y otro · sin margen para imprevistos`
+        : d <= 240 ? `${durm(d)} libre${prev.end ? ` · espera en ${esc(short(prev.end))}` : ""}`
+        : `${durm(d)} sin servicios`;
+      tr.push(`<tr class="dgap ${cls}"><td colspan="11">${txt}</td></tr>`);
     }
-    const state = nowM == null ? "" : (x.b < nowM ? "past" : x.a <= nowM ? "live" : "next");
-    out.push(svcCard(x, state));
-    prev = { b: x.b, end: x.raw.dropoff };
+    const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
+    const state = nowM == null ? "" : (x.b < nowM ? "past" : x.a <= nowM ? "live" : "");
+    const e = done ? tripEcon(r) : sched ? schedEcon(r) : null;
+    const pay = done ? +r.payout||0 : sched ? +r.pay||0 : 0;
+    const estado = done ? `<span class="st ok">Hecho</span>`
+      : sched ? `<span class="st ${r.status==="confirmed"?"go":"warn"}">${SCHED_TXT[r.status]||r.status}</span>`
+      : `<span class="st go">Aceptado</span>`;
+    const quien = done ? (PLAT[r.platform]?.n || r.platform) : (r.account || SRC[r.source]?.n || "—");
+    const fl = flightOf(r), tm = termOf(r);
+    const sel = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
+    tr.push(`<tr class="dsvc ${state}" ${sel} role="button" tabindex="0">
+      <td>${estado}</td>
+      <td class="num t">${hhmm(x.a)}</td>
+      <td class="num dim">${hhmm(x.b)}</td>
+      <td>${esc(short(r.pickup))}${fl ? `<small>${esc(fl)}${tm ? " · " + esc(tm) : ""}</small>` : ""}</td>
+      <td>${esc(short(r.dropoff))}${r.passenger ? `<small>${esc(r.passenger)}</small>` : ""}</td>
+      <td>${r.driver ? esc(r.driver) : `<span class="miss">Sin chofer</span>`}</td>
+      <td class="num">${r.pax || "—"}</td>
+      <td><span class="unit">${UNIT}</span><small>${esc(FLEET)}</small></td>
+      <td>${esc(quien)}</td>
+      <td class="num pay">${pay ? money0(pay) : "—"}</td>
+      <td class="num ${e && e.profit < 0 ? "neg" : "pos"}">${e ? money0(e.profit) : "—"}${sched ? "<small>proyectada</small>" : ""}</td>
+    </tr>`);
+    prev = { b: x.b, end: r.dropoff };
   });
 
-  const pos = m => `${(Math.max(0,Math.min(1440,m))/1440*100).toFixed(2)}%`;
   return `
   <div class="dchips">
     <div class="dchip"><b>${rows.length}</b><span>servicio${rows.length===1?"":"s"}</span></div>
     <div class="dchip"><b>${durm(busy)}</b><span>ocupado</span></div>
     <div class="dchip ${sinChofer?"warn":""}"><b>${sinChofer}</b><span>sin chofer</span></div>
-    <div class="dchip"><b>${money0(cobrado)}</b><span>cobrado</span></div>
+    <div class="dchip"><b>${money0(cobrado)}</b><span>hecho</span></div>
     <div class="dchip"><b>${money0(porCobrar)}</b><span>por cobrar</span></div>
   </div>
   ${rows.length ? `<div class="daybar">${rows.map(x =>
@@ -2341,7 +2428,10 @@ function dispatchTable(k, items){
     ${blocks.map(b2 => `<i class="bus" style="left:${pos(b2.a)};width:${((Math.min(1440,b2.b)-Math.max(0,b2.a))/1440*100).toFixed(2)}%"></i>`).join("")}
     ${nowM != null ? `<u style="left:${pos(nowM)}"></u>` : ""}
     <s>6</s><s>12</s><s>18</s></div>` : ""}
-  <div class="svclist">${out.length ? out.join("") : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}</div>
+  ${rows.length ? `<div class="dispatch"><table>
+    <thead><tr><th>Estado</th><th>Recoge</th><th>Termina</th><th>Desde</th><th>Hasta</th><th>Chofer</th><th>Pax</th><th>Unidad</th><th>Quién paga</th><th class="num">Pago</th><th class="num">Ganancia</th></tr></thead>
+    <tbody>${tr.join("")}</tbody></table></div>`
+    : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}
   ${blocks.length ? `<div class="box" style="margin:16px 0"><header><h3>Bloqueado</h3><span class="sub">Marco no está disponible</span></header>
     <div class="pad"><div class="stack" style="gap:8px">${blocks.map(b2 =>
       `<div class="blockrow"><span class="num">${hhmm(b2.a)} – ${hhmm(b2.b)}</span><span>${esc(b2.raw.label || "Bloqueo")}</span></div>`).join("")}</div></div></div>` : ""}`;
