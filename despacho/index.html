@@ -310,7 +310,8 @@ tr[data-offer]{cursor:pointer} tr[data-offer]:hover td{background:var(--panel2)}
 :root{
   --bg:#0A0A0A; --panel:#121211; --panel2:#171715; --panel3:#1f1e1b;
   --line:#242320; --line2:#32302c; --text:#F2F0EB; --muted:#B4B1AA; --dim:#8a8780;
-  --sans:Geist,system-ui,-apple-system,"Segoe UI",sans-serif;
+  /* --sans vivia aqui (Geist, nunca cargada). Las familias se declaran una
+     sola vez en "v12 · sistema tipografico". No volver a declararlas. */
   --c-rev:#3987e5; --c-profit:#199e70; --c-neg:#d03b3b;
   --r:14px;
 }
@@ -808,9 +809,8 @@ tbody tr:hover td{background:#FAF9F6}
   --bg:#ECEEF1; --panel:#FFFFFF; --panel2:#F6F7F9; --panel3:#E9ECF0;
   --line:#DFE3E8; --line2:#CDD3DA; --text:#0F1115; --ink:#0F1115; --ink2:#2B3139; --muted:#4A525C; --dim:#69727D;
   --grid:#EEF1F4; --night:#F1F3F6;
-  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-  --display:"Archivo","IBM Plex Sans",system-ui,sans-serif;
+  /* --sans/--mono/--display vivian aqui; los pisaba el bloque de abajo.
+     Ahora se declaran una sola vez en "v12 · sistema tipografico". */
   --shadow:0 1px 0 rgba(15,17,21,.04),0 1px 3px rgba(15,17,21,.05);
 }
 .side,.gate,.mtop{ --panel:#0F1115; --panel2:#171A1F; --panel3:#21252C; --line:#23272E; --line2:#323843; --text:#EEF0F3; --muted:#AEB5BE; --dim:#7F8893; }
@@ -1077,9 +1077,16 @@ table.pl tr.tot.neg td:nth-child(2){color:var(--c-neg)} table.pl tr.tot.pos td:n
 /* ===================== v4: tipografía de marca y densidad ===================== */
 :root{
   /* Geist nunca se cargó: el panel venía corriendo con la fuente del sistema. */
+  /* ---- Las cuatro familias. Un papel cada una. No agregar una quinta. ----
+     --sans    texto y cifras (Schibsted Grotesk)
+     --display alias historico de --sans; lo piden ~18 reglas viejas de cifras
+     --brand   LOS TITULOS, y solo ellos (Archivo, eje de ancho variable)
+     --logo    el lockup "Connexxions Elite" y nada mas (Cinzel, la del logo)
+     --mono    numeros de confirmacion y codigos (IBM Plex Mono)            */
   --sans:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
   --display:"Schibsted Grotesk",system-ui,sans-serif;
-  --brand:"Cinzel",Georgia,"Times New Roman",serif;
+  --brand:"Archivo","Schibsted Grotesk",system-ui,sans-serif;
+  --logo:"Cinzel",Georgia,"Times New Roman",serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --r:12px; --r-sm:9px;
 }
@@ -1360,9 +1367,9 @@ table.ar td,table.afft td{padding:8px 18px}
 /* ===== v9 · secciones tipo centro de trabajo ===================================
    Cada sección es un hub: franja de indicadores con su línea de contexto, y
    tarjetas que dicen qué hace cada herramienta y cuánto hay esperando. */
-.hubhead{text-align:center;padding:26px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px}
-.hubhead h1{font-family:var(--serif);font-size:40px;font-weight:400;letter-spacing:4px;text-transform:uppercase;margin:0;line-height:1}
-.hubhead .meta{color:var(--dim);font-size:13px;margin-top:10px}
+/* El encabezado de seccion se define UNA vez, en "v12 · sistema tipografico".
+   Aqui vivian tres reglas que v10 pisaba a medias: de ahi salia el titulo
+   centrado en rojo con 6 px de interletrado. No volver a declararlo aqui. */
 .hubhead .meta b{color:var(--text);font-weight:600}
 .hubkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden;margin-bottom:22px;box-shadow:var(--shadow)}
 .hubkpis > div{padding:16px 18px;border-left:1px solid var(--line)}
@@ -1395,8 +1402,6 @@ table.ar td,table.afft td{padding:8px 18px}
 .hubnext .rt{font-size:12.5px;color:var(--dim)}
 .hubnext .cd{margin-left:auto;font-size:13px;font-weight:650;color:var(--accent);font-variant-numeric:tabular-nums}
 @media(max-width:720px){
-  .hubhead{padding:18px 0 16px;margin-bottom:16px}
-  .hubhead h1{font-size:27px;letter-spacing:2.5px}
   .hubkpis{grid-template-columns:repeat(2,1fr)}
   .hubkpis > div{border-left:1px solid var(--line);border-top:1px solid var(--line)}
   .hubkpis > div:nth-child(2n+1){border-left:0}
@@ -1419,7 +1424,7 @@ table.ar td,table.afft td{padding:8px 18px}
   padding:0 clamp(16px,3vw,28px);padding-top:env(safe-area-inset-top,0px);height:calc(68px + env(safe-area-inset-top,0px))}
 .nvlogo{display:flex;align-items:center;flex:none;cursor:pointer;height:100%}
 .nvlogo img{height:26px;width:auto;display:block}
-.nvlogo .lockup{font-family:var(--serif);font-size:19px;color:#FCFCFC;letter-spacing:.3px;white-space:nowrap}
+.nvlogo .lockup{font-family:var(--logo);font-size:19px;color:#FCFCFC;letter-spacing:.3px;white-space:nowrap}
 .nvlogo .lockup em{font-style:normal;color:var(--accent)}
 .nvnav{display:flex;align-items:stretch;gap:2px;height:100%;min-width:0;overflow-x:auto;scrollbar-width:none}
 .nvnav::-webkit-scrollbar{display:none}
@@ -1440,11 +1445,6 @@ table.ar td,table.afft td{padding:8px 18px}
 .main{min-width:0;display:block}
 .content{max-width:1360px;margin:0 auto;padding:26px clamp(16px,3vw,28px) 72px}
 
-/* El titulo de seccion, con la tipografia del logo */
-.hubhead h1{font-family:var(--serif);font-weight:700;color:var(--accent);letter-spacing:6px;font-size:34px}
-.hubhead{border-bottom:0;padding:30px 0 20px;margin-bottom:18px;position:relative}
-.hubhead::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:56px;height:3px;background:var(--accent);border-radius:2px}
-.hubhead .meta{margin-top:12px;letter-spacing:.2px}
 
 /* Las paginas de detalle tambien se centran y respiran igual */
 .pagehead{max-width:none}
@@ -1458,8 +1458,6 @@ table.ar td,table.afft td{padding:8px 18px}
   .nvbar{display:none}
   .mtop{display:flex}
   .content{padding:14px 16px 96px}
-  .hubhead{padding:14px 0 14px}
-  .hubhead h1{font-size:23px;letter-spacing:3.5px}
 }
 
 /* `.conn` fuerza display:flex, asi que el atributo hidden no bastaba y la
@@ -1467,7 +1465,7 @@ table.ar td,table.afft td{padding:8px 18px}
 .conn[hidden],[hidden]{display:none!important}
 /* Las tarjetas eran muy angostas para 1360 px y dejaban media fila vacia.
    Con 320 px de minimo entran tres y llenan el ancho. */
-.hubcards{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+.hubcards{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
 @media(max-width:860px){ .hubcards{grid-template-columns:1fr} }
 
 .botrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;background:var(--panel2)}
@@ -1529,6 +1527,103 @@ table.ar td,table.afft td{padding:8px 18px}
   .dispatch tbody td{padding:8px 9px}
   .dispatch tr.dgap td,.dispatch tbody tr.dgap td{padding:5px 9px}
 }
+
+/* ===== v12 · SISTEMA TIPOGRAFICO ==============================================
+   Este bloque NO es un parche mas: reemplaza las reglas que se borraron de v9 y
+   de v10, donde el encabezado de seccion estaba declarado dos veces y peleado
+   consigo mismo (de ahi el titulo centrado en rojo con 6 px de interletrado,
+   que parecia parte de boda y no sistema de despacho).
+
+   TRES VOCES, y ninguna mas:
+     1. TITULOS     Archivo 800 con el eje de ancho en 112, en MAYUSCULAS, en
+                    negro, con un filo rojo de 4 px a la izquierda. Ancha y
+                    plantada: es la voz industrial que tiene CORES con su
+                    display, pero con una fuente que si podemos usar.
+     2. TEXTO Y CIFRAS  Schibsted Grotesk. Las cifras proporcionales (la coma de
+                    Schibsted toma ancho de digito en tabular y se leia "$2 , 339").
+     3. ETIQUETAS   una sola: 10 px, 700, 0.135em, mayusculas, --muted. Antes
+                    habia cuatro tamanos distintos de lo mismo en una pantalla.
+
+   Cinzel queda SOLO en el lockup del logo. Es una romana de inscripcion: como
+   cara de interfaz hace ver viejo todo lo que toca.
+   El rojo marca, no decora: filo del titulo, subrayado de la seccion activa,
+   la unidad 01 y las insignias de lo que esta vencido. En ningun otro lado. */
+
+/* ---- 1. Titulos: una sola voz para toda la jerarquia de encabezado ---- */
+.hubhead h1,.pagehead h1,.ophead h1,.opshero .htop h1,.sec-head h3{
+  font-family:var(--brand);font-weight:800;font-stretch:112%;
+  font-variation-settings:"wdth" 112;text-transform:uppercase;
+  letter-spacing:.045em;line-height:1.02;font-style:normal;margin:0}
+
+.hubhead{text-align:left;border-bottom:1px solid var(--line2);position:relative;
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px 20px;
+  flex-wrap:wrap;padding:2px 0 13px;margin:2px 0 20px}
+.hubhead::after{content:none}
+.hubhead h1{font-size:26px;color:var(--text);
+  padding-left:14px;border-left:4px solid var(--accent)}
+.hubhead .meta{margin:0;font-size:12.5px;color:var(--dim);letter-spacing:0}
+
+.pagehead h1,.ophead h1{font-size:22px;color:var(--text);
+  padding-left:12px;border-left:4px solid var(--accent)}
+.sec-head h3{font-size:18px;color:var(--text)}
+.opshero .htop h1{font-size:clamp(21px,2.3vw,26px);color:#fff;
+  padding-left:13px;border-left:4px solid var(--accent)}
+.gate h1{font-family:var(--logo);font-weight:700;letter-spacing:.01em;text-transform:none}
+
+/* ---- 2. Etiquetas: UNA. Todo lo que antes era un micro-titulo distinto ---- */
+.tile .k,.kpi .k,.bk .k,.hubkpis .k,.hubsub,.hubnext .lab,.box > header h3,
+.opshero .hk span,.opshero .kicker,.dtbl th,.dispatch thead th,th{
+  font-family:var(--sans);font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted);
+  font-stretch:normal;font-variation-settings:normal}
+.opshero .kicker,.opshero .hk span{color:rgba(255,255,255,.55)}
+.dispatch thead th{color:rgba(252,252,252,.72)}
+
+/* El subtitulo de grupo se lee como tier por su regla, no por otra fuente */
+.hubsub{display:flex;align-items:center;gap:11px;margin:22px 0 11px;color:var(--dim)}
+.hubsub::after{content:"";flex:1 1 auto;height:1px;background:var(--line)}
+
+/* ---- 3. El rojo deja de estar en todas las tarjetas a la vez ----
+   Cada hubcard traia un filo rojo de 4 px, asi que la pantalla entera parecia
+   alarma y la insignia de lo realmente vencido no resaltaba. Ahora el filo es
+   gris y solo se pone rojo la tarjeta marcada. Las pastillas de icono pasan a
+   negro: la empresa es negro y rojo, no seis colores. */
+.hubcard{border-left:1px solid var(--line);padding-left:14px}
+.hubcard:hover{border-color:var(--line2);transform:none;background:var(--panel2)}
+.hubcard.flag{border-left:4px solid var(--accent);padding-left:11px}
+.hubcard .ci,.hubgrp > .gh .ic{background:var(--text);color:var(--panel)}
+.hubgrp{border-radius:14px}
+.hubgrp > .gh h2{font-size:15.5px;font-weight:700;letter-spacing:-.15px}
+.hubgrp > .gh .gtag{border-left:0;padding-left:0;font-size:11.5px;color:var(--muted)}
+.bdg.info{background:var(--panel3);color:var(--muted)}
+
+/* ---- 4. La barra: FINANZAS salia cortada ----
+   A 1183 px el correo completo y la pastilla del bot dejaban 626 px para cinco
+   secciones y la ultima se recortaba. Ahora el correo y la pastilla se van
+   antes de que eso pase. */
+.nvnav{flex:1 1 auto;overflow:visible}
+.nvnav button{letter-spacing:.11em;font-weight:700;font-size:11.5px}
+.nvright{flex:0 0 auto}
+@media(max-width:1340px){ .nvwho{display:none} }
+@media(max-width:1180px){ .nvright #health{display:none} }
+
+/* ---- 5. La misma cifra, dos veces seguidas a 34 px ----
+   "El dinero, por estado" y "A donde va cada dolar" abrian las dos con el
+   ingreso bruto en grande, una debajo de la otra. En la cascada el
+   protagonista es el reparto, no el total: la cifra baja a tamano de
+   subtitulo y el ojo va a la barra y a la tabla, que es para lo que sirve. */
+.fgross{display:flex;align-items:baseline;gap:4px 11px;flex-wrap:wrap}
+.fgross span{font-size:10px;letter-spacing:.135em}
+.fgross b{display:inline-block;font-size:20px;letter-spacing:-.02em;margin:0}
+.fgross small{flex:1 1 100%;font-size:11.5px}
+
+@media(max-width:720px){
+  .hubhead{padding:2px 0 11px;margin-bottom:15px;gap:6px 14px}
+  .hubhead h1{font-size:20px;padding-left:10px;border-left-width:3px}
+  .pagehead h1,.ophead h1{font-size:18px}
+  /* Con 5 indicadores en dos columnas el ultimo dejaba media fila vacia. */
+  .hubkpis > div:last-child:nth-child(odd){grid-column:1/-1}
+}
 </style>
 </head>
 <body>
@@ -1588,7 +1683,7 @@ table.ar td,table.afft td{padding:8px 18px}
     <span class="conn" id="conn" hidden></span>
   </header>
   <main class="main">
-    <div class="mtop"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--serif);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
+    <div class="mtop"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--logo);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
     <div class="content" id="view"></div>
   </main>
   <nav class="tabbar" id="tabbar" aria-label="Navegación">
@@ -1971,12 +2066,15 @@ const hubHead = (title, extra = "") => {
 const hubKpi = (k, v, s, tone = "") =>
   `<div><div class="k">${tone ? `<span class="dot ${tone}"></span>` : ""}${esc(k)}</div><div class="v">${v}</div><div class="s">${s || ""}</div></div>`;
 const hubKpis = cells => `<div class="hubkpis">${cells.join("")}</div>`;
-const hubCard = c => `<button class="hubcard" data-view="${c.view}" style="border-left-color:${c.c}">
-  <span class="ci" style="background:${c.c}">${icon(c.i,18)}</span>
+/* El color por tarjeta (c.c) ya no se pinta: la pastilla va en negro y el filo
+   rojo se reserva para lo que de verdad espera (insignia `due` o `bad`). Se
+   deja el campo en los datos por si vuelve a hacer falta agrupar por color. */
+const hubCard = c => `<button class="hubcard${c.b && /^(due|bad)$/.test(c.bt || "") ? " flag" : ""}" data-view="${c.view}">
+  <span class="ci">${icon(c.i,18)}</span>
   <span style="min-width:0"><span class="ct">${esc(c.t)}</span><span class="cd">${esc(c.d)}</span>${c.b ? `<span class="bdg ${c.bt||"info"}">${esc(c.b)}</span>` : ""}</span>
   <span class="chev">›</span></button>`;
 const hubGroup = (ic, c, title, sub, tag, blocks) => `<div class="hubgrp">
-  <div class="gh"><span class="ic" style="background:${c}">${icon(ic,20)}</span>
+  <div class="gh"><span class="ic">${icon(ic,20)}</span>
     <div><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>${tag ? `<div class="gtag">${esc(tag)}</div>` : ""}</div>
   ${blocks.map(b => { const [sh, mid, cards] = b.length === 3 ? b : [b[0], "", b[1]];
     return `${sh ? `<div class="hubsub">${esc(sh)}</div>` : ""}${mid || ""}<div class="hubcards">${cards.map(hubCard).join("")}</div>`; }).join("")}</div>`;
