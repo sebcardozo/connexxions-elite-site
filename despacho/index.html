@@ -1927,6 +1927,7 @@ function renderFleet(){
 const SRC = {
   farmout:{ n:"Farm-out", c:"#008a9b" }, direct:{ n:"Directo", c:"#e87ba4" }, blacklane:{ n:"Blacklane", c:"#2a78d6" },
   uber:{ n:"Uber Black", c:"#eb6834" }, lyft:{ n:"Lyft Black", c:"#1baf7a" }, gnet:{ n:"GNet", c:"#eda100" },
+  limoflow:{ n:"LimoFlow", c:"#2f8f84" },
   bus:{ n:"Connexxions Bus", c:"#8a857c" }, other:{ n:"Otro", c:"#6250d6" },
 };
 const SCHED_TXT = { confirmed:"Confirmado", tentative:"Tentativo", cancelled:"Cancelado", done:"Hecho" };
@@ -2631,6 +2632,7 @@ const PLAT = {
   uber:     { n:"Uber Black", c:"#eb6834" },
   lyft:     { n:"Lyft Black", c:"#1baf7a" },
   gnet:     { n:"GNet",       c:"#eda100" },
+  limoflow: { n:"LimoFlow",   c:"#2f8f84" },
   direct:   { n:"Directo",    c:"#e87ba4" },
   other:    { n:"Otro",       c:"#6250d6" },
 };
@@ -2939,7 +2941,7 @@ function paidInfo(t){
 /* Quién nos paga este viaje. */
 function payerOf(t){
   const x = t.external_id || "";
-  if(/^limoflow/i.test(x)) return "LimoFlow Drivers";
+  if(/^limoflow/i.test(x) || t.platform === "limoflow") return "LimoFlow Drivers";
   if(t.platform === "blacklane") return "Blacklane";
   if(t.platform === "uber") return "Uber Black";
   if(t.platform === "lyft") return "Lyft";
