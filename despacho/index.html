@@ -2203,7 +2203,8 @@ function renderFin(){
   const resultado = a.profit - fx.total;
   const pctDue = H.inc.hecho ? H.inc.porCobrar / H.inc.hecho : 0;
   const cyc = payCycle();
-  const diasPago = Math.round((dayStartMs(cyc.dueKey) - dayStartMs(H.hoyK)) / 864e5);
+  /* No `cyc.dueKey`: ese ignora los pagos ya registrados. Ver nextDueOf. */
+  const nd = nextDueOf(cyc.item), diasPago = nd.days;
   $("#view").innerHTML = hubHead("Finanzas") + hubKpis([
     hubKpi("Generado", money0(H.inc.hecho), `${a.n} servicios hechos`),
     hubKpi("Cobrado", money0(H.inc.cobrado), `el dinero que ya entró`, "ok"),
@@ -3174,6 +3175,28 @@ function payCycle(now = Date.now()){
   return { dueKey, from, item: it || { name:"Pago de la camioneta", amount: 1634.87 },
            daysLeft: Math.max(0, Math.round((dayStartMs(dueKey) - dayStartMs(dayKey(now))) / 864e5)) };
 }
+/* La proxima fecha de una partida fija, SALTANDO los meses que ya tienen
+   comprobante en `payments[]`.
+   Hasta hoy la insignia de Finanzas y "Pagos que vienen" leian solo `due_day`,
+   asi que la camioneta seguia saliendo como por vencer el 26 aunque el pago
+   del 20 nov estuviera registrado con su confirmacion PA4XJFRXNA. Es
+   exactamente el error del 23 nov: el dato estaba en la base y no se leia.
+   Regla, ahora en codigo: antes de decir que un costo fijo vence, mirar su
+   arreglo `payments[]`. */
+function nextDueOf(x, now = Date.now()){
+  const p = etParts(now), eom = new Date(Date.UTC(+p.year, +p.month, 0)).getUTCDate();
+  const d = Math.min(+x.due_day || eom, 28);
+  let y = +p.year, mo = +p.month;
+  if(d < +p.day){ mo++; if(mo > 12){ mo = 1; y++; } }
+  const pays = x.payments || [], mk = (y, mo) => `${y}-${String(mo).padStart(2,"0")}`;
+  let saltados = 0;
+  while(saltados < 24 && pays.some(q => String(q.date || "").slice(0,7) === mk(y, mo))){
+    mo++; if(mo > 12){ mo = 1; y++; } saltados++;
+  }
+  const key = `${mk(y, mo)}-${String(d).padStart(2,"0")}`;
+  return { key, days: Math.round((dayStartMs(key) - dayStartMs(dayKey(now))) / 864e5),
+           yaPagado: saltados > 0, fixedDate: !!+x.due_day };
+}
 const monthName = mk => mk ? new Date(mk + "-15T12:00:00Z").toLocaleDateString("es-US",{month:"short",year:"numeric",timeZone:"UTC"}) : "";
 
 /* ---------- fuel ---------- */
@@ -4081,9 +4104,9 @@ function renderCfo(){
   const dead = live().reduce((s, t) => s + (+t.deadhead_miles || 0), 0), deadShare = all.mi ? dead / all.mi : 0;
   const owed = { pay: all.driver, tips: all.tips };
   /* obligations: every fixed cost with its next date (due_day when set, otherwise end of month) */
-  const obl = fa.items.map(x => { let d = +x.due_day || dim, y = Y, mo = Mo; if(d < dayNo){ mo++; if(mo > 12){ mo = 1; y++; } }
-    const key = `${y}-${String(mo).padStart(2,"0")}-${String(Math.min(d, 28)).padStart(2,"0")}`;
-    return { name: x.name, amount: +x.amount, key, days: Math.round((dayStartMs(key) - dayStartMs(today)) / 864e5), fixedDate: !!+x.due_day }; }).sort((a, b) => a.days - b.days);
+  const obl = fa.items.map(x => { const n = nextDueOf(x);
+    return { name: x.name, amount: +x.amount, key: n.key, days: n.days,
+             fixedDate: n.fixedDate, yaPagado: n.yaPagado }; }).sort((a, b) => a.days - b.days);
   const docs = S.files.filter(f => f.area === "doc"), exp = docs.filter(f => f.expires_on).map(f => ({ f, d: Math.round((dayStartMs(f.expires_on) - dayStartMs(today)) / 864e5) })).filter(x => x.d <= 30);
   const plats = Object.keys(PLAT).map(k => ({ k, ...agg(live().filter(t => t.platform === k)) })).filter(p => p.n);
 
