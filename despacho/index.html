@@ -1191,8 +1191,8 @@ button.prow:focus-visible{outline:2px solid var(--brandc);outline-offset:-2px}
 .fgross span{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .fgross b{display:block;font-size:40px;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.05;margin:2px 0 3px}
 .fgross small{display:block;font-size:11.5px;color:var(--muted)}
-.fbar{display:flex;height:11px;border-radius:6px;overflow:hidden;margin-top:13px;gap:2px;background:var(--line)}
-.fbar i{display:block;min-width:3px}
+.statebar{display:flex;height:11px;border-radius:6px;overflow:hidden;margin-top:13px;gap:2px;background:var(--line)}
+.statebar i{display:block;min-width:3px}
 table.flow{width:100%;border-collapse:collapse;font-size:13.5px}
 table.flow td{padding:9px 18px;border-bottom:1px solid var(--line)}
 table.flow td:first-child{display:flex;align-items:center;gap:9px}
@@ -1405,6 +1405,75 @@ table.ar td,table.afft td{padding:8px 18px}
   .hubcards{grid-template-columns:1fr}
   .hubgrp > .gh .gtag{display:none}
 }
+
+/* ===== v10 · maquetación vertical =============================================
+   Se va la barra lateral de 252 px. Ahora: barra negra arriba con el logo y las
+   cinco secciones, y debajo UNA sola columna centrada, como CORES. El titulo de
+   la seccion va en Cinzel —la del logo— con mucho interletrado, que es nuestra
+   version de lo que alla hacen con su display. Todo lo demas se alcanza desde
+   las tarjetas de cada seccion, no desde un menu de 22 entradas. */
+.app{display:block;background:var(--bg);min-height:100%}
+
+.nvbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:18px;
+  background:#0B0B0A;border-bottom:1px solid rgba(255,255,255,.08);
+  padding:0 clamp(16px,3vw,28px);padding-top:env(safe-area-inset-top,0px);height:calc(68px + env(safe-area-inset-top,0px))}
+.nvlogo{display:flex;align-items:center;flex:none;cursor:pointer;height:100%}
+.nvlogo img{height:26px;width:auto;display:block}
+.nvlogo .lockup{font-family:var(--serif);font-size:19px;color:#FCFCFC;letter-spacing:.3px;white-space:nowrap}
+.nvlogo .lockup em{font-style:normal;color:var(--accent)}
+.nvnav{display:flex;align-items:stretch;gap:2px;height:100%;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nvnav::-webkit-scrollbar{display:none}
+.nvnav button{display:flex;align-items:center;gap:8px;height:100%;padding:0 15px;border:0;background:none;
+  color:rgba(252,252,252,.62);font-size:12px;font-weight:650;letter-spacing:1.3px;text-transform:uppercase;
+  white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent;transition:color .12s,border-color .12s}
+.nvnav button svg{width:17px;height:17px;opacity:.75}
+.nvnav button:hover{color:#FCFCFC}
+.nvnav button.on{color:#FCFCFC;border-bottom-color:var(--accent)}
+.nvnav button.on svg{opacity:1;color:var(--accent)}
+.nvright{margin-left:auto;display:flex;align-items:center;gap:8px;flex:none}
+.nvright .pill{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:rgba(252,252,252,.8)}
+.nvright .btn{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:#FCFCFC}
+.nvright .btn-ghost{background:transparent;border-color:transparent;color:rgba(252,252,252,.6)}
+.nvright .btn:hover{background:rgba(255,255,255,.13)}
+.nvwho{font-size:12px;color:rgba(252,252,252,.55);max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.main{min-width:0;display:block}
+.content{max-width:1360px;margin:0 auto;padding:26px clamp(16px,3vw,28px) 72px}
+
+/* El titulo de seccion, con la tipografia del logo */
+.hubhead h1{font-family:var(--serif);font-weight:700;color:var(--accent);letter-spacing:6px;font-size:34px}
+.hubhead{border-bottom:0;padding:30px 0 20px;margin-bottom:18px;position:relative}
+.hubhead::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:56px;height:3px;background:var(--accent);border-radius:2px}
+.hubhead .meta{margin-top:12px;letter-spacing:.2px}
+
+/* Las paginas de detalle tambien se centran y respiran igual */
+.pagehead{max-width:none}
+
+@media(max-width:980px){
+  .nvnav button span:not([data-icon]){display:none}
+  .nvnav button{padding:0 13px}
+  .nvwho{display:none}
+}
+@media(max-width:720px){
+  .nvbar{display:none}
+  .mtop{display:flex}
+  .content{padding:14px 16px 96px}
+  .hubhead{padding:14px 0 14px}
+  .hubhead h1{font-size:23px;letter-spacing:3.5px}
+}
+
+/* `.conn` fuerza display:flex, asi que el atributo hidden no bastaba y la
+   tarjeta de conexion seguia flotando encima de la barra. */
+.conn[hidden],[hidden]{display:none!important}
+/* Las tarjetas eran muy angostas para 1360 px y dejaban media fila vacia.
+   Con 320 px de minimo entran tres y llenan el ancho. */
+.hubcards{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+@media(max-width:860px){ .hubcards{grid-template-columns:1fr} }
+
+.botrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:12px;background:var(--panel2)}
+.botrow .lab{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:650}
+.botrow .txt{font-size:12px;color:var(--dim);margin-top:3px}
+.botrow .seg{margin-left:auto;flex:none}
 </style>
 </head>
 <body>
@@ -1443,52 +1512,28 @@ table.ar td,table.afft td{padding:8px 18px}
 
 <!-- App -->
 <div id="app" class="app hidden">
-  <aside class="side">
-    <div class="brand"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))"><small>Panel interno</small></div>
-    <div class="conn" id="conn"></div>
-    <nav class="nav" id="nav">
-      <div class="navgroup">Secciones</div>
-      <button data-view="home"><span data-icon="gauge"></span>Resumen</button>
-      <button data-view="itin"><span data-icon="calendar"></span>Itinerario</button>
-      <button data-view="res"><span data-icon="plane"></span>Reservas</button>
-      <button data-view="ops"><span data-icon="sliders"></span>Operación</button>
-      <button data-view="fin"><span data-icon="dollar"></span>Finanzas</button>
-      <div class="navgroup">Páginas</div>
-      <button data-view="trips"><span data-icon="car"></span>Viajes<span class="cnt" id="tripCnt"></span></button>
-      <button data-view="cfo"><span data-icon="trend"></span>Cobros y resultado</button>
-      <button data-view="geo"><span data-icon="pin"></span>Rutas y horas</button>
-      <button data-view="plan"><span data-icon="target"></span>Metas</button>
-      <button data-view="costs"><span data-icon="fuel"></span>Gasolina y peajes</button>
-      <button data-view="fuel"><span data-icon="receipt"></span>Recibos</button>
-      <button data-view="driver"><span data-icon="person"></span>Chofer y propinas</button>
-      <button data-view="perf"><span data-icon="trend"></span>Rendimiento</button>
-      <button data-view="docs"><span data-icon="folder"></span>Documentos</button>
-      <button data-view="aff"><span data-icon="inbox"></span>Afiliados<span class="cnt" id="affCnt"></span></button>
-      <div class="navgroup">Bot Blacklane</div>
-      <button data-view="overview"><span data-icon="inbox"></span>Ofertas</button>
-      <button data-view="agenda"><span data-icon="calendar"></span>Agenda de Marco</button>
-      <button data-view="filter" data-also="routes locations"><span data-icon="filter"></span>Reglas del bot</button>
-      <div class="navgroup">Sistema</div>
-      <button data-view="settings" data-also="fleet notifications health"><span data-icon="sliders"></span>Ajustes</button>
+  <header class="nvbar">
+    <a class="nvlogo" data-view="home" role="button" tabindex="0" aria-label="Inicio">
+      <img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',innerHTML:'Connexxions <em>Elite</em>'}))">
+    </a>
+    <nav class="nvnav" id="nav" aria-label="Secciones">
+      <button data-view="home"><span data-icon="gauge"></span><span>Resumen</span></button>
+      <button data-view="itin"><span data-icon="calendar"></span><span>Itinerario</span></button>
+      <button data-view="res"><span data-icon="plane"></span><span>Reservas</span></button>
+      <button data-view="ops" data-also="perf costs fuel docs overview agenda filter routes locations settings fleet notifications health"><span data-icon="sliders"></span><span>Operación</span></button>
+      <button data-view="fin" data-also="cfo plan driver trips geo aff"><span data-icon="dollar"></span><span>Finanzas</span></button>
     </nav>
-    <div class="botcard">
-      <div class="h"><span class="dot" id="autoDot"></span>Bot · <span id="autoMode"></span></div>
-      <div class="seg" id="modeSeg" role="group" aria-label="Modo del bot">
-        <button data-mode="off">Apagado</button><button data-mode="dry_run">Prueba</button><button data-mode="live">En vivo</button>
-      </div>
-      <p id="autoTxt"></p>
+    <div class="nvright">
+      <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
+      <button class="btn btn-sm" data-act="refresh" title="Actualizar"><span data-icon="refresh"></span></button>
+      <span class="nvwho" id="who"></span>
+      <button class="btn btn-ghost btn-sm" id="logout" title="Salir"><span data-icon="logout"></span></button>
     </div>
-    <div class="foot"><span id="who"></span><button class="btn btn-ghost btn-sm" id="logout" title="Salir"><span data-icon="logout"></span></button></div>
-  </aside>
+    <span id="viewTitle" hidden></span>
+    <span class="conn" id="conn" hidden></span>
+  </header>
   <main class="main">
     <div class="mtop"><img src="https://connexxionselite.com/img/connexxions-logo.png" alt="Connexxions Elite" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'lockup',style:'font-family:var(--serif);font-size:20px',innerHTML:'Connexxions <em style=&quot;color:var(--accent)&quot;>Elite</em>'}))"><span class="spacer"></span><span class="pill" id="mhealth"><span class="dot"></span><span>—</span></span><button class="btn btn-ghost btn-sm" data-act="refresh" aria-label="Actualizar"><span data-icon="refresh"></span></button></div>
-    <div class="topbar">
-      <h2 id="viewTitle">Resumen</h2>
-      <span class="pill" id="health"><span class="dot"></span><span>—</span></span>
-      <div class="spacer"></div>
-      <span class="geo"><b id="clock" style="display:none"></b></span>
-      <button class="btn btn-sm" data-act="refresh" title="Actualizar"><span data-icon="refresh"></span>Actualizar</button>
-    </div>
     <div class="content" id="view"></div>
   </main>
   <nav class="tabbar" id="tabbar" aria-label="Navegación">
@@ -1791,23 +1836,26 @@ function renderSide(){
   const mode = S.control?.mode || "dry_run";
   const liveOk = !!info.allow_live;
   document.querySelectorAll('[data-mode="live"]').forEach(b => { b.disabled = !liveOk && mode !== "live"; b.title = liveOk ? "" : "Se habilita cuando confirmemos cómo acepta Blacklane"; });
-  $("#autoDot").className = "dot " + (mode === "live" ? "ok" : mode === "off" ? "bad" : "warn");
-  $("#autoMode").textContent = modeName(mode);
-  const blocked = mode === "live" && S.status && info.allow_live === false;
-  $("#autoTxt").className = blocked ? "warnline" : "";
-  $("#autoTxt").textContent = blocked ? "El servidor no permite aceptar todavía (ALLOW_LIVE): sigue en prueba."
-    : mode === "dry_run" && !liveOk ? "Evalúa y avisa, no acepta. En vivo se habilita al confirmar la aceptación."
-    : ({off:"Solo guarda ofertas.", dry_run:"Evalúa y avisa. No acepta.", live:"Acepta ofertas reales."})[mode];
-  const n = S.trips.length; $("#tripCnt").textContent = n ? n : "";
+  /* El control del bot ya no vive en una barra lateral: se dibuja dentro de la
+     seccion Operación, que es donde corresponde. Estos nodos pueden no existir. */
+  const dot = $("#autoDot"), mn = $("#autoMode"), tx = $("#autoTxt"), tc = $("#tripCnt");
+  if(dot) dot.className = "dot " + (mode === "live" ? "ok" : mode === "off" ? "bad" : "warn");
+  if(mn) mn.textContent = modeName(mode);
+  if(tx){ const blocked = mode === "live" && S.status && info.allow_live === false;
+    tx.className = blocked ? "warnline" : "";
+    tx.textContent = blocked ? "El servidor no permite aceptar todavía (ALLOW_LIVE): sigue en prueba."
+      : mode === "dry_run" && !liveOk ? "Evalúa y avisa, no acepta. En vivo se habilita al confirmar la aceptación."
+      : ({off:"Solo guarda ofertas.", dry_run:"Evalúa y avisa. No acepta.", live:"Acepta ofertas reales."})[mode]; }
+  if(tc){ const n = S.trips.length; tc.textContent = n ? n : ""; }
 }
 function render(){
   _toll = null;
   $("#viewTitle").textContent = VIEWS[S.view];
   document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.view === S.view || (b.dataset.also || "").split(" ").includes(S.view)));
   const mode = S.control?.mode || "dry_run";
-  document.querySelectorAll("#modeSeg button").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
+  document.querySelectorAll("[data-mode]").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
   const [hs, ht] = healthState(); $("#health").innerHTML = `<span class="dot ${hs}"></span><span>${esc(ht)}</span>`;
-  $("#mhealth").innerHTML = `<span class="dot ${hs}"></span><span>${hs === "ok" ? "Bot activo" : esc(ht)}</span>`;
+  const mh = $("#mhealth"); if(mh) mh.innerHTML = `<span class="dot ${hs}"></span><span>${hs === "ok" ? "Bot activo" : esc(ht)}</span>`;
   document.querySelectorAll("#tabbar [data-view]").forEach(b => b.classList.toggle("on", b.dataset.view === S.view));
   renderSide();
   const v = $("#view");
@@ -1875,7 +1923,27 @@ const hubCard = c => `<button class="hubcard" data-view="${c.view}" style="borde
 const hubGroup = (ic, c, title, sub, tag, blocks) => `<div class="hubgrp">
   <div class="gh"><span class="ic" style="background:${c}">${icon(ic,20)}</span>
     <div><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>${tag ? `<div class="gtag">${esc(tag)}</div>` : ""}</div>
-  ${blocks.map(([sh, cards]) => `${sh ? `<div class="hubsub">${esc(sh)}</div>` : ""}<div class="hubcards">${cards.map(hubCard).join("")}</div>`).join("")}</div>`;
+  ${blocks.map(b => { const [sh, mid, cards] = b.length === 3 ? b : [b[0], "", b[1]];
+    return `${sh ? `<div class="hubsub">${esc(sh)}</div>` : ""}${mid || ""}<div class="hubcards">${cards.map(hubCard).join("")}</div>`; }).join("")}</div>`;
+
+/* El modo del bot. El dueno decidio el 11 nov que NO acepta solo: evalua y
+   avisa. "En vivo" sigue bloqueado por el servidor hasta confirmar como acepta
+   Blacklane, y eso lo refleja el boton deshabilitado. */
+function botSwitch(){
+  const mode = S.control?.mode || "dry_run";
+  const liveOk = !!(S.status?.info || {}).allow_live;
+  const txt = { off:"Solo guarda ofertas, no evalua ni avisa.",
+                dry_run:"Evalúa cada oferta y avisa. La aceptación la hacen Marco o Sebastián a mano.",
+                live:"Acepta ofertas reales por su cuenta." }[mode];
+  return `<div class="botrow">
+    <div><div class="lab"><span class="dot ${mode==="live"?"ok":mode==="off"?"bad":"warn"}"></span>Modo del bot</div>
+      <div class="txt">${esc(txt)}</div></div>
+    <div class="seg" role="group" aria-label="Modo del bot">
+      <button data-mode="off" class="${mode==="off"?"on":""}">Apagado</button>
+      <button data-mode="dry_run" class="${mode==="dry_run"?"on":""}">Prueba</button>
+      <button data-mode="live" class="${mode==="live"?"on":""}" ${liveOk?"":"disabled title=\"Se habilita cuando confirmemos cómo acepta Blacklane\""}>En vivo</button>
+    </div></div>`;
+}
 
 /* Lo único que Marco necesita ver sin tocar nada: qué sigue y en cuánto. */
 function hubNext(){
@@ -1968,7 +2036,7 @@ function renderOps(){
       { view:"docs", i:"folder", c:"#855a67", t:"Documentos", d:"Permisos, seguros, registro y licencias, guardados en privado.", b:`${docs} archivos` },
       { view:"settings", i:"sliders", c:"#8c6422", t:"Ajustes", d:"Costos fijos, supuestos, flota, avisos y estado del sistema." },
     ]],
-    ["Bot de Blacklane", [
+    ["Bot de Blacklane", botSwitch(), [
       { view:"overview", i:"inbox", c:"#3d5473", t:"Ofertas", d:"Lo que Blacklane ha ofrecido y qué decidió el bot con cada oferta." },
       { view:"agenda", i:"calendar", c:"#655d72", t:"Agenda de Marco", d:"Los turnos del bus y los bloqueos que el bot tiene que respetar." },
       { view:"filter", i:"filter", c:"#8c6422", t:"Reglas del bot", d:"Precio mínimo, distancia, horarios y rutas con prioridad." },
@@ -3195,7 +3263,7 @@ function flowBox(){
   return `<div class="box flowbox"><header><h3>A dónde va cada dólar</h3><span class="sub">sobre los ${f.n} servicio${f.n===1?"":"s"} que ya se hicieron · lo agendado no entra aquí</span></header>
     <div class="flowtop">
       <div class="fgross"><span>Ingreso bruto generado</span><b>${money(f.rev)}</b><small>el total completo, antes de repartir nada</small></div>
-      <div class="fbar">${seg.filter(s=>s.v>0).map(s=>`<i style="flex:${s.v};background:${s.c}" title="${esc(s.k)} ${money(s.v)}"></i>`).join("")}</div>
+      <div class="statebar">${seg.filter(s=>s.v>0).map(s=>`<i style="flex:${s.v};background:${s.c}" title="${esc(s.k)} ${money(s.v)}"></i>`).join("")}</div>
     </div>
     <table class="flow"><tbody>
       ${f.rows.map(r=>`<tr><td><i style="background:${r.c}"></i>${esc(r.k)}</td>
