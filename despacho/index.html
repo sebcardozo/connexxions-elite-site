@@ -1969,9 +1969,17 @@ const durm = m => m >= 60 ? `${Math.floor(m/60)} h${m%60 ? " " + Math.round(m%60
 /* El día de la camioneta: un riel de servicios en orden, con el hueco entre uno y
    otro, el vuelo de cada pasajero y lo que deja cada carrera. */
 const FLEET = "Suburban 2026";
-const flightOf = n => { const m = /Vuelo\s+([A-Z]{1,3}\s?\d{1,4})\b/i.exec(n||""); return m ? m[1].toUpperCase().replace(/\s/g,"") : null; };
-const termOf = n => { const m = /Terminal\s+([A-Z0-9]+)(?:,?\s*puerta\s+([A-Z0-9]+))?/i.exec(n||"");
+/* El vuelo y la terminal ahora son columnas propias (flight, flight_terminal,
+   flight_gate). Leer las notas con regex queda solo de respaldo para filas
+   viejas sin migrar: fue lo que rompio el B6283 de JetBlue el 19 nov. */
+const noteFlight = n => { const m = /Vuelo\s+([A-Z]{1,3}\s?\d{1,4})\b/i.exec(n||""); return m ? m[1].toUpperCase().replace(/\s/g,"") : null; };
+const noteTerm = n => { const m = /Terminal\s+([A-Z0-9]+)(?:,?\s*puerta\s+([A-Z0-9]+))?/i.exec(n||"");
   return m ? "T" + m[1] + (m[2] ? " · " + m[2] : "") : null; };
+const flightOf = r => { if(!r) return null; if(typeof r === "string") return noteFlight(r);
+  return (r.flight || "").trim().toUpperCase().replace(/\s/g,"") || noteFlight(r.notes); };
+const termOf = r => { if(!r) return null; if(typeof r === "string") return noteTerm(r);
+  const t = (r.flight_terminal || "").trim(), g = (r.flight_gate || "").trim();
+  return t ? "T" + t.toUpperCase() + (g ? " · " + g.toUpperCase() : "") : noteTerm(r.notes); };
 
 function svcCard(x, state){
   const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
@@ -1982,7 +1990,7 @@ function svcCard(x, state){
   const tag = done ? `<span class="pill ok">Hecho</span>`
     : sched ? `<span class="pill ${r.status==="confirmed"?"go":"warn"}">${SCHED_TXT[r.status]||r.status}</span>`
     : `<span class="pill go">Aceptado</span>`;
-  const fl = flightOf(r.notes), tm = termOf(r.notes);
+  const fl = flightOf(r), tm = termOf(r);
   const sel = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
   const meta = [ r.driver || `<span class="miss">Sin chofer</span>`, FLEET, r.pax ? r.pax + " pax" : null ].filter(Boolean);
   return `<article class="svc ${done?"is-done":sched?"is-sched":"is-ride"} ${state}" ${sel}>
@@ -3743,7 +3751,7 @@ function pendBox(){
     ${!ps.length ? `<div class="pad"><p class="hint pad0">No hay servicios confirmados a futuro. Agenda uno desde Itinerario.</p></div>` : `
     <div class="pend">${Object.entries(byDay).map(([k, js]) => `
       <div class="pday"><div class="pdh"><b>${fmtDay(k)}</b><span>${js.length} servicio${js.length===1?"":"s"} · ${money(js.reduce((s,j)=>s+(+j.pay||0),0))}</span></div>
-      ${js.map(j => { const e = schedEcon(j), fl = flightOf(j.notes), tm = termOf(j.notes); return `
+      ${js.map(j => { const e = schedEcon(j), fl = flightOf(j), tm = termOf(j); return `
         <button class="prow" data-sched="${j.id}">
           <time>${hhmm(minutesET(j.starts_at))}</time>
           <div class="pi"><b>${esc(j.passenger || j.account || "—")}</b>
