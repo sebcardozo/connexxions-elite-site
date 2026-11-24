@@ -474,8 +474,8 @@ tbody tr:hover td{background:rgba(255,255,255,.015)}
 .dtbl td.cut{white-space:normal}
 .dtbl td.cut>small,.dtbl td.cut{white-space:nowrap}
 .g2.even{grid-template-columns:1fr}
-tr.drow{cursor:pointer}
-tr.drow:hover td{background:var(--panel3)}
+tr.dsvc{cursor:pointer}
+tr.dsvc:hover td{background:var(--panel3)}
 .miss{color:var(--accent);font-size:12.5px}
 .pill{display:inline-flex;padding:3px 9px;border-radius:999px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
   font-weight:600;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
@@ -1499,14 +1499,14 @@ table.ar td,table.afft td{padding:8px 18px}
 .dispatch tr.dsvc.live td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
 .dispatch tr.dsvc.past td{opacity:.55}
 /* El numero de unidad */
-.dispatch .unit{display:inline-block;background:var(--accent);color:#fff;font-weight:800;font-size:11.5px;
+.dispatch .unit,.svcview .unit{display:inline-block;background:var(--accent);color:#fff;font-weight:800;font-size:11.5px;
   letter-spacing:.5px;padding:2px 7px;border-radius:5px;font-variant-numeric:tabular-nums}
 /* Estado */
-.dispatch .st{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;
+.dispatch .st,.svcview .st{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;
   padding:3px 8px;border-radius:5px;white-space:nowrap}
-.dispatch .st.ok{background:color-mix(in srgb,var(--s-paid) 16%,transparent);color:var(--s-paid)}
-.dispatch .st.go{background:color-mix(in srgb,var(--s-plan) 16%,transparent);color:var(--s-plan)}
-.dispatch .st.warn{background:color-mix(in srgb,var(--s-due) 18%,transparent);color:var(--s-due)}
+.dispatch .st.ok,.svcview .st.ok{background:color-mix(in srgb,var(--s-paid) 16%,transparent);color:var(--s-paid)}
+.dispatch .st.go,.svcview .st.go{background:color-mix(in srgb,var(--s-plan) 16%,transparent);color:var(--s-plan)}
+.dispatch .st.warn,.svcview .st.warn{background:color-mix(in srgb,var(--s-due) 18%,transparent);color:var(--s-due)}
 /* El hueco entre un servicio y otro */
 .dispatch tr.dgap td{padding:5px 12px 5px 14px;font-size:11.5px;color:var(--dim);background:var(--panel3);
   border-top:1px solid var(--line);letter-spacing:.1px}
@@ -1623,6 +1623,79 @@ table.ar td,table.afft td{padding:8px 18px}
   .pagehead h1,.ophead h1{font-size:18px}
   /* Con 5 indicadores en dos columnas el ultimo dejaba media fila vacia. */
   .hubkpis > div:last-child:nth-child(odd){grid-column:1/-1}
+}
+
+/* ===== v13 · VISTA DEL SERVICIO Y NUMERO DE SERVICIO ==========================
+   Componentes NUEVOS (ninguno de estos nombres existia: se verifico con grep
+   uno por uno antes de escribirlos, que es la regla que quedo del 23 nov tras
+   cuatro choques: .tag, --neg, .fbar y .svc/.gap).
+   .unit y .st NO se redeclaran aqui: se extendieron sus selectores de v11.   */
+
+/* La columna del numero en la tabla de despacho. Se va en pantallas angostas,
+   donde primero importan hora, ruta, chofer y unidad. */
+.dispatch td.ref .mono{font-size:10.5px;letter-spacing:.2px;color:var(--dim)}
+.dispatch td.ref .miss{font-size:10px;color:var(--muted);opacity:.65}
+.dispatch .dsvc.live td.ref .mono{color:var(--text)}
+
+.svcview{display:flex;flex-direction:column;gap:16px}
+.svcview .svtop{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  background:var(--text);color:var(--panel);border-radius:12px;padding:13px 15px}
+.svcview .svref b{display:block;font-size:20px;letter-spacing:.4px;line-height:1.1}
+.svcview .svref b.miss{color:color-mix(in srgb,var(--panel) 55%,var(--text))}
+.svcview .svref span{display:block;font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:color-mix(in srgb,var(--panel) 60%,var(--text));margin-top:3px}
+
+.svcview .svgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.svcview .svd{background:var(--panel);padding:10px 12px;min-width:0}
+.svcview .svd span{display:block;font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted)}
+.svcview .svd b{display:block;font-size:13.5px;font-weight:600;margin-top:3px;overflow-wrap:anywhere}
+.svcview .svd small{display:block;font-size:11.5px;color:var(--dim);margin-top:1px}
+
+.svcview .svroute{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.svcview .svroute > div{border-left:3px solid var(--accent);padding-left:11px;min-width:0}
+.svcview .svroute span{display:block;font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted)}
+.svcview .svroute b{display:block;font-size:13.5px;font-weight:600;margin-top:3px;overflow-wrap:anywhere}
+
+/* La franja de horas, como la de SPOT/PICKUP/END/PAX de CORES */
+.svcview .svtimes{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.svcview .svt{background:var(--panel2);padding:11px 8px;text-align:center}
+.svcview .svt span{display:block;font-size:9.5px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted)}
+.svcview .svt b{display:block;font-family:var(--mono);font-size:17px;font-weight:600;margin-top:4px}
+
+.svcview .svah{font-size:10px;font-weight:700;letter-spacing:.135em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:9px}
+.svcview .svah i{font-style:normal;text-transform:none;letter-spacing:0;color:var(--dim)}
+.svcview .svassign,.svcview .svmoney{border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+.svcview .svarow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
+.svcview .svarow > div > span{display:block;font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted)}
+.svcview .svarow b{display:block;font-size:13.5px;font-weight:600;margin-top:4px;overflow-wrap:anywhere}
+.svcview .svarow b.pay{font-size:17px}
+.svcview .svarow .miss{font-style:normal;color:var(--c-neg)}
+
+.svcview .svmoney table{width:100%}
+.svcview .svmi{margin-top:9px;font-size:11.5px;color:var(--dim)}
+.svcview .svtip{margin-top:10px;padding:8px 11px;border-radius:8px;font-size:11.5px;
+  background:color-mix(in srgb,var(--s-paid) 10%,transparent);color:var(--s-paid)}
+
+.svcview .svpaid{border-radius:10px;padding:10px 13px;font-size:12.5px;font-weight:600}
+.svcview .svpaid.ok{background:color-mix(in srgb,var(--s-paid) 13%,transparent);color:var(--s-paid)}
+.svcview .svpaid.due{background:color-mix(in srgb,var(--s-due) 15%,transparent);color:var(--s-due)}
+
+.svcview .svnotes span{display:block;font-size:10px;font-weight:700;letter-spacing:.135em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.svcview .svnotes p{margin:0;font-size:12.5px;line-height:1.5;color:var(--dim);overflow-wrap:anywhere}
+
+@media(max-width:1100px){ .dispatch th:nth-child(2),.dispatch td.ref{display:none} }
+@media(max-width:560px){
+  .svcview .svroute{grid-template-columns:1fr}
+  .svcview .svtimes{grid-template-columns:repeat(2,1fr)}
+  .svcview .svref b{font-size:17px}
 }
 </style>
 </head>
@@ -2460,6 +2533,23 @@ function svcCard(x, state){
   </article>`;
 }
 
+/* EL NUMERO DE SERVICIO.
+   Cada plataforma le dice distinto al mismo dato y hasta hoy no se veia en
+   ninguna parte del despacho: Blacklane lo llama booking (128544509), LimoFlow
+   confirmation (135595, guardado como "limoflow-135595"), y un farm-out de
+   Connexxions trae el numero de CORES con su reserva (28977-147141).
+   Si un cliente reclama un servicio, ESTE es el numero por el que pregunta, asi
+   que va en la tabla y arriba del todo en la vista del servicio. */
+function svcRef(r, kind){
+  const raw = String((kind === "trip" ? r.external_id : r.confirmation) || "").trim();
+  if(!raw) return null;
+  const plat = String(r.platform || r.source || "").toLowerCase();
+  /* trip_log guarda "limoflow-135595"; el numero que el cliente usa es el de atras */
+  const limpio = plat && raw.toLowerCase().startsWith(plat + "-") ? raw.slice(plat.length + 1) : raw;
+  return { full: raw, show: limpio,
+           quien: PLAT[r.platform]?.n || SRC[r.source]?.n || r.account || null };
+}
+
 function dispatchTable(k, items){
   const rows = items.filter(x => x.kind !== "block").sort((a,b) => a.a - b.a);
   const blocks = items.filter(x => x.kind === "block");
@@ -2486,7 +2576,7 @@ function dispatchTable(k, items){
         : d < 20 ? `${durm(d)} entre uno y otro · sin margen para imprevistos`
         : d <= 240 ? `${durm(d)} libre${prev.end ? ` · espera en ${esc(short(prev.end))}` : ""}`
         : `${durm(d)} sin servicios`;
-      tr.push(`<tr class="dgap ${cls}"><td colspan="11">${txt}</td></tr>`);
+      tr.push(`<tr class="dgap ${cls}"><td colspan="12">${txt}</td></tr>`);
     }
     const r = x.raw, done = x.kind === "trip", sched = x.kind === "sched";
     const state = nowM == null ? "" : (x.b < nowM ? "past" : x.a <= nowM ? "live" : "");
@@ -2498,8 +2588,10 @@ function dispatchTable(k, items){
     const quien = done ? (PLAT[r.platform]?.n || r.platform) : (r.account || SRC[r.source]?.n || "—");
     const fl = flightOf(r), tm = termOf(r);
     const sel = done ? `data-trip="${r.id}"` : sched ? `data-sched="${r.id}"` : "";
+    const ref = svcRef(r, x.kind);
     tr.push(`<tr class="dsvc ${state}" ${sel} role="button" tabindex="0">
       <td>${estado}</td>
+      <td class="ref">${ref ? `<span class="mono">${esc(ref.show)}</span>` : `<span class="miss">sin #</span>`}</td>
       <td class="num t">${hhmm(x.a)}</td>
       <td class="num dim">${hhmm(x.b)}</td>
       <td>${esc(short(r.pickup))}${fl ? `<small>${esc(fl)}${tm ? " · " + esc(tm) : ""}</small>` : ""}</td>
@@ -2528,7 +2620,7 @@ function dispatchTable(k, items){
     ${nowM != null ? `<u style="left:${pos(nowM)}"></u>` : ""}
     <s>6</s><s>12</s><s>18</s></div>` : ""}
   ${rows.length ? `<div class="dispatch"><table>
-    <thead><tr><th>Estado</th><th>Recoge</th><th>Termina</th><th>Desde</th><th>Hasta</th><th>Chofer</th><th>Pax</th><th>Unidad</th><th>Quién paga</th><th class="num">Pago</th><th class="num">Ganancia</th></tr></thead>
+    <thead><tr><th>Estado</th><th>Servicio</th><th>Recoge</th><th>Termina</th><th>Desde</th><th>Hasta</th><th>Chofer</th><th>Pax</th><th>Unidad</th><th>Quién paga</th><th class="num">Pago</th><th class="num">Ganancia</th></tr></thead>
     <tbody>${tr.join("")}</tbody></table></div>`
     : `<div class="empty">Nada agendado este día. Usa <b>Agendar trabajo</b> para meter un servicio.</div>`}
   ${blocks.length ? `<div class="box" style="margin:16px 0"><header><h3>Bloqueado</h3><span class="sub">Marco no está disponible</span></header>
@@ -2653,6 +2745,111 @@ function upcomingBox(){
 }
 
 /* ---------- form: trabajo programado ---------- */
+/* VISTA DEL SERVICIO — el equivalente del "Quick Service View" de CORES.
+   Antes, presionar una fila del despacho abria DIRECTO el formulario de editar:
+   para mirar un servicio habia que entrar a editarlo, con el riesgo de tocar un
+   dato sin querer. Ahora presionar abre esto, que solo muestra, y el formulario
+   queda a un boton de distancia.
+   Lo que CORES pone y aqui tambien: el numero de servicio arriba del todo,
+   cliente, tipo, de donde a donde, la franja de horas con los pax, y la linea
+   de asignacion con chofer, unidad y pago. Lo que CORES no tiene y nosotros si:
+   a donde se va ese pago. */
+function svcView(kind, id){
+  const r = kind === "trip" ? S.trips.find(t => String(t.id) === String(id))
+                            : S.sched.find(j => String(j.id) === String(id));
+  if(!r) return;
+  const done = kind === "trip";
+  const e = done ? tripEcon(r) : schedEcon(r);
+  const ref = svcRef(r, kind);
+  const ini = done ? r.started_at : r.starts_at;
+  const fin = done ? r.ended_at : null;
+  const finM = done ? (r.ended_at ? minutesET(r.ended_at) : null) : minutesET(schedEnd(r));
+  const pay = done ? +r.payout || 0 : +r.pay || 0;
+  const fl = flightOf(r), tm = termOf(r), ga = r.flight_gate;
+  const quien = done ? (PLAT[r.platform]?.n || r.platform) : (r.account || SRC[r.source]?.n || "—");
+  const pi = done && typeof paidInfo === "function" ? paidInfo(r) : null;
+
+  const dato = (k2, v, extra) => v == null || v === "" ? "" :
+    `<div class="svd"><span>${esc(k2)}</span><b>${v}</b>${extra ? `<small>${extra}</small>` : ""}</div>`;
+  const hora = (k2, v) => `<div class="svt"><span>${esc(k2)}</span><b>${v}</b></div>`;
+  const plata = (k2, v, cls) => `<tr><td>${esc(k2)}</td><td class="num ${cls||""}">${v}</td></tr>`;
+
+  const estado = done ? `<span class="st ok">Hecho</span>`
+    : `<span class="st ${r.status === "confirmed" ? "go" : "warn"}">${SCHED_TXT[r.status] || r.status}</span>`;
+
+  drawerShell(
+    `${esc(r.pickup || "—")} → ${esc(r.dropoff || "—")}`,
+    ref ? `Servicio ${esc(ref.show)}` : (done ? `Viaje #${r.id}` : `Trabajo #${r.id}`),
+    `<div class="svcview">
+
+      <div class="svtop">
+        <div class="svref">${ref ? `<b class="mono">${esc(ref.show)}</b><span>numero de servicio${ref.quien ? ` · ${esc(ref.quien)}` : ""}</span>`
+                                 : `<b class="miss">sin numero</b><span>este servicio no tiene referencia cargada</span>`}</div>
+        ${estado}
+      </div>
+
+      <div class="svgrid">
+        ${dato("Quien paga", esc(quien))}
+        ${dato("Pasajero", r.passenger ? esc(r.passenger) : null)}
+        ${dato("Tipo de servicio", r.service ? esc(r.service) : null)}
+        ${dato("Fecha", fmtDay(dayKey(ini)))}
+        ${dato("Vuelo", fl ? esc(fl) : null, [tm && esc(tm), ga && "puerta " + esc(ga)].filter(Boolean).join(" · ") || null)}
+        ${dato("Equipaje", r.luggage ? esc(r.luggage) : null)}
+        ${dato("Telefono", r.contact_phone ? esc(r.contact_phone) : null)}
+      </div>
+
+      <div class="svroute">
+        <div><span>Desde</span><b>${esc(r.pickup || "—")}</b></div>
+        <div><span>Hasta</span><b>${esc(r.dropoff || "—")}</b></div>
+      </div>
+
+      <div class="svtimes">
+        ${hora("Recoge", hhmm(minutesET(ini)))}
+        ${hora("Termina", finM != null ? hhmm(finM) : "—")}
+        ${hora("Ocupado", e.mins ? durm(e.mins) : "—")}
+        ${hora("Pax", r.pax || "—")}
+      </div>
+
+      <div class="svassign">
+        <div class="svah">Asignacion</div>
+        <div class="svarow">
+          <div><span>Chofer</span><b>${r.driver ? esc(r.driver) : `<i class="miss">Sin chofer</i>`}</b></div>
+          <div><span>Unidad</span><b><span class="unit">${UNIT}</span></b></div>
+          <div><span>Vehiculo</span><b>${esc(r.vehicle || FLEET)}</b></div>
+          <div><span>Pago</span><b class="pay">${pay ? money(pay) : "—"}</b></div>
+        </div>
+      </div>
+
+      <div class="svmoney">
+        <div class="svah">A donde va ese pago${done ? "" : " <i>(proyectado)</i>"}</div>
+        <table class="flow"><tbody>
+          ${plata("Pago del servicio", money(pay))}
+          ${plata("Marco", "−" + money(e.driver), "neg")}
+          ${plata("Gasolina", "−" + money(e.gas), "neg")}
+          ${plata("Mantenimiento", "−" + money(e.maint), "neg")}
+          ${plata("Peajes y parqueo", "−" + money(e.extra), "neg")}
+          <tr class="tot"><td>Ganancia</td><td class="num ${e.profit < 0 ? "neg" : "pos"}">${money(e.profit)}</td></tr>
+          ${e.mins ? plata("Por hora ocupada", money(e.profit / (e.mins / 60))) : ""}
+        </tbody></table>
+        ${e.tip ? `<div class="svtip">Propina de ${money(e.tip)} aparte · entra y sale completa para Marco, por eso no esta en el reparto de arriba</div>` : ""}
+        <div class="svmi">${e.paxMi != null ? `${e.paxMi} mi con pasajero` : "millas sin cargar"}${e.deadMi != null ? ` · ${e.deadMi} vacias` : ""}${e.mi ? ` · ${e.mi.toFixed(1)} mi en total` : ""}</div>
+      </div>
+
+      ${done ? `<div class="svpaid ${r.paid_at ? "ok" : "due"}">
+        ${r.paid_at ? `Cobrado${pi && pi.txt ? ` · ${esc(pi.txt)}` : ""}${r.paid_amount ? ` · ${money(r.paid_amount)}` : ""}`
+                    : `Por cobrar · ${Math.round((dayStartMs(dayKey(Date.now())) - dayStartMs(dayKey(ini))) / 864e5)} dias desde el servicio`}
+      </div>` : ""}
+
+      ${r.notes ? `<div class="svnotes"><span>Notas</span><p>${esc(r.notes)}</p></div>` : ""}
+    </div>`,
+    `<button class="btn btn-ghost" data-close>Cerrar</button>
+     <button class="btn btn-primary" data-editar>Abrir el formulario</button>`);
+
+  $("#modalRoot [data-editar]")?.addEventListener("click", () => {
+    closeModal(); done ? openTrip(r.id) : openSched(r.id);
+  });
+}
+
 function openSched(id){
   const j = id ? S.sched.find(x => String(x.id) === String(id)) : null;
   const base = itinDay() + "T08:00";
@@ -2736,8 +2933,15 @@ function completeSched(id){
 document.addEventListener("click", e => {
   const d = e.target.closest("[data-itinday]");
   if(d){ S.itinDay = d.dataset.itinday; if(S.view !== "itin") S.view = "itin"; render(); return; }
-  const dr = e.target.closest("tr.drow");
-  if(dr){ if(dr.dataset.trip) openTrip(dr.dataset.trip); else if(dr.dataset.sched) openSched(dr.dataset.sched); return; }
+  /* BUG MIO DEL 23 NOV, corregido el 24: este selector decia `tr.drow`. Cuando
+     reescribi la tabla de despacho renombre las filas a `.dsvc` para no chocar
+     con `.svc`, y NO actualice el handler — asi que presionar una fila del
+     despacho no hacia absolutamente nada desde ese commit. Lo valide mirando
+     los screenshots, que muestran la tabla bien dibujada, pero nunca probe el
+     clic. Un render correcto no prueba que la pantalla responda.
+     Ahora presionar MUESTRA el servicio; el formulario esta a un boton. */
+  const dr = e.target.closest("tr.dsvc");
+  if(dr){ if(dr.dataset.trip) svcView("trip", dr.dataset.trip); else if(dr.dataset.sched) svcView("sched", dr.dataset.sched); return; }
   const card = e.target.closest(".icard[data-sched]");
   if(card && !e.target.closest("[data-act]")) { openSched(card.dataset.sched); return; }
   const tc = e.target.closest(".icard[data-trip]");
@@ -4698,7 +4902,12 @@ function openMore(){
 
 /* ---------- events for the business pages ---------- */
 document.addEventListener("click", e => {
-  const row = e.target.closest("[data-trip]"); if(row && !e.target.closest("button")){ openTrip(row.dataset.trip); return; }
+  /* Este atrapa-todo es de las paginas de negocio (Viajes, Rendimiento...) y se
+     tragaba TAMBIEN las filas del despacho, que llevan data-trip: los dos
+     listeners corrian, la vista del servicio se dibujaba y openTrip la pisaba
+     con el formulario un instante despues. Por eso parecia que el boton
+     "Abrir el formulario" no existia. El despacho tiene su propio handler. */
+  const row = e.target.closest("[data-trip]:not(.dsvc)"); if(row && !e.target.closest("button")){ openTrip(row.dataset.trip); return; }
   const fr = e.target.closest("tr[data-fuel]"); if(fr){ openFuel(fr.dataset.fuel); return; }
   const t = e.target.closest("button"); if(!t) return;
   if(t.closest(".sheet") && (t.dataset.view || (t.dataset.mode && t.dataset.mode !== "live"))){ setTimeout(closeModal, 0); }
@@ -4718,6 +4927,15 @@ document.addEventListener("click", e => {
   }
 });
 document.addEventListener("keydown", e => { if((e.key === "Enter" || e.key === " ") && e.target.matches?.(".tc[data-trip]")){ e.preventDefault(); openTrip(e.target.dataset.trip); } });
+/* Las filas del despacho se anuncian como role="button" tabindex="0" desde el
+   23 nov pero nunca respondieron al teclado. Si se dice que es un boton, tiene
+   que funcionar como boton. */
+document.addEventListener("keydown", e => {
+  const row = e.target.closest?.("tr.dsvc"); if(!row) return;
+  if(e.key === "Enter" || e.key === " "){ e.preventDefault();
+    if(row.dataset.trip) svcView("trip", row.dataset.trip);
+    else if(row.dataset.sched) svcView("sched", row.dataset.sched); }
+});
 document.addEventListener("change", e => { if(e.target.matches?.("[data-tplat]")){ S.tr.plat = e.target.value; render(); } });
 document.addEventListener("input", e => { if(e.target.closest?.("#tripForm")) tripPreview(); });
 
